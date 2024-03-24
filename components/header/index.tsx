@@ -1,17 +1,8 @@
 "use client";
 import React from "react";
-
-import { Button } from "../ui/button";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "../ui/navigation-menu";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
+import { Dropdown, Label, Input } from "@/components/index";
+import { headerItems } from "./_constants";
+import { SubMenuItem } from "@/components/header/components/subMenuItem";
 
 import { PiMagnifyingGlassThin } from "react-icons/pi";
 import Image from "next/image";
@@ -26,45 +17,26 @@ export function Header() {
         height={50}
         className="p-5"
       />
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="font-bold">
-              SERVIÇOS
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <NavigationMenuLink>Link</NavigationMenuLink>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="font-bold">
-              SETORES
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <NavigationMenuLink>Link</NavigationMenuLink>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className="font-bold">
-              CONTEUDOS
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <NavigationMenuLink>Link</NavigationMenuLink>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-      <div className="flex justify-center items-center">
-        <Label className="font-bold">SOBRE NÓS</Label>
-      </div>
+      <nav className="flex gap-10">
+        {headerItems.map((item) => {
+          return item.href ? (
+            <div
+              key={`navitem-${item.title.toLowerCase()}`}
+              className="flex justify-center items-center"
+            >
+              <Label className="font-bold">SOBRE NÓS</Label>
+            </div>
+          ) : (
+            // <div></div>
+            <Dropdown
+              key={`navitem-${item.title.toLowerCase()}`}
+              title={item.title}
+              contentComponent={<SubMenuItem items={item.subtypes ?? []} />}
+            />
+          );
+        })}
+      </nav>
+
       <div className="flex flex-row justify-center items-center p-2">
         <div className="flex flex-row justify-center items-center rounded-xl border border-input p-1">
           <Input
