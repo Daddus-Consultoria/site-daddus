@@ -24,7 +24,7 @@ export function Header() {
               key={`navitem-${item.title.toLowerCase()}`}
               className="flex justify-center items-center"
             >
-              <Label className="font-bold">SOBRE NÓS</Label>
+              <Label className="font-bold">{item.title}</Label>
             </div>
           ) : (
             // <div></div>

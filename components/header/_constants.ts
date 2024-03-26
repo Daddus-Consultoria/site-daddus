@@ -107,7 +107,7 @@ export const headerItems: NavigationType[] = [
     ],
   },
   {
-    title: "Sobre nós",
+    title: "SOBRE NÓS",
     href: "#",
   },
 ];
