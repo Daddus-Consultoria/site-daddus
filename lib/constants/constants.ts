@@ -111,3 +111,10 @@ export const headerItems: NavigationType[] = [
         href: "#",
     },
 ];
+
+export enum PublishCategories {
+    COUNTIES_SOCIAL_PROFILE = "Perfil Social dos Municípios",
+    COUNTIES_ELECTORAL_PROFILE = "Perfil Eleitoral dos Municípios",
+    COUNTIES_ECONOMIC_PROFILE = "Perfil Econômico dos Municípios",
+
+}
