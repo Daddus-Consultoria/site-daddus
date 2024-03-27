@@ -18,7 +18,7 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
             {subTypeItem.title}
           </a>
         ) : (
-          <>
+          <div key={`subFooterItem-${index}`}>
             {" "}
             <span className="text-[#ffffff] whitespace-nowrap">
               {subTypeItem.title}
@@ -38,7 +38,7 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
                 );
               })}
             </ul>
-          </>
+          </div>
         );
       })}
     </div>
