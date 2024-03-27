@@ -5,7 +5,7 @@ import Image from "next/image";
 import { headerItems } from "@/lib/constants/constants";
 import { SubFooterItem } from "./subFooterItem";
 
-export const Footer = () => {
+export function Footer() {
   return (
     <div className="w-full lg:h-80 bg-[#2B2B2B]">
       <div className="flex flex-col lg:flex-row w-full lg:h-3/4 justify-center">
@@ -17,10 +17,15 @@ export const Footer = () => {
             height={50}
           />
         </div>
-        <div className="flex pl-[8%] justify-start lg:justify-center items-center pt-4 lg:pt-0 ">
+        <div className="flex pl-[3%] justify-start lg:justify-start items-center pt-4 lg:pt-0 ">
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-14">
-            {headerItems.map((item) => {
-              return <SubFooterItem items={item.subtypes ?? []} />;
+            {headerItems.map((item, index) => {
+              return (
+                <SubFooterItem
+                  key={`subfooter-item-${index}`}
+                  items={item.subtypes ?? []}
+                />
+              );
             })}
           </div>
         </div>
@@ -51,4 +56,4 @@ export const Footer = () => {
       </div>
     </div>
   );
-};
+}
