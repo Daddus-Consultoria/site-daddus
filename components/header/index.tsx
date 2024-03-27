@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Dropdown, Label, Input } from "@/components/index";
-import { headerItems } from "./_constants";
+import { headerItems } from "@/lib/constants/constants";
 import { SubMenuItem } from "@/components/header/components/subMenuItem";
 
 import { PiMagnifyingGlassThin } from "react-icons/pi";
