@@ -1,0 +1,54 @@
+"use client";
+import React from "react";
+import { Dropdown, Label, Input } from "@/components/index";
+import { headerItems } from "@/lib/constants/constants";
+import { SubMenuItem } from "@/components/header/components/subMenuItem";
+
+import { PiMagnifyingGlassThin } from "react-icons/pi";
+import Image from "next/image";
+
+export function Header() {
+  return (
+    <div className="flex flex-row justify-center gap-10 w-full h-36 text-black bg-white">
+      <Image
+        alt="Logo"
+        src="/images/logos/daddus.svg"
+        width={150}
+        height={50}
+        className="p-5"
+      />
+      <nav className="flex gap-10">
+        {headerItems.map((item) => {
+          return item.href ? (
+            <div
+              key={`navitem-${item.title.toLowerCase()}`}
+              className="flex justify-center items-center"
+            >
+              <Label className="font-bold">{item.title}</Label>
+            </div>
+          ) : (
+            // <div></div>
+            <Dropdown
+              key={`navitem-${item.title.toLowerCase()}`}
+              title={item.title}
+              contentComponent={<SubMenuItem items={item.subtypes ?? []} />}
+            />
+          );
+        })}
+      </nav>
+
+      <div className="flex flex-row justify-center items-center p-2">
+        <div className="flex flex-row justify-center items-center rounded-xl border border-input p-1">
+          <Input
+            iconVariant={"trailingIcon"}
+            type="text"
+            placeholder={"Pesquisar"}
+            trailingIcon={
+              <PiMagnifyingGlassThin size={30} className="fill-primary" />
+            }
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
