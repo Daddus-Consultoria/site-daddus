@@ -13,7 +13,7 @@ export function Footer(){
                 <div className='flex bg-white w-full lg:w-[420px] h-[150px] lg:h-full justify-center items-center p-3'>
                     <Image alt="Logo" src="/images/logos/daddus.svg" width={230} height={50}/>
                 </div>
-                <div className='flex pl-[8%] justify-start lg:justify-center items-center pt-4 lg:pt-0 '>
+                <div className='flex pl-[3%] justify-start lg:justify-start items-center pt-4 lg:pt-0 '>
                     <div className='flex flex-col lg:flex-row gap-6 lg:gap-14'>
                         {headerItems.map((item) => {
                             return (

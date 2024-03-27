@@ -27,8 +27,8 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
               {subTypeItem.items?.map((item, index) => {
                 return (
                   <li
-                    key={`subTypeLinkItem-${index}`}
-                    className="list-disc text-[#ffffff] hover:text-primary"
+                    key={`subTypeFooterItem-${index}`}
+                    className="list-disc ml-10 text-[#ffffff] hover:text-primary"
                   >
                     {" "}
                     <a href={item.href} className="text-xs whitespace-nowrap">
