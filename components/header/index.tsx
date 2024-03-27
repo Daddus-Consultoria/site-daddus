@@ -11,10 +11,10 @@ import Image from "next/image";
 
 export function Header() {
   return (
-    <div className="flex flex-row justify-between items-center lg:justify-center gap-10 w-full h-24 lg:h-36 text-black bg-white">
+    <div className="flex flex-row justify-between items-center lg:justify-center gap-10 w-full h-24 lg:h-36 text-black bg-[#A90920]">
         <Image
             alt="Logo"
-            src="/images/logos/daddus.svg"
+            src="/images/logos/daddusWhite.svg"
             width={150}
             height={50}
             className="p-5"
@@ -26,7 +26,7 @@ export function Header() {
                 key={`navitem-${item.title.toLowerCase()}`}
                 className="flex justify-center items-center"
                 >
-                <Label className="font-bold">{item.title}</Label>
+                <Label className="font-bold text-white">{item.title}</Label>
                 </div>
             ) : (
                 // <div></div>
@@ -47,8 +47,9 @@ export function Header() {
                     iconVariant={"trailingIcon"}
                     type="text"
                     placeholder={"Pesquisar"}
+                    className="bg-[#A90920] text-white placeholder:text-white"
                     trailingIcon={
-                    <PiMagnifyingGlassThin size={30} className="fill-primary" />
+                    <PiMagnifyingGlassThin size={30} className="fill-primar" color="#2B2B2B"  />
                     }
                 />
             </div>
