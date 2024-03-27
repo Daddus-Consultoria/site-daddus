@@ -18,7 +18,7 @@ const SubMenuItem: React.FC<SubMenuItemProps> = ({ items }) => {
             {subTypeItem.title}
           </a>
         ) : (
-          <>
+          <div key={`subTypeitem-${index}`}>
             {" "}
             <span className="text-secondary whitespace-nowrap">
               {subTypeItem.title}
@@ -38,7 +38,7 @@ const SubMenuItem: React.FC<SubMenuItemProps> = ({ items }) => {
                 );
               })}
             </ul>
-          </>
+          </div>
         );
       })}
     </div>
