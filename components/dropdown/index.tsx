@@ -17,10 +17,10 @@ const Dropdown: React.FC<DropdownProps> = ({ title, contentComponent }) => {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuTrigger className="font-bold">
+          <NavigationMenuTrigger className="font-bold bg-[#A90920] text-white">
             {title}
           </NavigationMenuTrigger>
-          <NavigationMenuContent className="p-10">
+          <NavigationMenuContent className="p-10 ">
             {contentComponent}
           </NavigationMenuContent>
         </NavigationMenuItem>
