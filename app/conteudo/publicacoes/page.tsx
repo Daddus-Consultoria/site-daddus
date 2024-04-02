@@ -1,9 +1,28 @@
+'use client'
 import React from "react";
+import {
+  Label,
+} from "@/components/ui/index";
+import { Cards } from "@/components/cardInfo/index";
+import {constantsPublications} from "@/app/conteudo/_constant"
 
 const PublishPage = () => {
   return (
-    <div>
-      <h1>Welcome to the Page component!</h1>
+    <div className="flex flex-1 flex-col justify-start items-center">
+        <Label className="font-bold text-[32px] text-[#A90920] mt-11 mb-16">PUBLICAÇÕES</Label>
+        <div className="flex flex-col lg:flex-row gap-10 md:max-w-[80%] lg:max-w-[90%]">
+          {constantsPublications.map((item, index) => {
+            return (
+              <Cards
+                key={`publish-card-info-${index}`}
+               /*  title={item.title}
+                description={item.description}
+                image={item.image}
+                path={item.path} */
+              />
+            )
+          })}
+        </div>
     </div>
   );
 };

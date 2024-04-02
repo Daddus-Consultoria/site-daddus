@@ -1,4 +1,4 @@
-import { NavigationItem, NavigationType } from "@/lib/interfaces/navigation";
+import { NavigationType } from "@/lib/interfaces/navigation";
 export const headerItems: NavigationType[] = [
   {
     title: "SERVIÇOS",
