@@ -94,7 +94,7 @@ export const headerItems: NavigationType[] = [
           },
           {
             title: "Perfis Municipais",
-            href: "#",
+            href: "/conteudo/publicacoes/perfis-municipais",
           },
         ],
       },
