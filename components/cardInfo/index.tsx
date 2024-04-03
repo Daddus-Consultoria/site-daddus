@@ -21,7 +21,7 @@ interface CardInfoProps {
 
 const CardInfo: React.FC<CardInfoProps> = ({title,description,image,path}) => {
     return (
-        <Card className="flex flex-1 flex-col h-full bg-[#EEEEEE]">
+        <Card className="flex flex-1 flex-col h-full rounded-3xl bg-[#EEEEEE] m-10 lg:m-0">
             <CardHeader className="p-0">
                 <Image alt="Publication 1" width={1000} height={300} src={image}/>
             </CardHeader>

@@ -11,13 +11,16 @@ import Image from "next/image";
 export function Header() {
   return (
     <div className="flex flex-row justify-between items-center lg:justify-center gap-10 w-full h-24 lg:h-36 text-black bg-[#A90920]">
+      <a href="/">
       <Image
         alt="Logo"
         src="/images/logos/daddusWhite.svg"
         width={150}
         height={50}
         className="p-5"
+        
       />
+      </a>
       <nav className="hidden lg:flex gap-10">
         {headerItems.map((item) => {
           return item.href ? (
