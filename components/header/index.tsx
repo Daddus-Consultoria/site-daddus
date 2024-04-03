@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Dropdown, Label, Input } from "@/components/index";
+import { Dropdown, Label, Input, InputGeneric } from "@/components/index";
 import { headerItems } from "@/lib/constants/constants";
 import { SubMenuItem } from "@/components/header/components/subMenuItem";
 import { MenuDrawer } from "@/components/header/components/menuDrawer";
@@ -44,21 +44,7 @@ export function Header() {
         <MenuDrawer />
       </div>
       <div className="hidden lg:flex flex-row justify-center items-center p-2">
-        <div className="flex flex-row justify-center items-center rounded-xl border border-input p-1">
-          <Input
-            iconVariant={"trailingIcon"}
-            type="text"
-            placeholder={"Pesquisar"}
-            className="bg-[#A90920] text-white placeholder:text-white"
-            trailingIcon={
-              <PiMagnifyingGlassThin
-                size={30}
-                className="fill-secondary"
-                color="#2B2B2B"
-              />
-            }
-          />
-        </div>
+        <InputGeneric type="red" placeholder="Pesquisar"/>
       </div>
     </div>
   );
