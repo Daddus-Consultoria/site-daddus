@@ -1,10 +1,11 @@
-import { NavigationItem, NavigationType } from "@/lib/interfaces/navigation";
+import { NavigationType } from "@/lib/interfaces/navigation";
 export const headerItems: NavigationType[] = [
   {
     title: "SERVIÇOS",
     subtypes: [
       {
         title: "Consultoria",
+        href: "/conteudo/consultoria",
         items: [
           {
             title: "Elaboração de Políticas Públicas",
@@ -76,31 +77,24 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Blog",
+        href: "#",
         items: [],
       },
       {
-        title: "Estudos",
-        href: "#",
-      },
-      {
-        title: "Guias",
-        href: "#",
-      },
-      {
         title: "Publicações",
-        href: "#",
+        href: "/conteudo/publicacoes",
         items: [
           {
-            title: "Perfil Social dos Municípios",
+            title: "Estudos",
             href: "#",
           },
           {
-            title: "Perfil Eleitoral dos Municípios",
+            title: "Guias",
             href: "#",
           },
           {
-            title: "Perfil Econômico dos Municípios",
-            href: "#",
+            title: "Perfis Municipais",
+            href: "/conteudo/publicacoes/perfis-municipais",
           },
         ],
       },
