@@ -76,30 +76,23 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Blog",
+        href: "#",
         items: [],
       },
       {
-        title: "Estudos",
-        href: "#",
-      },
-      {
-        title: "Guias",
-        href: "#",
-      },
-      {
         title: "Publicações",
-        href: "#",
+        href: "/conteudo/publicacoes",
         items: [
           {
-            title: "Perfil Social dos Municípios",
+            title: "Estudos",
             href: "#",
           },
           {
-            title: "Perfil Eleitoral dos Municípios",
+            title: "Guias",
             href: "#",
           },
           {
-            title: "Perfil Econômico dos Municípios",
+            title: "Perfis Municipais",
             href: "#",
           },
         ],

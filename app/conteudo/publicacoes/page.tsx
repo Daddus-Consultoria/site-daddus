@@ -10,15 +10,15 @@ const PublishPage = () => {
   return (
     <div className="flex flex-1 flex-col justify-start items-center">
         <Label className="font-bold text-[32px] text-[#A90920] mt-11 mb-16">PUBLICAÇÕES</Label>
-        <div className="flex flex-col lg:flex-row gap-10 md:max-w-[80%] lg:max-w-[90%]">
+        <div className="flex flex-col lg:flex-row gap-10 md:max-w-[80%] lg:max-w-[90%] pb-10">
           {constantsPublications.map((item, index) => {
             return (
               <Cards
                 key={`publish-card-info-${index}`}
-               /*  title={item.title}
+                title={item.title}
                 description={item.description}
                 image={item.image}
-                path={item.path} */
+                path={item.path}
               />
             )
           })}

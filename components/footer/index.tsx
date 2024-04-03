@@ -21,10 +21,13 @@ export function Footer() {
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-14">
             {headerItems.map((item, index) => {
               return (
-                <SubFooterItem
-                  key={`subfooter-item-${index}`}
-                  items={item.subtypes ?? []}
-                />
+                <div>
+                  {item.subtypes ? <Label className="font-semibold text-[#A90920]">{item.title}</Label> : null} 
+                  <SubFooterItem
+                    key={`subfooter-item-${index}`}
+                    items={item.subtypes ?? []}
+                  />
+                </div>
               );
             })}
           </div>

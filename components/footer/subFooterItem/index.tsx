@@ -9,7 +9,7 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
   return (
     <div className="flex flex-col space-y-1">
       {items.map((subTypeItem, index) => {
-        return subTypeItem.href && !subTypeItem.items ? (
+        /* return subTypeItem.href && !subTypeItem.items ? (
           <a
             key={`subFooteritem-${index}`}
             href={subTypeItem.href}
@@ -23,6 +23,33 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
             <span className="text-[#ffffff] whitespace-nowrap">
               {subTypeItem.title}
             </span>
+            <ul>
+              {subTypeItem.items?.map((item, index) => {
+                return (
+                  <li
+                    key={`subTypeFooterItem-${index}`}
+                    className="list-disc ml-10 text-[#ffffff] hover:text-primary"
+                  >
+                    {" "}
+                    <a href={item.href} className="text-xs whitespace-nowrap">
+                      {item.title}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ); */
+        return (
+          <div key={`subFooterItem-${index}`}>
+              {" "}
+              <a
+              key={`subFooteritem-${index}`}
+              href={subTypeItem.href}
+              className="text-[#ffffff] hover:text-primary"
+            >
+              {subTypeItem.title}
+            </a>
             <ul>
               {subTypeItem.items?.map((item, index) => {
                 return (

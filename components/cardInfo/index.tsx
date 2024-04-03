@@ -19,16 +19,16 @@ interface CardInfoProps {
     path: string;
 }
 
-const CardInfo = () => {
+const CardInfo: React.FC<CardInfoProps> = ({title,description,image,path}) => {
     return (
         <Card className="flex flex-1 flex-col h-full bg-[#EEEEEE]">
             <CardHeader className="p-0">
-                <Image alt="Publication 1" width={1000} height={300} src="/images/publications/publication1.svg"/>
+                <Image alt="Publication 1" width={1000} height={300} src={image}/>
             </CardHeader>
             <CardContent className="flex flex-col flex-1 items-center mt-6">
                 <div className="flex flex-col items-center gap-2">
-                    <Label className="font-bold text-[24px] text-[#A90920]">ESTUDOS</Label>
-                    <Label className="text-[11px] text-[#0B0C10] text-justify">Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.</Label>
+                    <Label className="font-bold text-[24px] text-[#A90920]">{title}</Label>
+                    <Label className="text-[11px] text-[#0B0C10] text-justify">{description}</Label>
                 </div>
             </CardContent>
             <CardFooter className="flex flex-row justify-end mb-3 gap-2">
