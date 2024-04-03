@@ -1,5 +1,5 @@
 'use client'
-import { InputGeneric, SelectGeneric } from "@/components/index";
+import { InputGeneric, Publication, SelectGeneric } from "@/components/index";
 import {
     Label,
 } from "@/components/ui/index";
@@ -20,8 +20,8 @@ const Municipal_Profiles = () => {
                     <InputGeneric type="white" placeholder="Pesquisar"/>
                 </div>
             </div>
-            <div>
-                <Label className="font-bold text-[26px] lg:text-[32px] text-[#A90920] mt-11 mb-2 lg:mb-16">PUBLICAÇÕES</Label>
+            <div className="flex justify-center h-full w-full mt-10">
+                <Publication/>
             </div>
         </div>
     )
