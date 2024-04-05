@@ -1,12 +1,36 @@
 'use client'
-import { InputGeneric, Publication, SelectGeneric } from "@/components/index";
+import { InputGeneric, CardPublication, SelectGeneric } from "@/components/index";
 import {
     Label,
 } from "@/components/ui/index";
+import {PaginationGeneric} from "@/components/index"
+import { useState } from "react";
+import { useRouter } from 'next/router';
+
+const data = [
+    {id: 1, content: <CardPublication/>},
+    {id: 2, content: <CardPublication/>},
+    {id: 3, content: <CardPublication/>},
+    {id: 4, content: <CardPublication/>},
+    {id: 5, content: <CardPublication/>},
+    {id: 6, content: <CardPublication/>},
+    {id: 7, content: <CardPublication/>},
+    {id: 8, content: <CardPublication/>},
+    {id: 9, content: <CardPublication/>},
+    {id: 10, content: <CardPublication/>},
+    {id: 11, content: <CardPublication/>}
+]
+
 
 const Municipal_Profiles = () => {
     const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
 
+    const [currentPage, setCurrentPage] = useState(1)
+    const itemsPerPage = 6;
+    const startIndex = (currentPage -1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    const currentPageItems = data.slice(startIndex, endIndex)
+    
     return(
         <div className="flex flex-1 flex-col justify-start items-center lg:px-60 lg:py-20">
             <div className="flex w-full flex-row justify-between items-center">
@@ -20,8 +44,24 @@ const Municipal_Profiles = () => {
                     <InputGeneric type="white" placeholder="Pesquisar"/>
                 </div>
             </div>
-            <div className="flex justify-center h-full w-full mt-10">
-                <Publication/>
+            {/* <div className="flex justify-center h-full w-full mt-10">
+                <CardPublication/>
+            </div> */}
+            <div className="grid grid-cols-2 h-full w-full my-[2%]">
+                {currentPageItems.map((item,index)=>{
+                    return (
+                        <CardPublication key={`card-publication-${index}`}/>
+                    )
+                })}
+                {/* <CardPublication/>
+                <CardPublication/>
+                <CardPublication/>
+                <CardPublication/>
+                <CardPublication/>
+                <CardPublication/> */}
+            </div>
+            <div className="flex flex-row w-full">
+                <PaginationGeneric/>
             </div>
         </div>
     )

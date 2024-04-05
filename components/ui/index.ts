@@ -53,6 +53,17 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
+
 export {
   Button,
   Input,
@@ -86,5 +97,12 @@ export {
   SelectItem,
   SelectTrigger,
   SelectValue,
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
 };
 //
