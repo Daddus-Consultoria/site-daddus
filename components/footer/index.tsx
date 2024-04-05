@@ -21,7 +21,7 @@ export function Footer() {
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-14">
             {headerItems.map((item, index) => {
               return (
-                <div>
+                <div key={`footer-subtype-${index}`}>
                   {item.subtypes ? <Label className="font-semibold text-[#A90920]">{item.title}</Label> : null} 
                   <SubFooterItem
                     key={`subfooter-item-${index}`}
