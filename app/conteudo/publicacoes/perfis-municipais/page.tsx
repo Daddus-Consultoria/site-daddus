@@ -5,7 +5,7 @@ import {
 } from "@/components/ui/index";
 import {PaginationGeneric} from "@/components/index"
 import { useState } from "react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const data = [
     {id: 1, content: <CardPublication/>},
@@ -31,23 +31,27 @@ const Municipal_Profiles = () => {
     const endIndex = startIndex + itemsPerPage
     const currentPageItems = data.slice(startIndex, endIndex)
     
+    const router = useRouter();
+
+    
+
     return(
-        <div className="flex flex-1 flex-col justify-start items-center lg:px-60 lg:py-20">
-            <div className="flex w-full flex-row justify-between items-center">
-                <div className="flex flex-1 flex-col gap-2">
+        <div className="flex flex-1 flex-col justify-start items-center mt-6 px-[2%] lg:px-60 lg:py-20">
+            <div className="flex w-full flex-row justify-between items-center gap-10 lg:px-5">
+                <div className="flex flex-1 flex-col gap-2 ">
                     <Label className="font-medium text-[13px] lg:text-[13px] text-black">Tópicos</Label>
-                    <div className="w-[30%]">
+                    <div className="w-[100%] lg:w-[30%]">
                         <SelectGeneric placeholder="Selecionar" items={items}/>
                     </div>
                 </div>
-                <div className="flex h-full flex-col justify-end">
+                <div className="flex flex-1 lg:flex-none h-full flex-col justify-end">
                     <InputGeneric type="white" placeholder="Pesquisar"/>
                 </div>
             </div>
             {/* <div className="flex justify-center h-full w-full mt-10">
                 <CardPublication/>
             </div> */}
-            <div className="grid grid-cols-2 h-full w-full my-[2%]">
+            <div className="grid md:grid-cols-1 lg:grid-cols-2 h-full w-full my-[10%] lg:my-[2%] ">
                 {currentPageItems.map((item,index)=>{
                     return (
                         <CardPublication key={`card-publication-${index}`}/>
@@ -60,7 +64,7 @@ const Municipal_Profiles = () => {
                 <CardPublication/>
                 <CardPublication/> */}
             </div>
-            <div className="flex flex-row w-full">
+            <div className="flex flex-row w-full ">
                 <PaginationGeneric/>
             </div>
         </div>

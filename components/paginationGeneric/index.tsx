@@ -8,6 +8,7 @@ import {Pagination,
     PaginationNext,
     PaginationPrevious,} from "@/components/ui/index"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 
 interface PaginationGenericProps {
     currentPage: number;
@@ -18,6 +19,7 @@ interface PaginationGenericProps {
 
 const PaginationGeneric = () => {
     const [currentPage, setCurrentPage] = useState(1)
+    const router = useRouter();
 
     const itemsPerPage = 6;
 
@@ -33,7 +35,7 @@ const PaginationGeneric = () => {
                     <PaginationPrevious href="#" />
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink href="/conteudo/publicacoes/perfis-municipais/1">1</PaginationLink>
+                    <PaginationLink onClick={()=>{router.push('/conteudo/publicacoes/perfis-municipais/1')}}>1</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
                     <PaginationLink href="#" isActive>
