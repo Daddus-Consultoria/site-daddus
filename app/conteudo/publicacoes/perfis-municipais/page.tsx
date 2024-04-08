@@ -39,7 +39,7 @@ const Municipal_Profiles = () => {
         <div className="flex flex-1 flex-col justify-start items-center mt-6 px-[2%] lg:px-60 lg:py-20">
             <div className="flex w-full flex-row justify-between items-center gap-10 lg:px-5">
                 <div className="flex flex-1 flex-col gap-2 ">
-                    <Label className="font-medium text-[13px] lg:text-[13px] text-black">Tópicos</Label>
+                    <p className="font-medium text-[13px] lg:text-[13px] text-black">Tópicos</p>
                     <div className="w-[100%] lg:w-[30%]">
                         <SelectGeneric placeholder="Selecionar" items={items}/>
                     </div>
