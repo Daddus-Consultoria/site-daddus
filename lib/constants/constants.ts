@@ -86,11 +86,11 @@ export const headerItems: NavigationType[] = [
         items: [
           {
             title: "Estudos",
-            href: "#",
+            href: "/conteudos/publicacoes/estudos",
           },
           {
             title: "Guias",
-            href: "/conteudo/publicacoes/guias",
+            href: "/conteudos/publicacoes/guias",
           },
           {
             title: "Perfis Municipais",
