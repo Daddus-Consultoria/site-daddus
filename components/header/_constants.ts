@@ -80,15 +80,15 @@ export const headerItems: NavigationType[] = [
       },
       {
         title: "Estudos",
-        href: "#",
+        href: "/conteudos/publicacoes/estudos",
       },
       {
         title: "Guias",
-        href: "#",
+        href: "/conteudos/publicacoes/guias",
       },
       {
         title: "Publicações",
-        href: "#",
+        href: "/conteudos/publicacoes",
         items: [
           {
             title: "Perfil Social dos Municípios",

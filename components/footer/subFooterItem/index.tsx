@@ -58,7 +58,7 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
                     className="list-disc ml-10 text-[#ffffff] hover:text-primary"
                   >
                     {" "}
-                    <a href={item.href} className="text-xs whitespace-nowrap">
+                    <a href={item.href} className="text-xs lg:whitespace-nowrap">
                       {item.title}
                     </a>
                   </li>
