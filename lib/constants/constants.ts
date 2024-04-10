@@ -90,7 +90,7 @@ export const headerItems: NavigationType[] = [
           },
           {
             title: "Guias",
-            href: "/conteudo/publicacoes/guias",
+            href: "/conteudos/publicacoes/guias",
           },
           {
             title: "Perfis Municipais",

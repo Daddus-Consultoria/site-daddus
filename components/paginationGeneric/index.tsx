@@ -35,7 +35,7 @@ const PaginationGeneric = () => {
                     <PaginationPrevious href="#" />
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink onClick={()=>{router.push('/conteudo/publicacoes/perfis-municipais/1')}}>1</PaginationLink>
+                    <PaginationLink onClick={()=>{router.push('/conteudos/publicacoes/perfis-municipais/1')}}>1</PaginationLink>
                 </PaginationItem>
                 <PaginationItem className="hidden sm:flex">
                     <PaginationLink href="#" isActive>

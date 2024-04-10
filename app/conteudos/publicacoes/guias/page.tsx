@@ -1,5 +1,5 @@
 'use client'
-import { InputGeneric, CardPublication, SelectGeneric } from "@/components/index";
+import { InputGeneric, CardPublication } from "@/components/index";
 import {
     Label,
 } from "@/components/ui/index";
