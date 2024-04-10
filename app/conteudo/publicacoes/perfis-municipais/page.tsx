@@ -7,23 +7,26 @@ import {PaginationGeneric} from "@/components/index"
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 
+const title = "Citologia: um estudo demográfico de duas ou três linhas"
+const description = "Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos."
+
 const data = [
-    {id: 1, content: <CardPublication/>},
-    {id: 2, content: <CardPublication/>},
-    {id: 3, content: <CardPublication/>},
-    {id: 4, content: <CardPublication/>},
-    {id: 5, content: <CardPublication/>},
-    {id: 6, content: <CardPublication/>},
-    {id: 7, content: <CardPublication/>},
-    {id: 8, content: <CardPublication/>},
-    {id: 9, content: <CardPublication/>},
-    {id: 10, content: <CardPublication/>},
-    {id: 11, content: <CardPublication/>}
+    {id: 1, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 2, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 3, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 4, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 5, content:<CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 6, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 7, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 8, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 9, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 10, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>},
+    {id: 11, content: <CardPublication image="/images/report_card.svg" description={description} title={title}/>}
 ]
 
 
 const Municipal_Profiles = () => {
-    const items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
+    const items = ['Perfil Social dos Municípios', 'Perfil Eleitoral dos Municípios', 'Perfil Econômico dos Municípios'];
 
     const [currentPage, setCurrentPage] = useState(1)
     const itemsPerPage = 6;
@@ -33,10 +36,8 @@ const Municipal_Profiles = () => {
     
     const router = useRouter();
 
-    
-
     return(
-        <div className="flex flex-1 flex-col justify-start items-center mt-6 px-[2%] lg:px-60 lg:py-20">
+        <div className="flex flex-1 flex-col justify-start items-center mt-6 px-[2%] lg:px-[5%] xl:px-[5%] lg:py-20">
             <div className="flex w-full flex-row justify-between items-center gap-10 lg:px-5">
                 <div className="flex flex-1 flex-col gap-2 ">
                     <p className="font-medium text-[13px] lg:text-[13px] text-black">Tópicos</p>
@@ -54,7 +55,7 @@ const Municipal_Profiles = () => {
             <div className="grid md:grid-cols-1 lg:grid-cols-2 h-full w-full my-[10%] lg:my-[2%] ">
                 {currentPageItems.map((item,index)=>{
                     return (
-                        <CardPublication key={`card-publication-${index}`}/>
+                        <CardPublication key={`card-publication-${index}`} image="/images/report_card.svg" description={description} title={title}/>
                     )
                 })}
                 {/* <CardPublication/>

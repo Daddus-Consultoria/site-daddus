@@ -29,7 +29,7 @@ const PaginationGeneric = () => {
     }
 
     return (
-        <Pagination className="flex justify-end" >
+        <Pagination className="flex justify-end mb-[10%]" >
             <PaginationContent>
                 <PaginationItem>
                     <PaginationPrevious href="#" />
@@ -37,12 +37,12 @@ const PaginationGeneric = () => {
                 <PaginationItem>
                     <PaginationLink onClick={()=>{router.push('/conteudo/publicacoes/perfis-municipais/1')}}>1</PaginationLink>
                 </PaginationItem>
-                <PaginationItem>
+                <PaginationItem className="hidden sm:flex">
                     <PaginationLink href="#" isActive>
                         2
                     </PaginationLink>
                 </PaginationItem>
-                <PaginationItem >
+                <PaginationItem className="hidden sm:flex">
                     <PaginationLink href="#">3</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
