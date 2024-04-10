@@ -5,7 +5,7 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Consultoria",
-        href: "/conteudo/consultoria",
+        href: "/conteudos/consultoria",
         items: [
           {
             title: "Elaboração de Políticas Públicas",
@@ -82,7 +82,7 @@ export const headerItems: NavigationType[] = [
       },
       {
         title: "Publicações",
-        href: "/conteudo/publicacoes",
+        href: "/conteudos/publicacoes",
         items: [
           {
             title: "Estudos",
@@ -94,7 +94,7 @@ export const headerItems: NavigationType[] = [
           },
           {
             title: "Perfis Municipais",
-            href: "/conteudo/publicacoes/perfis-municipais",
+            href: "/conteudos/publicacoes/perfis-municipais",
           },
         ],
       },

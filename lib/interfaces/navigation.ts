@@ -10,3 +10,8 @@ export interface NavigationSubType extends NavigationItem {
 export interface NavigationType extends NavigationItem {
   subtypes?: NavigationSubType[];
 }
+
+export interface BreadcrumbItemProps {
+  title: string;
+  href?: string;
+}
