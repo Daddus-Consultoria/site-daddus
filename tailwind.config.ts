@@ -30,8 +30,11 @@ const config = {
       "6xl": "4rem", // 64px
     },
     extend: {
+      spacing: {
+        "5percent": "5%",
+      },
       colors: {
-        lightGray: "hsl(var(--light-gray))",
+        lightgray: "hsl(var(--light-gray))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -42,7 +45,7 @@ const config = {
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
+          DEFAULT: "#0D0D0D",
           foreground: "hsl(var(--secondary-foreground))",
         },
         destructive: {
