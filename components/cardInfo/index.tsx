@@ -1,15 +1,10 @@
 'use client'
 import {
     Card,
-    CardContent,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-    Label,
-    Button,
-  } from "@/components/ui/index"
-import Image from "next/image"
+    CardContent, CardFooter,
+    CardHeader, Button
+} from "@/components/ui/index";
+import Image from "next/image";
 import { AiOutlineShareAlt } from "react-icons/ai";
  
 interface CardInfoProps {
@@ -21,14 +16,29 @@ interface CardInfoProps {
 
 const CardInfo: React.FC<CardInfoProps> = ({title,description,image,path}) => {
     return (
-        <Card className="flex flex-1 flex-col h-full rounded-3xl bg-[#EEEEEE] m-10 lg:m-0">
-            <CardHeader className="p-0">
-                <Image alt="Publication 1" width={1000} height={300} src={image}/>
+        <Card className="flex flex-1 flex-col h-full rounded-3xl bg-[#EEEEEE] m-10 lg:m-0 overflow-hidden">
+            {/* <div className="w-full h-64 relative ">
+                <Image
+                    src={image}
+                    alt="Descrição da imagem"
+                    layout="fill"
+                    objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
+                    objectPosition="center"
+                />
+            </div> */}
+            <CardHeader className="w-full h-64  lg:h-64 xl:h-80 2xl:h-80  relative ">
+                <Image
+                    src={image}
+                    alt="Descrição da imagem"
+                    layout="fill"
+                    objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
+                    objectPosition="center"
+                />
             </CardHeader>
-            <CardContent className="flex flex-col flex-1 items-center mt-6">
+            <CardContent className="flex flex-col flex-1 items-center mt-6P">
                 <div className="flex flex-col items-center gap-2">
-                    <Label className="font-bold text-[24px] text-[#A90920]">{title}</Label>
-                    <Label className="text-[11px] text-[#0B0C10] text-justify">{description}</Label>
+                    <h2 className="font-bold text-[24px] text-[#A90920]">{title}</h2>
+                    <p className="text-[11px] text-[#0B0C10] text-justify">{description}</p>
                 </div>
             </CardContent>
             <CardFooter className="flex flex-row justify-end mb-3 gap-2">

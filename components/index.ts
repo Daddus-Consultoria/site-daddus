@@ -3,7 +3,8 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { InputGeneric } from "@/components/inputGeneric";
 import { SelectGeneric } from "./selectGeneric";
-import { Publication } from "./publications";
+import { CardPublication } from "./cardPublications";
+import {PaginationGeneric} from "./paginationGeneric"
 
-export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, Publication };
+export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric };
 export * from "@/components/ui";
