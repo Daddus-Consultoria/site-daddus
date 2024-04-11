@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { DaddusBreadcrumb } from "@/components/daddusBreadcrumb";
 
 const poppins = Poppins({
   weight: "400",
@@ -25,7 +26,12 @@ export default function RootLayout({
 
       <body className={poppins.className}>
         <Header />
-          <main className="flex min-h-screen">{children}</main>
+        <main className="flex min-h-screen">
+          <div className="flex flex-1 flex-col">
+            <DaddusBreadcrumb />
+            {children}
+          </div>
+        </main>
         <Footer />
       </body>
     </html>

@@ -7,7 +7,6 @@ export default function ContentLayout({
 }) {
   return (
     <div className="flex flex-1 flex-col">
-      <DaddusBreadcrumb />
       {children}
     </div>
   );
