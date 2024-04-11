@@ -3,7 +3,7 @@ import { title } from "process";
 export const constantsTransports = [
     {
         title: 'TRANSPORTES',
-        text: 'Empresas, associações e prefeituras podem agora embasar as suas tomadas de decisão no reajuste de tarifas do transporte público ou no planejamento orçamentário. \n O uso de índices específicos como indexador de contratos minimiza a ocorrência de desequilíbrio financeiro na relação entre contratante e contratado durante a vigência do acordo, propiciando mais segurança às partes para realizarem transações de médio e longo prazos. '
+        text: 'Empresas, associações e prefeituras podem agora embasar as suas tomadas de decisão no reajuste de tarifas do transporte público ou no planejamento orçamentário. \n\n O uso de índices específicos como indexador de contratos minimiza a ocorrência de desequilíbrio financeiro na relação entre contratante e contratado durante a vigência do acordo, propiciando mais segurança às partes para realizarem transações de médio e longo prazos. '
     },
     {
         title: 'Reajuste de Tarifas',

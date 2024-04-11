@@ -5,6 +5,7 @@ import { InputGeneric } from "@/components/inputGeneric";
 import { SelectGeneric } from "./selectGeneric";
 import { CardPublication } from "./cardPublications";
 import {PaginationGeneric} from "./paginationGeneric"
+import { AvatarNetwork } from "./avatarNetwork";
 
-export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric };
+export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric, AvatarNetwork };
 export * from "@/components/ui";
