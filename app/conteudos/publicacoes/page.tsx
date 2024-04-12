@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Label } from "@/components/ui/index";
-import { Cards } from "@/components/cardInfo/index";
+import { Cards } from "@/components/index";
 import { constantsPublications } from "@/app/conteudos/_constant";
 
 const PublishPage = () => {

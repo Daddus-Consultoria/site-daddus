@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className={poppins.className}>
         <Header />
         <main className="flex min-h-screen">
-          <div className="flex flex-1 flex-col">
+          <div className="flex w-full flex-col">
             <DaddusBreadcrumb />
             {children}
           </div>

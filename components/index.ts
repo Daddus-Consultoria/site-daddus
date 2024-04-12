@@ -4,8 +4,12 @@ import { Footer } from "@/components/footer";
 import { InputGeneric } from "@/components/inputGeneric";
 import { SelectGeneric } from "./selectGeneric";
 import { CardPublication } from "./cardPublications";
-import {PaginationGeneric} from "./paginationGeneric"
+import { PaginationGeneric } from "./paginationGeneric"
 import { AvatarNetwork } from "./avatarNetwork";
+import { Contact } from './contact'
+import { Cards } from './cardInfo'
 
-export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric, AvatarNetwork };
+import { RelatedPublications } from './relatedPublications'
+
+export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric, AvatarNetwork, Contact, RelatedPublications, Cards  };
 export * from "@/components/ui";
