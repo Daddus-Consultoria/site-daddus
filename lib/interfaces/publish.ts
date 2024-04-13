@@ -1,6 +1,6 @@
 import { PublishCategories } from "../constants/constants";
 
-export interface Publish {
+export interface PublishModel {
   title: string;
   shortDescription: string;
   longDescription: string;
