@@ -8,10 +8,25 @@ import { PaginationGeneric } from "./paginationGeneric"
 import { AvatarNetwork } from "./avatarNetwork";
 import { Contact } from './contact'
 import { Cards } from './cardInfo'
+import { SearchLink } from './searchLink'
 
 import { RelatedPublications } from './relatedPublications'
 
 import { ButtonContact } from './buttonContact'   
 
-export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric, AvatarNetwork, Contact, RelatedPublications, Cards, ButtonContact };
+export { 
+    Dropdown,
+    Header,
+    Footer,
+    InputGeneric, 
+    SelectGeneric, 
+    CardPublication, 
+    PaginationGeneric, 
+    AvatarNetwork, 
+    Contact, 
+    RelatedPublications, 
+    Cards, 
+    ButtonContact,
+    SearchLink,
+};
 export * from "@/components/ui";
