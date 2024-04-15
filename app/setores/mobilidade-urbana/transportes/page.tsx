@@ -34,7 +34,7 @@ const TransportPage = () =>{
                 <h2 className=" px-[2%] font-bold text-[26px] lg:text-[32px] text-[#A90920] mb-[2%] ">ATUAMOS TAMBÉM</h2>
                 <div className='w-full bg-[#999999] h-[1.5px]'></div>
                 <div className='flex flex-row gap-10 h-[70%]'>
-                    <div className="flex flex-col lg:flex-row gap-10 md:max-w-[30%] lg:max-w-[33%] mb-4 lg:mb-14 mt-[3%]">
+                    <div className="flex flex-col lg:flex-row gap-10 md:max-w-[30%] lg:max-w-[33%] mb-4 lg:mb-14 mt-[3%] rounded-3xl shadow-xl">
                         <Cards 
                             title='RODOVIAS'
                             description='Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.'
@@ -42,7 +42,7 @@ const TransportPage = () =>{
                             path='#'
                         />
                     </div>
-                    <div className="flex flex-col lg:flex-row gap-10 md:max-w-[30%] lg:max-w-[33%] mb-4 lg:mb-14 mt-[3%]">
+                    <div className="flex flex-col lg:flex-row gap-10 md:max-w-[30%] lg:max-w-[33%] mb-4 lg:mb-14 mt-[3%] rounded-3xl shadow-xl">
                         <Cards 
                             title='PORTOS'
                             description='Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.'
