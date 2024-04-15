@@ -11,5 +11,7 @@ import { Cards } from './cardInfo'
 
 import { RelatedPublications } from './relatedPublications'
 
-export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric, AvatarNetwork, Contact, RelatedPublications, Cards  };
+import { ButtonContact } from './buttonContact'   
+
+export { Dropdown, Header, Footer, InputGeneric, SelectGeneric, CardPublication, PaginationGeneric, AvatarNetwork, Contact, RelatedPublications, Cards, ButtonContact };
 export * from "@/components/ui";

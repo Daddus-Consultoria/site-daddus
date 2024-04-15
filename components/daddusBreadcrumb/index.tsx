@@ -30,7 +30,7 @@ export const DaddusBreadcrumb: React.FC = () => {
   }, [pathname]);
 
   return (
-    <div className="min-h-[80px] w-full bg-lightgray flex align-items-center px-5percent">
+    <div className="min-h-[50px] lg:min-h-[80px] w-full bg-lightgray flex align-items-center px-5percent">
       <Breadcrumb className="w-full md:max-w-[80%] lg:max-w-[90%]  mx-auto">
         <BreadcrumbList className="h-full">
           {breadcrumbItems.map((item, index) => {

@@ -12,11 +12,13 @@ interface CardInfoProps {
     description: string;
     image: string;
     path: string;
+    titleAlign?: "center" | "left" | "right";
 }
 
-const CardInfo: React.FC<CardInfoProps> = ({title,description,image,path}) => {
+const CardInfo: React.FC<CardInfoProps> = ({title,description,image,path, titleAlign="center"}) => {
+
     return (
-        <Card className="flex flex-1 flex-col h-full rounded-3xl bg-[#EEEEEE] m-10 lg:m-0 overflow-hidden">
+        <Card className="flex flex-1 flex-col h-full rounded-3xl bg-[#EEEEEE] lg:m-0 overflow-hidden">
             {/* <div className="w-full h-64 relative ">
                 <Image
                     src={image}
@@ -37,7 +39,7 @@ const CardInfo: React.FC<CardInfoProps> = ({title,description,image,path}) => {
             </CardHeader>
             <CardContent className="flex flex-col flex-1 items-center mt-6P">
                 <div className="flex flex-col items-center gap-2">
-                    <h2 className="font-bold text-[24px] text-[#A90920]">{title}</h2>
+                    <h2 className={`font-bold text-[24px] text-[#A90920] mt-4 w-full text-${titleAlign}`}>{title}</h2>
                     <p className="text-[11px] text-[#0B0C10] text-justify">{description}</p>
                 </div>
             </CardContent>
