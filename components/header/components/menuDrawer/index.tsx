@@ -24,7 +24,7 @@ const MenuDrawer = () => {
       <DrawerTrigger>
         <IoIosMenu className="fill-white" size={35} />
       </DrawerTrigger>
-      <DrawerContent className="h-full w-3/4">
+      <DrawerContent className="h-full w-3/4 bg-white">
         <div className="p-1">
           <div className="flex flex-row justify-between items-center">
             <Image
