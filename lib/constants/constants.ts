@@ -102,8 +102,9 @@ export const headerItems: NavigationType[] = [
   },
   {
     title: "SOBRE NÓS",
-    href: "#",
+    href: "/informacoes/sobre",
   },
+  
 ];
 
 export enum PublishCategories {

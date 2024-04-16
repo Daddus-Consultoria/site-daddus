@@ -7,10 +7,11 @@ import { MenuDrawer } from "@/components/header/components/menuDrawer";
 
 import { PiMagnifyingGlassThin } from "react-icons/pi";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Header() {
   return (
-    <div className="flex flex-row justify-between items-center lg:justify-center gap-10 w-full h-24 lg:h-36 text-black bg-[#A90920]">
+    <div className="flex flex-row justify-between items-center lg:justify-center gap-10 w-full h-20 lg:h-24 text-black bg-[#A90920]">
       <a href="/">
       <Image
         alt="Logo"
@@ -24,12 +25,13 @@ export function Header() {
       <nav className="hidden lg:flex gap-10">
         {headerItems.map((item) => {
           return item.href ? (
-            <div
+            <a
               key={`navitem-${item.title.toLowerCase()}`}
-              className="flex justify-center items-center"
-            >
-              <Label className="font-bold text-white">{item.title}</Label>
-            </div>
+              href={item.href}
+              className="flex justify-center items-center font-semibold text-[14px] text-white hover:bg-white hover:text-black py-1 px-2 rounded-lg "
+              >
+              {item.title}
+            </a>
           ) : (
             // <div></div>
             <Dropdown

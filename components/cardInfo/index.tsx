@@ -7,13 +7,7 @@ import {
 import Image from "next/image";
 import { AiOutlineShareAlt } from "react-icons/ai";
  
-interface CardInfoProps {
-    title: string;
-    description: string;
-    image: string;
-    path: string;
-    titleAlign?: "center" | "left" | "right";
-}
+import { CardInfoProps } from "@/lib/interfaces/card";
 
 const CardInfo: React.FC<CardInfoProps> = ({title,description,image,path, titleAlign="center"}) => {
 
