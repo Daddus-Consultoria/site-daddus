@@ -28,11 +28,12 @@ const TransportPage = () =>{
                         </div>
                     ))}
                     {constantsAbout.values.listValues.length > 0 && (
-                        <ol className="flex flex-col mb-[8%] list-decimal">
+                        <ol className="mb-[8%] list-decimal ">
                             <h2 className="font-bold text-[26px] lg:text-[32px] text-[#A90920] mb-[2%] ">{constantsAbout.values.title}</h2>
                             {constantsAbout.values.listValues.map((item, index) =>(
                                 <li key={`values-about-page-${index}`} className="text-justify text-[17px] text-[#696984] leading-loose whitespace-pre-line ml-[3%]">{item}</li>
                             ))}
+                            
                             {/* <p className="flex text-justify text-[17px] text-[#696984] leading-loose whitespace-pre-line ">{item.text}</p> */}
                         </ol>
                     )}
