@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   title: "Daddus Consultoria",
   description:
     "Descubra o poder da excelência empresarial com a nossa consultoria especializada. Navegue por uma vasta gama de serviços estratégicos e soluções personalizadas projetadas para impulsionar o seu negócio para novos patamares de sucesso. ",
+  icons: {
+    icon: "/images/favicon.ico",
+  },
 };
 
 export default function RootLayout({
