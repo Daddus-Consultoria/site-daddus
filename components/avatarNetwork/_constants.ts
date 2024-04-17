@@ -1,4 +1,4 @@
-const url = window ? window.location.href : "";
+const url = "";
 
 export const avatarNetworks = [
   {
