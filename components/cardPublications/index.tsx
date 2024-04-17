@@ -1,50 +1,54 @@
-'use client'
+"use client";
 
-import Image from "next/image"
-import { AiOutlineShareAlt } from "react-icons/ai";
+import Image from "next/image";
 
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger, Button
-} from "@/components/ui"
+import { SearchLink, DaddusLink } from "@/components/index";
 
-import {SearchLink} from "@/components/index"
-
-import { useState } from "react";
-  
 interface CardPublicationProps {
-    title: string;
-    description: string;
-    image: string;
-    path?: string;
+  title: string;
+  description: string;
+  image: string;
+  path: string;
+  id: number;
 }
 
-const CardPublication: React.FC<CardPublicationProps> = ({title, description, image, path="#"}) => {
-    return (
-        <div className="flex items-start justify-start m-[4%] rounded-2xl bg-[#EEEEEE] text-black">
-            <div className="flex h-full w-full items-start justify-between">
-                <Image 
-                    alt="Publication 1" 
-                    width={1} 
-                    height={1} 
-                    src={image} 
-                    className="hidden md:flex -mt-[5%]  xl:ml-[3%] 3-xl:ml-[1%] h-[65%] lg:h-[105%] w-full" 
-                />
-                <div className="flex flex-col h-[85%] gap-3 mx-[5%] my-[4%] justify-between">
-                    <div className="flex flex-col gap-3">
-                        <h2 className="font-bold text-[#A90920] text-[13px] lg:text-[16px] text-justify ">{title}</h2>
-                        <p className="text-[11px] text-justify">{description}</p>
-                    </div>
-                    <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%] ">
-                        <Button className="h-full rounded-2xl">VEJA MAIS</Button>
-                        <SearchLink path={path}/>
-                    </div>
-                </div>
-            </div>
+const CardPublication: React.FC<CardPublicationProps> = ({
+  title,
+  description,
+  image,
+  path,
+  id,
+}) => {
+  return (
+    <div className="flex items-start justify-start mb-[4%] min-h-[250px] rounded-2xl bg-[#EEEEEE] px-[5%] py-[4%] text-black relative">
+      <div className="flex h-full w-full items-start justify-between">
+        <div className="hidden md:flex w-full max-w-[230px] none">
+          <Image
+            alt="Publication 1"
+            width={1}
+            height={1}
+            src={image}
+            className="xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px] absolute top-[-10%]"
+          />
         </div>
-    )
-}
- 
-export {CardPublication}
+
+        <div className="flex flex-col h-[100%] gap-3 justify-between w-full">
+          <div className="flex flex-col gap-3 w-full">
+            <h2 className="font-bold text-[#A90920] text-[13px] lg:text-[16px] text-justify ">
+              {title}
+            </h2>
+            <p className="text-[11px] text-justify">{description}</p>
+          </div>
+          <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%] ">
+            <DaddusLink href={path} className="rounded-2xl">
+              VEJA MAIS
+            </DaddusLink>
+            <SearchLink path={path ?? "#"} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { CardPublication };
