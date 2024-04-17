@@ -40,15 +40,15 @@ export const headerItems: NavigationType[] = [
         items: [
           {
             title: "Transportes",
-            href: "#",
+            href: "/setores/mobilidade-urbana/transportes",
           },
           {
             title: "Rodovias",
-            href: "#",
+            href: "/setores/mobilidade-urbana/rodovias",
           },
           {
             title: "Portos",
-            href: "#",
+            href: "/setores/mobilidade-urbana/portos",
           },
         ],
       },
@@ -102,14 +102,17 @@ export const headerItems: NavigationType[] = [
   },
   {
     title: "SOBRE NÓS",
-    href: "#",
+    href: "/informacoes/sobre",
   },
+  
 ];
 
 export enum PublishCategories {
   COUNTIES_SOCIAL_PROFILE = "Perfil Social dos Municípios",
   COUNTIES_ELECTORAL_PROFILE = "Perfil Eleitoral dos Municípios",
   COUNTIES_ECONOMIC_PROFILE = "Perfil Econômico dos Municípios",
+  GUIDES = "Guias",
+  STUDIES = "Estudos",
 }
 
 export enum SizesConstants {

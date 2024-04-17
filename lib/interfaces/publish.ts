@@ -1,6 +1,6 @@
 import { PublishCategories } from "../constants/constants";
 
-export interface Publish {
+export interface PublishModel {
   title: string;
   shortDescription: string;
   longDescription: string;
@@ -9,4 +9,10 @@ export interface Publish {
   tags: string[];
   imageUrl: string;
   documentUrl: string;
+  id: number;
+}
+
+export interface PublishData {
+  items: PublishModel[];
+  totalItems: number;
 }

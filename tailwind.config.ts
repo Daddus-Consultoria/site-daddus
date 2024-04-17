@@ -10,6 +10,13 @@ const config = {
   ],
   prefix: "",
   theme: {
+    listStyleType: {
+      none: 'none',
+      disc: 'disc',
+      decimal: 'decimal',
+      square: 'square',
+      roman: 'upper-roman',
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -30,11 +37,16 @@ const config = {
       "6xl": "4rem", // 64px
     },
     extend: {
+      lineHeight: {
+        '21': '21px',
+        '24': '24px',
+      },
       spacing: {
         "5percent": "5%",
       },
       colors: {
         lightgray: "hsl(var(--light-gray))",
+        label: "var(--label)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
