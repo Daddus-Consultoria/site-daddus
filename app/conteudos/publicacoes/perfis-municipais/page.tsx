@@ -54,11 +54,12 @@ const Municipal_Profiles = () => {
         {currentPageItems?.map((item, index) => {
           return (
             <CardPublication
+              id={item.id}
               key={`card-publication-${index}`}
               image="/images/report_card.svg"
               description={item.shortDescription}
               title={item.title}
-              path={`/publicacoes/perfil-municipal/${item.id}`}
+              path={`/conteudos/publicacoes/perfis-municipais/${item.id}`}
             />
           );
         })}

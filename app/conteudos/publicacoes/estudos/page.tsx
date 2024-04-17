@@ -9,123 +9,6 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishCategories } from "@/lib/constants/constants";
 
-const title = "Citologia: um estudo demográfico de duas ou três linhas";
-const description =
-  "Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.";
-
-const data = [
-  {
-    id: 1,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 2,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 3,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 4,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 5,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 6,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 7,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 8,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 9,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 10,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-  {
-    id: 11,
-    content: (
-      <CardPublication
-        image="/images/report_card.svg"
-        description={description}
-        title={title}
-      />
-    ),
-  },
-];
-
 const Guides = () => {
   const usePublishUseCases = new PublishUseCases();
   const { data, isLoading, error } = useQuery({
@@ -158,10 +41,12 @@ const Guides = () => {
         {currentPageItems?.map((item, index) => {
           return (
             <CardPublication
+              path={`/conteudos/publicacoes/estudos/${item.id}`}
+              id={item.id}
               key={`card-publication-${index}`}
               image="/images/report_card.svg"
-              description={description}
-              title={title}
+              description={item.shortDescription}
+              title={item.title}
             />
           );
         })}

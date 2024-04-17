@@ -8,10 +8,6 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { useQuery } from "@tanstack/react-query";
 import { PublishCategories } from "@/lib/constants/constants";
 
-const title = "Citologia: um estudo demográfico de duas ou três linhas";
-const description =
-  "Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.";
-
 const Guides = () => {
   const usePublishUseCases = new PublishUseCases();
   const { data, isLoading, error } = useQuery({
@@ -41,10 +37,12 @@ const Guides = () => {
         {currentPageItems?.map((item, index) => {
           return (
             <CardPublication
+              path={`/conteudos/publicacoes/guias/${item.id}`}
+              id={item.id}
               key={`card-publication-${index}`}
               image="/images/report_card.svg"
-              description={description}
-              title={title}
+              description={item.shortDescription}
+              title={item.title}
             />
           );
         })}

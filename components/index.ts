@@ -8,8 +8,9 @@ import { PaginationGeneric } from "./paginationGeneric";
 import { Publish } from "./publish";
 import { AvatarNetwork } from "./avatarNetwork";
 import { Contact } from "./contact";
-import { Cards } from "./cardInfo";
+import { CardInfo } from "./cardInfo";
 import { SearchLink } from "./searchLink";
+import { DaddusLink } from "./daddusLink";
 
 import { RelatedPublications } from "./relatedPublications";
 
@@ -26,9 +27,10 @@ export {
   AvatarNetwork,
   Contact,
   RelatedPublications,
-  Cards,
+  CardInfo,
   ButtonContact,
   SearchLink,
   Publish,
+  DaddusLink,
 };
 export * from "@/components/ui";

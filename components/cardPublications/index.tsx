@@ -2,15 +2,14 @@
 
 import Image from "next/image";
 
-import { Button } from "@/components/ui";
-
-import { SearchLink } from "@/components/index";
+import { SearchLink, DaddusLink } from "@/components/index";
 
 interface CardPublicationProps {
   title: string;
   description: string;
   image: string;
-  path?: string;
+  path: string;
+  id: number;
 }
 
 const CardPublication: React.FC<CardPublicationProps> = ({
@@ -18,17 +17,18 @@ const CardPublication: React.FC<CardPublicationProps> = ({
   description,
   image,
   path,
+  id,
 }) => {
   return (
     <div className="flex items-start justify-start mb-[4%] min-h-[250px] rounded-2xl bg-[#EEEEEE] px-[5%] py-[4%] text-black relative">
       <div className="flex h-full w-full items-start justify-between">
-        <div className="w-full max-w-[230px] ">
+        <div className="hidden md:flex w-full max-w-[230px] none">
           <Image
             alt="Publication 1"
             width={1}
             height={1}
             src={image}
-            className="hidden md:flex xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px]  absolute top-[-10%]"
+            className="xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px] absolute top-[-10%]"
           />
         </div>
 
@@ -40,7 +40,9 @@ const CardPublication: React.FC<CardPublicationProps> = ({
             <p className="text-[11px] text-justify">{description}</p>
           </div>
           <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%] ">
-            <Button className="rounded-2xl">VEJA MAIS</Button>
+            <DaddusLink href={path} className="rounded-2xl">
+              VEJA MAIS
+            </DaddusLink>
             <SearchLink path={path ?? "#"} />
           </div>
         </div>
