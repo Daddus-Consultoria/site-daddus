@@ -9,4 +9,10 @@ export interface PublishModel {
   tags: string[];
   imageUrl: string;
   documentUrl: string;
+  id: number;
+}
+
+export interface PublishData {
+  items: PublishModel[];
+  totalItems: number;
 }

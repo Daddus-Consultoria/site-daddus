@@ -4,6 +4,7 @@ import "./globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import Head from "next/head";
+import { TanstackProvider } from "@/components/providers/TanstackProvider";
 
 const poppins = Poppins({
   weight: "400",
@@ -32,9 +33,11 @@ export default function RootLayout({
       </Head>
 
       <body className={poppins.className}>
-        <Header />
-        <main className="flex min-h-screen">{children}</main>
-        <Footer />
+        <TanstackProvider>
+          <Header />
+          <main className="flex min-h-screen">{children}</main>
+          <Footer />
+        </TanstackProvider>
       </body>
     </html>
   );

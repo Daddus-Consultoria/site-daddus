@@ -13,6 +13,7 @@ const mockPublish: PublishModel = {
   tags: ["mock", "test"],
   imageUrl: "/mock-image.jpg",
   documentUrl: "https://www.bity.com.br/assets/doc/Termo-PEP.pdf",
+  id: 1,
 };
 
 const MunicipalProfile: React.FC = () => {
