@@ -47,7 +47,7 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
               key={`subFooteritem-${index}`}
               href={subTypeItem.href}
               className="text-[#ffffff] hover:text-primary"
-            >
+              >
               {subTypeItem.title}
             </a>
             <ul>

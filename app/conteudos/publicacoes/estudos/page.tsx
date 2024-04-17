@@ -141,14 +141,11 @@ const Guides = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const startIndex = (currentPage - 1) * itemsPerPage;
   const currentPageItems = data?.items;
   const totalItems = data?.totalItems;
 
-  const router = useRouter();
-
   return (
-    <div className="flex flex-1 flex-col justify-start items-center mt-6 px-[2%] lg:px-[5%] xl:px-[5%] lg:py-20">
+    <div className="flex flex-1 flex-col justify-start items-center mt-6 lg:mt-0 px-[2%] lg:px-[5%] xl:px-[5%] lg:py-10">
       <div className="flex w-full flex-row justify-end items-center gap-10 lg:px-5">
         <div className="flex flex-1 lg:flex-none h-full flex-col justify-end">
           <InputGeneric type="white" placeholder="Pesquisar" />

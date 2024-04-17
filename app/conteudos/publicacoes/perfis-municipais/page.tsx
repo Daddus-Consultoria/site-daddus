@@ -36,7 +36,7 @@ const Municipal_Profiles = () => {
   const currentPageItems = data?.items;
 
   return (
-    <div className="flex flex-1 flex-col justify-start items-center mt-6 px-[2%] lg:px-[5%] xl:px-[5%] lg:py-20">
+    <div className="flex flex-1 flex-col justify-start items-center mt-6 lg:mt-0 px-[2%] lg:px-[5%] xl:px-[5%] lg:py-10">
       <div className="flex w-full flex-row justify-between items-center gap-10 lg:px-5">
         <div className="flex flex-1 flex-col gap-2 ">
           <p className="font-medium text-[13px] lg:text-[13px] text-black">

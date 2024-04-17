@@ -40,15 +40,15 @@ export const headerItems: NavigationType[] = [
         items: [
           {
             title: "Transportes",
-            href: "#",
+            href: "/setores/mobilidade-urbana/transportes",
           },
           {
             title: "Rodovias",
-            href: "#",
+            href: "/setores/mobilidade-urbana/rodovias",
           },
           {
             title: "Portos",
-            href: "#",
+            href: "/setores/mobilidade-urbana/portos",
           },
         ],
       },
@@ -102,8 +102,9 @@ export const headerItems: NavigationType[] = [
   },
   {
     title: "SOBRE NÓS",
-    href: "#",
+    href: "/informacoes/sobre",
   },
+  
 ];
 
 export enum PublishCategories {

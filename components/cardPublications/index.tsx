@@ -1,8 +1,10 @@
 "use client";
-import { Button } from "@/components/ui/index";
 
 import Image from "next/image";
-import { AiOutlineShareAlt } from "react-icons/ai";
+
+import { Button } from "@/components/ui";
+
+import { SearchLink } from "@/components/index";
 
 interface CardPublicationProps {
   title: string;
@@ -15,6 +17,7 @@ const CardPublication: React.FC<CardPublicationProps> = ({
   title,
   description,
   image,
+  path,
 }) => {
   return (
     <div className="flex items-start justify-start mb-[4%] min-h-[250px] rounded-2xl bg-[#EEEEEE] px-[5%] py-[4%] text-black relative">
@@ -38,9 +41,7 @@ const CardPublication: React.FC<CardPublicationProps> = ({
           </div>
           <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%] ">
             <Button className="rounded-2xl">VEJA MAIS</Button>
-            <Button className="flex flex-row justify-center items-center rounded-full w-[40px] h-[40px] p-2 bg-[#999999]">
-              <AiOutlineShareAlt size={30}  />
-            </Button>
+            <SearchLink path={path ?? "#"} />
           </div>
         </div>
       </div>

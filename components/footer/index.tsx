@@ -5,11 +5,16 @@ import Image from "next/image";
 import { headerItems } from "@/lib/constants/constants";
 import { SubFooterItem } from "./subFooterItem";
 
+import Link from "next/link";
+import { constantFooter } from "@/components/footer/_constants"
+
+import { Button } from "@/components/index";
+
 export function Footer() {
   return (
     <div className="w-full lg:h-80 bg-[#2B2B2B]">
       <div className="flex flex-col lg:flex-row w-full lg:h-3/4 justify-center">
-        <div className="flex bg-white w-full lg:w-[420px] h-[150px] lg:h-full justify-center items-center p-3">
+        <div className="flex bg-[#F5F7F9] w-full lg:w-[420px] h-[150px] lg:h-full justify-center items-center p-3">
           <Image
             alt="Logo"
             src="/images/logos/daddus.svg"
@@ -36,25 +41,19 @@ export function Footer() {
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between px-[8%] lg:px-[15%] w-full lg:h-1/4 bg-[#A90920] gap-1 lg:gap-0 py-4 lg:py-0">
         <div>
           <Label className="font-medium text-white text-[14px]">
-            © 2024 Daddus Consultoria - Todos os direitos reservados.
-          </Label>
+           {constantFooter.copyright}
+          </Label> 
         </div>
         <div className="flex flex-col lg:flex-row gap-1 lg:gap-4">
-          <div>
-            <Label className="font-medium text-white text-[16px]">
-              SOBRE NÓS
-            </Label>
-          </div>
-          <div>
-            <Label className="font-medium text-white text-[16px]">
-              TERMOS DE USO
-            </Label>
-          </div>
-          <div>
-            <Label className="font-medium text-white text-[16px]">
-              CONTATO
-            </Label>
-          </div>
+            {constantFooter.information.map((item, index) => (
+              <a
+              key={`navitem-${item.title.toLowerCase()}`}
+              href={item.href}
+              className="flex justify-center items-center font-semibold text-[14px] text-white  py-1 px-2 rounded-lg "
+              >
+              {item.title}
+            </a>
+            ))}
         </div>
       </div>
     </div>

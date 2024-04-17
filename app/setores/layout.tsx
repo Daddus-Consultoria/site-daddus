@@ -1,6 +1,6 @@
 import { DaddusBreadcrumb } from "@/components/daddusBreadcrumb/index";
 
-export default function ContentLayout({
+export default function SectorLayout({
   children,
 }: {
   children: React.ReactNode;
