@@ -37,10 +37,12 @@ const MunicipalProfile: React.FC = () => {
   });
 
 
-  return (
+  return data ? (
     <div>
-      <Publish publishData={mockPublish} />
+      <Publish publishData={data} />
     </div>
+  ) : (
+    <div></div>
   );
 };
 
