@@ -5,7 +5,7 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Consultoria",
-        href: "/conteudos/consultoria",
+        href: "/servicos/consultoria",
         items: [
           {
             title: "Elaboração de Políticas Públicas",
