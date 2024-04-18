@@ -41,7 +41,7 @@ const DaddusBreadcrumbItem: React.FC<DaddusBreadcrumbItemProps> = ({
   const formatedTitle = formatTitle(title);
   const style = `text-${
     hasSeparator ? "primary" : "secondary"
-  } text-sm lg:text-xl font-medium`;
+  } text-sm lg:text-md font-medium`;
 
   return (
     <>
