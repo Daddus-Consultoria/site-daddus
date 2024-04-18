@@ -10,7 +10,6 @@ interface PublishItemProps {
 const Publish: React.FC<PublishItemProps> = ({
   publishData: {
     title,
-    shortDescription,
     longDescription,
     category,
     authors,
