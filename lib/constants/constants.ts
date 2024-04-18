@@ -118,3 +118,10 @@ export enum PublishCategories {
 export enum SizesConstants {
   MAX_WIDTH = 1200,
 }
+
+export enum TimeConstants {
+  FIVE_MINUTES = 300000,
+  TEN_MINUTES = 600000,
+  ONE_HOUR = 3600000,
+  ONE_DAY = 86400000,
+}

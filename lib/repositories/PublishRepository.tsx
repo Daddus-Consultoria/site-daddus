@@ -7,7 +7,7 @@ abstract class PublishRepository {
     category?: string
   ): Promise<PublishData>;
 
-  abstract getPublishById(id: number): Promise<PublishModel | null>;
+  abstract getPublishById(id: string): Promise<PublishModel | null>;
 }
 
 export default PublishRepository;

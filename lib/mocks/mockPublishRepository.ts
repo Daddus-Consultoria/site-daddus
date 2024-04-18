@@ -14,7 +14,7 @@ class MockPublishRepository extends PublishRepository {
     };
   }
 
-  async getPublishById(id: number): Promise<PublishModel | null> {
+  async getPublishById(id: string): Promise<PublishModel | null> {
     // Implement your mock logic here
     return null;
   }

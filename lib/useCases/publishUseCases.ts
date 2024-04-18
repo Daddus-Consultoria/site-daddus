@@ -26,7 +26,7 @@ export class PublishUseCases {
     }
   }
 
-  async getPublishById({ id }: { id: number }) {
+  async getPublishById({ id }: { id: string }) {
     try {
       return await this.publishRepository.getPublishById(id);
     } catch (error) {

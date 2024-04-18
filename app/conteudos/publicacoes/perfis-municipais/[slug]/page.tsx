@@ -1,7 +1,11 @@
-import React from "react";
+"use client";
+import React, { use } from "react";
 import { Publish } from "@/components/publish";
 import { PublishModel } from "@/lib/interfaces/publish";
-import { PublishCategories } from "@/lib/constants/constants";
+import { PublishCategories, TimeConstants } from "@/lib/constants/constants";
+import { usePathname } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 
 const mockPublish: PublishModel = {
   title: "Mock Title",
@@ -17,6 +21,22 @@ const mockPublish: PublishModel = {
 };
 
 const MunicipalProfile: React.FC = () => {
+  const urlPath = usePathname();
+  const publishId = urlPath.split("/").pop();
+  const usePublishUseCases = new PublishUseCases();
+
+
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: [`municipal-profile-${publishId}`],
+    staleTime: TimeConstants.ONE_HOUR,
+
+    queryFn: async () => {
+      return await usePublishUseCases.getPublishById({ id: publishId ?? "" });
+    },
+  });
+
+
   return (
     <div>
       <Publish publishData={mockPublish} />

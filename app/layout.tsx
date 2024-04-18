@@ -3,8 +3,8 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
-import Head from "next/head";
 import { TanstackProvider } from "@/components/providers/TanstackProvider";
+import Script from "next/script";
 
 const poppins = Poppins({
   weight: "400",
@@ -27,13 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-br">
-      <Head>
-        <script
+      <head>
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6219534447075409"
           crossOrigin="anonymous"
-        ></script>
-      </Head>
+        ></Script>
+      </head>
 
       <body className={poppins.className}>
         <TanstackProvider>
