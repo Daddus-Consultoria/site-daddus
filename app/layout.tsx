@@ -5,6 +5,7 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { TanstackProvider } from "@/components/providers/TanstackProvider";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react"
 
 const poppins = Poppins({
   weight: "400",
@@ -39,6 +40,7 @@ export default function RootLayout({
         <TanstackProvider>
           <Header />
           <main className="flex min-h-screen">{children}</main>
+          <Analytics />
           <Footer />
         </TanstackProvider>
       </body>
