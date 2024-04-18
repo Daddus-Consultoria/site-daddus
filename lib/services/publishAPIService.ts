@@ -46,10 +46,24 @@ export class PublishAPIService implements PublishRepository {
       return { items: [], totalItems: 0 };
     }
   }
-  getPublishById(id: number): Promise<PublishModel> {
+  async getPublishById(id: string): Promise<PublishModel> {
     try {
-      const path = `/publishes/${id}`;
-      return httpClient.get<PublishModel>(path);
+      const path = `/publicacoes/${id}?populate[0]=coverImage`;
+      const response:any = await httpClient.get<PublishModel>(path);
+
+      const { data } = response;
+      const publish: PublishModel = {
+        authors: data.attributes.authors,
+        category: data.attributes.category,
+        documentUrl: data.attributes.documentUrl,
+        id: data.id,
+        imageUrl: data.attributes.coverImage.data.attributes.url,
+        longDescription: data.attributes.longDescription,
+        shortDescription: data.attributes.shortDescription,
+        tags: data.attributes.tags,
+        title: data.attributes.title,
+      };
+      return publish;
     } catch (error) {
       console.error(error);
       throw new Error(`Error while fetching publish with id: ${id}: ${error}`);
