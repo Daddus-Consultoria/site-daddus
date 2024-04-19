@@ -1,6 +1,7 @@
 import PublishRepository from "@/lib/repositories/PublishRepository";
 import { PublishModel, PublishData } from "@/lib/interfaces/publish";
 import { httpClient } from "./httpClient";
+import { getAuthorsList } from "@/lib/utils/transformDataToInterface";
 
 export class PublishAPIService implements PublishRepository {
   async getPaginatedPublishes(
@@ -21,9 +22,9 @@ export class PublishAPIService implements PublishRepository {
       data.forEach((publish: any) => {
         publishes.push({
           id: publish.id,
-          authors: publish.attributes.authors,
+          authors: getAuthorsList(publish.attributes.authors),
           category: publish.attributes.category,
-          documentUrl: publish.attributes.documentUrl,
+          documentUrl: publish.attributes.documentLink,
           imageUrl: publish.attributes.coverImage.data.attributes.url,
           longDescription: publish.attributes.longDescription,
           shortDescription: publish.attributes.shortDescription,
@@ -48,14 +49,14 @@ export class PublishAPIService implements PublishRepository {
   }
   async getPublishById(id: string): Promise<PublishModel> {
     try {
-      const path = `/publicacoes/${id}?populate[0]=coverImage`;
+      const path = `/publicacoes/${id}?populate[0]=coverImage&populate[1]=authors`;
       const response:any = await httpClient.get<PublishModel>(path);
 
       const { data } = response;
       const publish: PublishModel = {
-        authors: data.attributes.authors,
+        authors: getAuthorsList(data.attributes.authors.data),
         category: data.attributes.category,
-        documentUrl: data.attributes.documentUrl,
+        documentUrl: data.attributes.documentLink,
         id: data.id,
         imageUrl: data.attributes.coverImage.data.attributes.url,
         longDescription: data.attributes.longDescription,

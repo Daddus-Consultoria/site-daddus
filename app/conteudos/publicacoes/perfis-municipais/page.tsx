@@ -56,7 +56,7 @@ const Municipal_Profiles = () => {
             <CardPublication
               id={item.id}
               key={`card-publication-${index}`}
-              image="/images/report_card.svg"
+              image={item.imageUrl}
               description={item.shortDescription}
               title={item.title}
               path={`/conteudos/publicacoes/perfis-municipais/${item.id}`}

@@ -13,10 +13,10 @@ const mockPublish: PublishModel = {
   longDescription:
     "This is a long description of the mock publish. It contains more detailed information about the publish.",
   category: PublishCategories.COUNTIES_ELECTORAL_PROFILE,
-  authors: ["Mock Author 1", "Mock Author 2"],
+  authors: [{ id: 1, name: "Mock Author" }],
   tags: ["mock", "test"],
   imageUrl: "/mock-image.jpg",
-  documentUrl: "https://www.bity.com.br/assets/doc/Termo-PEP.pdf",
+  documentUrl: "https://google.com",
   id: 1,
 };
 
@@ -24,8 +24,6 @@ const MunicipalProfile: React.FC = () => {
   const urlPath = usePathname();
   const publishId = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
-
-
 
   const { data, isLoading, error } = useQuery({
     queryKey: [`municipal-profile-${publishId}`],
@@ -35,7 +33,6 @@ const MunicipalProfile: React.FC = () => {
       return await usePublishUseCases.getPublishById({ id: publishId ?? "" });
     },
   });
-
 
   return data ? (
     <div>

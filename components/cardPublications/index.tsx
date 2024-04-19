@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import { SearchLink, DaddusLink } from "@/components/index";
+import { Links } from "@/lib/constants/constants";
 
 interface CardPublicationProps {
   title: string;
@@ -19,6 +20,7 @@ const CardPublication: React.FC<CardPublicationProps> = ({
   path,
   id,
 }) => {
+  const copyPath = `${Links.SITE_DOMAIN}${path}`;
   return (
     <div className="flex items-start justify-start mb-[4%] min-h-[250px] rounded-2xl bg-[#EEEEEE] px-[5%] py-[4%] text-black relative">
       <div className="flex h-full w-full items-start justify-between">
@@ -43,7 +45,7 @@ const CardPublication: React.FC<CardPublicationProps> = ({
             <DaddusLink href={path} className="rounded-2xl">
               VEJA MAIS
             </DaddusLink>
-            <SearchLink path={path ?? "#"} />
+            <SearchLink path={copyPath} />
           </div>
         </div>
       </div>
