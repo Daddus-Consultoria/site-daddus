@@ -11,6 +11,7 @@ import { Contact } from "./contact";
 import { CardInfo } from "./cardInfo";
 import { SearchLink } from "./searchLink";
 import { DaddusLink } from "./daddusLink";
+import { PublishInfo } from "./publish/components/PublishInfo";
 
 import { RelatedPublications } from "./relatedPublications";
 
@@ -32,5 +33,6 @@ export {
   SearchLink,
   Publish,
   DaddusLink,
+  PublishInfo,
 };
 export * from "@/components/ui";
