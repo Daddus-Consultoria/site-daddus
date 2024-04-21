@@ -5,19 +5,18 @@ import {
   CircularProgressIndicator,
   ContentNotFoundWarning,
 } from "@/components/index";
-import { PublishModel } from "@/lib/interfaces/publish";
-import { PublishCategories, TimeConstants } from "@/lib/constants/constants";
+import { TimeConstants } from "@/lib/constants/constants";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 
-const MunicipalProfile: React.FC = () => {
+const StudiesPublish: React.FC = () => {
   const urlPath = usePathname();
   const publishId = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: [`municipal-profile-${publishId}`],
+  const { data, isLoading } = useQuery({
+    queryKey: [`study-${publishId}`],
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
@@ -47,4 +46,4 @@ const MunicipalProfile: React.FC = () => {
   );
 };
 
-export default MunicipalProfile;
+export default StudiesPublish;

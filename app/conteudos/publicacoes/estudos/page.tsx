@@ -1,5 +1,10 @@
 "use client";
-import { InputGeneric, CardPublication } from "@/components/index";
+import {
+  InputGeneric,
+  CardPublication,
+  CircularProgressIndicator,
+  ContentNotFoundWarning,
+} from "@/components/index";
 import { Label } from "@/components/ui/index";
 import { PaginationGeneric } from "@/components/index";
 import { useState } from "react";
@@ -34,23 +39,28 @@ const Guides = () => {
           <InputGeneric type="white" placeholder="Pesquisar" />
         </div>
       </div>
-      {/* <div className="flex justify-center h-full w-full mt-10">
-                <CardPublication/>
-            </div> */}
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 h-full w-full my-[10%] lg:mt-[70px] lg:px-5 gap-[4%]">
-        {currentPageItems?.map((item, index) => {
-          return (
-            <CardPublication
-              path={`/conteudos/publicacoes/estudos/${item.id}`}
-              id={item.id}
-              key={`card-publication-${index}`}
-              image="/images/report_card.svg"
-              description={item.shortDescription}
-              title={item.title}
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <CircularProgressIndicator containerHeight="400px" />
+      ) : (currentPageItems ?? []).length > 0 ? (
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+          {currentPageItems?.map((item, index) => {
+            return (
+              <CardPublication
+                id={item.id}
+                key={`card-publication-${index}`}
+                image={item.imageUrl}
+                description={item.shortDescription}
+                title={item.title}
+                path={`/conteudos/publicacoes/estudos/${item.id}`}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="h-[400px]">
+          <ContentNotFoundWarning message="Nenhum item encontrado" />
+        </div>
+      )}
       <div className="flex flex-row w-full ">
         <PaginationGeneric
           totalItems={totalItems || 0}

@@ -3,6 +3,8 @@ import {
   InputGeneric,
   CardPublication,
   SelectGeneric,
+  CircularProgressIndicator,
+  ContentNotFoundWarning,
 } from "@/components/index";
 import { PaginationGeneric } from "@/components/index";
 import { useState } from "react";
@@ -50,20 +52,29 @@ const Municipal_Profiles = () => {
           <InputGeneric type="white" placeholder="Pesquisar" />
         </div>
       </div>
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%] ">
-        {currentPageItems?.map((item, index) => {
-          return (
-            <CardPublication
-              id={item.id}
-              key={`card-publication-${index}`}
-              image={item.imageUrl}
-              description={item.shortDescription}
-              title={item.title}
-              path={`/conteudos/publicacoes/perfis-municipais/${item.id}`}
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <CircularProgressIndicator containerHeight="400px" />
+      ) : (currentPageItems ?? []).length > 0 ? (
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+          {currentPageItems?.map((item, index) => {
+            return (
+              <CardPublication
+                id={item.id}
+                key={`card-publication-${index}`}
+                image={item.imageUrl}
+                description={item.shortDescription}
+                title={item.title}
+                path={`/conteudos/publicacoes/perfis-municipais/${item.id}`}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="h-[400px]">
+          <ContentNotFoundWarning message="Nenhum item encontrado" />
+        </div>
+      )}
+
       <div className="flex flex-row w-full ">
         <PaginationGeneric
           totalItems={totalItems || 0}
