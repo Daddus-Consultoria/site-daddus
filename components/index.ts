@@ -12,6 +12,8 @@ import { CardInfo } from "./cardInfo";
 import { SearchLink } from "./searchLink";
 import { DaddusLink } from "./daddusLink";
 import { PublishInfo } from "./publish/components/PublishInfo";
+import { CircularProgressIndicator } from "./circularProgressIndicator";
+import { ContentNotFoundWarning } from "./contentNotFoundWarning";
 
 import { RelatedPublications } from "./relatedPublications";
 
@@ -34,5 +36,7 @@ export {
   Publish,
   DaddusLink,
   PublishInfo,
+  CircularProgressIndicator,
+  ContentNotFoundWarning,
 };
 export * from "@/components/ui";

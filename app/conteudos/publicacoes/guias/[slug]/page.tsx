@@ -5,25 +5,22 @@ import {
   CircularProgressIndicator,
   ContentNotFoundWarning,
 } from "@/components/index";
-import { PublishModel } from "@/lib/interfaces/publish";
 import { PublishCategories, TimeConstants } from "@/lib/constants/constants";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 
-const MunicipalProfile: React.FC = () => {
+const GuidesPublish: React.FC = () => {
   const urlPath = usePathname();
   const publishId = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
   const { data, isLoading } = useQuery({
-    queryKey: [`municipal-profile-${publishId}`],
+    queryKey: [`guide-${publishId}`],
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
-      return await usePublishUseCases.getMunicipalProfileById({
-        id: publishId ?? "",
-      });
+      return await usePublishUseCases.getGuideById({ id: publishId ?? "" });
     },
   });
 
@@ -40,7 +37,7 @@ const MunicipalProfile: React.FC = () => {
 
   return data ? (
     <div>
-      <Publish publishData={data} category={data.category} />
+      <Publish publishData={data} category={PublishCategories.GUIDES} />
     </div>
   ) : (
     <div className="h-screen">
@@ -49,4 +46,4 @@ const MunicipalProfile: React.FC = () => {
   );
 };
 
-export default MunicipalProfile;
+export default GuidesPublish;

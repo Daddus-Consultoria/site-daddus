@@ -5,7 +5,6 @@ export interface PublishModel {
   title: string;
   shortDescription: string;
   longDescription: string;
-  category: PublishCategories;
   authors: AuthorModel[];
   tags: string[];
   imageUrl: string;
@@ -17,3 +16,11 @@ export interface PublishData {
   items: PublishModel[];
   totalItems: number;
 }
+
+export interface MunicipalProfileModel extends PublishModel {
+  category: PublishCategories;
+}
+
+export interface StudyModel extends PublishModel {}
+
+export interface GuideModel extends PublishModel {}
