@@ -19,10 +19,9 @@ const Guides = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: [QueryKeys.studies],
     queryFn: async () => {
-      return await usePublishUseCases.getPaginatedPublishes({
+      return await usePublishUseCases.getPaginatedStudies({
         limit: itemsPerPage,
         page: currentPage,
-        category: PublishCategories.STUDIES,
       });
     },
   });

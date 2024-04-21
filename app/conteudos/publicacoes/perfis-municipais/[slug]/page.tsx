@@ -16,12 +16,14 @@ const MunicipalProfile: React.FC = () => {
   const publishId = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: [`municipal-profile-${publishId}`],
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
-      return await usePublishUseCases.getPublishById({ id: publishId ?? "" });
+      return await usePublishUseCases.getMunicipalProfileById({
+        id: publishId ?? "",
+      });
     },
   });
 
@@ -38,7 +40,7 @@ const MunicipalProfile: React.FC = () => {
 
   return data ? (
     <div>
-      <Publish publishData={data} />
+      <Publish publishData={data} category={data.category} />
     </div>
   ) : (
     <div className="h-screen">

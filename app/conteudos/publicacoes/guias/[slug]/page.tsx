@@ -5,7 +5,7 @@ import {
   CircularProgressIndicator,
   ContentNotFoundWarning,
 } from "@/components/index";
-import { TimeConstants } from "@/lib/constants/constants";
+import { PublishCategories, TimeConstants } from "@/lib/constants/constants";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
@@ -20,7 +20,7 @@ const GuidesPublish: React.FC = () => {
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
-      return await usePublishUseCases.getPublishById({ id: publishId ?? "" });
+      return await usePublishUseCases.getGuideById({ id: publishId ?? "" });
     },
   });
 
@@ -37,7 +37,7 @@ const GuidesPublish: React.FC = () => {
 
   return data ? (
     <div>
-      <Publish publishData={data} />
+      <Publish publishData={data} category={PublishCategories.GUIDES} />
     </div>
   ) : (
     <div className="h-screen">

@@ -26,11 +26,11 @@ const CardPublication: React.FC<CardPublicationProps> = ({
       <div className="flex h-full w-full items-start justify-between">
         <div className="hidden md:flex w-full max-w-[230px] none">
           <Image
-            alt="Publication 1"
-            width={1}
-            height={1}
+            alt="Capa da publicação"
+            layout="fill"
+            objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
             src={image}
-            className="xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px] absolute top-[-10%]"
+            className="xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px] !top-[-10%] !left-[30px]"
           />
         </div>
 

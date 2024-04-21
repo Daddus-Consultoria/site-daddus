@@ -23,7 +23,7 @@ const Municipal_Profiles = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: [QueryKeys.municipalProfiles],
     queryFn: async () => {
-      return await usePublishUseCases.getPaginatedPublishes({
+      return await usePublishUseCases.getPaginatedMunicipalProfiles({
         limit: itemsPerPage,
         page: currentPage,
         category: "Perfil",

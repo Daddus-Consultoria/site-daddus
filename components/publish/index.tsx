@@ -8,21 +8,16 @@ import {
   RelatedPublications,
 } from "@/components/index";
 import { RelatedPublicationModel } from "@/lib/interfaces/relatedPublications";
+import { PublishCategories } from "@/lib/constants/constants";
 
 interface PublishItemProps {
   publishData: PublishModel;
+  category: PublishCategories;
 }
 
 const Publish: React.FC<PublishItemProps> = ({
-  publishData: {
-    title,
-    longDescription,
-    category,
-    authors,
-    tags,
-    imageUrl,
-    documentUrl,
-  },
+  publishData: { title, longDescription, authors, tags, imageUrl, documentUrl },
+  category,
 }) => {
   let relatedPublicationsList: RelatedPublicationModel[] = [];
   return (
