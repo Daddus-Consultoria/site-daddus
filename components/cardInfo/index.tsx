@@ -21,7 +21,7 @@ const CardInfo: React.FC<CardInfoProps> = ({
       <CardHeader className="w-full h-64 lg:h-64 xl:h-80 2xl:h-80  relative ">
         <Image
           src={image}
-          alt="Descrição da imagem"
+          alt="Capa ilustrativa"
           layout="fill"
           objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
           objectPosition="center"

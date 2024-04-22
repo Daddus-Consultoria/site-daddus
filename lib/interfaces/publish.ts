@@ -1,11 +1,11 @@
-import { PublishCategories } from "../constants/constants";
+import { PublishCategories } from "@/lib/constants/constants";
+import { AuthorModel } from "@/lib/interfaces/author";
 
 export interface PublishModel {
   title: string;
   shortDescription: string;
   longDescription: string;
-  category: PublishCategories;
-  authors: string[];
+  authors: AuthorModel[];
   tags: string[];
   imageUrl: string;
   documentUrl: string;
@@ -16,3 +16,11 @@ export interface PublishData {
   items: PublishModel[];
   totalItems: number;
 }
+
+export interface MunicipalProfileModel extends PublishModel {
+  category: PublishCategories;
+}
+
+export interface StudyModel extends PublishModel {}
+
+export interface GuideModel extends PublishModel {}

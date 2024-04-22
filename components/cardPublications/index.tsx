@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import { SearchLink, DaddusLink } from "@/components/index";
+import { Links } from "@/lib/constants/constants";
 
 interface CardPublicationProps {
   title: string;
@@ -19,16 +20,17 @@ const CardPublication: React.FC<CardPublicationProps> = ({
   path,
   id,
 }) => {
+  const copyPath = `${Links.SITE_DOMAIN}${path}`;
   return (
     <div className="flex items-start justify-start mb-[4%] min-h-[250px] rounded-2xl bg-[#EEEEEE] px-[5%] py-[4%] text-black relative">
       <div className="flex h-full w-full items-start justify-between">
         <div className="hidden md:flex w-full max-w-[230px] none">
           <Image
-            alt="Publication 1"
-            width={1}
-            height={1}
+            alt="Capa da publicação"
+            layout="fill"
+            objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
             src={image}
-            className="xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px] absolute top-[-10%]"
+            className="xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px] !top-[-10%] !left-[30px]"
           />
         </div>
 
@@ -43,7 +45,7 @@ const CardPublication: React.FC<CardPublicationProps> = ({
             <DaddusLink href={path} className="rounded-2xl">
               VEJA MAIS
             </DaddusLink>
-            <SearchLink path={path ?? "#"} />
+            <SearchLink path={copyPath} />
           </div>
         </div>
       </div>

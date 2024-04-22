@@ -1,5 +1,10 @@
 "use client";
-import { InputGeneric, CardPublication } from "@/components/index";
+import {
+  InputGeneric,
+  CardPublication,
+  CircularProgressIndicator,
+  ContentNotFoundWarning,
+} from "@/components/index";
 import { PaginationGeneric } from "@/components/index";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -13,10 +18,9 @@ const Guides = () => {
   const { data, isLoading, error } = useQuery({
     queryKey: [QueryKeys.guides],
     queryFn: async () => {
-      return await usePublishUseCases.getPaginatedPublishes({
+      return await usePublishUseCases.getPaginatedGuides({
         limit: itemsPerPage,
         page: currentPage,
-        category: PublishCategories.GUIDES,
       });
     },
   });
@@ -33,20 +37,29 @@ const Guides = () => {
           <InputGeneric type="white" placeholder="Pesquisar" />
         </div>
       </div>
-      <div className="grid md:grid-cols-1 lg:grid-cols-2 h-full w-full my-[10%] lg:mt-[70px] gap-[4%] lg:px-5">
-        {currentPageItems?.map((item, index) => {
-          return (
-            <CardPublication
-              path={`/conteudos/publicacoes/guias/${item.id}`}
-              id={item.id}
-              key={`card-publication-${index}`}
-              image="/images/report_card.svg"
-              description={item.shortDescription}
-              title={item.title}
-            />
-          );
-        })}
-      </div>
+      {isLoading ? (
+        <CircularProgressIndicator containerHeight="400px" />
+      ) : (currentPageItems ?? []).length > 0 ? (
+        <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+          {currentPageItems?.map((item, index) => {
+            return (
+              <CardPublication
+                id={item.id}
+                key={`card-publication-${index}`}
+                image={item.imageUrl}
+                description={item.shortDescription}
+                title={item.title}
+                path={`/conteudos/publicacoes/guias/${item.id}`}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <div className="h-[400px]">
+          <ContentNotFoundWarning message="Nenhum item encontrado" />
+        </div>
+      )}
+
       <div className="flex flex-row w-full ">
         <PaginationGeneric
           totalItems={totalItems || 0}
