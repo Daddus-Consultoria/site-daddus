@@ -17,8 +17,8 @@ const CardInfo: React.FC<CardInfoProps> = ({
   titleAlign = "center",
 }) => {
   return (
-    <Card className="flex flex-1 flex-col h-full rounded-3xl bg-[#EEEEEE] lg:m-0 overflow-hidden">
-      <CardHeader className="w-full h-64  lg:h-64 xl:h-80 2xl:h-80  relative ">
+    <Card className="flex flex-1 flex-col rounded-3xl bg-[#EEEEEE] lg:m-0 overflow-hidden">
+      <CardHeader className="w-full h-64 lg:h-64 xl:h-80 2xl:h-80  relative ">
         <Image
           src={image}
           alt="Descrição da imagem"
@@ -27,10 +27,10 @@ const CardInfo: React.FC<CardInfoProps> = ({
           objectPosition="center"
         />
       </CardHeader>
-      <CardContent className="flex flex-col flex-1 items-center mt-6P">
+      <CardContent className="flex flex-col flex-1 items-center mt-6 ">
         <div className="flex flex-col items-center gap-2">
           <h2
-            className={`font-bold text-[24px] text-[#A90920] mt-4 w-full text-${titleAlign}`}
+            className={`font-bold text-[24px] text-[#A90920] w-full text-${titleAlign}`}
           >
             {title}
           </h2>

@@ -11,6 +11,8 @@ import { Contact } from "./contact";
 import { CardInfo } from "./cardInfo";
 import { SearchLink } from "./searchLink";
 import { DaddusLink } from "./daddusLink";
+import { VideoComponent } from "./videoComponent";
+
 
 import { RelatedPublications } from "./relatedPublications";
 
@@ -32,5 +34,6 @@ export {
   SearchLink,
   Publish,
   DaddusLink,
+  VideoComponent,
 };
 export * from "@/components/ui";

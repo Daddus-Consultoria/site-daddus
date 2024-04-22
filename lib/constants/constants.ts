@@ -23,12 +23,12 @@ export const headerItems: NavigationType[] = [
       },
       {
         title: "Desenvolvimento de sistemas",
-        items: [
+       /*  items: [
           {
             title: "Compasso",
             href: "#",
           },
-        ],
+        ], */
       },
     ],
   },
@@ -37,6 +37,7 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Mobilidade Urbana",
+        href: '/setores/mobilidade-urbana',
         items: [
           {
             title: "Transportes",
@@ -52,7 +53,7 @@ export const headerItems: NavigationType[] = [
           },
         ],
       },
-      {
+      /* {
         title: "Saúde",
         items: [
           {
@@ -60,8 +61,8 @@ export const headerItems: NavigationType[] = [
             href: "#",
           },
         ],
-      },
-      {
+      }, */
+      /* {
         title: "Mobiliário Urbano",
         items: [
           {
@@ -69,7 +70,7 @@ export const headerItems: NavigationType[] = [
             href: "#",
           },
         ],
-      },
+      }, */
     ],
   },
   {
