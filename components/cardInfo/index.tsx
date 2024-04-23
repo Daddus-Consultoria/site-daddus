@@ -14,6 +14,7 @@ const CardInfo: React.FC<CardInfoProps> = ({
   description,
   image,
   path,
+  copyLink,
   titleAlign = "center",
 }) => {
   return (
@@ -43,7 +44,7 @@ const CardInfo: React.FC<CardInfoProps> = ({
         <DaddusLink href={path} className="h-9 rounded-2xl">
           VEJA MAIS
         </DaddusLink>
-        <SearchLink path={path} />
+        <SearchLink path={copyLink} />
       </CardFooter>
     </Card>
   );

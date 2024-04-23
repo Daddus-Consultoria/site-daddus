@@ -50,7 +50,7 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
               >
               {subTypeItem.title}
             </a>
-            <ul>
+            <ul >
               {subTypeItem.items?.map((item, index) => {
                 return (
                   <li

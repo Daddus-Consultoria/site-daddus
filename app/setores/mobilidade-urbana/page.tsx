@@ -5,6 +5,8 @@ import Image from "next/image";
 import { VideoComponent, CardInfo } from '@/components/index';
 import { constantMobilityUrban } from "./_constants";
 
+import {Links} from '@/lib/constants/constants';
+
 const UrbanMobilityPage = () => {
     return (
         <div className="flex flex-1 flex-col">
@@ -30,13 +32,13 @@ const UrbanMobilityPage = () => {
                         {constantMobilityUrban.textSubtitle2}
                     </p>
                     <div className="flex flex-col gap-4 mt-8  w-full">
-                        <p className="flex text-center text-[18px] text-black font-semibold leading-loose whitespace-pre-line justify-center">
+                        <p className="flex text-center text-[16px] lg:text-[18px] text-black font-semibold leading-loose whitespace-pre-line justify-center">
                             {constantMobilityUrban.data.title}
                         </p>
-                        <div className="flex flex-row gap-[10%] justify-center">
+                        <div className="grid grid-cols-2 lg:flex lg:flex-row gap-[10%] justify-center mb-[20%] lg:mb-0">
                             {constantMobilityUrban.data.percentage.map((item, index) => (
                                 <div key={`percentage-${index}`} className="flex flex-col justify-center items-center gap-[2%]">
-                                    <h3 className="font-bold text-[26px] lg:text-[32px] text-primary mb-[2%] ">
+                                    <h3 className="font-bold text-[20px] lg:text-[32px] text-primary mb-[2%] ">
                                         {item.porcentage}
                                     </h3>
                                     <p className="flex text-center text-[18px] text-black font-semibold leading-loose whitespace-pre-line ">
@@ -49,10 +51,10 @@ const UrbanMobilityPage = () => {
                 </div>
             </div>
             <div id="botttom-Urban-MobilityPage">
-                <h2 className="flex font-bold text-[26px] lg:text-[32px] text-primary mb-[2%] w-full justify-center">
+                <h2 className="flex font-bold text-[26px] lg:text-[32px] text-primary mb-[8%] lg:mb-[2%] w-full justify-center px-[10%] lg:px-0">
                     {constantMobilityUrban.cards.title}
                 </h2>
-                <div className="flex flex-col lg:flex-row gap-10 lg:h-[70%] md:justify-center md:items-center lg:justify-start lg:items-start px-[10%]">
+                <div className="flex flex-col lg:flex-row gap-10 lg:h-[70%] md:justify-center md:items-center lg:justify-start lg:items-start px-[10%] mb-[10%] lg:mb-0">
                     {constantMobilityUrban.cards.cardsContent.map((item, index) => (
                         <div
                         key={`card-urban-mobility-page-${index}`}
@@ -63,6 +65,7 @@ const UrbanMobilityPage = () => {
                             description={item.description}
                             image={item.image}
                             path={item.path}
+                            copyLink={item.copyLink}
                             titleAlign={item.titleAlign}
                         />
                         </div>

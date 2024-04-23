@@ -9,7 +9,7 @@ export const headerItems: NavigationType[] = [
         items: [
           {
             title: "Elaboração de Políticas Públicas",
-            href: "#",
+            href: "/servicos/consultoria/elaboracao-politicas-publicas",
           },
           {
             title: "Estudos de Viabilidade Econômico-Financeira",
