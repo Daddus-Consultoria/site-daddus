@@ -20,7 +20,7 @@ const PublicPoliciesPage = () => {
     <div className="flex flex-1 flex-col">
         <div
             id="top-transport-page"
-            className="flex flex-col lg:flex-row w-full h-full py-[4%] px-[9%] mb-[2%] gap-[2%] lg:gap-[10%] "
+            className="flex flex-col lg:flex-row w-full h-full py-[4%] px-[9%] mb-[2%] gap-[2%] lg:gap-[5%] "
         >
             <div id="left" className="flex lg:w-1/2 flex-col">
                 <h1 className="font-bold text-[26px] lg:text-[32px] text-primary mb-[5%]">
@@ -59,26 +59,26 @@ const PublicPoliciesPage = () => {
             </div>
             <div className="lg:hidden w-full px-[10px] bg-[#D6D6D6] py-[0.5px]"></div>
             <div
-            id="right"
-            className="flex lg:w-1/2 flex-col justify-start items-end gap-[7%] "
+                id="right"
+                className="flex lg:w-1/2 flex-col justify-start items-end gap-[7%] "
             >
-            <Image
-                src={constantsTransports.image}
-                width={450}
-                height={300}
-                alt="bus"
-            />
-            <div className="flex justify-center items-center bg-[#D9D9D9] h-[400px] w-[300px]">
-                <p className="font-bold text-[26px] lg:text-[32px] text-primary mb-[2%]">
-                GOOGLE
-                </p>
-            </div>
-            <div className="flex flex-row w-full justify-end">
-                <div className="flex lg:w-[72%] flex-col gap-10 mb-[35%] md:mb-[15%]">
-                <Contact />
-                <RelatedPublications publicationsRelated={relatedPublications} />
+                <Image
+                    src={constantsTransports.image}
+                    width={450}
+                    height={300}
+                    alt="bus"
+                />
+                <div className="flex justify-center items-center bg-[#D9D9D9] h-[400px] w-[300px]">
+                    <p className="font-bold text-[26px] lg:text-[32px] text-primary mb-[2%]">
+                    GOOGLE
+                    </p>
                 </div>
-            </div>
+                <div className="flex flex-row w-full justify-end">
+                    <div className="flex lg:w-[72%] flex-col gap-10 mb-[35%] md:mb-[15%]">
+                    <Contact />
+                    <RelatedPublications publicationsRelated={relatedPublications} />
+                    </div>
+                </div>
             </div>
         </div>
       <div id="bottom-transport-page" className="px-[7%]">
