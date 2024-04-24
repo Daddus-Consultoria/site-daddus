@@ -13,11 +13,11 @@ export const headerItems: NavigationType[] = [
           },
           {
             title: "Estudos de Viabilidade Econômico-Financeira",
-            href: "#",
+            href: "/servicos/consultoria/estudo-de-viabilidade",
           },
           {
             title: "Modelagem de Projetos",
-            href: "#",
+            href: "/servicos/consultoria/modelagem-projetos",
           },
         ],
       },
