@@ -22,8 +22,8 @@ export function Footer() {
             height={50}
           />
         </div>
-        <div className="flex pl-[3%] justify-start lg:justify-start items-center pt-4 lg:pt-0 ">
-          <div className="grid grid-cols-2 lg:flex lg:flex-row gap-6 lg:gap-14">
+        <div className="flex pl-[3%] justify-start lg:justify-start items-start pt-4 lg:pt-[20px] ">
+          <div className="grid grid-cols-2 lg:flex lg:flex-row gap-6 lg:gap-14 ">
             {headerItems.map((item, index) => {
               return (
                 <div key={`footer-subtype-${index}`}>

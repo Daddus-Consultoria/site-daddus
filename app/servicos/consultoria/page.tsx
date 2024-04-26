@@ -19,6 +19,8 @@ const ConsultancyPage = () => {
               description={item.description}
               image={item.image}
               path={item.path}
+              copyLink={item.copyLink}
+              titleAlign={item.titleAlign}
             />
           );
         })}
