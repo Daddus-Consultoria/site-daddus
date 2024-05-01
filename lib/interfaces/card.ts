@@ -3,6 +3,7 @@ export interface CardInfoProps {
     description: string;
     image: string;
     path: string;
+    copyLink: string;
     titleAlign?: "center" | "left" | "right";
 }
 

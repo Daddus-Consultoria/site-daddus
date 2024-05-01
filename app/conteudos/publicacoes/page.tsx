@@ -2,7 +2,7 @@
 import React from "react";
 import { Label } from "@/components/ui/index";
 import { CardInfo } from "@/components/index";
-import { constantsPublications } from "@/app/conteudos/_constant";
+import { constantsPublications } from "@/app/conteudos/publicacoes/_constant";
 
 const PublishPage = () => {
   return (
@@ -19,6 +19,7 @@ const PublishPage = () => {
               description={item.description}
               image={item.image}
               path={item.path}
+              copyLink={item.copyLink}
             />
           );
         })}

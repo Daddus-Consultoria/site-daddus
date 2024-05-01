@@ -11,6 +11,8 @@ import { Contact } from "./contact";
 import { CardInfo } from "./cardInfo";
 import { SearchLink } from "./searchLink";
 import { DaddusLink } from "./daddusLink";
+import { VideoComponent } from "./videoComponent";
+
 import { PublishInfo } from "./publish/components/PublishInfo";
 import { CircularProgressIndicator } from "./circularProgressIndicator";
 import { ContentNotFoundWarning } from "./contentNotFoundWarning";
@@ -38,6 +40,7 @@ export {
   SearchLink,
   Publish,
   DaddusLink,
+  VideoComponent,
   PublishInfo,
   CircularProgressIndicator,
   ContentNotFoundWarning,
@@ -45,4 +48,5 @@ export {
   BadgeBlog,
   MenuDrawerBlog,
 };
+
 export * from "@/components/ui";
