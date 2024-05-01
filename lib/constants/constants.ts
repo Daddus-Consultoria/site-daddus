@@ -77,7 +77,7 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Blog",
-        href: "#",
+        href: "/blog",
         items: [],
       },
       {
