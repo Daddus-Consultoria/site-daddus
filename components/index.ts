@@ -24,6 +24,8 @@ import { RelatedPublications } from "./relatedPublications";
 
 import { ButtonContact } from "./buttonContact";
 
+import { DaddusCarousel } from "@/components/daddusCarousel";
+
 export {
   Dropdown,
   Header,
@@ -44,6 +46,7 @@ export {
   PublishInfo,
   CircularProgressIndicator,
   ContentNotFoundWarning,
+  DaddusCarousel,
   BlogPostCard,
   BadgeBlog,
   MenuDrawerBlog,
