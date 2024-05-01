@@ -41,7 +41,7 @@ const BlogPage:React.FC = () => {
                             />
                     </div>
                     <div className="flex flex-col w-full lg:w-96 h-full lg:justify-between items-center gap-10 lg:gap-0">
-                        <div className="w-80 h-52 md:w-[30rem] md:h-80 lg:w-full lg:h-1/2 rounded-xl">
+                        <div className="w-80 h-52 md:w-[30rem] md:h-80 lg:w-full lg:h-60 rounded-xl">
                             <BlogPostCard 
                                 title={constantCardBlog.cards[1].title}
                                 image={constantCardBlog.cards[1].image}
@@ -49,7 +49,7 @@ const BlogPage:React.FC = () => {
                                 badgeTitle={constantCardBlog.cards[1].badgeTitle}
                             />
                         </div>
-                        <div className="w-80 h-52 md:w-[30rem] md:h-80  lg:w-full lg:h-1/2 rounded-xl">
+                        <div className="w-80 h-52 md:w-[30rem] md:h-80  lg:w-full lg:h-60  rounded-xl">
                             <BlogPostCard 
                                 title={constantCardBlog.cards[2].title}
                                 image={constantCardBlog.cards[2].image}
