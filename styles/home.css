@@ -16,3 +16,32 @@
     max-width: 470px;
     margin-left: 60px;
 }
+
+@media (max-width: 1023px) {
+    .first-section {
+       background-size: 163rem;
+       background-position-x: 77%;
+       background-position-y: -6rem;
+
+       padding: 70px 5% 3rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .first-section {
+        background-size: 110rem;
+    }
+    .first-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5));
+        opacity: 0.8;
+    }
+    .first-section .title-container {
+        margin-left: 0;
+    }
+}

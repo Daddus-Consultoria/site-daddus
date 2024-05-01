@@ -20,16 +20,16 @@ const DaddusCarousel: React.FC<DaddusCarouselProps> = ({ items }) => {
       <CarouselContent className="my-auto">
         {items.map((item, index) => (
           <CarouselItem className="" key={`carousel-item-${index}`}>
-            <div className="flex flex-row items-center justify-center gap-[10%] h-full my-auto">
-              <div className=" h-full relative">
+            <div className="flex flex-col lg:flex-row items-center justify-center gap-[2rem] lg:gap-[5rem] h-full my-auto ">
+              <div className=" w-[50%] h-[290px] relative">
                 <Image
-                  width={300}
-                  height={400}
+                  layout="fill"
+                  objectFit="contain"
                   src={item.image.src}
                   alt={item.image.alt}
                 />
               </div>
-              <div className="flex flex-col w-[50%]">
+              <div className="flex flex-col w-[100%] mr-0 lg:w-[50%] lg:mr-[5rem]">
                 <h2 className="text-3xl font-extrabold text-white leading-tight">
                   {item.title}
                 </h2>
