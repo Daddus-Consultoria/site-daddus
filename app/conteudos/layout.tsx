@@ -7,7 +7,7 @@ export default function ContentLayout({
 }) {
   return (
     <div className="flex flex-1 flex-col">
-      <div className="flex w-full flex-col">
+      <div className="flex h-full w-full flex-col">
         <DaddusBreadcrumb />
         {children}
       </div>
