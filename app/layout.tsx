@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { GoogleAnalytics } from "@/components/index";
 import { TanstackProvider } from "@/components/providers/TanstackProvider";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
@@ -34,6 +35,9 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6219534447075409"
           crossOrigin="anonymous"
         ></Script>
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
+          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+        )}
       </head>
 
       <body className={poppins.className}>
