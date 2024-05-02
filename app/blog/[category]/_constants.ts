@@ -93,3 +93,17 @@ export const constantsFinancas = {
     titlePublications: 'PUBLICAÇÕES',
     cardsPublications: constantsPublicationsBlogFinancas,
 }
+
+interface SpecialCharactersWords {
+    [key: string]: string;
+}
+  
+export const SPECIAL_CHARACTERS_WORDS_BLOG: SpecialCharactersWords = {
+    financas: "FINANÇAS",
+    "politicas-publicas": "POLÍTICAS PÚBLICAS",
+    governanca: "GOVERNANÇA",
+    logistica: "LOGÍSTICA",
+    inovacao: "INOVAÇÃO",
+    sustentabilidade: "SUSTENTABILIDADE",
+    oportunidades: "OPORTUNIDADES",
+};

@@ -1,7 +1,13 @@
 'use client'
-import { constantsFinancas } from "./_constants";
+import { constantsFinancas, SPECIAL_CHARACTERS_WORDS_BLOG } from "@/app/blog/[category]/_constants";
 import { usePathname } from "next/navigation";
 import { BlogPostCard, CardInfo } from "@/components/index";
+
+const formatTitle = (title: string) => {
+    if(SPECIAL_CHARACTERS_WORDS_BLOG[title]){
+        return SPECIAL_CHARACTERS_WORDS_BLOG[title];
+    }
+}
 
 const CategoryPage: React.FC = () => {
     const urlPath = usePathname();
@@ -10,7 +16,7 @@ const CategoryPage: React.FC = () => {
         <div className="flex flex-1 flex-col justify-start items-start mt-6 lg:mt-0 px-8 sm:px-10 lg:px-32 xl:px-36 lg:py-10 ">
             
             <h2 className="font-bold text-[22px] lg:text-[26px] text-[#A90920] mt-4 lg:mt-1 mb-2 lg:mb-4">
-                {categoryPath?.toUpperCase()}
+                {formatTitle(categoryPath!)}
             </h2>
             <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 h-full w-full xl:mt-0 gap-5 sm:gap-10 md:gap-10 xl:gap-5 md:mt-3 ">
                 {constantsFinancas.cards.map((card, index) => {
