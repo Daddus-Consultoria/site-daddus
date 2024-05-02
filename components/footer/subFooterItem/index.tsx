@@ -46,19 +46,19 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
               <a
               key={`subFooteritem-${index}`}
               href={subTypeItem.href}
-              className="text-[#ffffff] hover:text-primary"
+              className="text-[#ffffff] text-[14px] hover:text-primary"
               >
               {subTypeItem.title}
             </a>
-            <ul>
+            <ul >
               {subTypeItem.items?.map((item, index) => {
                 return (
                   <li
                     key={`subTypeFooterItem-${index}`}
-                    className="list-disc ml-10 text-[#ffffff] hover:text-primary"
+                    className="ml-[10px] text-[#ffffff] hover:text-primary"
                   >
                     {" "}
-                    <a href={item.href} className="text-xs lg:whitespace-nowrap">
+                    <a href={item.href} className="text-xs font-extralight lg:whitespace-nowrap">
                       {item.title}
                     </a>
                   </li>

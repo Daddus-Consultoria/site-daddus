@@ -5,30 +5,30 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Consultoria",
-        href: "/conteudos/consultoria",
+        href: "/servicos/consultoria",
         items: [
           {
             title: "Elaboração de Políticas Públicas",
-            href: "#",
+            href: "/servicos/consultoria/elaboracao-politicas-publicas",
           },
           {
             title: "Estudos de Viabilidade Econômico-Financeira",
-            href: "#",
+            href: "/servicos/consultoria/estudo-de-viabilidade",
           },
           {
             title: "Modelagem de Projetos",
-            href: "#",
+            href: "/servicos/consultoria/modelagem-projetos",
           },
         ],
       },
       {
         title: "Desenvolvimento de sistemas",
-        items: [
+       /*  items: [
           {
             title: "Compasso",
             href: "#",
           },
-        ],
+        ], */
       },
     ],
   },
@@ -37,6 +37,7 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Mobilidade Urbana",
+        href: '/setores/mobilidade-urbana',
         items: [
           {
             title: "Transportes",
@@ -52,7 +53,7 @@ export const headerItems: NavigationType[] = [
           },
         ],
       },
-      {
+      /* {
         title: "Saúde",
         items: [
           {
@@ -60,8 +61,8 @@ export const headerItems: NavigationType[] = [
             href: "#",
           },
         ],
-      },
-      {
+      }, */
+      /* {
         title: "Mobiliário Urbano",
         items: [
           {
@@ -69,7 +70,7 @@ export const headerItems: NavigationType[] = [
             href: "#",
           },
         ],
-      },
+      }, */
     ],
   },
   {
@@ -77,7 +78,7 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Blog",
-        href: "#",
+        href: "/blog",
         items: [],
       },
       {

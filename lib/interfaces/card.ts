@@ -3,5 +3,14 @@ export interface CardInfoProps {
     description: string;
     image: string;
     path: string;
+    copyLink: string;
     titleAlign?: "center" | "left" | "right";
+}
+
+
+export interface CardBlogProps {
+    title: string;
+    first: boolean;
+    image: string;
+    badgeTitle: string;
 }

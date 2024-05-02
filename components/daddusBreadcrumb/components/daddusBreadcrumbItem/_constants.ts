@@ -5,4 +5,5 @@ interface SpecialCharactersWords {
 export const SPECIAL_CHARACTERS_WORDS: SpecialCharactersWords = {
   conteudos: "Conteúdos",
   publicacoes: "Publicações",
+  servicos: 'Serviços',
 };
