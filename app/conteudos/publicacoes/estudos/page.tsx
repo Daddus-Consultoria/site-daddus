@@ -25,7 +25,7 @@ const Guides = () => {
       });
     },
   });
-
+  
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const currentPageItems = data?.items;
