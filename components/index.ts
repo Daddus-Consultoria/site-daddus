@@ -1,4 +1,3 @@
-"use client";
 import { Dropdown } from "@/components/dropdown";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -19,7 +18,6 @@ import { CircularProgressIndicator } from "./circularProgressIndicator";
 import { ContentNotFoundWarning } from "./contentNotFoundWarning";
 import { BlogPostCard } from "./blogPostCard";
 import { BadgeBlog } from "./badgeBlog";
-import { MenuDrawerBlog } from "./menuDrawerBlog";
 
 import { RelatedPublications } from "./relatedPublications";
 import { PostList } from "@/components/postList";
@@ -51,7 +49,6 @@ export {
   DaddusCarousel,
   BlogPostCard,
   BadgeBlog,
-  MenuDrawerBlog,
   PostList,
   GoogleAnalytics,
 };
