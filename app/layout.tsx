@@ -13,12 +13,13 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Daddus Consultoria",
+  title: "Daddus - Consultoria em Projetos para o Setor Público e Corporativo",
   description:
-    "Descubra o poder da excelência empresarial com a nossa consultoria especializada. Navegue por uma vasta gama de serviços estratégicos e soluções personalizadas projetadas para impulsionar o seu negócio para novos patamares de sucesso. ",
+    "Somos especialistas na elaboração de Políticas Públicas, no desenvolvimento de Estratégias de Gestão e na realização Estudos de Viabilidade Econômica para empresas públicas e privadas do Brasil. Conheça nossos serviços!",
   icons: {
     icon: "/images/favicon.ico",
   },
+  keywords:['politicas publicas', 'estrategias de gestao', 'viabilidade economica', 'consultoria empresarial'],
 };
 
 export default function RootLayout({

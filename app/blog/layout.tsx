@@ -21,11 +21,11 @@ function BlogLayout({
                             alt="Logo do blog"
                         />
                     </div>
-                   {/*  {constantCardBlog.barItens.map((item, index) => (
+                    {constantCardBlog.barItens.map((item, index) => (
                         <DaddusLink key={`item-menu-bar-blog-${index}`} href={item.link} variant={"ghost"} isTagAnchor>
                             <p>{item.title}</p>
                         </DaddusLink>
-                    ))}  */}
+                    ))} 
                 </div>
             </div>
             {children}
