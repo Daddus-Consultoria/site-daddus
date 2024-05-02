@@ -1,3 +1,4 @@
+"use client";
 import { Dropdown } from "@/components/dropdown";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -21,7 +22,8 @@ import { BadgeBlog } from "./badgeBlog";
 import { MenuDrawerBlog } from "./menuDrawerBlog";
 
 import { RelatedPublications } from "./relatedPublications";
-
+import { PostList } from "@/components/postList";
+import { GoogleAnalytics } from "@/components/googleAnalytics";
 import { ButtonContact } from "./buttonContact";
 
 import { DaddusCarousel } from "@/components/daddusCarousel";
@@ -50,6 +52,8 @@ export {
   BlogPostCard,
   BadgeBlog,
   MenuDrawerBlog,
+  PostList,
+  GoogleAnalytics,
 };
 
 export * from "@/components/ui";
