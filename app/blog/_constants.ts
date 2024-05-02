@@ -29,7 +29,7 @@ export const constantCardBlog ={
     barItens: [
         {
             title: 'FINANÇAS',
-            link: '#',
+            link: '/blog/financas',
         },
         {
             title: 'POLÍTICAS PÚBLICAS',
