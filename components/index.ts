@@ -1,3 +1,4 @@
+"use client";
 import { Dropdown } from "@/components/dropdown";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
