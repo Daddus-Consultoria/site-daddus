@@ -3,9 +3,10 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
+import { GoogleAnalytics } from "@/components/index";
 import { TanstackProvider } from "@/components/providers/TanstackProvider";
 import Script from "next/script";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 
 const poppins = Poppins({
   weight: "400",
@@ -35,12 +36,15 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6219534447075409"
           crossOrigin="anonymous"
         ></Script>
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
+          <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
+        )}
       </head>
 
       <body className={poppins.className}>
         <TanstackProvider>
           <Header />
-          <main className="flex min-h-screen">{children}</main>
+          <main className="min-h-screen">{children}</main>
           <Analytics />
           <Footer />
         </TanstackProvider>

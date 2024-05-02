@@ -1,3 +1,4 @@
+"use client";
 import { Dropdown } from "@/components/dropdown";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
@@ -20,8 +21,11 @@ import { BlogPostCard } from "./blogPostCard";
 import { BadgeBlog } from "./badgeBlog";
 
 import { RelatedPublications } from "./relatedPublications";
-
+import { PostList } from "@/components/postList";
+import { GoogleAnalytics } from "@/components/googleAnalytics";
 import { ButtonContact } from "./buttonContact";
+
+import { DaddusCarousel } from "@/components/daddusCarousel";
 
 export {
   Dropdown,
@@ -43,8 +47,11 @@ export {
   PublishInfo,
   CircularProgressIndicator,
   ContentNotFoundWarning,
+  DaddusCarousel,
   BlogPostCard,
   BadgeBlog,
+  PostList,
+  GoogleAnalytics,
 };
 
 export * from "@/components/ui";

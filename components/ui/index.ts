@@ -72,6 +72,9 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious}
+from "@/components/ui/carousel"
+
 
 export {
   Button,
@@ -86,5 +89,6 @@ export {
   Breadcrumb,BreadcrumbEllipsis,BreadcrumbItem,BreadcrumbLink,BreadcrumbList,BreadcrumbPage,BreadcrumbSeparator,
   Avatar, AvatarFallback, AvatarImage,
   Tooltip,TooltipContent,TooltipProvider,TooltipTrigger,
+  Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious
 };
 //
