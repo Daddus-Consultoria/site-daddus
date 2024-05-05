@@ -13,6 +13,7 @@ import { CardInfo } from "./cardInfo";
 import { SearchLink } from "./searchLink";
 import { DaddusLink } from "./daddusLink";
 import { VideoComponent } from "./videoComponent";
+import { BlogPostGrid } from "@/components/blogPostGrid";
 
 import { PublishInfo } from "./publish/components/PublishInfo";
 import { CircularProgressIndicator } from "./circularProgressIndicator";
@@ -52,6 +53,7 @@ export {
   BadgeBlog,
   PostList,
   GoogleAnalytics,
+  BlogPostGrid,
 };
 
 export * from "@/components/ui";
