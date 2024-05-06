@@ -17,7 +17,7 @@ import { PublishCategories } from "@/lib/constants/constants";
 const Guides = () => {
   const usePublishUseCases = new PublishUseCases();
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.studies],
+    queryKey: [QueryKeys.studies],  
     queryFn: async () => {
       return await usePublishUseCases.getPaginatedStudies({
         limit: itemsPerPage,
