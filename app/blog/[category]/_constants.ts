@@ -107,3 +107,13 @@ export const SPECIAL_CHARACTERS_WORDS_BLOG: SpecialCharactersWords = {
     sustentabilidade: "SUSTENTABILIDADE",
     oportunidades: "OPORTUNIDADES",
 };
+
+export const CATEGORY_NAMES_BLOG: SpecialCharactersWords = {
+  financas: "financas",
+  "politicas-publicas": "politicasPublicas",
+  governanca: "governanca",
+  logistica: "logistica",
+  inovacao: "inovacao",
+  sustentabilidade: "sustentabilidade",
+  oportunidades: "oportunidades",
+}
