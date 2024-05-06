@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { BlogPostCard, CardInfo } from "@/components/index";
 import { PostsAPIService } from "@/lib/services/postAPIService";
 import { useQuery } from "@tanstack/react-query";
+import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import {
     Publish,
     CircularProgressIndicator,
@@ -26,12 +27,12 @@ const formatCategory = (category: string) => {
 const CategoryPage: React.FC = () => {
     const urlPath = usePathname();
     const categoryPath = urlPath.split("/").pop();
-    const postRepository = new PostsAPIService();
+    const usePostUseCases = new PostsUseCases();
 
     const {data, isLoading} = useQuery({
         queryKey: ['posts'],
         queryFn: async () => {
-            return await postRepository.getPosts(formatCategory(categoryPath!));
+            return await usePostUseCases.getPosts(formatCategory(categoryPath!));
         }
     });
 
