@@ -11,11 +11,11 @@ const config = {
   prefix: "",
   theme: {
     listStyleType: {
-      none: 'none',
-      disc: 'disc',
-      decimal: 'decimal',
-      square: 'square',
-      roman: 'upper-roman',
+      none: "none",
+      disc: "disc",
+      decimal: "decimal",
+      square: "square",
+      roman: "upper-roman",
     },
     container: {
       center: true,
@@ -38,9 +38,10 @@ const config = {
       "6xl": "4rem", // 64px
     },
     extend: {
+      maxWidth: { "screen-limit": "1200px" },
       lineHeight: {
-        '21': '21px',
-        '24': '24px',
+        "21": "21px",
+        "24": "24px",
       },
       spacing: {
         "5percent": "5%",
