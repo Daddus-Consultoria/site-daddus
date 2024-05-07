@@ -1,11 +1,11 @@
-import { Post } from "@/lib/interfaces/post";
+import { PostModel } from "@/lib/interfaces/post";
 import React from "react";
 import { BlogPostCard } from "@/components/index";
 import { getCategoryTranslation } from "@/lib/utils/translateData";
 
 interface BlogPostGridProps {
   title: string;
-  posts: Post[];
+  posts: PostModel[];
 }
 
 const BlogPostGrid: React.FC<BlogPostGridProps> = ({ posts, title }) => {
