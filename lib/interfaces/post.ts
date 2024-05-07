@@ -9,10 +9,14 @@ export type PostCategory =
   | "sustentabilidade"
   | "oportunidades";
 
-export interface Post {
+export interface PostModel{
   title: string;
   authorComment?: string;
   image: string;
   author: AuthorModel;
   category: PostCategory;
+}
+
+export interface PostData {
+    posts: PostModel[];
 }

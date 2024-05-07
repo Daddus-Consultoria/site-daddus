@@ -4,9 +4,9 @@ import Image from "next/image";
 import { BlogPostCard, BlogPostGrid, PostList } from "@/components/index";
 
 import { constantCardBlog } from "./_constants";
-import { Post } from "@/lib/interfaces/post";
+import { PostModel } from "@/lib/interfaces/post";
 
-const mockedWithTwoPosts: Post[] = [
+const mockedWithTwoPosts: PostModel[] = [
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
@@ -29,7 +29,7 @@ const mockedWithTwoPosts: Post[] = [
   },
 ];
 
-const mockedPostList: Post[] = [
+const mockedPostList: PostModel[] = [
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
@@ -90,19 +90,29 @@ const BlogPage: React.FC = () => {
         <div className="flex flex-col w-full lg:w-96 h-full lg:justify-between items-center gap-10 lg:gap-0">
           <div className="w-80 h-52 md:w-[30rem] md:h-80 lg:w-full lg:h-60 rounded-xl">
             <BlogPostCard
-              title={constantCardBlog.cards[1].title}
-              image={constantCardBlog.cards[1].image}
-              first={constantCardBlog.cards[1].first}
-              badgeTitle={constantCardBlog.cards[1].badgeTitle}
+              title={constantCardBlog.cards[0].title}
+              image={constantCardBlog.cards[0].image}
+              first={constantCardBlog.cards[0].first}
+              badgeTitle={constantCardBlog.cards[0].badgeTitle}
             />
           </div>
-          <div className="w-80 h-52 md:w-[30rem] md:h-80  lg:w-full lg:h-60  rounded-xl">
-            <BlogPostCard
-              title={constantCardBlog.cards[2].title}
-              image={constantCardBlog.cards[2].image}
-              first={constantCardBlog.cards[2].first}
-              badgeTitle={constantCardBlog.cards[2].badgeTitle}
-            />
+          <div className="flex flex-col w-full lg:w-96 h-full lg:justify-between items-center gap-10 lg:gap-0">
+            <div className="w-80 h-52 md:w-[30rem] md:h-80 lg:w-full lg:h-60 rounded-xl">
+              <BlogPostCard
+                title={constantCardBlog.cards[1].title}
+                image={constantCardBlog.cards[1].image}
+                first={constantCardBlog.cards[1].first}
+                badgeTitle={constantCardBlog.cards[1].badgeTitle}
+              />
+            </div>
+            <div className="w-80 h-52 md:w-[30rem] md:h-80  lg:w-full lg:h-60  rounded-xl">
+              <BlogPostCard
+                title={constantCardBlog.cards[2].title}
+                image={constantCardBlog.cards[2].image}
+                first={constantCardBlog.cards[2].first}
+                badgeTitle={constantCardBlog.cards[2].badgeTitle}
+              />
+            </div>
           </div>
         </div>
       </div>

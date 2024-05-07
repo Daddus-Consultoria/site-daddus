@@ -33,27 +33,27 @@ export const constantCardBlog ={
         },
         {
             title: 'POLÍTICAS PÚBLICAS',
-            link: '#',
+            link: '/blog/politicas-publicas',
         },
         {
             title: 'GOVERNANÇA',
-            link: '#',
+            link: '/blog/governanca',
         },
         {
             title: 'LOGÍSTICA',
-            link: '#',
+            link: '/blog/logistica',
         },
         {
             title: 'INOVAÇÃO',
-            link: '#',
+            link: '/blog/inovacao',
         },
         {
             title: 'SUSTENTABILIDADE',
-            link: '#',
+            link: '/blog/sustentabilidade',
         },
         {
             title: 'OPORTUNIDADES',
-            link: '#',
+            link: '/blog/oportunidades',
         },
         
     ],
