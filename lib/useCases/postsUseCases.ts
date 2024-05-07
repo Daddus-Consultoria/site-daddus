@@ -6,9 +6,9 @@ export class PostsUseCases{
         this.postRepository = postRepository;
     }
 
-    async getPosts(){
+    async getPosts(category?:string){
         try{
-            return await this.postRepository.getPosts();
+            return await this.postRepository.getPosts(category);
         }catch(error){
             throw error;
         }
