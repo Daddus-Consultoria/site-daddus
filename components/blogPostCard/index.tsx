@@ -4,7 +4,7 @@ import { BadgeBlog } from "@/components/index";
 
 import {CardBlogProps} from "@/lib/interfaces/card";
 
-const BlogPostCard:React.FC<CardBlogProps> = ({title, first, image, badgeTitle}) => {
+const BlogPostCard:React.FC<CardBlogProps> = ({title, first=false, image, badgeTitle}) => {
     const sizeText = first ? 'text-3xl' : 'text-xl';
 
     return (
