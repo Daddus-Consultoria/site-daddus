@@ -24,7 +24,7 @@ export class PostsAPIService implements PostRepository{
                 posts.push({
                     title: post.attributes.title,
                     category: post.attributes.category,
-                    image: post.attributes.coverImage,
+                    image: post.attributes.coverImage.data ? post.attributes.coverImage.data.attributes.url : "",
                     author: post.attributes.autor,
                     authorComment: post.attributes.comment,
                 });

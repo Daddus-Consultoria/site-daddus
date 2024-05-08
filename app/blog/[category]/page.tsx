@@ -71,25 +71,7 @@ const CategoryPage: React.FC = () => {
                                     ) 
                                 }
                             })}
-                            {constantsFinancas.cards.map((card, index) => {
-                                if(index != 2){
-                                    return (
-                                        <div key={`card-financas-${index}`} className="w-full h-52 sm:w-80 sm:h-52 md:w-[20rem] md:h-64 lg:w-96 lg:h-72 rounded-xl">
-                                            <BlogPostCard 
-                                                title={card.title}
-                                                image={card.image}
-                                                badgeTitle={card.badgeTitle}
-                                            />
-                                        </div>
-                                    )
-                                }else{
-                                    return (
-                                        <div key={`card-financas-${index}`} className=" w-64 h-52 sm:w-80 sm:h-52 md:w-[20rem] md:h-64  lg:w-96 lg:h-72 rounded-xl">
-                                            {/*anuncio do google */}
-                                        </div>
-                                    ) 
-                                }
-                            })}
+                            
                         </div>
                     )}
                     
