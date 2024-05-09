@@ -10,7 +10,7 @@ export interface CardInfoProps {
 
 export interface CardBlogProps {
     title: string;
-    first: boolean;
+    first?: boolean;
     image: string;
     badgeTitle: string;
 }
