@@ -1,6 +1,8 @@
+"use client";
 import { PostLayout } from "@/components/post";
 import { postItems } from "./_constants";
-
+import { PostsUseCases } from "@/lib/useCases/postsUseCases";
+import { useQuery } from "@tanstack/react-query";
 interface PostPageProps {
   category?: string;
   post?: string;
@@ -8,15 +10,20 @@ interface PostPageProps {
 
 const PostPage = ({ params }: { params: PostPageProps }) => {
   const { post, category } = params;
-  const postFound = postItems.find(
-    (item) => item.slug === post && item.category === category
-  );
 
-  if (!postFound)
-    return (
-      <div className="m-auto mt-24 text-[#999999]">Nenhum post encontrado</div>
-    );
-  return <PostLayout {...postFound} />;
+  const usePostUseCases = new PostsUseCases();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      return await usePostUseCases.getSinglePost({
+        slug: post!,
+        category: category!,
+      });
+    },
+  });
+
+  return <PostLayout loading={isLoading} post={data} />;
 };
 
 export default PostPage;
