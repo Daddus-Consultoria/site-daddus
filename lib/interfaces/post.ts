@@ -28,21 +28,21 @@ export interface Tag {
 
 export interface PostModel {
   title: string;
-  subtitle: string;
+  authorComment?: string;
   slug: string;
   image: ImageProps;
   publishedAt: Date;
   author: AuthorModel;
-  category: PostCategory;
+  category: string;
   firstContent: ReactNode;
   lastContent?: ReactNode;
-  tag: Tag;
+  tags: Tag[];
 }
 
-export interface Posts extends PostModel {
+export interface Post extends PostModel {
   relatedPosts: PostModel[];
 }
 
 export interface PostData {
-  posts: Posts[];
+  posts: Post[];
 }

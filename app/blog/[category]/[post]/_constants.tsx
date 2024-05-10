@@ -1,4 +1,4 @@
-import { PostModel, Posts } from "@/lib/interfaces/post";
+import { PostModel, Post } from "@/lib/interfaces/post";
 import PublishImg from "@/public/images/blog/bike.svg";
 
 const relatedPosts: PostModel[] = [
@@ -7,7 +7,7 @@ const relatedPosts: PostModel[] = [
     category: "oportunidades",
     title:
       "Agribusiness em alta: 5 oportunidades para investir no setor em 2024",
-    subtitle:
+    authorComment:
       "Descubra os nichos mais promissores e as tendências que impulsionam o crescimento do agronegócio brasileiro.",
     image: {
       src: PublishImg,
@@ -22,7 +22,7 @@ const relatedPosts: PostModel[] = [
       description:
         "Especialista em agronegócio com mais de 5 anos de experiência em análise de mercado e seleção de investimentos.",
     },
-    tag: { label: "Agronegócio", slug: "sustentabilidade" },
+    tags: [{ label: "Agronegócio", slug: "sustentabilidade" }],
     firstContent: (
       <p>
         O agronegócio brasileiro vive um momento de grande pujança, impulsionado
@@ -42,7 +42,7 @@ const relatedPosts: PostModel[] = [
       alt: "",
     },
     title: "Como investir na bolsa de valores: Guia completo para iniciantes",
-    subtitle:
+    authorComment:
       "Aprenda os passos básicos para começar a investir na bolsa de valores e construir um patrimônio sólido.",
     author: {
       id: 3,
@@ -56,7 +56,7 @@ const relatedPosts: PostModel[] = [
       description:
         "Especialista em educação financeira com mais de 10 anos de experiência em ajudar pessoas a alcançar seus objetivos financeiros.",
     },
-    tag: { label: "Bolsa de Valores", slug: "investimentos" },
+    tags: [{ label: "Bolsa de Valores", slug: "investimentos" }],
 
     publishedAt: new Date(2023, 3, 5),
     firstContent: <></>,
@@ -69,7 +69,7 @@ const relatedPosts: PostModel[] = [
       alt: "",
     },
     title: "Sustentabilidade no agronegócio: Desafios e oportunidades",
-    subtitle:
+    authorComment:
       "O agronegócio enfrenta o desafio de se tornar mais sustentável, mas também encontra diversas oportunidades para isso.",
     author: {
       id: 4,
@@ -83,7 +83,7 @@ const relatedPosts: PostModel[] = [
       description:
         "Especialista em sustentabilidade no agronegócio com mais de 7 anos de experiência em consultoria e implementação de projetos.",
     },
-    tag: { label: "Agribusiness", slug: "sustentabilidade" },
+    tags: [{ label: "Agribusiness", slug: "sustentabilidade" }],
 
     firstContent: (
       <p>
@@ -97,13 +97,13 @@ const relatedPosts: PostModel[] = [
   },
 ];
 
-export const postItems: Posts[] = [
+export const postItems: Post[] = [
   {
     slug: "aversao-a-risco",
     category: "financas",
     title:
       "Irã-Israel: Sentimento de aversão a risco no curto prazo deve seguir, dizem analistas",
-    subtitle:
+    authorComment:
       "Durante o Morning Call, eles comentaram que a resposta do irã neste final de semana ao bombardeio de sua embaixada na Síria foi pontual",
     publishedAt: new Date(),
     image: { src: "", alt: "" },
@@ -119,7 +119,7 @@ export const postItems: Posts[] = [
       description:
         "Formada em Jornalismo pela PUC-SP, tem especialização em Jornalismo Internacional. Atua como editora-chefe no Money Times e já trabalhou nas redações do InfoMoney, Você S/A, Você RH, Olhar Digital e Editora Trip.",
     },
-    tag: { label: "Ecomonia", slug: "ecomonia" },
+    tags: [{ label: "Ecomonia", slug: "ecomonia" }],
 
     firstContent: (
       <p>
