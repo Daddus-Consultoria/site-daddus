@@ -1,6 +1,6 @@
 "use client";
 
-import { Posts, Tag } from "@/lib/interfaces/post";
+import { Post, Tag } from "@/lib/interfaces/post";
 import { Author } from "./parts/Author";
 import Image from "next/image";
 import { BadgeBlog } from "../badgeBlog";
@@ -10,23 +10,39 @@ import { Content } from "./parts/Content";
 import { GoogleContainer } from "./parts/GoogleContainer";
 import { Divider } from "./parts/Divider";
 import { Attachment } from "./parts/Attachment";
+import { SkeletonPost } from "./parts/Skeleton";
 
-function PostLayout({
-  title,
-  subtitle,
-  author,
-  publishedAt,
-  firstContent,
-  lastContent,
-  relatedPosts,
-}: Posts) {
+interface PostLayoutProps {
+  loading: boolean;
+  post?: Post;
+}
+function PostLayout({ post, loading }: PostLayoutProps) {
+  if (loading) return <SkeletonPost />;
+
+  if (!post)
+    return (
+      <div className="m-auto mt-24 text-[#999999]">Nenhum post encontrado</div>
+    );
+
+  const {
+    title,
+    authorComment,
+    author,
+    publishedAt,
+    firstContent,
+    lastContent,
+    relatedPosts,
+  } = post;
+
   const tagsAvailable = relatedPosts.reduce((groupedTags: Tag[], post) => {
-    const tag = post.tag;
-    console.log(tag.label);
+    const tags = post.tags;
 
-    if (!groupedTags.find((item) => item.slug === tag.slug)) {
-      groupedTags.push(tag);
+    for (const tag of tags) {
+      if (!groupedTags.find((tagGroup) => tagGroup.slug === tag.slug)) {
+        groupedTags.push(tag);
+      }
     }
+
     return groupedTags;
   }, []);
   return (
@@ -38,7 +54,7 @@ function PostLayout({
       />
       <div className="flex">
         <div>
-          <Heading title={title} subtitle={subtitle} />
+          <Heading title={title} subtitle={authorComment} />
           <Divider />
           <SocialInfo author={author} publishedAt={publishedAt} />
           <Content>{firstContent}</Content>
@@ -60,6 +76,7 @@ function PostLayout({
             <div className="flex gap-3 px-5">
               {tagsAvailable.map((item) => (
                 <a
+                  key={item.label}
                   href={`blog/${item.slug}`}
                   className="underline text-primary font-extralight text-xl pb-3"
                 >
@@ -72,6 +89,7 @@ function PostLayout({
             <div className="flex flex-col gap-3 px-5">
               {relatedPosts.map((post) => (
                 <a
+                  key={post.slug}
                   href={`blog/${post.category}/${post.slug}`}
                   className="flex gap-3 items-start"
                 >
@@ -88,7 +106,7 @@ function PostLayout({
                     />
                     <h2 className="font-bold text-lg">{post.title}</h2>
                     <p className="text-xs font-light text-[#99999999]">
-                      {post.subtitle}
+                      {post.authorComment}
                     </p>
                   </div>
                 </a>
