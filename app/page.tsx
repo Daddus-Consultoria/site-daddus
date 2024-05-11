@@ -2,7 +2,7 @@
 import { DaddusCarousel } from "@/components/daddusCarousel";
 import { ListCards } from "@/components/index";
 import { carouselItems } from "@/app/constants";
-import {constantConsultancyList} from "@/app/constants";
+import {constantConsultancyListHome, constantPublishListHome} from "@/app/constants";
 import "@/styles/home.css";
 
 export default function Home() {
@@ -31,7 +31,10 @@ export default function Home() {
           <div></div>
         </section>
         <section className="flex flex-col pt-5">
-          <ListCards  title={constantConsultancyList.title} cards={constantConsultancyList.cards}/>
+          <ListCards  title={constantConsultancyListHome.title} cards={constantConsultancyListHome.cards}/>
+        </section>
+        <section className="flex flex-col pt-5">
+          <ListCards  title={constantPublishListHome.title} cards={constantPublishListHome.cards}/>
         </section>
       </div>
     </>
