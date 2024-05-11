@@ -1,4 +1,5 @@
 import { AuthorModel } from "@/lib/interfaces/author";
+import { AuthorResponse } from "@/lib/services/author/index";
 import { ImageProps } from "next/image";
 import { ReactNode } from "react";
 
@@ -31,9 +32,9 @@ export interface PostModel {
   authorComment?: string;
   slug: string;
   image: ImageProps;
-  publishedAt: Date;
+  publishedDate: Date;
   author: AuthorModel;
-  category: string;
+  category: PostCategory;
   firstContent: ReactNode;
   lastContent?: ReactNode;
   tags: Tag[];

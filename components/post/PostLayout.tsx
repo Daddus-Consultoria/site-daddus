@@ -28,13 +28,13 @@ function PostLayout({ post, loading }: PostLayoutProps) {
     title,
     authorComment,
     author,
-    publishedAt,
+    publishedDate,
     firstContent,
     lastContent,
     relatedPosts,
   } = post;
 
-  const tagsAvailable = relatedPosts.reduce((groupedTags: Tag[], post) => {
+  const tagsAvailable = relatedPosts?.reduce((groupedTags: Tag[], post) => {
     const tags = post.tags;
 
     for (const tag of tags) {
@@ -56,7 +56,7 @@ function PostLayout({ post, loading }: PostLayoutProps) {
         <div>
           <Heading title={title} subtitle={authorComment} />
           <Divider />
-          <SocialInfo author={author} publishedAt={publishedAt} />
+          <SocialInfo author={author} publishedDate={publishedDate} />
           <Content>{firstContent}</Content>
           <Divider>Continua depois da publicidade</Divider>
 
@@ -74,7 +74,7 @@ function PostLayout({ post, loading }: PostLayoutProps) {
 
           <Attachment title="Publicações relacionadas">
             <div className="flex gap-3 px-5">
-              {tagsAvailable.map((item) => (
+              {tagsAvailable?.map((item) => (
                 <a
                   key={item.label}
                   href={`blog/${item.slug}`}
@@ -87,7 +87,7 @@ function PostLayout({ post, loading }: PostLayoutProps) {
           </Attachment>
           <Attachment title="Publicações relacionadas">
             <div className="flex flex-col gap-3 px-5">
-              {relatedPosts.map((post) => (
+              {relatedPosts?.map((post) => (
                 <a
                   key={post.slug}
                   href={`blog/${post.category}/${post.slug}`}

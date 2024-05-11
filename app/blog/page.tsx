@@ -10,22 +10,61 @@ const mockedWithTwoPosts: PostModel[] = [
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      }
     },
     category: "logistica",
+    firstContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedAt: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+
+      }
     },
     category: "logistica",
+    firstContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedAt: new Date(),
+    slug: "logistica",
   },
 ];
 
@@ -33,42 +72,122 @@ const mockedPostList: PostModel[] = [
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+
+      }
     },
     category: "logistica",
+    firstContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedAt: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+
+      }
     },
     category: "logistica",
+    firstContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedAt: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+
+      }
     },
     category: "logistica",
+    firstContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedAt: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+
+      }
     },
     category: "logistica",
+    firstContent: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedDate: new Date(),
+    slug: "logistica",
   },
 ];
 
@@ -88,14 +207,7 @@ const BlogPage: React.FC = () => {
           />
         </div>
         <div className="flex flex-col w-full lg:w-96 h-full lg:justify-between items-center gap-10 lg:gap-0">
-          <div className="w-80 h-52 md:w-[30rem] md:h-80 lg:w-full lg:h-60 rounded-xl">
-            <BlogPostCard
-              title={constantCardBlog.cards[0].title}
-              image={constantCardBlog.cards[0].image}
-              first={constantCardBlog.cards[0].first}
-              badgeTitle={constantCardBlog.cards[0].badgeTitle}
-            />
-          </div>
+          
           <div className="flex flex-col w-full lg:w-96 h-full lg:justify-between items-center gap-10 lg:gap-0">
             <div className="w-80 h-52 md:w-[30rem] md:h-80 lg:w-full lg:h-60 rounded-xl">
               <BlogPostCard

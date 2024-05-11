@@ -6,11 +6,11 @@ interface IPublishRelativeNowProps {
 }
 
 export function FormatDate(date: Date, locale?: Locale) {
-  const publishedDateFormatted = format(date, "MM/dd/yyy HH'h'mm", {
+  const publishedDateFormatted = format(date, "MM/dd/yyyy HH'h'mm", {
     locale: locale || ptBR,
   });
 
-  const ISODate = date.toISOString();
+  const ISODate = date;
 
   const publishedDateRelativeToNow = ({ prefix }: IPublishRelativeNowProps) =>
     formatDistanceToNow(date, {

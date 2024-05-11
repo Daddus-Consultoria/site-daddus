@@ -1,18 +1,22 @@
 import { AuthorModel } from "@/lib/interfaces/author";
 import { PostCategory, Tag } from "@/lib/interfaces/post";
+import { AuthorResponse } from "@/lib/services/author/index";
 
-export interface PostResponse {
+export interface Post {
   title: string;
   category: PostCategory;
-  image?: string;
-  author: AuthorModel;
+  coverImage?: any;
+  autor: AuthorResponse;
   comment?: string;
   firstContent?: string;
-  publishAt: string;
+  publishDate: string;
   slug: string;
   tags: Tag[];
-  relatedPost?: any;
   lastContent?: string;
+}
+
+export interface PostResponse extends Post {
+  relatedPost: Post[];
 }
 
 export interface GetSinglePostArgs {
