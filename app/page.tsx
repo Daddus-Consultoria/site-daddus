@@ -1,6 +1,8 @@
 "use client";
 import { DaddusCarousel } from "@/components/daddusCarousel";
+import { ListCards } from "@/components/index";
 import { carouselItems } from "@/app/constants";
+import {constantConsultancyList} from "@/app/constants";
 import "@/styles/home.css";
 
 export default function Home() {
@@ -27,6 +29,9 @@ export default function Home() {
             Últimas publicações
           </h2>
           <div></div>
+        </section>
+        <section className="flex flex-col pt-5">
+          <ListCards  title={constantConsultancyList.title} cards={constantConsultancyList.cards}/>
         </section>
       </div>
     </>

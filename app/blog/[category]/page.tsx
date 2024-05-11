@@ -1,7 +1,7 @@
 'use client'
 import { constantsFinancas, SPECIAL_CHARACTERS_WORDS_BLOG, CATEGORY_NAMES_BLOG } from "@/app/blog/[category]/_constants";
 import { usePathname } from "next/navigation";
-import { BlogPostCard, CardInfo } from "@/components/index";
+import { BlogPostCard, CardInfo, ListCards } from "@/components/index";
 import { useQuery } from "@tanstack/react-query";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import {
@@ -75,25 +75,7 @@ const CategoryPage: React.FC = () => {
                     
                 </div>
             </div>
-            <div className="flex flex-1 w-full flex-col justify-start items-center">
-                <h1 className="font-bold text-[26px] lg:text-[32px] text-[#A90920] mt-4 lg:mt-6 mb-2 lg:mb-4">
-                {constantsFinancas.titlePublications}
-                </h1>
-                <div className="flex flex-col lg:flex-row gap-10 md:max-w-[70%] lg:max-w-[70rem] mb-4 px-12 lg:px-0 lg:mb-14">
-                    {constantsFinancas.cardsPublications.map((item, index) => {
-                    return (
-                        <CardInfo
-                        key={`publish-card-info-${index}`}
-                        title={item.title}
-                        description={item.description}
-                        image={item.image}
-                        path={item.path}
-                        copyLink={item.copyLink}
-                        />
-                    );
-                    })}
-                </div>
-            </div>
+            <ListCards title={constantsFinancas.titlePublications} cards={constantsFinancas.cardsPublications}/>
         </div>
     )
 }
