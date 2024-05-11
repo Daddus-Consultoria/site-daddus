@@ -2,15 +2,12 @@
 import { constantsFinancas, SPECIAL_CHARACTERS_WORDS_BLOG, CATEGORY_NAMES_BLOG } from "@/app/blog/[category]/_constants";
 import { usePathname } from "next/navigation";
 import { BlogPostCard, CardInfo } from "@/components/index";
-import { PostsAPIService } from "@/lib/services/postAPIService";
 import { useQuery } from "@tanstack/react-query";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import {
-    Publish,
-    CircularProgressIndicator,
-    ContentNotFoundWarning,
-  } from "@/components/index";
-import { useEffect } from "react";
+    CircularProgressIndicator
+} from "@/components/index";
+import { PostData, Post, CategoryMap, PostCategory, PostModel } from "@/lib/interfaces/post";
 
 const formatTitle = (title: string) => {
     if(SPECIAL_CHARACTERS_WORDS_BLOG[title]){
@@ -52,14 +49,15 @@ const CategoryPage: React.FC = () => {
                         <CircularProgressIndicator containerHeight="400px" />
                     ) : (
                         <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 h-full xl:mt-0 gap-5 sm:gap-10 md:gap-10 xl:gap-5 md:mt-3 ">
-                            {postsAux!.map((post, index) => {
+                            {postsAux!.map((post,index) => {
                                 if(index != 2){
                                     return (
                                         <div key={`card-financas-${index}`} className="w-full h-52 sm:w-80 sm:h-52 md:w-[20rem] md:h-64 lg:w-96 lg:h-72 rounded-xl">
                                             <BlogPostCard 
                                                 title={post.title}
                                                 image={post.image}
-                                                badgeTitle={post.category}
+                                                badgeTitle={CategoryMap[post.category]}
+                                                href={`/blog/${post.category}/${post.slug}`}
                                             />
                                         </div>
                                     )

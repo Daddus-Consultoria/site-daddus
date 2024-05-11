@@ -4,10 +4,10 @@ import { FormatDate } from "@/lib/utils/formatDate";
 
 export const SocialInfo = ({
   author,
-  publishedAt,
-}: Pick<PostModel, "author" | "publishedAt">) => {
+  publishedDate,
+}: Pick<PostModel, "author" | "publishedDate">) => {
   const { publishedDateFormatted, ISODate, publishedDateRelativeToNow } =
-    FormatDate(publishedAt);
+    FormatDate(publishedDate);
   return (
     <div className="flex justify-between">
       <div>
