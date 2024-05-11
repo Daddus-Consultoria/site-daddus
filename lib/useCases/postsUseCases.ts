@@ -1,16 +1,16 @@
 import { postRepository } from "@/components/providers/repositoriesProviders/postProvider";
 
-export class PostsUseCases{
-    postRepository;
-    constructor(){
-        this.postRepository = postRepository;
-    }
+export class PostsUseCases {
+  postRepository;
+  constructor() {
+    this.postRepository = postRepository;
+  }
 
-    async getPosts(category?:string){
-        try{
-            return await this.postRepository.getPosts(category);
-        }catch(error){
-            throw error;
-        }
+  async getPosts(category?: string, limit?: number) {
+    try {
+      return await this.postRepository.getPosts(category);
+    } catch (error) {
+      throw error;
     }
+  }
 }

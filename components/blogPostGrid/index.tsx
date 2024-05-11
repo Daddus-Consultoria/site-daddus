@@ -2,18 +2,35 @@ import { PostModel } from "@/lib/interfaces/post";
 import React from "react";
 import { BlogPostCard } from "@/components/index";
 import { getCategoryTranslation } from "@/lib/utils/translateData";
+import { VariantProps, cva } from "class-variance-authority";
+import { cn } from "@/lib/utils";
 
-interface BlogPostGridProps {
+const blogPostVariants = cva("grid sm:grid-cols-1 gap-5", {
+  variants: {
+    variant: {
+      default: "md:grid-cols-2",
+      three: "md:grid-cols-3",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+interface BlogPostGridProps extends VariantProps<typeof blogPostVariants> {
   title: string;
   posts: PostModel[];
 }
 
-const BlogPostGrid: React.FC<BlogPostGridProps> = ({ posts, title }) => {
-  const gridCustomClass = posts.length === 3 ? "grid-cols-3" : "grid-cols-2";
+const BlogPostGrid: React.FC<BlogPostGridProps> = ({
+  posts,
+  title,
+  variant,
+}) => {
   return (
     <div className="w-full">
       <h2 className="ml-2 text-primary font-extrabold text-xl mb-4">{title}</h2>
-      <div className={`grid sm:grid-cols-1 md:${gridCustomClass} gap-5`}>
+      <div className={cn(blogPostVariants({ variant }))}>
         {posts.map((post, index) => (
           <div className="h-[250px]" key={`post-${post.category}-${index}`}>
             <BlogPostCard
