@@ -15,22 +15,62 @@ const mockedWithTwoPosts: PostModel[] = [
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      },
     },
     category: "logistica",
+    firstContent:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedDate: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      },
     },
     category: "logistica",
+    firstContent:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedDate: new Date(),
+    slug: "logistica",
   },
 ];
 
@@ -38,10 +78,20 @@ const mockedPostThree: PostModel[] = [
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      alt: "logistica-image",
+      src: "/images/blog/bike.svg",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      description: "",
+      email: "",
+      role: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      },
     },
     category: "logistica",
   },
@@ -71,42 +121,122 @@ const mockedPostList: PostModel[] = [
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      },
     },
     category: "logistica",
+    firstContent:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedDate: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      },
     },
     category: "logistica",
+    firstContent:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedDate: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      },
     },
     category: "logistica",
+    firstContent:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedDate: new Date(),
+    slug: "logistica",
   },
   {
     title: "Como a logística pode ajudar a sua empresa a crescer",
     authorComment: "Por: Fulano",
-    image: "/assets/images/blog/logistica.jpg",
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "logistica-image",
+    },
     author: {
       name: "Fulano",
       id: 1,
+      role: "",
+      description: "",
+      email: "",
+      image: {
+        src: "/images/blog/bike.svg",
+        alt: "logistica-image",
+      },
     },
     category: "logistica",
+    firstContent:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla at nunc nec nisl ultricies ultricies",
+    tags: [
+      {
+        label: "logistica",
+        slug: "logistica",
+      },
+    ],
+    publishedDate: new Date(),
+    slug: "logistica",
   },
 ];
 

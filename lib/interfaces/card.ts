@@ -1,3 +1,5 @@
+import { ImageProps } from "next/image";
+
 export interface CardInfoProps {
     title: string;
     description: string;
@@ -10,7 +12,8 @@ export interface CardInfoProps {
 
 export interface CardBlogProps {
     title: string;
-    first: boolean;
-    image: string;
+    first?: boolean;
+    image: ImageProps;
     badgeTitle: string;
+    href?: string;
 }

@@ -37,7 +37,7 @@ const BlogPostGrid: React.FC<BlogPostGridProps> = ({
               first={index === 0}
               image={post.image}
               title={post.title}
-              badgeTitle={getCategoryTranslation(post.category)}
+              badgeTitle={post.category}
             />
           </div>
         ))}

@@ -1,4 +1,4 @@
-import { PostsAPIService } from "@/lib/services/postAPIService";
+import { PostsAPIService } from "@/lib/services/post/postAPIService";
 
 import PostRepository from "@/lib/repositories/PostRepository";
 
