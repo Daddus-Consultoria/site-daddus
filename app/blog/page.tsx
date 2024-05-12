@@ -1,5 +1,7 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/index";
+
 import {
   BlogPostCard,
   BlogPostGrid,
@@ -56,7 +58,7 @@ const getBlogHomePosts = async () => {
 
 const BlogPage: React.FC = () => {
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.blogPostsByCategory],
+    queryKey: [QueryKeys.lastPosts],
     queryFn: getBlogHomePosts,
   });
   const blogPostsData = data;
@@ -65,34 +67,64 @@ const BlogPage: React.FC = () => {
 
   return (
     <div className="max-w-screen-limit mx-auto flex flex-1 flex-col justify-start items-start mt-6 lg:mt-0 lg:py-10 px-5percent">
-      <h2 className="font-bold text-[22px] lg:text-[26px] text-[#A90920] mt-4 lg:mt-1 mb-2 lg:mb-4">
+      <h2 className="font-bold text-[22px] lg:text-[26px] text-primary mt-4 lg:mt-1 mb-2 lg:mb-4">
         {constantCardBlog.title}
       </h2>
       <div className="flex flex-col lg:flex-row h-full w-full lg:h-[500px] 2xl:h-[500px] items-center mt-4 lg:mt-0 gap-10">
         <div className="w-full h-52 md:h-80 lg:w-[60%] xl:w-[66.66%] lg:h-full">
-          <BlogPostCard
-            title={constantCardBlog.cards[0].title}
-            image={constantCardBlog.cards[0].image}
-            first={constantCardBlog.cards[0].first}
-            badgeTitle={constantCardBlog.cards[0].badgeTitle}
-          />
+          {isLoading ? (
+            <Skeleton>
+              <div className="bg-mediumGray rounded-lg w-full lg:h-[500px] 2xl:h-[500px] "></div>
+            </Skeleton>
+          ) : (
+            lastPosts &&
+            lastPosts?.length > 3 && (
+              <BlogPostCard
+                title={lastPosts![0].title}
+                image={lastPosts![0].image}
+                first={constantCardBlog.cards[0].first}
+                href={lastPosts![0].slug}
+                badgeTitle={CategoryMap[lastPosts![0].category]}
+              />
+            )
+          )}
         </div>
         <div className="flex flex-col w-full lg:w-[34%] xl:w-[33.33%] h-full lg:justify-between items-center gap-10 lg:gap-0">
           <div className="w-full h-52 md:h-80 lg:w-full lg:h-60 rounded-xl">
-            <BlogPostCard
-              title={constantCardBlog.cards[1].title}
-              image={constantCardBlog.cards[1].image}
-              first={constantCardBlog.cards[1].first}
-              badgeTitle={constantCardBlog.cards[1].badgeTitle}
-            />
+            {isLoading ? (
+              <Skeleton>
+                <div className="bg-mediumGray rounded-lg w-full h-52 md:h-80 lg:h-60"></div>
+              </Skeleton>
+            ) : (
+              lastPosts &&
+              lastPosts.length > 2 && (
+                <BlogPostCard
+                  title={lastPosts![1].title}
+                  image={lastPosts![1].image}
+                  href={lastPosts![1].slug}
+                  first={constantCardBlog.cards[1].first}
+                  badgeTitle={CategoryMap[lastPosts![1].category]}
+                />
+              )
+            )}
           </div>
           <div className="w-full h-52 md:h-80  lg:w-full lg:h-60  rounded-xl">
-            <BlogPostCard
-              title={constantCardBlog.cards[2].title}
-              image={constantCardBlog.cards[2].image}
-              first={constantCardBlog.cards[2].first}
-              badgeTitle={constantCardBlog.cards[2].badgeTitle}
-            />
+            {isLoading ? (
+              <Skeleton>
+                <div className="bg-mediumGray rounded-lg w-full h-52 md:h-80 lg:h-60"></div>
+              </Skeleton>
+            ) : (
+              lastPosts &&
+              lastPosts.length > 3 && (
+                <BlogPostCard
+                  title={lastPosts![2].title}
+                  href={lastPosts![2].slug}
+                  image={lastPosts![2].image}
+                  first={constantCardBlog.cards[2].first}
+                  badgeTitle={CategoryMap[lastPosts![2].category]}
+                />
+              )
+            )}
           </div>
         </div>
       </div>

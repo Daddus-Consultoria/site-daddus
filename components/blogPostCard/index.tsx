@@ -14,11 +14,11 @@ const BlogPostCard: React.FC<CardBlogProps> = ({
 }) => {
   const sizeText = first ? "text-3xl" : "text-xl";
 
-  const path = `/blog/${href}`;
+  const path = `/blog/${badgeTitle}/${href}`;
 
   return (
     <DaddusLink
-      href={href}
+      href={path}
       className="relative bg-cover bg-center h-full w-full rounded-lg overflow-hidden shadow-md"
       variant={"ghost"}
       isTagAnchor

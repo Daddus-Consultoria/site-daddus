@@ -12,18 +12,10 @@ const BlogGridSkeleton = ({ className }: BlogGridSkeletonProps) => {
           className={`${className}`}
           key={`blog-grid-skeleton-${index}`}
         >
-          <div className="h-[250px] m-auto bg-primary rounded-lg w-full"></div>
+          <div className="h-[250px] m-auto bg-mediumGray rounded-lg w-full"></div>
         </Skeleton>
       ))}
     </>
-    // <Skeleton className={`${className} w-full`}>
-    //   {[0, 1].map((index) => (
-    //     <div
-    //       key={`blog-grid-skeleton-${index}`}
-    //       className="h-[250px] m-auto bg-primary rounded-lg w-full"
-    //     ></div>
-    //   ))}
-    // </Skeleton>
   );
 };
 

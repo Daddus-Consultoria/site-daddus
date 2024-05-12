@@ -40,7 +40,7 @@ const BlogPostGrid: React.FC<BlogPostGridProps> = ({
                 first={index === 0}
                 image={post.image}
                 title={post.title}
-                href={`/blog/${post.category}/${post.slug}`}
+                href={post.slug}
                 badgeTitle={post.category}
               />
             </div>
