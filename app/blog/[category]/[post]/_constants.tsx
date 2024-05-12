@@ -23,15 +23,9 @@ const relatedPosts: PostModel[] = [
         "Especialista em agronegócio com mais de 5 anos de experiência em análise de mercado e seleção de investimentos.",
     },
     tags: ["Agribusiness", "Investimentos"],
-    firstContent: (
-      <p>
-        O agronegócio brasileiro vive um momento de grande pujança, impulsionado
-        pela demanda global por alimentos e pela crescente adoção de tecnologias
-        inovadoras. Com um vasto território fértil, clima favorável e mão de
-        obra qualificada, o país tem potencial para se tornar um dos maiores
-        produtores de alimentos do mundo.
-      </p>
-    ),
+    firstContent: [
+      { type: "paragraph", children: [{ type: "text", text: "text" }] },
+    ],
     publishedDate: "2024-05-06:00:00",
   },
   {
@@ -59,7 +53,9 @@ const relatedPosts: PostModel[] = [
     tags: ["Investimentos", "Educação Financeira"],
     publishedDate: "2024-05-06:00:00",
 
-    firstContent: <></>,
+    firstContent: [
+      { type: "paragraph", children: [{ type: "text", text: "text" }] },
+    ],
   },
   {
     slug: "sustentabilidade-no-agronegocio",
@@ -85,14 +81,9 @@ const relatedPosts: PostModel[] = [
     },
     tags: ["Sustentabilidade", "Agronegócio"],
 
-    firstContent: (
-      <p>
-        O agronegócio é um dos setores mais importantes da economia brasileira,
-        mas também é um dos que mais impactam o meio ambiente. O uso intensivo
-        de agrotóxicos, o desmatamento e a erosão do solo são apenas alguns dos
-        desafios que o setor enfrenta para se tornar mais sustentável.
-      </p>
-    ),
+    firstContent: [
+      { type: "paragraph", children: [{ type: "text", text: "text" }] },
+    ],
     publishedDate: "2024-05-06:00:00",
   },
 ];
@@ -121,36 +112,12 @@ export const postItems: Post[] = [
     },
     tags: ["Finanças", "Investimentos"],
 
-    firstContent: (
-      <p>
-        O acirramento das discussões em torno da meta de resultado primário de
-        2025 e dos três anos seguintes (ou mesmo possíveis mudanças no objetivo
-        de equilíbrio fiscal em 2024) pouco antes do envio do Projeto de Lei de
-        Diretrizes Orçamentárias (PLDO) pelo governo do presidente Luiz Inácio
-        Lula da Silva (PT) deixou temporariamente em segundo plano o debate
-        sobre outra perna da política fiscal. Além de estabelecer compromissos
-        para a relação entre receitas e despesas, o arcabouço que substituiu o
-        teto de gastos (Lei Complementar nº 200/2023) trouxe uma regra
-        específica para a evolução das despesas públicas ao longo dos anos – que
-        já tem gerado dores de cabeça no mundo político e atraído olhares do
-        mercado financeiro.
-      </p>
-    ),
-    lastContent: (
-      <p>
-        O acirramento das discussões em torno da meta de resultado primário de
-        2025 e dos três anos seguintes (ou mesmo possíveis mudanças no objetivo
-        de equilíbrio fiscal em 2024) pouco antes do envio do Projeto de Lei de
-        Diretrizes Orçamentárias (PLDO) pelo governo do presidente Luiz Inácio
-        Lula da Silva (PT) deixou temporariamente em segundo plano o debate
-        sobre outra perna da política fiscal. Além de estabelecer compromissos
-        para a relação entre receitas e despesas, o arcabouço que substituiu o
-        teto de gastos (Lei Complementar nº 200/2023) trouxe uma regra
-        específica para a evolução das despesas públicas ao longo dos anos – que
-        já tem gerado dores de cabeça no mundo político e atraído olhares do
-        mercado financeiro.
-      </p>
-    ),
+    firstContent: [
+      { type: "paragraph", children: [{ type: "text", text: "text" }] },
+    ],
+    lastContent: [
+      { type: "paragraph", children: [{ type: "text", text: "text" }] },
+    ],
     relatedPosts,
   },
 ];
