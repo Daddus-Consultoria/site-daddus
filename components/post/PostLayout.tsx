@@ -62,7 +62,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
           <Heading title={title} subtitle={authorComment} />
           <Divider />
           <SocialInfo author={author} publishedDate={publishedDate} />
-          <Content>{firstContent}</Content>
+          <Content content={firstContent} />
           <Divider>Continua depois da publicidade</Divider>
 
           <GoogleContainer />
@@ -70,7 +70,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
 
           {lastContent ? (
             <>
-              <Content>{lastContent}</Content>
+              <Content content={lastContent} />
               <Divider />
             </>
           ) : null}

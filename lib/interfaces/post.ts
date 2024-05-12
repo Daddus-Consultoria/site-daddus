@@ -1,5 +1,6 @@
 import { AuthorModel } from "@/lib/interfaces/author";
-import { AuthorResponse } from "@/lib/services/author/index";
+import { type BlocksContent } from "@strapi/blocks-react-renderer";
+
 import { ImageProps } from "next/image";
 import { ReactNode } from "react";
 
@@ -30,8 +31,8 @@ export interface PostModel {
   publishedDate: string;
   author: AuthorModel;
   category: PostCategory;
-  firstContent: ReactNode;
-  lastContent?: ReactNode;
+  firstContent: BlocksContent;
+  lastContent?: BlocksContent;
   tags: string[];
 }
 

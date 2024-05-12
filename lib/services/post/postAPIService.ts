@@ -32,7 +32,6 @@ export class PostsAPIService implements PostRepository {
     });
   }
   postsMapper(post: PostResponse): Post {
-    console.log(post);
     return {
       title: post.attributes.title,
       category: post.attributes.category,

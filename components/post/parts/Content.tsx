@@ -1,9 +1,17 @@
-import { ReactNode } from "react";
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
 
 interface ContentProps {
-  children: ReactNode;
+  content: BlocksContent;
 }
 
-export const Content = ({ children }: ContentProps) => {
-  return <div className="my-5 text-justify">{children}</div>;
+export const Content = ({ content }: ContentProps) => {
+  return (
+    <div className="my-5 text-justify">
+      {" "}
+      <BlocksRenderer content={content} />
+    </div>
+  );
 };

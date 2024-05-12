@@ -20,11 +20,11 @@ export interface PostResponse {
     coverImage?: any;
     autor: AuthorResponse;
     comment?: string;
-    firstContent?: string;
     publishDate: string;
     slug: string;
     tags: string[];
-    lastContent?: string;
+    firstContent?: any;
+    lastContent?: any;
     relationedPosts: {
       data: RelationatedPost[];
     };
