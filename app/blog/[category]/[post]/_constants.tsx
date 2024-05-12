@@ -22,7 +22,7 @@ const relatedPosts: PostModel[] = [
       description:
         "Especialista em agronegócio com mais de 5 anos de experiência em análise de mercado e seleção de investimentos.",
     },
-    tags: [{ label: "Agronegócio", slug: "sustentabilidade" }],
+    tags: ["Agribusiness", "Investimentos"],
     firstContent: (
       <p>
         O agronegócio brasileiro vive um momento de grande pujança, impulsionado
@@ -32,7 +32,7 @@ const relatedPosts: PostModel[] = [
         produtores de alimentos do mundo.
       </p>
     ),
-    publishedAt: new Date(2024, 4, 7),
+    publishedDate: "2024-05-06:00:00",
   },
   {
     slug: "investir-na-bolsa-de-valores",
@@ -56,9 +56,9 @@ const relatedPosts: PostModel[] = [
       description:
         "Especialista em educação financeira com mais de 10 anos de experiência em ajudar pessoas a alcançar seus objetivos financeiros.",
     },
-    tags: [{ label: "Bolsa de Valores", slug: "investimentos" }],
+    tags: ["Investimentos", "Educação Financeira"],
+    publishedDate: "2024-05-06:00:00",
 
-    publishedAt: new Date(2023, 3, 5),
     firstContent: <></>,
   },
   {
@@ -83,7 +83,7 @@ const relatedPosts: PostModel[] = [
       description:
         "Especialista em sustentabilidade no agronegócio com mais de 7 anos de experiência em consultoria e implementação de projetos.",
     },
-    tags: [{ label: "Agribusiness", slug: "sustentabilidade" }],
+    tags: ["Sustentabilidade", "Agronegócio"],
 
     firstContent: (
       <p>
@@ -93,7 +93,7 @@ const relatedPosts: PostModel[] = [
         desafios que o setor enfrenta para se tornar mais sustentável.
       </p>
     ),
-    publishedAt: new Date(2024, 5, 6),
+    publishedDate: "2024-05-06:00:00",
   },
 ];
 
@@ -105,7 +105,7 @@ export const postItems: Post[] = [
       "Irã-Israel: Sentimento de aversão a risco no curto prazo deve seguir, dizem analistas",
     authorComment:
       "Durante o Morning Call, eles comentaram que a resposta do irã neste final de semana ao bombardeio de sua embaixada na Síria foi pontual",
-    publishedAt: new Date(),
+    publishedDate: "2024-05-06:00:00",
     image: { src: "", alt: "" },
     author: {
       id: 1,
@@ -119,7 +119,7 @@ export const postItems: Post[] = [
       description:
         "Formada em Jornalismo pela PUC-SP, tem especialização em Jornalismo Internacional. Atua como editora-chefe no Money Times e já trabalhou nas redações do InfoMoney, Você S/A, Você RH, Olhar Digital e Editora Trip.",
     },
-    tags: [{ label: "Ecomonia", slug: "ecomonia" }],
+    tags: ["Finanças", "Investimentos"],
 
     firstContent: (
       <p>
