@@ -40,7 +40,9 @@ export interface PostModel {
 }
 
 export interface Post extends PostModel {
-  relatedPosts: PostModel[];
+  relatedPosts:
+    | Omit<PostModel, "firstContent" | "lastContent" | "author">[]
+    | undefined;
 }
 
 export interface PostData {

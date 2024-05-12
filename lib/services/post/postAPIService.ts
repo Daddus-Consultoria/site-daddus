@@ -5,7 +5,9 @@ import { mapperAuthor } from "@/lib/services/author/index";
 import { Post, PostData, PostModel } from "@/lib/interfaces/post";
 
 export class PostsAPIService implements PostRepository {
-  relatedPostMapper(posts?: RelationatedPost[]): any {
+  relatedPostMapper(
+    posts?: RelationatedPost[]
+  ): Omit<PostModel, "author" | "firstContent" | "lastContent">[] | undefined {
     return posts?.map((post) => {
       console.log(post);
       return {
@@ -43,7 +45,7 @@ export class PostsAPIService implements PostRepository {
       lastContent: post.attributes.lastContent,
       relatedPosts: this.relatedPostMapper(
         post?.attributes.relationedPosts.data
-      ) as PostModel[],
+      ),
     };
   }
   async getPosts(category?: string, limit?: number): Promise<PostData> {
