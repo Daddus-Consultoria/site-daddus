@@ -2,7 +2,7 @@ import { AuthorModel } from "@/lib/interfaces/author";
 import { PostCategory, Tag } from "@/lib/interfaces/post";
 import { AuthorResponse } from "@/lib/services/author/index";
 
-export interface Post {
+export interface PostRaw {
   title: string;
   category: PostCategory;
   coverImage?: any;
@@ -15,8 +15,8 @@ export interface Post {
   lastContent?: string;
 }
 
-export interface PostResponse extends Post {
-  relatedPost: Post[];
+export interface PostResponse extends PostRaw {
+  relationadPosts: PostRaw[];
 }
 
 export interface GetSinglePostArgs {

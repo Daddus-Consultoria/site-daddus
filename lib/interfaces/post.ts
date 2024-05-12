@@ -32,7 +32,7 @@ export interface PostModel {
   authorComment?: string;
   slug: string;
   image: ImageProps;
-  publishedDate: Date;
+  publishedDate: string;
   author: AuthorModel;
   category: PostCategory;
   firstContent: ReactNode;

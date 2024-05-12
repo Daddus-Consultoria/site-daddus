@@ -13,7 +13,7 @@ const PostPage = ({ params }: { params: PostPageProps }) => {
 
   const usePostUseCases = new PostsUseCases();
 
-  const { data, isLoading } = useQuery({
+  const { data: postData, isLoading: isLoadingPost } = useQuery({
     queryKey: ["posts"],
     queryFn: async () => {
       return await usePostUseCases.getSinglePost({
@@ -23,7 +23,19 @@ const PostPage = ({ params }: { params: PostPageProps }) => {
     },
   });
 
-  return <PostLayout loading={isLoading} post={data} />;
+  const { data: lastPosts, isLoading: isLoadingLastPost } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      return await usePostUseCases.getSinglePost({
+        slug: post!,
+        category: category!,
+      });
+    },
+  });
+
+  const isLoading = isLoadingPost || isLoadingLastPost;
+
+  return <PostLayout loading={isLoading} post={postData} />;
 };
 
 export default PostPage;

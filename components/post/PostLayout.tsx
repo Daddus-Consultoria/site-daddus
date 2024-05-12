@@ -12,6 +12,9 @@ import { Divider } from "./parts/Divider";
 import { Attachment } from "./parts/Attachment";
 import { SkeletonPost } from "./parts/Skeleton";
 
+import { isEmpty } from "radash";
+import { PostList } from "../postList";
+
 interface PostLayoutProps {
   loading: boolean;
   post?: Post;
@@ -19,7 +22,7 @@ interface PostLayoutProps {
 function PostLayout({ post, loading }: PostLayoutProps) {
   if (loading) return <SkeletonPost />;
 
-  if (!post)
+  if (isEmpty(post))
     return (
       <div className="m-auto mt-24 text-[#999999]">Nenhum post encontrado</div>
     );
@@ -32,19 +35,20 @@ function PostLayout({ post, loading }: PostLayoutProps) {
     firstContent,
     lastContent,
     relatedPosts,
-  } = post;
+  } = post!;
 
-  const tagsAvailable = relatedPosts?.reduce((groupedTags: Tag[], post) => {
+  const tagsAvailable = relatedPosts?.reduce((groupedTags: string[], post) => {
     const tags = post.tags;
 
     for (const tag of tags) {
-      if (!groupedTags.find((tagGroup) => tagGroup.slug === tag.slug)) {
+      if (!groupedTags.find((tagGroup) => tagGroup === tag)) {
         groupedTags.push(tag);
       }
     }
 
     return groupedTags;
   }, []);
+
   return (
     <div className="mx-auto w-full max-w-[800px] my-10">
       <BadgeBlog
@@ -72,47 +76,52 @@ function PostLayout({ post, loading }: PostLayoutProps) {
 
           <Author author={author} />
 
-          <Attachment title="Publicações relacionadas">
-            <div className="flex gap-3 px-5">
-              {tagsAvailable?.map((item) => (
-                <a
-                  key={item.label}
-                  href={`blog/${item.slug}`}
-                  className="underline text-primary font-extralight text-xl pb-3"
-                >
-                  {item.label}
-                </a>
-              ))}
-            </div>
-          </Attachment>
-          <Attachment title="Publicações relacionadas">
-            <div className="flex flex-col gap-3 px-5">
-              {relatedPosts?.map((post) => (
-                <a
-                  key={post.slug}
-                  href={`blog/${post.category}/${post.slug}`}
-                  className="flex gap-3 items-start"
-                >
-                  <Image
-                    src={post.image.src}
-                    alt={post.image.alt}
-                    width={207}
-                    height={141}
-                  />
-                  <div>
-                    <BadgeBlog
-                      className="uppercase text-white w-fit"
-                      title={post.category}
+          {tagsAvailable ? (
+            <Attachment title="Publicações relacionadas">
+              <div className="flex gap-3 px-5">
+                {tagsAvailable.map((tag) => (
+                  <a
+                    key={tag}
+                    href={`blog/${tag}`}
+                    className="underline text-primary font-extralight text-xl pb-3"
+                  >
+                    {tag}
+                  </a>
+                ))}
+              </div>
+            </Attachment>
+          ) : null}
+
+          {relatedPosts ? (
+            <Attachment title="Publicações relacionadas">
+              <div className="flex flex-col gap-3 px-5">
+                {relatedPosts?.map((post) => (
+                  <a
+                    key={post.slug}
+                    href={`blog/${post.category}/${post.slug}`}
+                    className="flex gap-3 items-start"
+                  >
+                    <Image
+                      src={post.image.src}
+                      alt={post.image.alt}
+                      width={207}
+                      height={141}
                     />
-                    <h2 className="font-bold text-lg">{post.title}</h2>
-                    <p className="text-xs font-light text-[#99999999]">
-                      {post.authorComment}
-                    </p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </Attachment>
+                    <div>
+                      <BadgeBlog
+                        className="uppercase text-white w-fit"
+                        title={post.category}
+                      />
+                      <h2 className="font-bold text-lg">{post.title}</h2>
+                      <p className="text-xs font-light text-[#99999999]">
+                        {post.authorComment}
+                      </p>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </Attachment>
+          ) : null}
         </div>
       </div>
     </div>
