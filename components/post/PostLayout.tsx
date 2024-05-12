@@ -59,7 +59,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
       />
       <div className="flex justify-between">
         <div>
-          <Heading title={title} subtitle={authorComment} />
+          <Heading title={title} authorComment={authorComment} />
           <Divider />
           <SocialInfo author={author} publishedDate={publishedDate} />
           <Content content={firstContent} />
