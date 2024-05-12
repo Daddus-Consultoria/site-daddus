@@ -68,7 +68,7 @@ const CategoryPage: React.FC = () => {
                         title={post.title}
                         image={post.image}
                         badgeTitle={CategoryMap[post.category]}
-                        href={`/blog/${post.category}/${post.slug}`}
+                        href={post.slug}
                       />
                     </div>
                   );

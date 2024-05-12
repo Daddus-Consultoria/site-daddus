@@ -61,34 +61,86 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 
-import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious}
-from "@/components/ui/carousel"
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
+import { Skeleton } from "@/components/ui/skeleton";
 
 export {
   Button,
   Input,
   Label,
-  NavigationMenu,NavigationMenuContent,NavigationMenuItem,NavigationMenuLink,NavigationMenuList,NavigationMenuTrigger,
-  Drawer,DrawerClose,DrawerContent,DrawerDescription,DrawerFooter,DrawerHeader,DrawerTitle,DrawerTrigger,
-  Accordion,AccordionContent,AccordionItem,AccordionTrigger,
-  Card,CardContent,CardDescription,CardFooter,CardHeader,CardTitle,
-  Select,SelectContent,SelectItem,SelectTrigger,SelectValue,
-  Pagination,PaginationContent,PaginationEllipsis,PaginationItem,PaginationLink,PaginationNext,PaginationPrevious,
-  Breadcrumb,BreadcrumbEllipsis,BreadcrumbItem,BreadcrumbLink,BreadcrumbList,BreadcrumbPage,BreadcrumbSeparator,
-  Avatar, AvatarFallback, AvatarImage,
-  Tooltip,TooltipContent,TooltipProvider,TooltipTrigger,
-  Carousel,CarouselContent,CarouselItem,CarouselNext,CarouselPrevious
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  Skeleton,
 };
 //

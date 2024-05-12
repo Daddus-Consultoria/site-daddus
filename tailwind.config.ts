@@ -47,6 +47,7 @@ const config = {
         "5percent": "5%",
       },
       colors: {
+        mediumGray: "var(--medium-gray)",
         lightgray: "hsl(var(--light-gray))",
         label: "var(--label)",
         border: "hsl(var(--border))",

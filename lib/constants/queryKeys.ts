@@ -5,4 +5,5 @@ export enum QueryKeys {
   studies = "studies",
   municipalProfiles = "municipalProfiles",
   blogPostsByCategory = "blogPostsByCategory",
+  lastPosts = "lastPosts",
 }
