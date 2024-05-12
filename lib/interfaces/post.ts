@@ -21,10 +21,6 @@ export const CategoryMap: Record<PostCategory, string> = {
   sustentabilidade: "Sustentabilidade",
   oportunidades: "Oportunidades",
 };
-export interface Tag {
-  label: string;
-  slug: string;
-}
 
 export interface PostModel {
   title: string;
@@ -36,7 +32,7 @@ export interface PostModel {
   category: PostCategory;
   firstContent: ReactNode;
   lastContent?: ReactNode;
-  tags: Tag[];
+  tags: string[];
 }
 
 export interface Post extends PostModel {

@@ -24,18 +24,25 @@ const PostPage = ({ params }: { params: PostPageProps }) => {
   });
 
   const { data: lastPosts, isLoading: isLoadingLastPost } = useQuery({
-    queryKey: ["posts"],
+    queryKey: ["lastPosts"],
     queryFn: async () => {
-      return await usePostUseCases.getSinglePost({
-        slug: post!,
+      return await usePostUseCases.getPosts({
         category: category!,
+        limit: 3,
+        order: "desc",
       });
     },
   });
 
   const isLoading = isLoadingPost || isLoadingLastPost;
 
-  return <PostLayout loading={isLoading} post={postData} />;
+  return (
+    <PostLayout
+      loading={isLoading}
+      post={postData}
+      lastPosts={lastPosts?.posts}
+    />
+  );
 };
 
 export default PostPage;

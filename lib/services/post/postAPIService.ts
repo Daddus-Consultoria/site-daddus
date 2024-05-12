@@ -1,6 +1,11 @@
 import PostRepository from "@/lib/repositories/PostRepository";
 import { httpClient } from "../httpClient";
-import { GetSinglePostArgs, PostResponse, RelationatedPost } from "./index";
+import {
+  GetPostsArgs,
+  GetSinglePostArgs,
+  PostResponse,
+  RelationatedPost,
+} from "./index";
 import { mapperAuthor } from "@/lib/services/author/index";
 import { Post, PostData, PostModel } from "@/lib/interfaces/post";
 
@@ -27,6 +32,7 @@ export class PostsAPIService implements PostRepository {
     });
   }
   postsMapper(post: PostResponse): Post {
+    console.log(post);
     return {
       title: post.attributes.title,
       category: post.attributes.category,
@@ -36,6 +42,9 @@ export class PostsAPIService implements PostRepository {
           : "",
         alt: `${post.attributes.title}-image`,
       },
+      relatedPosts: this.relatedPostMapper(
+        post?.attributes.relationedPosts?.data
+      ),
       author: mapperAuthor(post.attributes.autor),
       authorComment: post.attributes.comment,
       firstContent: post.attributes.firstContent,
@@ -43,18 +52,15 @@ export class PostsAPIService implements PostRepository {
       slug: post.attributes.slug,
       tags: post.attributes.tags,
       lastContent: post.attributes.lastContent,
-      relatedPosts: this.relatedPostMapper(
-        post?.attributes.relationedPosts.data
-      ),
     };
   }
-  async getPosts(category?: string, limit?: number): Promise<PostData> {
+  async getPosts({ category, limit, order }: GetPostsArgs): Promise<PostData> {
     try {
-      const categoryQuery = category
-        ? `&filters[category][$contains]=${category}`
-        : "";
+      const categoryQuery = `&filters[category][$contains]=${category}`;
       const limitQuery = limit ? `&pagination[limit]=${limit}` : "";
-      const path = `/posts?populate[0]=coverImage${categoryQuery}${limitQuery}&populate[1]=autor`;
+      const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
+      const path = `/posts?populate[0]=coverImage${categoryQuery}${limitQuery}&populate[1]=autor${orderQuery}`;
+
       const response: any = await httpClient.get(path);
 
       const { data } = response;

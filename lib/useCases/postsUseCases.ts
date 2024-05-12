@@ -1,5 +1,5 @@
 import { postRepository } from "@/components/providers/repositoriesProviders/postProvider";
-import { GetSinglePostArgs } from "../services/post";
+import { GetPostsArgs, GetSinglePostArgs } from "../services/post";
 
 export class PostsUseCases {
   postRepository;
@@ -7,9 +7,9 @@ export class PostsUseCases {
     this.postRepository = postRepository;
   }
 
-  async getPosts({ category, limit }: { category?: string; limit?: number }) {
+  async getPosts(args: GetPostsArgs) {
     try {
-      return await this.postRepository.getPosts(category, limit);
+      return await this.postRepository.getPosts(args);
     } catch (error) {
       throw error;
     }

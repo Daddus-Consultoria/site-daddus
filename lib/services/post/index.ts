@@ -1,4 +1,4 @@
-import { PostCategory, Tag } from "@/lib/interfaces/post";
+import { PostCategory } from "@/lib/interfaces/post";
 import { AuthorResponse } from "@/lib/services/author/index";
 
 export interface RelationatedPost {
@@ -9,7 +9,7 @@ export interface RelationatedPost {
     autor: AuthorResponse;
     comment?: string;
     slug: string;
-    tags: Tag[];
+    tags: string[];
     publishDate: string;
   };
 }
@@ -23,7 +23,7 @@ export interface PostResponse {
     firstContent?: string;
     publishDate: string;
     slug: string;
-    tags: Tag[];
+    tags: string[];
     lastContent?: string;
     relationedPosts: {
       data: RelationatedPost[];
@@ -38,4 +38,10 @@ export interface GetSinglePostArgs {
 
 export interface GetSinglePostResponse {
   data: PostResponse;
+}
+
+export interface GetPostsArgs {
+  category: string;
+  limit?: number;
+  order?: "asc" | "desc";
 }

@@ -11,6 +11,14 @@ export interface AuthorResponse {
       publishedDate: string;
       summary: string;
       updatedAt: string;
+      avatar?: {
+        data: {
+          attributes: {
+            url: string;
+            alt: string;
+          };
+        };
+      };
     };
   };
 }
@@ -22,7 +30,9 @@ export function mapperAuthor(author: AuthorResponse): AuthorModel {
     role: author.data.attributes.profession,
     email: author.data.attributes.email,
     image: {
-      src: author.data.attributes.avatar.data.attributes.url,
+      src: author.data?.attributes?.avatar
+        ? author.data.attributes?.avatar.data.attributes.url
+        : "",
       alt: `${author.data.attributes.name}-author`,
     },
     description: author.data.attributes.summary,

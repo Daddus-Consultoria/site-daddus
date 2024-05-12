@@ -1,6 +1,6 @@
 "use client";
 
-import { Post, Tag } from "@/lib/interfaces/post";
+import { Post } from "@/lib/interfaces/post";
 import { Author } from "./parts/Author";
 import Image from "next/image";
 import { BadgeBlog } from "../badgeBlog";
@@ -18,11 +18,12 @@ import { PostList } from "../postList";
 interface PostLayoutProps {
   loading: boolean;
   post?: Post;
+  lastPosts?: Post[];
 }
-function PostLayout({ post, loading }: PostLayoutProps) {
+function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
   if (loading) return <SkeletonPost />;
 
-  if (isEmpty(post))
+  if (isEmpty(post) || isEmpty(lastPosts))
     return (
       <div className="m-auto mt-24 text-[#999999]">Nenhum post encontrado</div>
     );
@@ -50,13 +51,13 @@ function PostLayout({ post, loading }: PostLayoutProps) {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-[800px] my-10">
+    <div className="mx-auto w-full max-w-[900px] my-10">
       <BadgeBlog
         colorScheme="secondary"
         title="Finanças"
         className="w-fit text-white"
       />
-      <div className="flex">
+      <div className="flex justify-between">
         <div>
           <Heading title={title} subtitle={authorComment} />
           <Divider />
@@ -122,6 +123,9 @@ function PostLayout({ post, loading }: PostLayoutProps) {
               </div>
             </Attachment>
           ) : null}
+        </div>
+        <div>
+          <PostList title="Últimas publicações" posts={lastPosts!} />
         </div>
       </div>
     </div>
