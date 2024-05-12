@@ -38,3 +38,19 @@ export function mapperAuthor(author: AuthorResponse): AuthorModel {
     description: author.data.attributes.summary,
   };
 }
+
+export function mapperAuthorPublish(author: any): AuthorModel {
+  return {
+    id: author.id,
+    name: author.attributes.name,
+    role: author.attributes.profession,
+    email: author.attributes.email,
+    image: {
+      src: author.attributes?.avatar
+        ? author.attributes?.avatar.data.attributes.url
+        : "",
+      alt: `${author.attributes.name}-author`,
+    },
+    description: author.attributes.summary,
+  };
+}
