@@ -1,11 +1,47 @@
 "use client";
 import { DaddusCarousel } from "@/components/daddusCarousel";
-import { ListCards } from "@/components/index";
+import { ListCards, CardPublication, CardSelectTypePublish } from "@/components/index";
 import { carouselItems } from "@/app/constants";
 import {constantConsultancyListHome, constantPublishListHome} from "@/app/constants";
+import { Divider } from "@/components/post/parts/Divider";
+import { useQuery } from "@tanstack/react-query";
+import { QueryKeys } from "@/lib/constants/queryKeys";
+import { PublishUseCases } from "@/lib/useCases/publishUseCases";
+import { PublishData } from "@/lib/interfaces/publish";
+
 import "@/styles/home.css";
 
 export default function Home() {
+  var allData: PublishData[] ;
+  const usePublishUseCases = new PublishUseCases();
+  const {data, isLoading} = useQuery({
+    queryKey: [QueryKeys.allPublishs],
+    queryFn: async () => {
+      allData.concat(
+        await usePublishUseCases.getPaginatedStudies({
+          limit: 3,
+          page: 1,
+        })
+      )
+      allData.concat(
+        await usePublishUseCases.getPaginatedGuides({
+          limit: 3,
+          page: 1,
+        })
+      )
+      allData.concat(
+        await usePublishUseCases.getPaginatedMunicipalProfiles({
+          limit: 3,
+          page: 1,
+          category: "Perfil",
+        })
+      )
+      return allData;
+    },  
+  });
+
+  console.log(data)
+
   return (
     <>
       <section className="first-section relative">
@@ -24,12 +60,39 @@ export default function Home() {
         </div>
       </section>
       <div className="px-5percent lg:mt-[100px]">
-        <section className="flex flex-col pt-5">
+        <section className="flex flex-1 flex-col pt-5">
           <h2 className="text-primary font-extrabold text-xl">
             Últimas publicações
           </h2>
-          <div></div>
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+            <CardPublication
+                id={3}
+                key={`card-publication`}
+                image={"/images/study/study_image.svg"}
+                description={"asdasd"}
+                title={"title aux"}
+                path={`/conteudos/publicacoes/estudos/`}
+            />
+            <CardPublication
+                id={3}
+                key={`card-publication`}
+                image={"/images/study/study_image.svg"}
+                description={"asdasd"}
+                title={"title aux"}
+                path={`/conteudos/publicacoes/estudos/`}
+            />
+            <CardPublication
+                id={3}
+                key={`card-publication`}
+                image={"/images/study/study_image.svg"}
+                description={"asdasd"}
+                title={"title aux"}
+                path={`/conteudos/publicacoes/estudos/`}
+            />
+            <CardSelectTypePublish/>
+          </div>
         </section>
+        <Divider />
         <section className="flex flex-col pt-5">
           <ListCards  title={constantConsultancyListHome.title} cards={constantConsultancyListHome.cards}/>
         </section>

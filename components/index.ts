@@ -29,6 +29,7 @@ import { ButtonContact } from "./buttonContact";
 import { DaddusCarousel } from "@/components/daddusCarousel";
 
 import {ListCards} from "@/components/listCards"
+import {CardSelectTypePublish} from "@/components/cardSelectTypePublish"
 
 export {
   Dropdown,
@@ -57,6 +58,7 @@ export {
   GoogleAnalytics,
   BlogPostGrid,
   ListCards,
+  CardSelectTypePublish,
 };
 
 export * from "@/components/ui";
