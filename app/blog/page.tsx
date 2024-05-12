@@ -41,7 +41,10 @@ const getBlogHomePosts = async () => {
 
     // Order by date
     lastPosts.sort((a, b) => {
-      return b.publishedDate.getTime() - a.publishedDate.getTime();
+      return (
+        new Date(b.publishedDate).getTime() -
+        new Date(a.publishedDate).getTime()
+      );
     });
     // Get the last 4 posts
     lastPosts.splice(4);
@@ -58,7 +61,7 @@ const getBlogHomePosts = async () => {
 
 const BlogPage: React.FC = () => {
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.lastPosts],
+    queryKey: [QueryKeys.lastPost],
     queryFn: getBlogHomePosts,
   });
   const blogPostsData = data;
@@ -158,32 +161,8 @@ const BlogPage: React.FC = () => {
           />
         </div>
         <div className="w-full lg:w-[33.33%] h-full flex flex-col gap-5">
-          <PostList
-            title="Mais lidas"
-            posts={[
-              {
-                title: "Como a logística pode ajudar a sua empresa a crescer",
-                link: "https://google.com.br",
-              },
-              {
-                title: "Como a logística pode ajudar a sua empresa a crescer",
-                link: "https://google.com.br",
-              },
-              {
-                title: "Como a logística pode ajudar a sua empresa a crescer",
-                link: "https://google.com.br",
-              },
-            ]}
-          />
-          <PostList
-            title="Últimas"
-            posts={(lastPosts ?? []).map((post) => {
-              return {
-                title: post.title,
-                link: `/blog/${post.category}/${post.slug}`,
-              };
-            })}
-          />
+          <PostList title="Mais lidas" posts={[]} />
+          <PostList title="Últimas" posts={lastPosts ?? []} />
         </div>
       </div>
       <div className="w-full mt-5">
