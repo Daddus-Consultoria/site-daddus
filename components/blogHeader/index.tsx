@@ -1,6 +1,7 @@
-import React from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { DaddusLink } from "@/components/index";
+import { DaddusLink, CircularProgressIndicator } from "@/components/index";
 import { ImageLinks, Breakpoints } from "@/lib/constants/constants";
 import {
   Carousel,
@@ -16,20 +17,36 @@ interface BlogHeaderProps {
 }
 
 const BlogHeader: React.FC<BlogHeaderProps> = ({ categorys }) => {
-  const isDesktop = useMediaQuery({
-    query: `(min-width: ${Breakpoints.LAPTOP}px)`,
-  });
+  const [isCalculated, setIsCalculated] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setIsCalculated(true);
+    if (window.innerWidth >= Breakpoints.LAPTOP) {
+      setIsDesktop(true);
+    }
+  }, []);
+
+  if (!isCalculated)
+    return (
+      <div className="h-[5rem] w-full bg-[#F5F7F9] px-10 flex items-center justify-center">
+        <CircularProgressIndicator />
+      </div>
+    );
+
   return isDesktop ? (
     <div className="h-[5rem] w-full bg-[#F5F7F9] px-10">
       <div className="flex flex-row justify-center items-center h-full gap-[1rem]">
         <div className="h-[40px] xl:h-[55px] min-w-[50px] xl:min-w-[150px] relative">
-          <Image
-            src={ImageLinks.BLOG_LOGO}
-            layout="fill"
-            objectFit="contain" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
-            objectPosition="center"
-            alt="Logo do blog"
-          />
+          <DaddusLink href="/blog" variant={"ghost"} isTagAnchor>
+            <Image
+              src={ImageLinks.BLOG_LOGO}
+              layout="fill"
+              objectFit="contain" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
+              objectPosition="center"
+              alt="Logo do blog"
+            />
+          </DaddusLink>
         </div>
         {categorys.map((item, index) => (
           <DaddusLink

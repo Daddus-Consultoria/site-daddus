@@ -1,9 +1,9 @@
 import { PostModel } from "@/lib/interfaces/post";
 import React from "react";
 import { BlogPostCard } from "@/components/index";
-import { getCategoryTranslation } from "@/lib/utils/translateData";
 import { VariantProps, cva } from "class-variance-authority";
 import { cn } from "@/lib/utils";
+import { BlogGridSkeleton } from "./parts/GridSkeleton";
 
 const blogPostVariants = cva("grid sm:grid-cols-1 gap-5", {
   variants: {
@@ -20,27 +20,34 @@ const blogPostVariants = cva("grid sm:grid-cols-1 gap-5", {
 interface BlogPostGridProps extends VariantProps<typeof blogPostVariants> {
   title: string;
   posts: PostModel[];
+  isPostsLoading?: boolean;
 }
 
 const BlogPostGrid: React.FC<BlogPostGridProps> = ({
   posts,
   title,
+  isPostsLoading = false,
   variant,
 }) => {
   return (
     <div className="w-full">
       <h2 className="ml-2 text-primary font-extrabold text-xl mb-4">{title}</h2>
       <div className={cn(blogPostVariants({ variant }))}>
-        {posts.map((post, index) => (
-          <div className="h-[250px]" key={`post-${post.category}-${index}`}>
-            <BlogPostCard
-              first={index === 0}
-              image={post.image}
-              title={post.title}
-              badgeTitle={post.category}
-            />
-          </div>
-        ))}
+        {!isPostsLoading ? (
+          posts.map((post, index) => (
+            <div className="h-[250px]" key={`post-${post.category}-${index}`}>
+              <BlogPostCard
+                first={index === 0}
+                image={post.image}
+                title={post.title}
+                href={`/blog/${post.category}/${post.slug}`}
+                badgeTitle={post.category}
+              />
+            </div>
+          ))
+        ) : (
+          <BlogGridSkeleton />
+        )}
       </div>
     </div>
   );

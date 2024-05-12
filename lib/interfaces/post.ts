@@ -21,7 +21,6 @@ export const CategoryMap: Record<PostCategory, string> = {
   sustentabilidade: "Sustentabilidade",
   oportunidades: "Oportunidades",
 };
-
 export interface Tag {
   label: string;
   slug: string;

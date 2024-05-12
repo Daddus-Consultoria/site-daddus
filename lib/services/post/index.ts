@@ -1,5 +1,5 @@
 import { AuthorModel } from "@/lib/interfaces/author";
-import { PostCategory, Tag } from "@/lib/interfaces/post";
+import { PostCategory, PostModel, Tag } from "@/lib/interfaces/post";
 import { AuthorResponse } from "@/lib/services/author/index";
 
 export interface Post {
@@ -16,7 +16,7 @@ export interface Post {
 }
 
 export interface PostResponse extends Post {
-  relatedPost: Post[];
+  relatedPost: PostModel[];
 }
 
 export interface GetSinglePostArgs {
