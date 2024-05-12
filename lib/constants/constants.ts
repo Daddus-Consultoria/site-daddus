@@ -23,7 +23,7 @@ export const headerItems: NavigationType[] = [
       },
       {
         title: "Desenvolvimento de sistemas",
-       /*  items: [
+        /*  items: [
           {
             title: "Compasso",
             href: "#",
@@ -37,7 +37,7 @@ export const headerItems: NavigationType[] = [
     subtypes: [
       {
         title: "Mobilidade Urbana",
-        href: '/setores/mobilidade-urbana',
+        href: "/setores/mobilidade-urbana",
         items: [
           {
             title: "Transportes",
@@ -128,4 +128,15 @@ export enum TimeConstants {
 
 export enum Links {
   SITE_DOMAIN = "https://www.daddusconsultoria.com",
+}
+
+export enum ImageLinks {
+  BLOG_LOGO = "/images/blog/logo.svg",
+}
+
+export enum Breakpoints {
+  MOBILE = 640,
+  TABLET = 768,
+  LAPTOP = 1024,
+  DESKTOP = 1280,
 }

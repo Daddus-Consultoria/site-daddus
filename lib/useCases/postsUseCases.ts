@@ -7,9 +7,9 @@ export class PostsUseCases {
     this.postRepository = postRepository;
   }
 
-  async getPosts(category?: string) {
+  async getPosts({ category, limit }: { category?: string; limit?: number }) {
     try {
-      return await this.postRepository.getPosts(category);
+      return await this.postRepository.getPosts(category, limit);
     } catch (error) {
       throw error;
     }

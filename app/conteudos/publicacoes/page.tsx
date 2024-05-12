@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { Label } from "@/components/ui/index";
 import { CardInfo } from "@/components/index";
 import { constantsPublications } from "@/app/conteudos/publicacoes/_constant";
 

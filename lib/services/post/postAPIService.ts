@@ -46,14 +46,14 @@ export class PostsAPIService implements PostRepository {
       ) as PostModel[],
     };
   }
-  async getPosts(category?: string): Promise<PostData> {
+  async getPosts(category?: string, limit?: number): Promise<PostData> {
     try {
       const categoryQuery = category
         ? `&filters[category][$contains]=${category}`
         : "";
-      const path = `/posts?populate[0]=coverImage${categoryQuery}&populate[1]=autor`;
+      const limitQuery = limit ? `&pagination[limit]=${limit}` : "";
+      const path = `/posts?populate[0]=coverImage${categoryQuery}${limitQuery}&populate[1]=autor`;
       const response: any = await httpClient.get(path);
-      console.log("The response is: ", response);
 
       const { data } = response;
       let posts: Post[] = [];
@@ -78,7 +78,6 @@ export class PostsAPIService implements PostRepository {
       const query = `&filters[category][$eq]=${category}&filters[slug][$eq]=${slug}&populate[0]=autor&populate[1]=autor.avatar&populate[2]=relationedPosts&populate[3]=relationedPosts.coverImage`;
       const path = `/posts?${query}`;
       const response: any = await httpClient.get(path);
-      console.log("The response is: ", response);
 
       const { data } = response;
       const post = this.postsMapper(data[0]);

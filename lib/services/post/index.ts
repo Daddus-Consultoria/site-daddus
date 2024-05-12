@@ -1,4 +1,3 @@
-import { AuthorModel } from "@/lib/interfaces/author";
 import { PostCategory, Tag } from "@/lib/interfaces/post";
 import { AuthorResponse } from "@/lib/services/author/index";
 
