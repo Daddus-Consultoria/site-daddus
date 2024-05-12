@@ -23,10 +23,8 @@ const formatTitle = (title: string) => {
   }
 };
 
-const formatCategory = (category: string) => {
-  if (CATEGORY_NAMES_BLOG[category]) {
-    return CATEGORY_NAMES_BLOG[category];
-  }
+const formatCategory = (category?: string) => {
+  return category ? CATEGORY_NAMES_BLOG[category] : "";
 };
 
 const CategoryPage: React.FC = () => {
@@ -38,7 +36,7 @@ const CategoryPage: React.FC = () => {
     queryKey: ["posts"],
     queryFn: async () => {
       return await usePostUseCases.getPosts({
-        category: formatCategory(categoryPath!),
+        category: formatCategory(categoryPath),
       });
     },
   });
