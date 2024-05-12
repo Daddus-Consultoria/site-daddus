@@ -1,5 +1,6 @@
 import { AuthorModel } from "@/lib/interfaces/author";
-import { AuthorResponse } from "@/lib/services/author/index";
+import { type BlocksContent } from "@strapi/blocks-react-renderer";
+
 import { ImageProps } from "next/image";
 import { ReactNode } from "react";
 
@@ -21,26 +22,24 @@ export const CategoryMap: Record<PostCategory, string> = {
   sustentabilidade: "Sustentabilidade",
   oportunidades: "Oportunidades",
 };
-export interface Tag {
-  label: string;
-  slug: string;
-}
 
 export interface PostModel {
   title: string;
   authorComment?: string;
   slug: string;
   image: ImageProps;
-  publishedDate: Date;
+  publishedDate: string;
   author: AuthorModel;
   category: PostCategory;
-  firstContent: ReactNode;
-  lastContent?: ReactNode;
-  tags: Tag[];
+  firstContent: BlocksContent;
+  lastContent?: BlocksContent;
+  tags: string[];
 }
 
 export interface Post extends PostModel {
-  relatedPosts: PostModel[];
+  relatedPosts:
+    | Omit<PostModel, "firstContent" | "lastContent" | "author">[]
+    | undefined;
 }
 
 export interface PostData {

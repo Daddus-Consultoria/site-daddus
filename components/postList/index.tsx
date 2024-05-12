@@ -1,13 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import { Links } from "@/lib/constants/constants";
+import { Post } from "@/lib/interfaces/post";
 
 interface PostListProps {
   title: string;
-  posts: {
-    title: string;
-    link: string;
-  }[];
+  posts: Post[];
 }
 
 const PostList: React.FC<PostListProps> = ({ posts, title }) => {
@@ -26,7 +23,7 @@ const PostList: React.FC<PostListProps> = ({ posts, title }) => {
           >
             <Link
               className="flex gap-3 p-5 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
-              href={post.link}
+              href={`blog/${post.category}/${post.slug}`}
             >
               <span className="text-primary font-extrabold text-2xl">
                 {index + 1}.

@@ -1,22 +1,34 @@
-import { AuthorModel } from "@/lib/interfaces/author";
-import { PostCategory, PostModel, Tag } from "@/lib/interfaces/post";
+import { PostCategory } from "@/lib/interfaces/post";
 import { AuthorResponse } from "@/lib/services/author/index";
 
-export interface Post {
-  title: string;
-  category: PostCategory;
-  coverImage?: any;
-  autor: AuthorResponse;
-  comment?: string;
-  firstContent?: string;
-  publishDate: string;
-  slug: string;
-  tags: Tag[];
-  lastContent?: string;
+export interface RelationatedPost {
+  attributes: {
+    title: string;
+    category: PostCategory;
+    coverImage?: any;
+    autor: AuthorResponse;
+    comment?: string;
+    slug: string;
+    tags: string[];
+    publishDate: string;
+  };
 }
-
-export interface PostResponse extends Post {
-  relatedPost: PostModel[];
+export interface PostResponse {
+  attributes: {
+    title: string;
+    category: PostCategory;
+    coverImage?: any;
+    autor: AuthorResponse;
+    comment?: string;
+    publishDate: string;
+    slug: string;
+    tags: string[];
+    firstContent?: any;
+    lastContent?: any;
+    relationedPosts: {
+      data: RelationatedPost[];
+    };
+  };
 }
 
 export interface GetSinglePostArgs {
@@ -26,4 +38,10 @@ export interface GetSinglePostArgs {
 
 export interface GetSinglePostResponse {
   data: PostResponse;
+}
+
+export interface GetPostsArgs {
+  category: string;
+  limit?: number;
+  order?: "asc" | "desc";
 }
