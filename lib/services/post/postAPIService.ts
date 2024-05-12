@@ -1,11 +1,11 @@
 import PostRepository from "@/lib/repositories/PostRepository";
 import { httpClient } from "../httpClient";
-import { GetSinglePostArgs } from "./index";
+import { GetSinglePostArgs, PostResponse, RelationatedPost } from "./index";
 import { mapperAuthor } from "@/lib/services/author/index";
 import { Post, PostData, PostModel } from "@/lib/interfaces/post";
 
 export class PostsAPIService implements PostRepository {
-  relatedPostMapper(posts?: any): any {
+  relatedPostMapper(posts?: RelationatedPost[]): any {
     return posts?.map((post) => {
       console.log(post);
       return {
@@ -24,7 +24,7 @@ export class PostsAPIService implements PostRepository {
       };
     });
   }
-  postsMapper(post: any): Post {
+  postsMapper(post: PostResponse): Post {
     return {
       title: post.attributes.title,
       category: post.attributes.category,

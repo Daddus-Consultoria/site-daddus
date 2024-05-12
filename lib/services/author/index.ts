@@ -8,7 +8,7 @@ export interface AuthorResponse {
       email: string;
       name: string;
       profession: string;
-      publishedAt: string;
+      publishedDate: string;
       summary: string;
       updatedAt: string;
     };
