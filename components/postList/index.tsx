@@ -26,7 +26,7 @@ const PostList: React.FC<PostListProps> = ({ posts, title }) => {
           >
             <Link
               className="flex gap-3 p-5 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
-              href={`${Links.SITE_DOMAIN}${post.link}`}
+              href={post.link}
             >
               <span className="text-primary font-extrabold text-2xl">
                 {index + 1}.
