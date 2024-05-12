@@ -32,3 +32,4 @@ const Skeleton = ({ children, className }: Props) => {
 };
 
 export default Skeleton;
+export { Skeleton };

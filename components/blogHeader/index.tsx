@@ -29,13 +29,13 @@ const BlogHeader: React.FC<BlogHeaderProps> = ({ categorys }) => {
 
   if (!isCalculated)
     return (
-      <div className="h-[5rem] w-full bg-[#F5F7F9] px-10 flex items-center justify-center">
+      <div className="h-[5rem] w-full bg-mediumGray px-10 flex items-center justify-center">
         <CircularProgressIndicator />
       </div>
     );
 
   return isDesktop ? (
-    <div className="h-[5rem] w-full bg-[#F5F7F9] px-10">
+    <div className="h-[5rem] w-full bg-mediumGray px-10">
       <div className="flex flex-row justify-center items-center h-full gap-[1rem]">
         <div className="h-[40px] xl:h-[55px] min-w-[50px] xl:min-w-[150px] relative">
           <DaddusLink href="/blog" variant={"ghost"} isTagAnchor>
@@ -62,7 +62,7 @@ const BlogHeader: React.FC<BlogHeaderProps> = ({ categorys }) => {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col md:flex-row items-center gap-3 md:gap-10 bg-[#F5F7F9] px-5 py-2 justify-between">
+    <div className="flex flex-col md:flex-row items-center gap-3 md:gap-10 bg-mediumGray px-5 py-2 justify-between">
       <div className="h-[40px] min-w-[100px] mt-3 max-w-[100px] items-start md:h-[30px] md:min-w-[50px] relative">
         <DaddusLink href={"/blog"} variant={"ghost"} isTagAnchor>
           <Image
