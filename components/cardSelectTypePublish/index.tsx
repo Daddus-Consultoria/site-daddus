@@ -10,7 +10,7 @@ const CardSelectTypePublish = () => {
                         Veja todas nossas publicações:
                     </h2>
                 </div>
-                <div className="flex w-full items-center justify-between px-8">
+                <div className="grid grid-cols-2 sm:flex sm:flex-1 sm:flex-row sm:w-full sm:items-end sm:justify-end gap-1 px-8">
                     <CardSelect title="ESTUDOS" href="/conteudos/publicacoes/estudos"/>
                     <CardSelect title="GUIAS" href="/conteudos/publicacoes/guias"/>
                     <CardSelect title="PERFIS MUNICIPAIS" href="/conteudos/publicacoes/perfis-municipais"/>

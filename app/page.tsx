@@ -91,7 +91,7 @@ export default function Home() {
     <>
       <section className="first-section relative">
         <div className="flex flex-col relative z-2 justify-center text-white title-container">
-          <h1 className=" font-extrabold text-4xl">
+          <h1 className=" font-extrabold text-2xl lg:text-4xl">
             Soluções Estratégicas em Políticas Públicas, Gestão e Viabilidade
             Econômica
           </h1>
@@ -100,16 +100,40 @@ export default function Home() {
             <br /> com a Daddus.
           </p>
         </div>
-        <div className="absolute w-[100%] md:relative  left-0 md:left-auto mt-10 lg:absolute bg-primary rounded-2xl md:mt-[4rem] lg:mt-0 lg:w-[90%] py-5 px-[10%] lg:bottom-[-4rem]">
+        <div className="hidden md:flex absolute w-[100%] md:relative  left-0 md:left-auto mt-10 lg:absolute bg-primary rounded-2xl md:mt-[4rem] lg:mt-0 lg:w-[90%] py-5 px-[10%] lg:bottom-[-4rem]">
           <DaddusCarousel items={carouselItems} />
         </div>
+        
       </section>
+      <div className="md:hidden flex flex-1 w-full">
+          <div className=" flex flex-col w-full px-10 py-6 bg-primary rounded-b-2xl">
+            <div className="flex flex-col w-[100%] mr-0 gap-[1rem]">
+                  {carouselItems.map((item, index) => (
+                      <div className="flex flex-col lg:flex-row items-center justify-center gap-2 h-full my-auto ">
+                        
+                        <h2 className="text-xl font-extrabold text-white leading-tight">
+                          {item.title}
+                        </h2>
+                        <p className="text-sm text-white mt-4">{item.description}</p>
+                        <div className=" w-[50%] h-[190px] relative">
+                          <Image
+                            layout="fill"
+                            objectFit="contain"
+                            src={item.image.src}
+                            alt={item.image.alt}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                </div>
+            </div>
+        </div>
       <div className="px-5percent lg:mt-[100px]">
         <section className="flex flex-1 flex-col pt-5">
           <h2 className="text-primary font-extrabold text-xl">
             Últimas publicações
           </h2>
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-4">
             {isLoading ? <CircularProgressIndicator containerHeight="300px"/>: (
                   lastPublishes && lastPublishes?.map((item:PublishModel) => (
                     <CardPublication
@@ -129,7 +153,7 @@ export default function Home() {
             <Image src='/images/blog/logo.svg' width={100} height={10} alt="divider" />
         </Divider>
         <section>
-          <div className="flex flex-col lg:flex-row h-full w-full lg:h-[500px] 2xl:h-[500px] items-center mt-4 lg:mt-5percent gap-10 px-5percent">
+          <div className="flex flex-col lg:flex-row h-full w-full lg:h-[500px] 2xl:h-[500px] items-center mt-11 lg:mt-5percent gap-10 px-5percent">
             <div className="w-full h-52 md:h-80 lg:w-[60%] xl:w-[66.66%] lg:h-full">
               {isLoading ? (
                 <Skeleton>
