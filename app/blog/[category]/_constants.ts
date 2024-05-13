@@ -86,11 +86,7 @@ const cardsPostBlog: CardBlogProps[] = [
   },
 ];
 
-<<<<<<< HEAD
-export const constantsPublicationsBlogFinancas:CardInfoProps[] = [
-=======
 export const constantsPublicationsBlogFinancas: CardInfoProps[] = [
->>>>>>> develop
   {
     title: "ESTUDOS",
     description:
@@ -116,10 +112,6 @@ export const constantsPublicationsBlogFinancas: CardInfoProps[] = [
     copyLink: `${Links.SITE_DOMAIN}/conteudos/publicacoes/perfis-municipais`,
   },
 ];
-<<<<<<< HEAD
-  
-=======
->>>>>>> develop
 
 export const constantsFinancas = {
   title: "Finanças",
