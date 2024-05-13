@@ -11,13 +11,15 @@ export class PublishAPIService implements PublishRepository {
   async getPaginatedMunicipalProfiles(
     page: number,
     limit: number,
-    category?: string
+    category?: string,
+    order?:  "asc" | "desc",
   ): Promise<PublishData> {
     try {
       const categoryQuery = category
         ? `&filters[category][$contains]=${category}`
         : "";
-      const path = `/publicacoes?populate[0]=coverImage&pagination[page]=${page}&pagination[pageSize]=${limit}${categoryQuery}`;
+      const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
+      const path = `/publicacoes?populate[0]=coverImage&pagination[page]=${page}&pagination[pageSize]=${limit}${categoryQuery}${orderQuery}`;
       const response: any = await httpClient.get(path);
 
       const { data } = response;
@@ -25,7 +27,7 @@ export class PublishAPIService implements PublishRepository {
       data.forEach((publish: any) => {
         publishes.push({
           id: publish.id,
-          authors: getAuthorsList(publish.attributes.authors),
+          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
           category: publish.attributes.category,
           documentUrl: publish.attributes.documentLink,
           imageUrl: publish.attributes.coverImage.data.attributes.url,
@@ -33,6 +35,7 @@ export class PublishAPIService implements PublishRepository {
           shortDescription: publish.attributes.shortDescription,
           tags: publish.attributes.tags,
           title: publish.attributes.title,
+          createdAt: publish.attributes.createdAt,
         });
       });
 
@@ -76,9 +79,10 @@ export class PublishAPIService implements PublishRepository {
     }
   }
 
-  async getPaginatedGuides(page: number, limit: number): Promise<PublishData> {
+  async getPaginatedGuides(page: number, limit: number, order?:  "asc" | "desc",): Promise<PublishData> {
     try {
-      const path = `/guias?populate[0]=coverImage&pagination[page]=${page}&pagination[pageSize]=${limit}`;
+      const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
+      const path = `/guias?populate[0]=coverImage&pagination[page]=${page}&pagination[pageSize]=${limit}${orderQuery}`;
       const response: any = await httpClient.get(path);
 
       const { data } = response;
@@ -86,13 +90,14 @@ export class PublishAPIService implements PublishRepository {
       data.forEach((publish: any) => {
         publishes.push({
           id: publish.id,
-          authors: getAuthorsList(publish.attributes.authors),
+          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
           documentUrl: publish.attributes.documentLink,
           imageUrl: publish.attributes.coverImage.data.attributes.url,
           longDescription: publish.attributes.longDescription,
           shortDescription: publish.attributes.shortDescription,
           tags: publish.attributes.tags,
           title: publish.attributes.title,
+          createdAt: publish.attributes.createdAt,
         });
       });
 
@@ -134,9 +139,10 @@ export class PublishAPIService implements PublishRepository {
     }
   }
 
-  async getPaginatedStudys(page: number, limit: number): Promise<PublishData> {
+  async getPaginatedStudys(page: number, limit: number, order?:  "asc" | "desc",): Promise<PublishData> {
     try {
-      const path = `/estudos?populate[0]=coverImage&pagination[page]=${page}&pagination[pageSize]=${limit}`;
+      const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
+      const path = `/estudos?populate[0]=coverImage&pagination[page]=${page}&pagination[pageSize]=${limit}${orderQuery}`;
       const response: any = await httpClient.get(path);
 
       const { data } = response;
@@ -144,13 +150,14 @@ export class PublishAPIService implements PublishRepository {
       data.forEach((publish: any) => {
         publishes.push({
           id: publish.id,
-          authors: getAuthorsList(publish.attributes.authors),
+          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
           documentUrl: publish.attributes.documentLink,
           imageUrl: publish.attributes.coverImage.data.attributes.url,
           longDescription: publish.attributes.longDescription,
           shortDescription: publish.attributes.shortDescription,
           tags: publish.attributes.tags,
           title: publish.attributes.title,
+          createdAt: publish.attributes.createdAt,
         });
       });
 

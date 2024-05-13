@@ -10,6 +10,7 @@ export interface PublishModel {
   imageUrl: string;
   documentUrl: string;
   id: number;
+  createdAt?: string;
 }
 
 export interface PublishData {

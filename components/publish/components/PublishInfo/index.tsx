@@ -52,7 +52,7 @@ const PublishInfo: React.FC<PublishInfoProps> = ({
                 {author.name}
               </li>
             ))}
-          </ul>
+        </ul>
         </div>
 
         <TitleDescription  title="Publicação" value={createdAt} />
