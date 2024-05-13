@@ -115,7 +115,7 @@ export default function Home() {
           <div className=" flex flex-col w-full px-10 py-6 bg-primary rounded-b-2xl">
             <div className="flex flex-col w-[100%] mr-0 gap-[1rem]">
                   {carouselItems.map((item, index) => (
-                      <div className="flex flex-col lg:flex-row items-center justify-center gap-2 h-full my-auto ">
+                      <div key={`carousel-item-${index}`} className="flex flex-col lg:flex-row items-center justify-center gap-2 h-full my-auto ">
                         
                         <h2 className="text-xl font-extrabold text-white leading-tight">
                           {item.title}
@@ -223,7 +223,7 @@ export default function Home() {
               
             </div>
             <div className="w-full lg:w-1/3">
-              <PostList title="Mais lidas" posts={[]} />
+              {/* <PostList title="Mais lidas" posts={[]} /> */}
             </div>
             <div className="w-full lg:w-1/3">
               <PostList title="Últimas" posts={postsBlog ?? []} />
