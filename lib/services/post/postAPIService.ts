@@ -14,7 +14,6 @@ export class PostsAPIService implements PostRepository {
     posts?: RelationatedPost[]
   ): Omit<PostModel, "author" | "firstContent" | "lastContent">[] | undefined {
     return posts?.map((post) => {
-      console.log(post);
       return {
         title: post.attributes.title,
         authorComment: post.attributes.comment,
