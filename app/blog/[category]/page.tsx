@@ -40,7 +40,7 @@ const CategoryPage: React.FC = () => {
     <div className="flex flex-1 flex-col justify-start items-start mt-6 lg:mt-0 ">
       {/* <div className="flex flex-1 flex-col justify-start items-start mt-6 lg:mt-0 px-8 sm:px-10 lg:px-32 xl:px-36 lg:py-10 ">*/}
       <div className="flex flex-1 flex-col w-full justify-center items-center">
-        <div className="flex flex-col md:mt-5 lg:mt-5">
+        <div className="flex flex-1 w-full px-12 2xl:px-40 flex-col md:mt-5 lg:mt-5">
           <h2 className="flex w-full font-bold text-[22px] lg:text-[26px] text-[#A90920] mt-4 lg:mt-1 mb-2 lg:mb-4">
             {formatTitle(categoryPath!)}
           </h2>
@@ -48,7 +48,7 @@ const CategoryPage: React.FC = () => {
             <CircularProgressIndicator containerHeight="400px" />
           ) : (
             <div className="grid sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-3 h-full xl:mt-0 gap-5 sm:gap-10 md:gap-10 xl:gap-5 md:mt-3 ">
-              {postsAux!.map((post, index) => {
+              {postsAux!.map((post:any, index:number) => {
                 if (index != 2) {
                   return (
                     <div
