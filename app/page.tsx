@@ -14,33 +14,51 @@ import "@/styles/home.css";
 export default function Home() {
   var allData: PublishData[] ;
   const usePublishUseCases = new PublishUseCases();
+
+  const getStudies = async ()  => {
+    return await usePublishUseCases.getPaginatedStudies({
+      limit: 3,
+      page: 1,
+    })
+  }
+
+  const getGuides = async ()  => {
+    return await usePublishUseCases.getPaginatedGuides({
+      limit: 3,
+      page: 1,
+    })
+  }
+
+  const getMuncipalProfile = async ()  => {
+    return  await usePublishUseCases.getPaginatedMunicipalProfiles({
+      limit: 3,
+      page: 1,
+      category: "Perfil",
+    })
+  }
+
+  const promises = [
+    getStudies(),
+    getGuides(),
+    getMuncipalProfile()
+  ]
+
+  function getPostsHome<Promise> (){
+    const dataAll:PublishData[] = []
+    return Promise.all(promises).
+    then((values) => {
+      dataAll.concat(values)
+      return dataAll
+    });
+  }
+
   const {data, isLoading} = useQuery({
     queryKey: [QueryKeys.allPublishs],
     queryFn: async () => {
-      allData.concat(
-        await usePublishUseCases.getPaginatedStudies({
-          limit: 3,
-          page: 1,
-        })
-      )
-      allData.concat(
-        await usePublishUseCases.getPaginatedGuides({
-          limit: 3,
-          page: 1,
-        })
-      )
-      allData.concat(
-        await usePublishUseCases.getPaginatedMunicipalProfiles({
-          limit: 3,
-          page: 1,
-          category: "Perfil",
-        })
-      )
-      return allData;
+      getPostsHome()
     },  
   });
 
-  console.log(data)
 
   return (
     <>
@@ -103,3 +121,4 @@ export default function Home() {
     </>
   );
 }
+
