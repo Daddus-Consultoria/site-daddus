@@ -22,12 +22,11 @@ const SearchLink: React.FC<SearchLinkProps> = ({ path }) => {
     navigator.clipboard
       .writeText(path)
       .then(() => {
-        console.log("Link copiado");
         setOpenTooltip(true);
         setTimeout(() => setOpenTooltip(false), 1000);
       })
       .catch((err) => {
-        console.log("Erro ao copiar o link");
+        console.error("Erro ao copiar o link:", err);
       });
   };
 

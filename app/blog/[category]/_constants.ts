@@ -1,65 +1,96 @@
-import {CardBlogProps} from "@/lib/interfaces/card";
-import { CardInfoProps } from "@/lib/interfaces/card"
-import {Links} from '@/lib/constants/constants';
+import { CardBlogProps } from "@/lib/interfaces/card";
+import { CardInfoProps } from "@/lib/interfaces/card";
+import { Links } from "@/lib/constants/constants";
 
-const cardsPostBlog:CardBlogProps[] = [
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: true,
-        image: '/images/blog/tremStation.svg'
+const cardsPostBlog: CardBlogProps[] = [
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: true,
+    image: {
+      src: "/images/blog/tremStation.svg",
+      alt: "Imagem de um trem",
     },
-    {
-      title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-      first: false,
-        image: '/images/blog/maria.svg'
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: false,
+    image: {
+      src: "/images/blog/maria.svg",
+      alt: "Imagem de uma mulher",
     },
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: false,
-        image: '/images/blog/bike.svg'
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: false,
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "Imagem de uma bicicleta",
     },
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: true,
-        image: '/images/blog/tremStation.svg'
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: true,
+    image: {
+      src: "/images/blog/tremStation.svg",
+      alt: "Imagem de um trem",
     },
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: false,
-        image: '/images/blog/maria.svg'
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: false,
+    image: {
+      src: "/images/blog/maria.svg",
+      alt: "Imagem de uma mulher",
     },
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: false,
-        image: '/images/blog/bike.svg'
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: false,
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "Imagem de uma bicicleta",
     },
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: true,
-        image: '/images/blog/tremStation.svg'
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: true,
+    image: {
+      src: "/images/blog/tremStation.svg",
+      alt: "Imagem de um trem",
     },
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: false,
-        image: '/images/blog/maria.svg'
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: false,
+    image: {
+      src: "/images/blog/maria.svg",
+      alt: "Imagem de uma mulher",
     },
-    {
-        title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
-        badgeTitle: 'MERCADOS',
-        first: false,
-        image: '/images/blog/bike.svg'
-    }
-]
+  },
+  {
+    title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+    badgeTitle: "MERCADOS",
+    first: false,
+    image: {
+      src: "/images/blog/bike.svg",
+      alt: "Imagem de uma bicicleta",
+    },
+  },
+];
 
+<<<<<<< HEAD
 export const constantsPublicationsBlogFinancas:CardInfoProps[] = [
+=======
+export const constantsPublicationsBlogFinancas: CardInfoProps[] = [
+>>>>>>> develop
   {
     title: "ESTUDOS",
     description:
@@ -85,27 +116,30 @@ export const constantsPublicationsBlogFinancas:CardInfoProps[] = [
     copyLink: `${Links.SITE_DOMAIN}/conteudos/publicacoes/perfis-municipais`,
   },
 ];
+<<<<<<< HEAD
   
+=======
+>>>>>>> develop
 
 export const constantsFinancas = {
-    title: 'Finanças',
-    cards: cardsPostBlog, 
-    titlePublications: 'PUBLICAÇÕES',
-    cardsPublications: constantsPublicationsBlogFinancas,
-}
+  title: "Finanças",
+  cards: cardsPostBlog,
+  titlePublications: "PUBLICAÇÕES",
+  cardsPublications: constantsPublicationsBlogFinancas,
+};
 
 interface SpecialCharactersWords {
-    [key: string]: string;
+  [key: string]: string;
 }
-  
+
 export const SPECIAL_CHARACTERS_WORDS_BLOG: SpecialCharactersWords = {
-    financas: "FINANÇAS",
-    "politicas-publicas": "POLÍTICAS PÚBLICAS",
-    governanca: "GOVERNANÇA",
-    logistica: "LOGÍSTICA",
-    inovacao: "INOVAÇÃO",
-    sustentabilidade: "SUSTENTABILIDADE",
-    oportunidades: "OPORTUNIDADES",
+  financas: "FINANÇAS",
+  "politicas-publicas": "POLÍTICAS PÚBLICAS",
+  governanca: "GOVERNANÇA",
+  logistica: "LOGÍSTICA",
+  inovacao: "INOVAÇÃO",
+  sustentabilidade: "SUSTENTABILIDADE",
+  oportunidades: "OPORTUNIDADES",
 };
 
 export const CATEGORY_NAMES_BLOG: SpecialCharactersWords = {
@@ -116,4 +150,4 @@ export const CATEGORY_NAMES_BLOG: SpecialCharactersWords = {
   inovacao: "inovacao",
   sustentabilidade: "sustentabilidade",
   oportunidades: "oportunidades",
-}
+};

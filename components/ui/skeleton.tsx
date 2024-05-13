@@ -23,7 +23,7 @@ const Skeleton = ({ children, className }: Props) => {
           "before:via-white/50",
           'before:to-transparent"',
         ],
-        className,
+        className
       )}
     >
       {children}
@@ -32,3 +32,4 @@ const Skeleton = ({ children, className }: Props) => {
 };
 
 export default Skeleton;
+export { Skeleton };

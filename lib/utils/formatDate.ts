@@ -5,12 +5,12 @@ interface IPublishRelativeNowProps {
   prefix?: boolean;
 }
 
-export function FormatDate(date: Date, locale?: Locale) {
+export function FormatDate(date: Date | string, locale?: Locale) {
   const publishedDateFormatted = format(date, "MM/dd/yyyy HH'h'mm", {
     locale: locale || ptBR,
   });
 
-  const ISODate = date;
+  const ISODate = date.toString();
 
   const publishedDateRelativeToNow = ({ prefix }: IPublishRelativeNowProps) =>
     formatDistanceToNow(date, {

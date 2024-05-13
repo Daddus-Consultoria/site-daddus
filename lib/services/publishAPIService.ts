@@ -19,7 +19,6 @@ export class PublishAPIService implements PublishRepository {
         : "";
       const path = `/publicacoes?populate[0]=coverImage&pagination[page]=${page}&pagination[pageSize]=${limit}${categoryQuery}`;
       const response: any = await httpClient.get(path);
-      console.log(" The response is: ", response);
 
       const { data } = response;
       let publishes: MunicipalProfileModel[] = [];

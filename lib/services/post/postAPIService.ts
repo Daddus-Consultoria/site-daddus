@@ -1,42 +1,73 @@
 import PostRepository from "@/lib/repositories/PostRepository";
-import { PostData, Post, CategoryMap } from "@/lib/interfaces/post";
 import { httpClient } from "../httpClient";
-import { GetSinglePostArgs, PostResponse } from "./index";
+import {
+  GetPostsArgs,
+  GetSinglePostArgs,
+  PostResponse,
+  RelationatedPost,
+} from "./index";
 import { mapperAuthor } from "@/lib/services/author/index";
+import { Post, PostData, PostModel } from "@/lib/interfaces/post";
 
 export class PostsAPIService implements PostRepository {
+  relatedPostMapper(
+    posts?: RelationatedPost[]
+  ): Omit<PostModel, "author" | "firstContent" | "lastContent">[] | undefined {
+    return posts?.map((post) => {
+      return {
+        title: post.attributes.title,
+        authorComment: post.attributes.comment,
+        image: {
+          src: post.attributes.coverImage?.data
+            ? post.attributes.coverImage?.data.attributes.url
+            : "",
+          alt: `${post.attributes.title}-image`,
+        },
+        slug: post.attributes.slug,
+        category: post.attributes.category,
+        publishedDate: post.attributes.publishDate,
+        tags: post.attributes.tags,
+      };
+    });
+  }
   postsMapper(post: PostResponse): Post {
     return {
-      title: post.title,
-      category: post.category,
+      title: post.attributes.title,
+      category: post.attributes.category,
       image: {
-        src: post.coverImage?.data ? post.coverImage?.data.attributes.url : "",
-        alt: `${post.title}-image`,
+        src: post.attributes.coverImage?.data
+          ? post.attributes.coverImage?.data.attributes.url
+          : "",
+        alt: `${post.attributes.title}-image`,
       },
-      author: mapperAuthor(post.autor),
-      authorComment: post.comment,
-      firstContent: post.firstContent,
-      publishedDate: post.publishDate,
-      slug: post.slug,
-      tags: post.tags,
-      relatedPosts: post.relatedPost,
-      lastContent: post.lastContent,
+      relatedPosts: this.relatedPostMapper(
+        post?.attributes.relationedPosts?.data
+      ),
+      author: mapperAuthor(post.attributes.autor),
+      authorComment: post.attributes.comment,
+      firstContent: post.attributes.firstContent,
+      publishedDate: post.attributes.publishDate,
+      slug: post.attributes.slug,
+      tags: post.attributes.tags,
+      lastContent: post.attributes.lastContent,
     };
   }
-  async getPosts(category?: string): Promise<PostData> {
+  async getPosts({ category, limit, order }: GetPostsArgs): Promise<PostData> {
     try {
       const categoryQuery = category
         ? `&filters[category][$contains]=${category}`
         : "";
-      const path = `/posts?populate[0]=coverImage${categoryQuery}&populate[1]=autor`;
+      const limitQuery = limit ? `&pagination[limit]=${limit}` : "";
+      const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
+      const path = `/posts?populate[0]=coverImage${categoryQuery}${limitQuery}&populate[1]=autor${orderQuery}`;
+
       const response: any = await httpClient.get(path);
-      console.log("The response is: ", response);
 
       const { data } = response;
       let posts: Post[] = [];
 
       data.forEach((post: any) => {
-        posts.push(this.postsMapper(post.attributes));
+        posts.push(this.postsMapper(post));
       });
 
       const postData: PostData = {
@@ -52,15 +83,13 @@ export class PostsAPIService implements PostRepository {
 
   async getSinglePost({ category, slug }: GetSinglePostArgs): Promise<Post> {
     try {
-      const query = `&filters[category][$eq]=${category}&filters[slug][$eq]=${slug}&populate[0]=autor`;
+      const query = `&filters[category][$eq]=${category}&filters[slug][$eq]=${slug}&populate[0]=autor&populate[1]=autor.avatar&populate[2]=relationedPosts&populate[3]=relationedPosts.coverImage`;
       const path = `/posts?${query}`;
       const response: any = await httpClient.get(path);
-      console.log("The response is: ", response);
 
       const { data } = response;
-      console.log(data);
-      const post = this.postsMapper(data[0].attributes);
-      console.log("The post is: ", post);
+      const post = this.postsMapper(data[0]);
+
       return post;
     } catch (error) {
       console.error(error);

@@ -14,6 +14,7 @@ import { SearchLink } from "./searchLink";
 import { DaddusLink } from "./daddusLink";
 import { VideoComponent } from "./videoComponent";
 import { BlogPostGrid } from "@/components/blogPostGrid";
+import { BlogHeader } from "@/components/blogHeader";
 
 import { PublishInfo } from "./publish/components/PublishInfo";
 import { CircularProgressIndicator } from "./circularProgressIndicator";
@@ -59,6 +60,7 @@ export {
   BlogPostGrid,
   ListCards,
   CardSelectTypePublish,
+  BlogHeader,
 };
 
 export * from "@/components/ui";
