@@ -3,6 +3,7 @@ import { PostLayout } from "@/components/post";
 import { postItems } from "./_constants";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import { useQuery } from "@tanstack/react-query";
+import { QueryKeys } from "@/lib/constants/queryKeys";
 interface PostPageProps {
   category?: string;
   post?: string;
@@ -24,11 +25,10 @@ const PostPage = ({ params }: { params: PostPageProps }) => {
   });
 
   const { data: lastPosts, isLoading: isLoadingLastPost } = useQuery({
-    queryKey: ["lastPosts"],
+    queryKey: [QueryKeys.lastPosts],
     queryFn: async () => {
       return await usePostUseCases.getPosts({
-        category: category!,
-        limit: 3,
+        limit: 4,
         order: "desc",
       });
     },

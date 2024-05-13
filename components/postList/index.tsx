@@ -13,16 +13,17 @@ const PostList: React.FC<PostListProps> = ({ posts, title }) => {
       <div className="bg-primary py-3 px-6 rounded-tl-2xl rounded-tr-2xl">
         <h3 className="font-bold text-white text-lg">{title}</h3>
       </div>
-      <ol className="py-4 rounded-br-2xl rounded-bl-2xl border">
+      <ol className="rounded-br-2xl rounded-bl-2xl border">
         {posts.map((post, index) => (
           <li
             className={`${
               index === posts.length - 1 ? "" : "border-b"
-            } font-extrabold text-sm`}
+            } font-extrabold text-sm flex items-center`}
             key={`post-title-${title.toLowerCase()}${index}`}
           >
             <Link
-              className="flex gap-3 p-5 hover:bg-gray-100 transition-colors duration-200 ease-in-out"
+              className={`flex items-center gap-3 p-5 w-full
+              hover:bg-gray-100 transition-colors duration-200 ease-in-out`}
               href={`blog/${post.category}/${post.slug}`}
             >
               <span className="text-primary font-extrabold text-2xl">

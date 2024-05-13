@@ -1,6 +1,6 @@
 "use client";
 
-import { Post } from "@/lib/interfaces/post";
+import { CategoryMap, Post } from "@/lib/interfaces/post";
 import { Author } from "./parts/Author";
 import Image from "next/image";
 import { BadgeBlog } from "../badgeBlog";
@@ -23,7 +23,7 @@ interface PostLayoutProps {
 function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
   if (loading) return <SkeletonPost />;
 
-  if (isEmpty(post) || isEmpty(lastPosts))
+  if (isEmpty(post))
     return (
       <div className="m-auto mt-24 text-[#999999]">Nenhum post encontrado</div>
     );
@@ -51,15 +51,15 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
   }, []);
 
   return (
-    <div className="mx-auto w-full max-w-[900px] my-10">
+    <div className="mx-auto px-5percent w-full max-w-screen-limit my-10">
       <BadgeBlog
         colorScheme="secondary"
         title="Finanças"
         className="w-fit text-white"
       />
-      <div className="flex justify-between">
-        <div>
-          <Heading title={title} subtitle={authorComment} />
+      <div className="flex flex-col lg:flex-row justify-between gap-20 lg:gap-28">
+        <div className="w-full lg:w-[60%] xl:w-[66.66%] flex flex-col gap-8">
+          <Heading title={title} authorComment={authorComment} />
           <Divider />
           <SocialInfo author={author} publishedDate={publishedDate} />
           <Content content={firstContent} />
@@ -83,7 +83,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
                 {tagsAvailable.map((tag) => (
                   <a
                     key={tag}
-                    href={`blog/${tag}`}
+                    // href={`blog/${tag}`}
                     className="underline text-primary font-extralight text-xl pb-3"
                   >
                     {tag}
@@ -95,7 +95,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
 
           {relatedPosts ? (
             <Attachment title="Publicações relacionadas">
-              <div className="flex flex-col gap-3 px-5">
+              <div className="flex flex-col gap-5 px-5">
                 {relatedPosts?.map((post) => (
                   <a
                     key={post.slug}
@@ -103,6 +103,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
                     className="flex gap-3 items-start"
                   >
                     <Image
+                      className="rounded-md"
                       src={post.image.src}
                       alt={post.image.alt}
                       width={207}
@@ -111,7 +112,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
                     <div>
                       <BadgeBlog
                         className="uppercase text-white w-fit"
-                        title={post.category}
+                        title={CategoryMap[post.category]}
                       />
                       <h2 className="font-bold text-lg">{post.title}</h2>
                       <p className="text-xs font-light text-[#99999999]">
@@ -124,8 +125,10 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
             </Attachment>
           ) : null}
         </div>
-        <div>
-          <PostList title="Últimas publicações" posts={lastPosts!} />
+        <div className="w-full lg:w-[34%] xl:w-[33.33%] h-full flex flex-col gap-5">
+          {!isEmpty(lastPosts) && (
+            <PostList title="Últimas publicações" posts={lastPosts!} />
+          )}
         </div>
       </div>
     </div>

@@ -14,7 +14,6 @@ export class PostsAPIService implements PostRepository {
     posts?: RelationatedPost[]
   ): Omit<PostModel, "author" | "firstContent" | "lastContent">[] | undefined {
     return posts?.map((post) => {
-      console.log(post);
       return {
         title: post.attributes.title,
         authorComment: post.attributes.comment,
@@ -55,7 +54,9 @@ export class PostsAPIService implements PostRepository {
   }
   async getPosts({ category, limit, order }: GetPostsArgs): Promise<PostData> {
     try {
-      const categoryQuery = `&filters[category][$contains]=${category}`;
+      const categoryQuery = category
+        ? `&filters[category][$contains]=${category}`
+        : "";
       const limitQuery = limit ? `&pagination[limit]=${limit}` : "";
       const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
       const path = `/posts?populate[0]=coverImage${categoryQuery}${limitQuery}&populate[1]=autor${orderQuery}`;
