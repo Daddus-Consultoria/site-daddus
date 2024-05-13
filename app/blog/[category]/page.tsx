@@ -65,7 +65,7 @@ const CategoryPage: React.FC = () => {
                       <BlogPostCard
                         title={post.title}
                         image={post.image}
-                        badgeTitle={CategoryMap[post.category]}
+                        badgeTitle={post.category}
                         href={post.slug}
                       />
                     </div>

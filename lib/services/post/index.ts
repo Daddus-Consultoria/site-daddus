@@ -41,7 +41,7 @@ export interface GetSinglePostResponse {
 }
 
 export interface GetPostsArgs {
-  category: string;
+  category?: string;
   limit?: number;
   order?: "asc" | "desc";
 }

@@ -61,7 +61,7 @@ const getBlogHomePosts = async () => {
 
 const BlogPage: React.FC = () => {
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.lastPost],
+    queryKey: [QueryKeys.lastPosts],
     queryFn: getBlogHomePosts,
   });
   const blogPostsData = data;
