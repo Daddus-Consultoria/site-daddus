@@ -188,14 +188,15 @@ export default function Home() {
             </div>
             
           </div>
-          <div className="flex flex-1 flex-row w-full justify-end px-5percent mt-6">
-            <div className="flex flex-col lg:flex-row w-full lg:w-[50rem] justify-between gap-6">
-              <div className="w-full lg:w-1/2">
-                <PostList title="Mais lidas" posts={[]} />
-              </div>
-              <div className="w-full lg:w-1/2">
-                <PostList title="Últimas" posts={postsBlog ?? []} />
-              </div>
+          <div className="flex flex-1 flex-col lg:flex-row w-full justify-end px-5percent mt-6 lg:gap-6">
+            <div className="w-full lg:w-1/3">
+              
+            </div>
+            <div className="w-full lg:w-1/3">
+              <PostList title="Mais lidas" posts={[]} />
+            </div>
+            <div className="w-full lg:w-1/3">
+              <PostList title="Últimas" posts={postsBlog ?? []} />
             </div>
           </div>
         </section>
