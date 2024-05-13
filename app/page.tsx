@@ -1,13 +1,13 @@
 "use client";
 import { DaddusCarousel } from "@/components/daddusCarousel";
-import { ListCards, CardPublication, CardSelectTypePublish } from "@/components/index";
+import { ListCards, CardPublication, CardSelectTypePublish, CircularProgressIndicator } from "@/components/index";
 import { carouselItems } from "@/app/constants";
 import {constantConsultancyListHome, constantPublishListHome} from "@/app/constants";
 import { Divider } from "@/components/post/parts/Divider";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
-import { PublishData } from "@/lib/interfaces/publish";
+import { PublishData, PublishModel } from "@/lib/interfaces/publish";
 
 import "@/styles/home.css";
 
@@ -43,22 +43,35 @@ export default function Home() {
     getMuncipalProfile()
   ]
 
-  function getPostsHome<Promise> (){
-    const dataAll:PublishData[] = []
-    return Promise.all(promises).
-    then((values) => {
-      dataAll.concat(values)
-      return dataAll
-    });
+  const getPostsHome = async ()=>{
+    var allData: PublishModel[] = [];
+    await Promise.all(promises).
+      then((values) => {
+        return values.map((value) => {
+          value.items.map((item) => {
+            allData.push(item)
+          })
+        })
+      });
+    var lastPublishes = allData.sort((a, b) => new Date(b.createdAt!).getDate()- new Date(a.createdAt!).getDate())
+
+    
+    return {
+      lastPublishes
+    }
   }
 
   const {data, isLoading} = useQuery({
     queryKey: [QueryKeys.allPublishs],
     queryFn: async () => {
-      getPostsHome()
+      return await getPostsHome()
     },  
   });
 
+  var postsHome = data
+  var lastPosts = postsHome?.lastPublishes
+
+  console.log(lastPosts)
 
   return (
     <>
@@ -83,30 +96,18 @@ export default function Home() {
             Últimas publicações
           </h2>
           <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
-            <CardPublication
-                id={3}
-                key={`card-publication`}
-                image={"/images/study/study_image.svg"}
-                description={"asdasd"}
-                title={"title aux"}
-                path={`/conteudos/publicacoes/estudos/`}
-            />
-            <CardPublication
-                id={3}
-                key={`card-publication`}
-                image={"/images/study/study_image.svg"}
-                description={"asdasd"}
-                title={"title aux"}
-                path={`/conteudos/publicacoes/estudos/`}
-            />
-            <CardPublication
-                id={3}
-                key={`card-publication`}
-                image={"/images/study/study_image.svg"}
-                description={"asdasd"}
-                title={"title aux"}
-                path={`/conteudos/publicacoes/estudos/`}
-            />
+            {isLoading ? <CircularProgressIndicator containerHeight="300px"/>: (
+                  lastPosts && lastPosts?.map((item:PublishModel) => (
+                    <CardPublication
+                        id={item.id}
+                        key={`card-publication-${item.title}`}
+                        image={item.imageUrl}
+                        description={"asdasd"}
+                        title={item.title}
+                        path={`/conteudos/publicacoes/estudos/`}
+                    />
+                  ))
+              )}
             <CardSelectTypePublish/>
           </div>
         </section>
