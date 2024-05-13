@@ -13,6 +13,8 @@ import { CardInfo } from "./cardInfo";
 import { SearchLink } from "./searchLink";
 import { DaddusLink } from "./daddusLink";
 import { VideoComponent } from "./videoComponent";
+import { BlogPostGrid } from "@/components/blogPostGrid";
+import { BlogHeader } from "@/components/blogHeader";
 
 import { PublishInfo } from "./publish/components/PublishInfo";
 import { CircularProgressIndicator } from "./circularProgressIndicator";
@@ -26,6 +28,9 @@ import { GoogleAnalytics } from "@/components/googleAnalytics";
 import { ButtonContact } from "./buttonContact";
 
 import { DaddusCarousel } from "@/components/daddusCarousel";
+
+import {ListCards} from "@/components/listCards"
+import {CardSelectTypePublish} from "@/components/cardSelectTypePublish"
 
 export {
   Dropdown,
@@ -52,6 +57,10 @@ export {
   BadgeBlog,
   PostList,
   GoogleAnalytics,
+  BlogPostGrid,
+  ListCards,
+  CardSelectTypePublish,
+  BlogHeader,
 };
 
 export * from "@/components/ui";

@@ -3,7 +3,6 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -20,13 +19,11 @@ interface PaginationGenericProps {
 }
 
 const PaginationGeneric: React.FC<PaginationGenericProps> = ({
-  currentPage,
   itemsPerPage,
   totalItems,
   setCurrentPage,
 }) => {
   const handlePageChange = (page: number) => {
-    console.log(page);
     setCurrentPage(page);
   };
 

@@ -73,6 +73,5 @@ class HttpClient {
 }
 
 const httpClient = new HttpClient(process.env.NEXT_PUBLIC_STRAPI_API_URL ?? "");
-console.log("The API URL is:", process.env.NEXT_PUBLIC_STRAPI_API_URL);
 
 export { httpClient };

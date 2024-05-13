@@ -11,11 +11,11 @@ const config = {
   prefix: "",
   theme: {
     listStyleType: {
-      none: 'none',
-      disc: 'disc',
-      decimal: 'decimal',
-      square: 'square',
-      roman: 'upper-roman',
+      none: "none",
+      disc: "disc",
+      decimal: "decimal",
+      square: "square",
+      roman: "upper-roman",
     },
     container: {
       center: true,
@@ -38,14 +38,16 @@ const config = {
       "6xl": "4rem", // 64px
     },
     extend: {
+      maxWidth: { "screen-limit": "1200px" },
       lineHeight: {
-        '21': '21px',
-        '24': '24px',
+        "21": "21px",
+        "24": "24px",
       },
       spacing: {
         "5percent": "5%",
       },
       colors: {
+        mediumGray: "var(--medium-gray)",
         lightgray: "hsl(var(--light-gray))",
         label: "var(--label)",
         border: "hsl(var(--border))",
@@ -95,6 +97,11 @@ const config = {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
+        },
+        shimmer: {
+          "100%": {
+            transform: "translateX(100%)",
+          },
         },
       },
       animation: {

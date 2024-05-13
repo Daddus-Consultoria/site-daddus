@@ -1,23 +1,36 @@
 import React from "react";
+import Link from "next/link";
+import { Post } from "@/lib/interfaces/post";
 
 interface PostListProps {
   title: string;
-  posts: {
-    title: string;
-    link: string;
-  }[];
+  posts: Post[];
 }
 
 const PostList: React.FC<PostListProps> = ({ posts, title }) => {
   return (
     <div className="rounded-2xl">
-      <div className="bg-primary py-3 px-6">
+      <div className="bg-primary py-3 px-6 rounded-tl-2xl rounded-tr-2xl">
         <h3 className="font-bold text-white text-lg">{title}</h3>
       </div>
-      <ol className="px-5 py-4">
+      <ol className="rounded-br-2xl rounded-bl-2xl border">
         {posts.map((post, index) => (
-          <li key={`post-title-${title.toLowerCase()}${index}`}>
-            {post.title}
+          <li
+            className={`${
+              index === posts.length - 1 ? "" : "border-b"
+            } font-extrabold text-sm flex items-center`}
+            key={`post-title-${title.toLowerCase()}${index}`}
+          >
+            <Link
+              className={`flex items-center gap-3 p-5 w-full
+              hover:bg-gray-100 transition-colors duration-200 ease-in-out`}
+              href={`blog/${post.category}/${post.slug}`}
+            >
+              <span className="text-primary font-extrabold text-2xl">
+                {index + 1}.
+              </span>
+              {post.title}
+            </Link>
           </li>
         ))}
       </ol>

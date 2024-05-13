@@ -6,19 +6,28 @@ const cardsPostBlog:CardBlogProps[] = [
         title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
         badgeTitle: 'MERCADOS',
         first: true,
-        image: '/images/blog/tremStation.svg'
+        image: {
+            src:  '/images/blog/tremStation.svg',
+            alt: 'tremStation'
+        }
     },
     {
         title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
         badgeTitle: 'MERCADOS',
         first: false,
-        image: '/images/blog/maria.svg'
+        image: {
+            src: '/images/blog/maria.svg',
+            alt: 'maria',
+        }
     },
     {
         title: 'Citolologia: um estudo demográfico de  duas ou três linhas ',
         badgeTitle: 'MERCADOS',
         first: false,
-        image: '/images/blog/bike.svg'
+        image: {
+            src: '/images/blog/bike.svg',
+            alt: 'bikes',
+        }
     }
 ]
 
@@ -33,27 +42,27 @@ export const constantCardBlog ={
         },
         {
             title: 'POLÍTICAS PÚBLICAS',
-            link: '#',
+            link: '/blog/politicas-publicas',
         },
         {
             title: 'GOVERNANÇA',
-            link: '#',
+            link: '/blog/governanca',
         },
         {
             title: 'LOGÍSTICA',
-            link: '#',
+            link: '/blog/logistica',
         },
         {
             title: 'INOVAÇÃO',
-            link: '#',
+            link: '/blog/inovacao',
         },
         {
             title: 'SUSTENTABILIDADE',
-            link: '#',
+            link: '/blog/sustentabilidade',
         },
         {
             title: 'OPORTUNIDADES',
-            link: '#',
+            link: '/blog/oportunidades',
         },
         
     ],
