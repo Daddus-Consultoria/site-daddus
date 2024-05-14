@@ -139,7 +139,7 @@ export default function Home() {
           <h2 className="text-primary font-extrabold text-xl">
             Últimas publicações
           </h2>
-          <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-4">
+          <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] md:mt-10 md:mb-4 md:h-full lg:px-5 gap-4">
             {isLoading ? <CircularProgressIndicator containerHeight="300px"/>: (
                   lastPublishes && lastPublishes?.map((item:PublishHomeInterface) => (
                     <CardPublication
@@ -225,9 +225,10 @@ export default function Home() {
             <div className="w-full lg:w-1/3">
               {/* <PostList title="Mais lidas" posts={[]} /> */}
             </div>
-            <div className="w-full lg:w-1/3">
+            {/* Uncomment when have more read postList */}
+            {/* <div className="w-full lg:w-1/3">
               <PostList title="Últimas" posts={postsBlog ?? []} />
-            </div>
+            </div> */}
           </div>
         </section>
         <Divider />

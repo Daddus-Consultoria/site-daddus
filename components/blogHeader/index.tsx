@@ -35,9 +35,9 @@ const BlogHeader: React.FC<BlogHeaderProps> = ({ categorys }) => {
     );
 
   return isDesktop ? (
-    <div className="h-[5rem] w-full bg-mediumGray px-10">
+    <div className="w-full bg-mediumGray px-10">
       <div className="flex flex-row justify-center items-center h-full gap-[1rem]">
-        <div className="h-[40px] xl:h-[55px] min-w-[50px] xl:min-w-[150px] relative">
+        <div className="h-[40px] xl:h-[55px] min-w-[50px] xl:min-w-[70px] relative">
           <DaddusLink href="/blog" variant={"ghost"} isTagAnchor>
             <Image
               src={ImageLinks.BLOG_LOGO}
