@@ -22,9 +22,10 @@ const PostList: React.FC<PostListProps> = ({ posts, title }) => {
             key={`post-title-${title.toLowerCase()}${index}`}
           >
             <Link
+              replace
               className={`flex items-center gap-3 p-5 w-full
               hover:bg-gray-100 transition-colors duration-200 ease-in-out`}
-              href={`blog/${post.category}/${post.slug}`}
+              href={`/blog/${post.category}/${post.slug}`}
             >
               <span className="text-primary font-extrabold text-2xl">
                 {index + 1}.

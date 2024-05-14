@@ -161,7 +161,8 @@ const BlogPage: React.FC = () => {
           />
         </div>
         <div className="w-full lg:w-[33.33%] h-full flex flex-col gap-5">
-          <PostList title="Mais lidas" posts={[]} />
+          {/* Uncomment when more read is ready */}
+          {/* <PostList title="Mais lidas" posts={[]} /> */}
           <PostList title="Últimas" posts={lastPosts ?? []} />
         </div>
       </div>
