@@ -52,14 +52,15 @@ export class PostsAPIService implements PostRepository {
       lastContent: post.attributes.lastContent,
     };
   }
-  async getPosts({ category, limit, order }: GetPostsArgs): Promise<PostData> {
+  async getPosts({ category, limit, order, currentIndex }: GetPostsArgs): Promise<PostData> {
     try {
       const categoryQuery = category
         ? `&filters[category][$contains]=${category}`
         : "";
+      const pageStart = currentIndex ? `&pagination[start]=${(currentIndex-1)*limit!}` : "";
       const limitQuery = limit ? `&pagination[limit]=${limit}` : "";
       const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
-      const path = `/posts?populate[0]=coverImage${categoryQuery}${limitQuery}&populate[1]=autor${orderQuery}`;
+      const path = `/posts?populate[0]=coverImage${categoryQuery}${pageStart}${limitQuery}&populate[1]=autor${orderQuery}`;
 
       const response: any = await httpClient.get(path);
 
@@ -70,14 +71,18 @@ export class PostsAPIService implements PostRepository {
         posts.push(this.postsMapper(post));
       });
 
+      const { meta } = response;
+      const totalItems = meta.pagination.total;
+
       const postData: PostData = {
         posts: posts,
+        totalItems: totalItems,
       };
 
       return postData;
     } catch (error) {
       console.error(error);
-      return { posts: [] };
+      return { posts: [], totalItems: 0};
     }
   }
 

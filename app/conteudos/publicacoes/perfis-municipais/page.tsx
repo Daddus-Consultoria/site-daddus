@@ -8,7 +8,7 @@ import {
 } from "@/components/index";
 import { PaginationGeneric } from "@/components/index";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 
@@ -19,19 +19,27 @@ const Municipal_Profiles = () => {
     "Perfil Econômico dos Municípios",
   ];
 
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const getMunicipalProfiles = async (currentPage: number)  => {
+    return await usePublishUseCases.getPaginatedMunicipalProfiles({
+      limit: itemsPerPage,
+      page: currentPage,
+      category: "Perfil",
+    });
+  }
+
+
   const usePublishUseCases = new PublishUseCases();
-  const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.municipalProfiles],
-    queryFn: async () => {
-      return await usePublishUseCases.getPaginatedMunicipalProfiles({
-        limit: itemsPerPage,
-        page: currentPage,
-        category: "Perfil",
-      });
+  const { data, isLoading, error, isPlaceholderData } = useQuery({
+    queryKey: [QueryKeys.municipalProfiles, currentPage],
+    queryFn: async() => {
+      return await getMunicipalProfiles(currentPage)
     },
+    placeholderData: keepPreviousData,
   });
 
-  const [currentPage, setCurrentPage] = useState(1);
+  
   const itemsPerPage = 10;
   const totalItems = data?.totalItems;
 

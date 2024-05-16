@@ -44,4 +44,5 @@ export interface Post extends PostModel {
 
 export interface PostData {
   posts: Post[];
+  totalItems: number;
 }

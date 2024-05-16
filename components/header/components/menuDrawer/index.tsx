@@ -4,17 +4,21 @@ import {
   DrawerContent,
   Input,
   Button,
+  DaddusLink,
 } from "@/components/index";
 
 import { PiMagnifyingGlassThin } from "react-icons/pi";
 import { IoIosMenu } from "react-icons/io";
 import { CgClose } from "react-icons/cg";
 
+import Link from "next/link";
+
 import { AccordionMenuItem } from "@/components/header/components/accordionMenuItem";
 import { headerItems } from "@/lib/constants/constants";
 
 import { useState } from "react";
 import Image from "next/image";
+import { Url } from "next/dist/shared/lib/router/router";
 
 const MenuDrawer = () => {
   const [open, setOpen] = useState(false);
@@ -56,7 +60,11 @@ const MenuDrawer = () => {
                   key={`acorddionitem-${item.title.toLowerCase()}`}
                   className="p-3"
                 >
-                  <AccordionMenuItem item={item} />
+                  {item.subtypes ? (
+                    <AccordionMenuItem item={item} />
+                  ): (
+                    <Link href={item.href as Url}>{item.title}</Link>
+                  )}
                 </div>
               );
             })}

@@ -14,19 +14,26 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishCategories } from "@/lib/constants/constants";
 
-const Guides = () => {
+const Study = () => {
   const usePublishUseCases = new PublishUseCases();
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const getStudy = async (currentPage: number) => {
+    return await usePublishUseCases.getPaginatedStudies({
+      limit: itemsPerPage,
+      page: currentPage,
+    });
+  }
+
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.studies],  
+    queryKey: [QueryKeys.studies, currentPage],  
     queryFn: async () => {
-      return await usePublishUseCases.getPaginatedStudies({
-        limit: itemsPerPage,
-        page: currentPage,
-      });
+      return await getStudy(currentPage);
     },
   });
   
-  const [currentPage, setCurrentPage] = useState(1);
+  
   const itemsPerPage = 6;
   const currentPageItems = data?.items;
   const totalItems = data?.totalItems;
@@ -72,4 +79,4 @@ const Guides = () => {
   );
 };
 
-export default Guides;
+export default Study;
