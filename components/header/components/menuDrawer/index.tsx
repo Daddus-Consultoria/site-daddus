@@ -25,7 +25,7 @@ const MenuDrawer = () => {
 
   return (
     <Drawer direction="right" snapPoints={[0.745]} open={open} onOpenChange={setOpen} >
-      <DrawerTrigger>
+      <DrawerTrigger aria-label="navBar mobile">
         <IoIosMenu className="fill-white" size={35} />
       </DrawerTrigger>
       <DrawerContent className="h-full w-3/4 bg-white">

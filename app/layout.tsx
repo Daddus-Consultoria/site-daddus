@@ -39,6 +39,7 @@ export default function RootLayout({
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         )}
+        <link rel="preload" href="/images/home/first_section_background.webp" as="image" type="image/webp"/>
       </head>
 
       <body className={poppins.className}>

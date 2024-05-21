@@ -48,7 +48,7 @@ const Study = () => {
       {isLoading ? (
         <CircularProgressIndicator containerHeight="400px" />
       ) : (currentPageItems ?? []).length > 0 ? (
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+        <div className="grid lg:grid-cols-1 xl:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 ">
           {currentPageItems?.map((item, index) => {
             return (
               <CardPublication
@@ -58,7 +58,7 @@ const Study = () => {
                 description={item.shortDescription}
                 title={item.title}
                 path={`/conteudos/publicacoes/estudos/${item.id}`}
-              />
+              />   
             );
           })}
         </div>

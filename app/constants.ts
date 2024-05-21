@@ -1,6 +1,7 @@
 import { DaddusCarouselItem } from "@/lib/interfaces/daddusCarouselItem";
 import { CardInfoProps } from "@/lib/interfaces/card"
 import {Links} from '@/lib/constants/constants';
+import { sub } from "date-fns";
 
 export const carouselItems: DaddusCarouselItem[] = [
   {
@@ -103,4 +104,7 @@ export const constantPublishListHome = {
   cards: constantsPublishHome,
 }
 
-
+export const constantfirstContent = {
+  title: 'Soluções Estratégicas em Políticas Públicas, Gestão e Viabilidade Econômica',
+  subtitle: 'Transforme seus desafios em oportunidades com a Daddus.',
+}

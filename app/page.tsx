@@ -2,7 +2,7 @@
 import { DaddusCarousel } from "@/components/daddusCarousel";
 import { ListCards, CardPublication, CardSelectTypePublish, CircularProgressIndicator, Skeleton, BlogPostCard, PostList } from "@/components/index";
 import { carouselItems } from "@/app/constants";
-import {constantConsultancyListHome, constantPublishListHome} from "@/app/constants";
+import {constantConsultancyListHome, constantPublishListHome, constantfirstContent} from "@/app/constants";
 import { Divider } from "@/components/post/parts/Divider";
 import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "@/lib/constants/queryKeys";
@@ -91,19 +91,15 @@ export default function Home() {
   var lastPublishes = postsHome?.lastPublishes
   var postsBlog = postsHome?.lastPosts
 
-  console.log(lastPublishes)
-
   return (
     <>
       <section className="first-section relative">
         <div className="flex flex-col relative z-2 justify-center text-white title-container">
           <h1 className=" font-extrabold text-2xl lg:text-4xl">
-            Soluções Estratégicas em Políticas Públicas, Gestão e Viabilidade
-            Econômica
+            {constantfirstContent.title}
           </h1>
-          <p className="text-lg font-semibold">
-            Transforme seus desafios em oportunidades
-            <br /> com a Daddus.
+          <p className="text-lg font-semibold whitespace-pre-line">
+            {constantfirstContent.subtitle}
           </p>
         </div>
         <div className="hidden md:flex absolute w-[100%] md:relative  left-0 md:left-auto mt-10 lg:absolute bg-primary rounded-2xl md:mt-[4rem] lg:mt-0 lg:w-[90%] py-5 px-[10%] lg:bottom-[-4rem]">
