@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
-import { PublishData, PublishModel } from "@/lib/interfaces/publish";
+import { PublishModel } from "@/lib/interfaces/publish";
 import Image from "next/image"
 
 import "@/styles/home.css";
