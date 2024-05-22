@@ -35,6 +35,7 @@ const SearchLink: React.FC<SearchLinkProps> = ({ path }) => {
       <Tooltip open={openTooltip}>
         <TooltipTrigger>
           <Button
+            aria-label="Compartilhar link"
             className="flex flex-row justify-center items-center rounded-full w-[40px] h-[40px] p-2 bg-[#999999]"
             onClick={copyToClipboard}
           >

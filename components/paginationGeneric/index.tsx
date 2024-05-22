@@ -22,6 +22,7 @@ const PaginationGeneric: React.FC<PaginationGenericProps> = ({
   itemsPerPage,
   totalItems,
   setCurrentPage,
+  currentPage,
 }) => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -30,10 +31,14 @@ const PaginationGeneric: React.FC<PaginationGenericProps> = ({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
-    <Pagination className="flex justify-end mb-[10%]">
+    <Pagination className="flex justify-start ">
       <PaginationContent>
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          {currentPage > 1 && (
+            <PaginationPrevious onClick={()=>{
+              setCurrentPage(currentPage - 1)
+            }}/>
+          )}
         </PaginationItem>
         {Array.from({ length: totalPages }, (_, i) => i + 1).map(
           (pageNumber) => (
@@ -45,14 +50,20 @@ const PaginationGeneric: React.FC<PaginationGenericProps> = ({
                 onClick={() => handlePageChange(pageNumber)}
                 // isActive={router.query.page === pageNumber.toString()}
               >
-                {pageNumber}
+                {currentPage}
               </PaginationLink>
             </PaginationItem>
           )
         )}
-        <PaginationItem>
-          <PaginationNext href="#" />
-        </PaginationItem>
+        { currentPage*itemsPerPage <= totalItems ?
+          (
+            <PaginationItem>
+              <PaginationNext  onClick={()=>{
+                setCurrentPage(currentPage + 1)
+              }} />
+            </PaginationItem>
+          ) : null
+        }
       </PaginationContent>
     </Pagination>
   );

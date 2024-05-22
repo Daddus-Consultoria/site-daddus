@@ -15,17 +15,24 @@ import { PublishCategories } from "@/lib/constants/constants";
 
 const Guides = () => {
   const usePublishUseCases = new PublishUseCases();
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const getGuides = async (currentPage: number) => {
+    return await usePublishUseCases.getPaginatedGuides({
+      limit: itemsPerPage,
+      page: currentPage,
+    });
+  }
+
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.guides],
+    queryKey: [QueryKeys.guides, currentPage],
     queryFn: async () => {
-      return await usePublishUseCases.getPaginatedGuides({
-        limit: itemsPerPage,
-        page: currentPage,
-      });
+      return await getGuides(currentPage);
     },
   });
 
-  const [currentPage, setCurrentPage] = useState(1);
+
   const itemsPerPage = 6;
   const currentPageItems = data?.items;
   const totalItems = data?.totalItems;

@@ -24,13 +24,13 @@ const CardPublication: React.FC<CardPublicationProps> = ({
   return (
     <div className="flex items-start justify-start mb-[4%] min-h-[250px] rounded-2xl bg-[#EEEEEE] px-[5%] py-[4%] text-black relative">
       <div className="flex h-full w-full items-start justify-between">
-        <div className="hidden md:flex w-full max-w-[230px] none">
+        <div className="hidden md:flex w-full max-w-[230px] none ">
           <Image
             alt="Capa da publicação"
             layout="fill"
             objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
             src={image}
-            className="xl:ml-[3%] 3-xl:ml-[1%] w-full md:max-w-[180px] !top-[-10%] !left-[30px]"
+            className="xl:ml-[3%]  3-xl:ml-[1%] w-full md:max-w-[180px] !top-[-10%] !left-[30px]"
           />
         </div>
 
@@ -40,13 +40,16 @@ const CardPublication: React.FC<CardPublicationProps> = ({
               {title}
             </h2>
             <p className="text-[11px] text-justify">{description}</p>
+            <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%]k">
+              <DaddusLink href={path} className="rounded-2xl">
+                <p className="text-[10px] sm:text-sm">
+                  VEJA MAIS SOBRE {title.toUpperCase()}
+                </p>
+              </DaddusLink>
+              <SearchLink path={copyPath} />
+            </div>
           </div>
-          <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%] ">
-            <DaddusLink href={path} className="rounded-2xl">
-              VEJA MAIS
-            </DaddusLink>
-            <SearchLink path={copyPath} />
-          </div>
+          
         </div>
       </div>
     </div>

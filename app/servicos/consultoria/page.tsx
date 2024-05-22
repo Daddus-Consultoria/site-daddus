@@ -1,6 +1,4 @@
 "use client";
-import React from "react";
-import { Label } from "@/components/ui/index";
 import { CardInfo } from "@/components/cardInfo/index";
 import { constantsConsultancy } from "./_constants";
 
