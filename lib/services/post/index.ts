@@ -44,4 +44,5 @@ export interface GetPostsArgs {
   category?: string;
   limit?: number;
   order?: "asc" | "desc";
+  currentIndex?: number;
 }

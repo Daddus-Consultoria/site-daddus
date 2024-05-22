@@ -14,19 +14,26 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishCategories } from "@/lib/constants/constants";
 
-const Guides = () => {
+const Study = () => {
   const usePublishUseCases = new PublishUseCases();
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const getStudy = async (currentPage: number) => {
+    return await usePublishUseCases.getPaginatedStudies({
+      limit: itemsPerPage,
+      page: currentPage,
+    });
+  }
+
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.studies],  
+    queryKey: [QueryKeys.studies, currentPage],  
     queryFn: async () => {
-      return await usePublishUseCases.getPaginatedStudies({
-        limit: itemsPerPage,
-        page: currentPage,
-      });
+      return await getStudy(currentPage);
     },
   });
   
-  const [currentPage, setCurrentPage] = useState(1);
+  
   const itemsPerPage = 6;
   const currentPageItems = data?.items;
   const totalItems = data?.totalItems;
@@ -41,7 +48,7 @@ const Guides = () => {
       {isLoading ? (
         <CircularProgressIndicator containerHeight="400px" />
       ) : (currentPageItems ?? []).length > 0 ? (
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+        <div className="grid lg:grid-cols-1 xl:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 ">
           {currentPageItems?.map((item, index) => {
             return (
               <CardPublication
@@ -51,7 +58,7 @@ const Guides = () => {
                 description={item.shortDescription}
                 title={item.title}
                 path={`/conteudos/publicacoes/estudos/${item.id}`}
-              />
+              />   
             );
           })}
         </div>
@@ -72,4 +79,4 @@ const Guides = () => {
   );
 };
 
-export default Guides;
+export default Study;
