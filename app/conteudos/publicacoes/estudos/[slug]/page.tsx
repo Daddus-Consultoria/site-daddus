@@ -15,6 +15,8 @@ const StudiesPublish: React.FC = () => {
   const publishId = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
+  console.log(urlPath)
+
   const { data, isLoading } = useQuery({
     queryKey: [`study-${publishId}`],
     staleTime: TimeConstants.ONE_HOUR,
