@@ -20,7 +20,7 @@ const TransportPage = () => {
   return (
     <div className="flex flex-1 flex-col">
       <div
-        id="top-transport-page"
+        id="about-page"
         className="flex flex-col lg:flex-row w-full h-full py-[2%] px-[9%] mb-[2%] gap-[2%] lg:gap-[10%] "
       >
         <div id="left" className="flex lg:w-1/2 flex-col">
