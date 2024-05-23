@@ -43,14 +43,14 @@ export const headerItems: NavigationType[] = [
             title: "Transportes",
             href: "/setores/mobilidade-urbana/transportes",
           },
-          {
+         /*  {
             title: "Rodovias",
             href: "/setores/mobilidade-urbana/rodovias",
           },
           {
             title: "Portos",
             href: "/setores/mobilidade-urbana/portos",
-          },
+          }, */
         ],
       },
       /* {
@@ -77,11 +77,6 @@ export const headerItems: NavigationType[] = [
     title: "CONTEÚDOS",
     subtypes: [
       {
-        title: "Blog",
-        href: "/blog",
-        items: [],
-      },
-      {
         title: "Publicações",
         href: "/conteudos/publicacoes",
         items: [
@@ -102,9 +97,22 @@ export const headerItems: NavigationType[] = [
     ],
   },
   {
-    title: "SOBRE NÓS",
-    href: "/informacoes/sobre",
+    title: "BLOG",
+    href: "/blog",
   },
+  {
+    title: "INSTITUCIONAL",
+    subtypes:[
+      {
+        title: "Sobre nós",
+        href: "/institucional/sobre",
+      },
+      {
+        title: "Contato",
+        href: "/institucional/contato",
+      },
+    ]
+  }
 ];
 
 export enum PublishCategories {

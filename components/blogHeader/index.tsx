@@ -10,7 +10,6 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
-import { useMediaQuery } from "react-responsive";
 
 interface BlogHeaderProps {
   categorys: { title: string; link: string }[];
@@ -56,7 +55,7 @@ const BlogHeader: React.FC<BlogHeaderProps> = ({ categorys }) => {
             variant={"ghost"}
             isTagAnchor
           >
-            <p>{item.title}</p>
+            <p className="text-[12px]">{item.title}</p>
           </DaddusLink>
         ))}
       </div>

@@ -1,13 +1,10 @@
 "use client";
-import React from "react";
-import { Dropdown, Label, Input, InputGeneric } from "@/components/index";
+import { Dropdown, InputGeneric } from "@/components/index";
 import { headerItems } from "@/lib/constants/constants";
 import { SubMenuItem } from "@/components/header/components/subMenuItem";
 import { MenuDrawer } from "@/components/header/components/menuDrawer";
 
-import { PiMagnifyingGlassThin } from "react-icons/pi";
 import Image from "next/image";
-import Link from "next/link";
 
 export function Header() {
   return (
