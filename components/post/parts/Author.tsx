@@ -18,7 +18,7 @@ export const Author = ({ author }: Pick<PostModel, "author">) => {
         </div>
 
         <p className="opacity-50">{author.description}</p>
-        <div className="text-primary">{author.email}</div>
+        <div className="text-primary hidden">{author.email}</div>
       </div>
     </div>
   );
