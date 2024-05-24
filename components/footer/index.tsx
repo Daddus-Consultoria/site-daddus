@@ -25,7 +25,7 @@ export function Footer() {
               return (
                 <div key={`footer-subtype-${index}`}>
                   {item.subtypes ? (
-                    <Label className="font-semibold text-[#A90920]">
+                    <Label className="flex flex-row w-full font-semibold text-[#A90920] justify-center lg:justify-start">
                       {item.title}
                     </Label>
                   ) : null}
@@ -39,12 +39,10 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row items-center lg:items-center justify-between px-[8%] lg:px-[15%] w-full lg:h-1/4 bg-[#A90920] gap-1 lg:gap-0 py-4 lg:py-0">
-        <div>
-          <Label className="font-medium text-white text-[14px]">
-            {constantFooter.copyright}
-          </Label>
-        </div>
+      <div className="flex flex-col lg:flex-row items-center lg:items-center lg:justify-between px-[8%] lg:px-[15%] w-full lg:h-1/4 bg-[#A90920] gap-1 lg:gap-0 py-4 lg:py-0 ">
+        <Label className="flex text-center lg:text-start font-medium text-white text-[14px]">
+          {constantFooter.copyright}
+        </Label>
         <div className="flex flex-col lg:flex-row gap-1 lg:gap-4">
           {constantFooter.information.map((item, index) => (
             <a
