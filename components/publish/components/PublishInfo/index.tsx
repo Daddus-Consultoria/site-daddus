@@ -62,9 +62,7 @@ const PublishInfo: React.FC<PublishInfoProps> = ({
           <ul className="w-full flex gap-2 items-center">
             {tags.map((tag, index) => (
               <li key={`tags-item-${index}`}>
-                <DaddusLink variant={"tag"} size={"link"} href={documentUrl}>
-                  {tag}
-                </DaddusLink>
+                <p className="text-sm text-primary underline">{tag}</p>
               </li>
             ))}
           </ul>
