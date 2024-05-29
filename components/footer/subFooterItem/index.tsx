@@ -7,7 +7,7 @@ interface SubFooterItemProps {
 
 const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
   return (
-    <div className="flex flex-col space-y-1">
+    <div className="flex flex-1 flex-col space-y-1" >
       {items.map((subTypeItem, index) => {
         /* return subTypeItem.href && !subTypeItem.items ? (
           <a
@@ -46,7 +46,7 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
               <a
               key={`subFooteritem-${index}`}
               href={subTypeItem.href}
-              className="text-[#ffffff] text-[14px] hover:text-primary"
+              className="flex justify-center lg:justify-start text-[#ffffff] text-[14px] hover:text-primary"
               >
               {subTypeItem.title}
             </a>
@@ -55,10 +55,10 @@ const SubFooterItem: React.FC<SubFooterItemProps> = ({ items }) => {
                 return (
                   <li
                     key={`subTypeFooterItem-${index}`}
-                    className="ml-[10px] text-[#ffffff] hover:text-primary"
+                    className="flex justify-center lg:justify-start ml-[10px] text-[#ffffff] hover:text-primary"
                   >
                     {" "}
-                    <a href={item.href} className="text-xs font-extralight lg:whitespace-nowrap">
+                    <a href={item.href} className=" text-xs font-extralight lg:whitespace-nowrap">
                       {item.title}
                     </a>
                   </li>

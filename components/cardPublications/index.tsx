@@ -42,7 +42,7 @@ const CardPublication: React.FC<CardPublicationProps> = ({
             <p className="text-[11px] text-justify">{description}</p>
             <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%]k">
               <DaddusLink href={path} className="rounded-2xl">
-                <p className="text-[10px] sm:text-sm">
+                <p className="text-[10px] sm:text-sm text-wrap">
                   VEJA MAIS SOBRE {title.toUpperCase()}
                 </p>
               </DaddusLink>

@@ -46,7 +46,7 @@ const SubMenuItem: React.FC<SubMenuItemProps> = ({ items }) => {
             <a
               key={`subTypeitem-${index}`}
               href={subTypeItem.href}
-              className="text-secondary hover:text-primary"
+              className="text-secondary hover:text-primary whitespace-nowrap"
             >
               {subTypeItem.title}
             </a>

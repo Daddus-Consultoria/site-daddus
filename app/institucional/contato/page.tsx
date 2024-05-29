@@ -1,4 +1,4 @@
-import {constantsContact} from "@/app/informacoes/contato/_constants"
+import {constantsContact} from "@/app/institucional/contato/_constants"
 import Image from "next/image";
 
 const ContactPage = () => {
