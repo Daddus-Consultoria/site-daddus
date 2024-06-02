@@ -23,9 +23,7 @@ const relatedPosts: PostModel[] = [
         "Especialista em agronegócio com mais de 5 anos de experiência em análise de mercado e seleção de investimentos.",
     },
     tags: ["Agribusiness", "Investimentos"],
-    firstContent: [
-      { type: "paragraph", children: [{ type: "text", text: "text" }] },
-    ],
+    firstContent: "<p>text</p>",
     publishedDate: "2024-05-06:00:00",
   },
   {
@@ -53,9 +51,7 @@ const relatedPosts: PostModel[] = [
     tags: ["Investimentos", "Educação Financeira"],
     publishedDate: "2024-05-06:00:00",
 
-    firstContent: [
-      { type: "paragraph", children: [{ type: "text", text: "text" }] },
-    ],
+    firstContent: "<p>text</p>",
   },
   {
     slug: "sustentabilidade-no-agronegocio",
@@ -81,9 +77,7 @@ const relatedPosts: PostModel[] = [
     },
     tags: ["Sustentabilidade", "Agronegócio"],
 
-    firstContent: [
-      { type: "paragraph", children: [{ type: "text", text: "text" }] },
-    ],
+    firstContent: "<p>text</p>",
     publishedDate: "2024-05-06:00:00",
   },
 ];
@@ -112,12 +106,8 @@ export const postItems: Post[] = [
     },
     tags: ["Finanças", "Investimentos"],
 
-    firstContent: [
-      { type: "paragraph", children: [{ type: "text", text: "text" }] },
-    ],
-    lastContent: [
-      { type: "paragraph", children: [{ type: "text", text: "text" }] },
-    ],
+    firstContent: "<p>text</p>",
+    lastContent: "<p>text</p>",
     relatedPosts,
   },
 ];

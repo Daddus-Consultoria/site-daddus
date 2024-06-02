@@ -11,7 +11,7 @@ export const SocialInfo = ({
   return (
     <div className="flex justify-between">
       <div>
-        <p className="text-primary underline">{author.name}</p>
+        <p className="text-primary underline font-semibold">{author.name}</p>
         <time
           title={publishedDateRelativeToNow({ prefix: true })}
           dateTime={ISODate}

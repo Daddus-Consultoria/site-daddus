@@ -31,8 +31,8 @@ export interface PostModel {
   publishedDate: string;
   author: AuthorModel;
   category: PostCategory;
-  firstContent: BlocksContent;
-  lastContent?: BlocksContent;
+  firstContent: String;
+  lastContent?: String;
   tags: string[];
 }
 
