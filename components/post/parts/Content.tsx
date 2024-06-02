@@ -4,14 +4,14 @@ import {
 } from "@strapi/blocks-react-renderer";
 
 interface ContentProps {
-  content: BlocksContent;
+  content: String;
 }
 
 export const Content = ({ content }: ContentProps) => {
   return (
-    <div className="my-5 text-justify">
-      {" "}
-      <BlocksRenderer content={content} />
-    </div>
+    <div
+      className="my-5 text-justify"
+      dangerouslySetInnerHTML={{ __html: content }}
+    />
   );
 };

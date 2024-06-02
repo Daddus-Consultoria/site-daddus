@@ -11,7 +11,7 @@ export const Attachment = ({
   return (
     <>
       <div className="flex gap-4 items-center">
-        <span className="text-primary text-lg uppercase w-fit whitespace-nowrap	">
+        <span className="text-primary text-lg uppercase w-fit whitespace-nowrap font-extrabold">
           {title}
         </span>
         <Divider />

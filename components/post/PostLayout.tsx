@@ -36,19 +36,20 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
     firstContent,
     lastContent,
     relatedPosts,
+    tags
   } = post!;
 
-  const tagsAvailable = relatedPosts?.reduce((groupedTags: string[], post) => {
-    const tags = post.tags;
+  // const tagsAvailable = relatedPosts?.reduce((groupedTags: string[], post) => {
+  //   const tags = post.tags;
 
-    for (const tag of tags) {
-      if (!groupedTags.find((tagGroup) => tagGroup === tag)) {
-        groupedTags.push(tag);
-      }
-    }
+  //   for (const tag of tags) {
+  //     if (!groupedTags.find((tagGroup) => tagGroup === tag)) {
+  //       groupedTags.push(tag);
+  //     }
+  //   }
 
-    return groupedTags;
-  }, []);
+  //   return groupedTags;
+  // }, []);
 
   return (
     <div className="mx-auto px-5percent w-full max-w-screen-limit my-10">
@@ -77,13 +78,12 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
 
           <Author author={author} />
 
-          {tagsAvailable ? (
-            <Attachment title="Publicações relacionadas">
+          {tags.length > 0 ? (
+            <Attachment title="Etiquetas">
               <div className="flex gap-3 px-5">
-                {tagsAvailable.map((tag) => (
+                {tags.map((tag) => (
                   <a
                     key={tag}
-                    // href={`blog/${tag}`}
                     className="underline text-primary font-extralight text-xl pb-3"
                   >
                     {tag}
@@ -93,7 +93,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
             </Attachment>
           ) : null}
 
-          {relatedPosts ? (
+          {relatedPosts && relatedPosts.length > 0 ? (
             <Attachment title="Publicações relacionadas">
               <div className="flex flex-col gap-5 px-5">
                 {relatedPosts?.map((post) => (
