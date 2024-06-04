@@ -1,6 +1,6 @@
 "use client";
 import { DaddusCarousel } from "@/components/daddusCarousel";
-import { ListCards, CardPublication, CardSelectTypePublish, CircularProgressIndicator, Skeleton, BlogPostCard, PostList } from "@/components/index";
+import { ListCards, CardPublication, CardSelectTypePublish, CircularProgressIndicator, Skeleton, BlogPostCard, PostList, SearchItems } from "@/components/index";
 import { carouselItems } from "@/app/constants";
 import {constantConsultancyListHome, constantPublishListHome, constantfirstContent} from "@/app/constants";
 import { Divider } from "@/components/post/parts/Divider";
@@ -9,6 +9,7 @@ import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import { PublishModel } from "@/lib/interfaces/publish";
+
 import Image from "next/image"
 
 import "@/styles/home.css";
@@ -233,6 +234,7 @@ export default function Home() {
         </section>
         <section className="flex flex-col pt-5">
           <ListCards  title={constantPublishListHome.title} cards={constantPublishListHome.cards}/>
+          <SearchItems/>
         </section>
       </div>
     </>
