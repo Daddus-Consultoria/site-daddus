@@ -6,6 +6,14 @@ export class PublishUseCases {
     this.publishRepository = publishRepository;
   }
 
+  async getMunicipalProfiles({title, category}:{category?:string,title?:string}) {
+    try{
+      return await this.publishRepository.getMunicipalProfiles(title);
+    }catch(error){
+      throw error;
+    }
+  }
+
   async getPaginatedMunicipalProfiles({
     page,
     limit,

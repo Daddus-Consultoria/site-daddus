@@ -1,119 +1,32 @@
-/* import { ChangeEvent, useEffect, useRef, useState } from 'react';
-
-import {Button, Command,
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,} from '@/components/ui'
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-    } from "@/components/ui/popover"
-import { Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue, } from '@/components/ui';
-import { Dropdown, InputGeneric } from "@/components/index";
-import { Input } from "@/components/index";
-import { PiMagnifyingGlassThin } from "react-icons/pi";
-
-const frameworks = [
-  "Next.js", "Nuxt.js", "SvelteKit", "Remix", "Astro"
-]
-
-const SearchItems = () => {
-    const [query, setQuery] = useState("")
-    const [filteredItems, setFilteredItems] = useState<string[]>(frameworks)
-
-    const [open, setOpen] = useState(false)
-    const [value, setValue] = useState("")
-    const inputRef = useRef<HTMLInputElement>(null)
-
-    const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const value = event.target.value
-      setQuery(value)
-
-      if(value.length > 0){
-        const filtered = frameworks.filter((framework)=>framework.toLowerCase().includes(value.toLowerCase()));
-        setFilteredItems(filtered)
-      }else{
-        setFilteredItems([])
-      }
-    }
-
-    const handleInputClick = () => {
-      if(!open){
-        setOpen(true)
-      }
-      if(inputRef.current){
-        inputRef.current.focus() 
-      }
-    }
-
-    return (
-        <Popover open={open}>
-          <PopoverTrigger asChild>
-            <div className="flex flex-row justify-center items-center rounded-xl border border-input p-1 bg-primary w-1/6">
-                <Input
-                  iconVariant={"trailingIcon"}
-                  type="text"
-                  placeholder={value ? value : "Pesquisar"}
-                  className="bg-primary text-white placeholder:text-white"
-                  onClick={handleInputClick}
-                  ref={inputRef}
-                  onChange={handleInputChange}
-                  trailingIcon={
-                    <PiMagnifyingGlassThin
-                      size={30}
-                      className="fill-secondary"
-                      color="#2B2B2B"
-                    />
-                  }
-                />
-            </div>
-        </PopoverTrigger>
-        <PopoverContent className="w-[200px] p-0">
-            <Command className='w-full'>  
-              <CommandList>
-                <CommandEmpty>No framework found.</CommandEmpty>
-                <CommandGroup>
-                  {filteredItems.map((framework) => (
-                    <CommandItem
-                      key={framework.toLowerCase()}
-                      value={framework.toLowerCase()}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue)
-                        
-                        setOpen(false)
-                      }}
-                    >
-                      {framework}
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-        </PopoverContent>
-      </Popover>
-    );
-} 
-
-export {SearchItems} */
-
 import { Input } from "@/components/index";
 
 import { PiMagnifyingGlassThin } from "react-icons/pi";
 
 import React, { useState, useRef, useEffect } from 'react';
+import { PostsUseCases } from "@/lib/useCases/postsUseCases";
+import { PublishUseCases } from "@/lib/useCases/publishUseCases";
+import { useQuery } from "@tanstack/react-query";
+import { QueryKeys } from "@/lib/constants/queryKeys";
 
 const SearchItems: React.FC = () => {
     
+  const usePostUseCases = new PostsUseCases();
+  const usePublishUseCases = new PublishUseCases();
+
+  const { data: postData, isLoading: isLoadingPost } = useQuery({
+    queryKey: ["allPosts"],
+    queryFn: async () => {
+      return await usePostUseCases.getPosts({title: "t"})
+    },
+  });
+
+  const { data: publishData, isLoading: isLoadingPublish } = useQuery({
+    queryKey: ["teste"],
+    queryFn: async () => {
+      return await usePublishUseCases.getMunicipalProfiles({category:'Perfil',title: "t"})
+    },
+  });
+
   const frameworks = [
     "Next.js", "Nuxt.js", "SvelteKit", "Remix", "Astro"
   ]

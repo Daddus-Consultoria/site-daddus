@@ -5,6 +5,8 @@ import {
 } from "../interfaces/publish";
 
 abstract class PublishRepository {
+  abstract getMunicipalProfiles(title?: string): Promise<PublishData>;
+
   abstract getPaginatedMunicipalProfiles(
     page: number,
     limit: number,

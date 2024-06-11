@@ -8,6 +8,48 @@ import { httpClient } from "./httpClient";
 import { getAuthorsList } from "@/lib/utils/transformDataToInterface";
 
 export class PublishAPIService implements PublishRepository {
+  async getMunicipalProfiles(title?:string, category?:string): Promise<PublishData> {
+    try{
+      const categoryQuery = category
+        ? `&filters[category][$contains]=${category}`
+        : "";
+      const titleQuery = title ? `&filters[title][$contains]=${title}` : "";
+      const path = `/publicacoes?populate[0]=coverImage${categoryQuery}${titleQuery}`;
+      const response: any = await httpClient.get(path);
+
+      const { data } = response;
+
+      let publishes: MunicipalProfileModel[] = [];
+      data.forEach((publish:any) => {
+        publishes.push({
+          id: publish.id,
+          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
+          category: publish.attributes.category,
+          documentUrl: publish.attributes.documentLink,
+          imageUrl: publish.attributes.coverImage.data.attributes.url,
+          longDescription: publish.attributes.longDescription,
+          shortDescription: publish.attributes.shortDescription,
+          tags: publish.attributes.tags,
+          title: publish.attributes.title,
+          createdAt: publish.attributes.createdAt,
+        });
+      }); 
+    
+      const { meta } = response;
+      const {totalItems} = meta.pagination.total;
+    
+      const publishData: PublishData = {
+        items:publishes,
+        totalItems,
+      }
+    
+      return publishData;
+    }catch(error){
+      console.log(error);
+      return {items:[], totalItems:0}
+    }
+  }
+
   async getPaginatedMunicipalProfiles(
     page: number,
     limit: number,
