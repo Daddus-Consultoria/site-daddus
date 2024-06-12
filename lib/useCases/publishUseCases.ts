@@ -6,7 +6,7 @@ export class PublishUseCases {
     this.publishRepository = publishRepository;
   }
 
-  async getMunicipalProfiles({title, category}:{category?:string,title?:string}) {
+  async getMunicipalProfiles({title}:{title?:string}) {
     try{
       return await this.publishRepository.getMunicipalProfiles(title);
     }catch(error){
@@ -42,6 +42,14 @@ export class PublishUseCases {
     }
   }
 
+  async getGuides({ title }: { title?: string }) {
+    try {
+      return await this.publishRepository.getGuides(title);
+    }catch(error){
+      throw error;
+    }
+  }
+
   async getPaginatedGuides({ page, limit }: { page: number; limit: number }) {
     try {
       return await this.publishRepository.getPaginatedGuides(page, limit);
@@ -54,6 +62,14 @@ export class PublishUseCases {
     try {
       return await this.publishRepository.getGuidePublishById(id);
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async getStudys({title}:{title?:string}){
+    try{
+      return await this.publishRepository.getStudys(title);
+    }catch(error){
       throw error;
     }
   }

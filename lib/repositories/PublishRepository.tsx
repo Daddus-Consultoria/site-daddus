@@ -17,12 +17,16 @@ abstract class PublishRepository {
     id: string
   ): Promise<MunicipalProfileModel | null>;
 
+  abstract getGuides(title?: string): Promise<PublishData>;
+
   abstract getPaginatedGuides(
     page: number,
     limit: number
   ): Promise<PublishData>;
 
   abstract getGuidePublishById(id: string): Promise<PublishModel | null>;
+
+  abstract getStudys(title?: string): Promise<PublishData>;
 
   abstract getPaginatedStudys(
     page: number,

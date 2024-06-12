@@ -36,13 +36,15 @@ export interface PostModel {
   tags: string[];
 }
 
+export interface PostData {
+  posts: Post[];
+  totalItems: number;
+}
+
 export interface Post extends PostModel {
   relatedPosts:
     | Omit<PostModel, "firstContent" | "lastContent" | "author">[]
     | undefined;
 }
 
-export interface PostData {
-  posts: Post[];
-  totalItems: number;
-}
+

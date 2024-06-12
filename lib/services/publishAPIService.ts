@@ -19,6 +19,7 @@ export class PublishAPIService implements PublishRepository {
 
       const { data } = response;
 
+
       let publishes: MunicipalProfileModel[] = [];
       data.forEach((publish:any) => {
         publishes.push({
@@ -36,7 +37,7 @@ export class PublishAPIService implements PublishRepository {
       }); 
     
       const { meta } = response;
-      const {totalItems} = meta.pagination.total;
+      const totalItems = meta.pagination.total;
     
       const publishData: PublishData = {
         items:publishes,
@@ -95,6 +96,47 @@ export class PublishAPIService implements PublishRepository {
       return { items: [], totalItems: 0 };
     }
   }
+
+  async getGuides(title?: string ): Promise<PublishData> {
+      const titleQuery = title ? `&filters[title][$contains]=${title}` : ``;
+
+      try{
+        const path = `/guias?populate[0]=coverImage${titleQuery}`;
+
+        const response:any = await httpClient.get(path);
+
+        const { data } = response;
+
+        let publishes: PublishModel[] = [];
+        data.forEach((publish: any) => {
+          publishes.push({
+            id: publish.id,
+            authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
+            documentUrl: publish.attributes.documentLink,
+            imageUrl: publish.attributes.coverImage.data.attributes.url,
+            longDescription: publish.attributes.longDescription,
+            shortDescription: publish.attributes.shortDescription,
+            tags: publish.attributes.tags,
+            title: publish.attributes.title,
+            createdAt: publish.attributes.createdAt,
+          });
+        });
+
+        const { meta } = response;
+        const totalItems = meta.pagination.total;
+        
+        const publishData: PublishData = {
+          items:publishes,
+          totalItems,
+        }
+
+        return publishData;
+      }catch(error){
+        console.log(error);
+        return {items:[], totalItems:0}
+      }
+  }
+
   async getMunicipalProfilePublishById(
     id: string
   ): Promise<MunicipalProfileModel> {
@@ -114,6 +156,8 @@ export class PublishAPIService implements PublishRepository {
         tags: data.attributes.tags,
         title: data.attributes.title,
       };
+
+      
       return publish;
     } catch (error) {
       console.error(error);
@@ -145,7 +189,7 @@ export class PublishAPIService implements PublishRepository {
 
       const { meta } = response;
       const totalItems = meta.pagination.total;
-
+      
       const publishData: PublishData = {
         items: publishes,
         totalItems,
@@ -178,6 +222,46 @@ export class PublishAPIService implements PublishRepository {
     } catch (error) {
       console.error(error);
       throw new Error(`Error while fetching publish with id: ${id}: ${error}`);
+    }
+  }
+
+  async getStudys(title?: string): Promise<PublishData> {
+    try{
+      const titleQuery = title ? `&filters[title][$contains]=${title}` : ``;
+      const path = `/estudos?populate[0]=coverImage${titleQuery}`;
+
+      const response:any = await httpClient.get(path);
+
+      const { data } = response;
+
+      let publishes: PublishModel[] = [];
+
+      data.forEach((publish: any) => {
+        publishes.push({
+          id: publish.id,
+          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
+          documentUrl: publish.attributes.documentLink,
+          imageUrl: publish.attributes.coverImage.data.attributes.url,
+          longDescription: publish.attributes.longDescription,
+          shortDescription: publish.attributes.shortDescription,
+          tags: publish.attributes.tags,
+          title: publish.attributes.title,
+          createdAt: publish.attributes.createdAt,
+        });
+      });
+
+      const { meta } = response;
+      const totalItems = meta.pagination.total;
+      
+      const publishData: PublishData = {
+        items:publishes,
+        totalItems,
+      }
+
+      return publishData;
+    }catch(error){
+      console.log(error);
+      return {items:[], totalItems:0}
     }
   }
 
