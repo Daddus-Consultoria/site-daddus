@@ -13,7 +13,7 @@ export class PublishAPIService implements PublishRepository {
       const categoryQuery = category
         ? `&filters[category][$contains]=${category}`
         : "";
-      const titleQuery = title ? `&filters[title][$contains]=${title}` : "";
+      const titleQuery = title ? `&filters[title][$containsi]=${title}` : "";
       const path = `/publicacoes?populate[0]=coverImage${categoryQuery}${titleQuery}`;
       const response: any = await httpClient.get(path);
 
@@ -98,7 +98,7 @@ export class PublishAPIService implements PublishRepository {
   }
 
   async getGuides(title?: string ): Promise<PublishData> {
-      const titleQuery = title ? `&filters[title][$contains]=${title}` : ``;
+      const titleQuery = title ? `&filters[title][$containsi]=${title}` : ``;
 
       try{
         const path = `/guias?populate[0]=coverImage${titleQuery}`;
@@ -227,7 +227,7 @@ export class PublishAPIService implements PublishRepository {
 
   async getStudys(title?: string): Promise<PublishData> {
     try{
-      const titleQuery = title ? `&filters[title][$contains]=${title}` : ``;
+      const titleQuery = title ? `&filters[title][$containsi]=${title}` : ``;
       const path = `/estudos?populate[0]=coverImage${titleQuery}`;
 
       const response:any = await httpClient.get(path);

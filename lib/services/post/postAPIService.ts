@@ -57,7 +57,7 @@ export class PostsAPIService implements PostRepository {
       const categoryQuery = category
         ? `&filters[category][$contains]=${category}`
         : "";
-      const titleQuery = title ? `&filters[title][$contains]=${title}` : "";
+      const titleQuery = title ? `&filters[title][$containsi]=${title}` : "";
       const pageStart = currentIndex ? `&pagination[start]=${(currentIndex-1)*limit!}` : "";
       const limitQuery = limit ? `&pagination[limit]=${limit}` : "";
       const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
