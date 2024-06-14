@@ -37,12 +37,12 @@ const SearchItems:React.FC = () => {
     data.forEach((dataAux) => {
       if(isPublishData(dataAux)){
         dataAux.items.map((item) => {
-          titles.push(item.title)
+          titles.push(item.title) //conteudos/publicacoes/estudos/1 -- aqui o b.o é o estudos
         })
       }
       if(isPostData(dataAux)){
         dataAux.posts.map((post) => {
-          titles.push(post.title)
+          titles.push(post.title)  //blog/category/slug -- aqui acredito que temos tudo
         })
       }
     })
@@ -58,7 +58,7 @@ const SearchItems:React.FC = () => {
         usePostUseCases.getPosts({title: titleQuery}),
         usePublishUseCases.getMunicipalProfiles({title: titleQuery}),
         usePublishUseCases.getGuides({title: titleQuery}),
-        usePublishUseCases.getStudys({title: titleQuery})
+        usePublishUseCases.getStudys({title: titleQuery}),
       ]
 
       const dataAll = await Promise.all(functions);
