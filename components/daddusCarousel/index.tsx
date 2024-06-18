@@ -16,7 +16,12 @@ interface DaddusCarouselProps {
 
 const DaddusCarousel: React.FC<DaddusCarouselProps> = ({ items }) => {
   return (
-    <Carousel className="w-full items-center">
+    <Carousel 
+      className="w-full items-center"
+      opts={{
+        loop: true,
+      }}
+    >
       <CarouselContent className="my-auto">
         {items.map((item, index) => (
           <CarouselItem className="" key={`carousel-item-${index}`}>
