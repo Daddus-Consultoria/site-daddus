@@ -10,6 +10,7 @@ import { PublishCategories, TimeConstants } from "@/lib/constants/constants";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
+import { CategoryModel } from "@/lib/interfaces/publish";
 
 const MunicipalProfile: React.FC = () => {
   const urlPath = usePathname();
@@ -22,7 +23,7 @@ const MunicipalProfile: React.FC = () => {
 
     queryFn: async () => {
       return await usePublishUseCases.getMunicipalProfileById({
-        id: publishId ?? "",
+        id: 'publishId ?? ""',
       });
     },
   });

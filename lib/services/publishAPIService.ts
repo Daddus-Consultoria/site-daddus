@@ -2,13 +2,101 @@ import PublishRepository from "@/lib/repositories/PublishRepository";
 import {
   PublishModel,
   PublishData,
-  MunicipalProfileModel,
+  CategoryModel,
+  /* MunicipalProfileModel, */
 } from "@/lib/interfaces/publish";
+import {PublishCategories} from '@/lib/constants/constants';
+import { PublishResponse, mapperPublish } from "@/lib/services/index";
 import { httpClient } from "./httpClient";
 import { getAuthorsList } from "@/lib/utils/transformDataToInterface";
 
 export class PublishAPIService implements PublishRepository {
-  async getMunicipalProfiles(title?:string, category?:string): Promise<PublishData> {
+  async getPublish(title?: string, category?: PublishCategories): Promise<PublishData> {
+    try{
+      const categoryQuery = category ? `&filters[category][$contains]=${category}` : ``;
+      const titleQuery = title ? `&filters[title][$containsi]=${title}` : ``;
+      const path = `/publicacoes?populate[0]=coverImage${titleQuery}${categoryQuery}`;
+
+      const response:any = await httpClient.get(path);
+
+      const { data } = response;
+
+      let publishes: PublishModel[] = [];
+      data.forEach((publish: any) => {
+        publishes.push(mapperPublish(publish));
+      });
+
+      const { meta } = response;
+      const totalItems = meta.pagination.total;
+      
+      const publishData: PublishData = {
+        items:publishes,
+        totalItems,
+      }
+
+      return publishData;
+    }catch(error){
+      console.log(error);
+      return {
+        items:[],
+        totalItems:0
+      }
+    }
+  }
+
+  async getPublishById(id: string, category:PublishCategories): Promise<PublishModel> {
+    try{
+      const categoryQuery = category ? `&filters[category][$contains]=${category}` : ``;
+      const path = `/publicacoes/${id}?populate[0]=coverImage&populate[1]=authors${categoryQuery}`;
+      const response:any = await httpClient.get(path);
+
+      const { data } = response;
+      const publish: PublishModel = mapperPublish(data);
+
+      return publish;
+    }catch(error){
+      console.log(error);
+      throw new Error(`Error while fetching publish with id: ${id}: ${error}`);
+    }
+  }
+
+  async getPaginatedPublish(
+    page: number,
+    limit: number,
+    category?: string,
+    order?:  "asc" | "desc",
+  ): Promise<PublishData> {
+    try{
+      const orderQuery = order ? `&sort=id:desc` : ""; // Adicionando ordenação decrescente por ID se o parâmetro 'order' estiver presente
+      const categoryQuery = category ? `&filters[category][$contains]=${category}` : ``;
+      const path = `/publicacoes?populate[0]=coverImage&populate[1]=authors&pagination[page]=${page}&pagination[pageSize]=${limit}${categoryQuery}${orderQuery}`;
+      const response:any = await httpClient.get(path);
+
+      const { data } = response;
+      let publishes: PublishModel[] = [];
+      data.forEach((publish: any) => {
+        publishes.push(mapperPublish(publish));
+      });
+
+      const { meta } = response;
+      const totalItems = meta.pagination.total;
+      
+      const publishData: PublishData = {
+        items:publishes,
+        totalItems,
+      }
+
+      return publishData;
+    }catch(error){
+      console.log(error);
+      return {
+        items:[],
+        totalItems:0
+      }
+    }
+  }
+
+  /* async getMunicipalProfiles(title?:string, category?:string): Promise<PublishData> {
     try{
       const categoryQuery = category
         ? `&filters[category][$contains]=${category}`
@@ -109,17 +197,7 @@ export class PublishAPIService implements PublishRepository {
 
         let publishes: PublishModel[] = [];
         data.forEach((publish: any) => {
-          publishes.push({
-            id: publish.id,
-            authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
-            documentUrl: publish.attributes.documentLink,
-            imageUrl: publish.attributes.coverImage.data.attributes.url,
-            longDescription: publish.attributes.longDescription,
-            shortDescription: publish.attributes.shortDescription,
-            tags: publish.attributes.tags,
-            title: publish.attributes.title,
-            createdAt: publish.attributes.createdAt,
-          });
+          publishes.push(mapperPublish(publish));
         });
 
         const { meta } = response;
@@ -174,17 +252,7 @@ export class PublishAPIService implements PublishRepository {
       const { data } = response;
       let publishes: PublishModel[] = [];
       data.forEach((publish: any) => {
-        publishes.push({
-          id: publish.id,
-          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
-          documentUrl: publish.attributes.documentLink,
-          imageUrl: publish.attributes.coverImage.data.attributes.url,
-          longDescription: publish.attributes.longDescription,
-          shortDescription: publish.attributes.shortDescription,
-          tags: publish.attributes.tags,
-          title: publish.attributes.title,
-          createdAt: publish.attributes.createdAt,
-        });
+        publishes.push(mapperPublish(publish));
       });
 
       const { meta } = response;
@@ -208,16 +276,7 @@ export class PublishAPIService implements PublishRepository {
       const response: any = await httpClient.get(path);
 
       const { data } = response;
-      const publish: PublishModel = {
-        authors: getAuthorsList(data.attributes.authors.data),
-        documentUrl: data.attributes.documentLink,
-        id: data.id,
-        imageUrl: data.attributes.coverImage.data.attributes.url,
-        longDescription: data.attributes.longDescription,
-        shortDescription: data.attributes.shortDescription,
-        tags: data.attributes.tags,
-        title: data.attributes.title,
-      };
+      const publish: PublishModel = mapperPublish(data);
       return publish;
     } catch (error) {
       console.error(error);
@@ -237,17 +296,7 @@ export class PublishAPIService implements PublishRepository {
       let publishes: PublishModel[] = [];
 
       data.forEach((publish: any) => {
-        publishes.push({
-          id: publish.id,
-          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
-          documentUrl: publish.attributes.documentLink,
-          imageUrl: publish.attributes.coverImage.data.attributes.url,
-          longDescription: publish.attributes.longDescription,
-          shortDescription: publish.attributes.shortDescription,
-          tags: publish.attributes.tags,
-          title: publish.attributes.title,
-          createdAt: publish.attributes.createdAt,
-        });
+        publishes.push(mapperPublish(publish));
       });
 
       const { meta } = response;
@@ -274,17 +323,7 @@ export class PublishAPIService implements PublishRepository {
       const { data } = response;
       let publishes: PublishModel[] = [];
       data.forEach((publish: any) => {
-        publishes.push({
-          id: publish.id,
-          authors: getAuthorsList(publish.attributes.authors ? publish.attributes.authors.data : []),
-          documentUrl: publish.attributes.documentLink,
-          imageUrl: publish.attributes.coverImage.data.attributes.url,
-          longDescription: publish.attributes.longDescription,
-          shortDescription: publish.attributes.shortDescription,
-          tags: publish.attributes.tags,
-          title: publish.attributes.title,
-          createdAt: publish.attributes.createdAt,
-        });
+        publishes.push(mapperPublish(publish));
       });
 
       const { meta } = response;
@@ -308,20 +347,11 @@ export class PublishAPIService implements PublishRepository {
       const response: any = await httpClient.get(path);
 
       const { data } = response;
-      const publish: PublishModel = {
-        authors: getAuthorsList(data.attributes.authors.data),
-        documentUrl: data.attributes.documentLink,
-        id: data.id,
-        imageUrl: data.attributes.coverImage.data.attributes.url,
-        longDescription: data.attributes.longDescription,
-        shortDescription: data.attributes.shortDescription,
-        tags: data.attributes.tags,
-        title: data.attributes.title,
-      };
+      const publish: PublishModel = mapperPublish(data);
       return publish;
     } catch (error) {
       console.error(error);
       throw new Error(`Error while fetching publish with id: ${id}: ${error}`);
     }
-  }
+  } */
 }

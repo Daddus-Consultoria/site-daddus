@@ -1,4 +1,4 @@
-import { PublishModel } from "@/lib/interfaces/publish";
+import { CategoryModel, PublishModel } from "@/lib/interfaces/publish";
 import React from "react";
 import Image from "next/image";
 import {
@@ -16,7 +16,7 @@ interface PublishItemProps {
 }
 
 const Publish: React.FC<PublishItemProps> = ({
-  publishData: { title, longDescription, authors, tags, imageUrl, documentUrl },
+  publishData: { title, longDescription, authors, tags, imageUrl, documentLink },
   category,
 }) => {
   let relatedPublicationsList: RelatedPublicationModel[] = [];
@@ -34,7 +34,7 @@ const Publish: React.FC<PublishItemProps> = ({
         <div className="flex w-full lg:w-1/4 flex-col h-full gap-10">
           {/* <img src={imageUrl} alt={title} /> */}
           <PublishInfo
-            documentUrl={documentUrl}
+            documentUrl={documentLink}
             category={category}
             authors={authors}
             createdAt={new Date().toLocaleDateString()}

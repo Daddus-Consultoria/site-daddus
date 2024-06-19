@@ -22,7 +22,7 @@ const StudiesPublish: React.FC = () => {
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
-      return await usePublishUseCases.getStudyById({ id: publishId ?? "" });
+      return await usePublishUseCases.getStudyById({ id: publishId ?? "", category: PublishCategories.STUDIES});
     },
   });
 

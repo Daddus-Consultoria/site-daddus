@@ -116,11 +116,15 @@ export const headerItems: NavigationType[] = [
 ];
 
 export enum PublishCategories {
+  MUNICIPAL_PROFILE = "perfil-municipal",
+  GUIDES = "guia",
+  STUDIES = "estudo",
+}
+
+export enum PublishSubCategories {
   COUNTIES_SOCIAL_PROFILE = "Perfil Social dos Municípios",
   COUNTIES_ELECTORAL_PROFILE = "Perfil Eleitoral dos Municípios",
   COUNTIES_ECONOMIC_PROFILE = "Perfil Econômico dos Municípios",
-  GUIDES = "Guias",
-  STUDIES = "Estudos",
 }
 
 export enum SizesConstants {

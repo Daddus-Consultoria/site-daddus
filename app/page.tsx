@@ -37,6 +37,7 @@ export default function Home() {
       return await usePublishUseCases.getPaginatedGuides({
         limit: 3,
         page: 1,
+        order: "desc",
       })
     }
 
@@ -44,7 +45,7 @@ export default function Home() {
       return  await usePublishUseCases.getPaginatedMunicipalProfiles({
         limit: 3,
         page: 1,
-        category: "Perfil",
+        order: "desc",
       })
     }
 
@@ -64,7 +65,7 @@ export default function Home() {
           })
         })
       });
-    var lastPublishes = allPublish.sort((a, b) => new Date(b.publishes.createdAt!).getDate()- new Date(a.publishes.createdAt!).getDate())
+    var lastPublishes = allPublish.sort((a, b) => new Date(b.publishes.publishDate!).getDate()- new Date(a.publishes.publishDate!).getDate())
     
     var allPosts = await postsUseCases.getPosts({})
 

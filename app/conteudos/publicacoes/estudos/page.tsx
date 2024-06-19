@@ -23,6 +23,7 @@ const Study = () => {
     return await usePublishUseCases.getPaginatedStudies({
       limit: itemsPerPage,
       page: currentPage,
+      
     });
   }
 
