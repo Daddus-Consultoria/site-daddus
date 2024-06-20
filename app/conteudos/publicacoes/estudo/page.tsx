@@ -5,14 +5,11 @@ import {
   CircularProgressIndicator,
   ContentNotFoundWarning,
 } from "@/components/index";
-import { Label } from "@/components/ui/index";
 import { PaginationGeneric } from "@/components/index";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { QueryKeys } from "@/lib/constants/queryKeys";
-import { PublishCategories } from "@/lib/constants/constants";
 
 const Study = () => {
   const usePublishUseCases = new PublishUseCases();

@@ -4,16 +4,14 @@ import { Input } from "@/components/index";
 
 import { PiMagnifyingGlassThin } from "react-icons/pi";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { useQuery } from "@tanstack/react-query";
-import { useDebounce } from "@uidotdev/usehooks";
-import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishData } from "@/lib/interfaces/publish";
 import { PostData } from "@/lib/interfaces/post";
 import { debounce } from "radash";
-import {Links} from '@/lib/constants/constants';
+import { Links } from '@/lib/constants/constants';
 import { useRouter } from "next/navigation";
 
 type ItemType = PostData | PublishData;
@@ -45,7 +43,11 @@ const SearchItems:React.FC = () => {
     data.forEach((dataAux) => {
       if(isPublishData(dataAux)){
         dataAux.items.map((item) => {
-          items.push({title: item.title, category: item.category, slug: item.slug, path: `${Links.SITE_DOMAIN}/conteudos/publicacoes/${item.category}/${item.slug}`})
+          items.push({
+            title: item.title, category: item.category,
+            slug: item.slug,
+            path: `conteudos/publicacoes/${item.category}/${item.slug}`
+          })
           //titles.push(item.title) //conteudos/publicacoes/estudos/1 -- aqui o b.o é o estudos
         })
       }
@@ -83,7 +85,7 @@ const SearchItems:React.FC = () => {
     }
   }
   
-  const debounceQueryData = debounce({delay: 100}, getAllData);
+  const debounceQueryData = debounce({delay: 1000}, getAllData);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["queryData", query],
@@ -141,7 +143,7 @@ const SearchItems:React.FC = () => {
           <ul>
             {filteredItems.map((filtered) => (
               <li 
-                className="cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-blue-600 hover:text-white"
+                className="cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-primary hover:text-white"
                 onMouseDown={()=>router.push(filtered.path)}
               >
                 {filtered.title}

@@ -7,11 +7,9 @@ import {
 } from "@/components/index";
 import { PaginationGeneric } from "@/components/index";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { useQuery } from "@tanstack/react-query";
-import { PublishCategories } from "@/lib/constants/constants";
 
 const Guides = () => {
   const usePublishUseCases = new PublishUseCases();
