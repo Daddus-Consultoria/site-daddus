@@ -15,7 +15,7 @@ export class PublishAPIService implements PublishRepository {
     try{
       const categoryQuery = category ? `&filters[category][$contains]=${category}` : ``;
       const titleQuery = title ? `&filters[title][$containsi]=${title}` : ``;
-      const path = `/publicacoes?populate[0]=coverImage${titleQuery}${categoryQuery}`;
+      const path = `/publicacoes?populate[0]=coverImage&populate[1]=authors${titleQuery}${categoryQuery}`;
 
       const response:any = await httpClient.get(path);
 
@@ -44,19 +44,22 @@ export class PublishAPIService implements PublishRepository {
     }
   }
 
-  async getPublishById(id: string, category:PublishCategories): Promise<PublishModel> {
+  async getPublishById(slug:string, category:PublishCategories): Promise<PublishModel> {
     try{
       const categoryQuery = category ? `&filters[category][$contains]=${category}` : ``;
-      const path = `/publicacoes/${id}?populate[0]=coverImage&populate[1]=authors${categoryQuery}`;
+      const slugQuery = slug ? `&filters[slug][$eq]=${slug}` : ``;
+      const path = `/publicacoes?populate[0]=coverImage&populate[1]=authors${categoryQuery}${slugQuery}`;
       const response:any = await httpClient.get(path);
 
+
       const { data } = response;
-      const publish: PublishModel = mapperPublish(data);
+
+      const publish: PublishModel = mapperPublish(data[0]);
 
       return publish;
     }catch(error){
       console.log(error);
-      throw new Error(`Error while fetching publish with id: ${id}: ${error}`);
+      throw new Error(`Error while fetching publish with id: ${slug}: ${error}`);
     }
   }
 

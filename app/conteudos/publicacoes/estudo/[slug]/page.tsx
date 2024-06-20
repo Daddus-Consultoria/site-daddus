@@ -12,19 +12,21 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 
 const StudiesPublish: React.FC = () => {
   const urlPath = usePathname();
-  const publishId = urlPath.split("/").pop();
+  const publishSlug = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
   console.log(urlPath)
 
   const { data, isLoading } = useQuery({
-    queryKey: [`study-${publishId}`],
+    queryKey: [`study-${publishSlug}`],
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
-      return await usePublishUseCases.getStudyById({ id: publishId ?? "", category: PublishCategories.STUDIES});
+      return await usePublishUseCases.getStudyBySlug({ slug: publishSlug!});
     },
   });
+
+  console.log(data)
 
   if (isLoading)
     return (

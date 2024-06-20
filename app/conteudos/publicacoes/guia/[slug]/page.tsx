@@ -12,15 +12,15 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 
 const GuidesPublish: React.FC = () => {
   const urlPath = usePathname();
-  const publishId = urlPath.split("/").pop();
+  const publishSlug = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
   const { data, isLoading } = useQuery({
-    queryKey: [`guide-${publishId}`],
+    queryKey: [`guide-${publishSlug}`],
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
-      return await usePublishUseCases.getGuideById({ id: publishId ?? "" });
+      return await usePublishUseCases.getGuideBySlug({ slug: publishSlug ?? "" });
     },
   });
 

@@ -14,16 +14,16 @@ import { CategoryModel } from "@/lib/interfaces/publish";
 
 const MunicipalProfile: React.FC = () => {
   const urlPath = usePathname();
-  const publishId = urlPath.split("/").pop();
+  const publishSlug = urlPath.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
   const { data, isLoading } = useQuery({
-    queryKey: [`municipal-profile-${publishId}`],
+    queryKey: [`municipal-profile-${publishSlug}`],
     staleTime: TimeConstants.ONE_HOUR,
 
     queryFn: async () => {
-      return await usePublishUseCases.getMunicipalProfileById({
-        id: 'publishId ?? ""',
+      return await usePublishUseCases.getMunicipalProfileBySlug({
+        slug: publishSlug!,
       });
     },
   });

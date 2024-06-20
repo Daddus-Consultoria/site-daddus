@@ -12,7 +12,7 @@ export class PublishUseCases {
 
   async getMunicipalProfiles({title}:{title?:string}) {
     try{
-      return await this.publishRepository.getPublish(title);
+      return await this.publishRepository.getPublish(title, PublishCategories.MUNICIPAL_PROFILE);
     }catch(error){
       throw error;
     }
@@ -39,9 +39,9 @@ export class PublishUseCases {
     }
   }
 
-  async getMunicipalProfileById({ id }: { id: string}) {
+  async getMunicipalProfileBySlug({ slug }: { slug: string}) {
     try {
-      return await this.publishRepository.getPublishById(id, PublishCategories.MUNICIPAL_PROFILE);
+      return await this.publishRepository.getPublishById(slug, PublishCategories.MUNICIPAL_PROFILE);
     } catch (error) {
       throw error;
     }
@@ -49,7 +49,7 @@ export class PublishUseCases {
 
   async getGuides({ title }: { title?: string }) {
     try {
-      return await this.publishRepository.getPublish(title);
+      return await this.publishRepository.getPublish(title, PublishCategories.GUIDES);
     }catch(error){
       throw error;
     }
@@ -63,9 +63,9 @@ export class PublishUseCases {
     }
   }
 
-  async getGuideById({ id, category }: { id: string, category: PublishCategories}) {
+  async getGuideBySlug({ slug }: { slug: string}) {
     try {
-      return await this.publishRepository.getPublishById(id, category);
+      return await this.publishRepository.getPublishById(slug, PublishCategories.GUIDES);
     } catch (error) {
       throw error;
     }
@@ -73,7 +73,7 @@ export class PublishUseCases {
 
   async getStudys({title}:{title?:string}){
     try{
-      return await this.publishRepository.getPublish(title);
+      return await this.publishRepository.getPublish(title, PublishCategories.STUDIES);
     }catch(error){
       throw error;
     }
@@ -87,9 +87,9 @@ export class PublishUseCases {
     }
   }
 
-  async getStudyById({ id, category }: { id: string, category: PublishCategories }) {
+  async getStudyBySlug({ slug }: { slug: string, }) {
     try {
-      return await this.publishRepository.getPublishById(id, category);
+      return await this.publishRepository.getPublishById(slug, PublishCategories.STUDIES);
     } catch (error) {
       throw error;
     }

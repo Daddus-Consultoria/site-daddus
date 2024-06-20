@@ -5,34 +5,36 @@ import {
   CircularProgressIndicator,
   ContentNotFoundWarning,
 } from "@/components/index";
+import { Label } from "@/components/ui/index";
 import { PaginationGeneric } from "@/components/index";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { QueryKeys } from "@/lib/constants/queryKeys";
-import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { useQuery } from "@tanstack/react-query";
+import { PublishUseCases } from "@/lib/useCases/publishUseCases";
+import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishCategories } from "@/lib/constants/constants";
 
-const Guides = () => {
+const Study = () => {
   const usePublishUseCases = new PublishUseCases();
 
   const [currentPage, setCurrentPage] = useState(1);
 
-  const getGuides = async (currentPage: number) => {
-    return await usePublishUseCases.getPaginatedGuides({
+  const getStudy = async (currentPage: number) => {
+    return await usePublishUseCases.getPaginatedStudies({
       limit: itemsPerPage,
       page: currentPage,
+      
     });
   }
 
   const { data, isLoading, error } = useQuery({
-    queryKey: [QueryKeys.guides, currentPage],
+    queryKey: [QueryKeys.studies, currentPage],  
     queryFn: async () => {
-      return await getGuides(currentPage);
+      return await getStudy(currentPage);
     },
   });
-
-
+  
+  
   const itemsPerPage = 6;
   const currentPageItems = data?.items;
   const totalItems = data?.totalItems;
@@ -47,7 +49,7 @@ const Guides = () => {
       {isLoading ? (
         <CircularProgressIndicator containerHeight="400px" />
       ) : (currentPageItems ?? []).length > 0 ? (
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 gap-[4%]">
+        <div className="grid lg:grid-cols-1 xl:grid-cols-2 w-full my-[10%] lg:mt-[70px] md:h-full lg:px-5 ">
           {currentPageItems?.map((item, index) => {
             return (
               <CardPublication
@@ -56,8 +58,8 @@ const Guides = () => {
                 image={item.imageUrl}
                 description={item.shortDescription}
                 title={item.title}
-                path={`/conteudos/publicacoes/guias/${item.id}`}
-              />
+                path={`/conteudos/publicacoes/estudo/${item.slug}`}
+              />   
             );
           })}
         </div>
@@ -66,7 +68,6 @@ const Guides = () => {
           <ContentNotFoundWarning message="Nenhum item encontrado" />
         </div>
       )}
-
       <div className="flex flex-row w-full ">
         <PaginationGeneric
           totalItems={totalItems || 0}
@@ -79,4 +80,4 @@ const Guides = () => {
   );
 };
 
-export default Guides;
+export default Study;

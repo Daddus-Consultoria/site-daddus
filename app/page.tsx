@@ -59,7 +59,7 @@ export default function Home() {
     await Promise.all(promises).
       then((values) => {
         return values.map((value,index) => {
-          var category = index == 0 ? "estudos" : index == 1 ? "guias" : "perfis-municipais"
+          var category = index == 0 ? "estudo" : index == 1 ? "guia" : "perfil-municipal"
           value.items.map((item) => { 
             allPublish.push({category:category, publishes: item})
           })
@@ -146,7 +146,7 @@ export default function Home() {
                         image={item.publishes.imageUrl}
                         description={item.publishes.shortDescription}
                         title={item.publishes.title}
-                        path={`/conteudos/publicacoes/${item.category}/${item.publishes.id}`}
+                        path={`/conteudos/publicacoes/${item.category}/${item.publishes.slug}`}
                     />
                   ))
               )}

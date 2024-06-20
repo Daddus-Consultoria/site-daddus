@@ -13,17 +13,24 @@ import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishData } from "@/lib/interfaces/publish";
 import { PostData } from "@/lib/interfaces/post";
 import { debounce } from "radash";
+import {Links} from '@/lib/constants/constants';
+import { useRouter } from "next/navigation";
 
 type ItemType = PostData | PublishData;
 
-const SearchItems:React.FC = () => {  
+interface ItemsInterface {
+  title: string;
+  category: string;
+  slug: string;
+  path: string;
+}
 
-  
+const SearchItems:React.FC = () => {  
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [query, setQuery] = useState(''); //o que será pesquisado
   const inputRef = useRef<HTMLInputElement>(null);
-  const [filteredItems, setFilteredItems] = useState<string[]>([]);
-
+  const [filteredItems, setFilteredItems] = useState<ItemsInterface[]>([]);
+  const router = useRouter();
   const isPublishData = (data:ItemType): data is PublishData => {
     return (data as PublishData).items !== undefined;
   }
@@ -33,20 +40,23 @@ const SearchItems:React.FC = () => {
   }
 
   const transformData = (data:ItemType[]) => {
-    var titles: string[] = []
+    var items: ItemsInterface[] = []
+    //var titles: string[] = []
     data.forEach((dataAux) => {
       if(isPublishData(dataAux)){
         dataAux.items.map((item) => {
-          titles.push(item.title) //conteudos/publicacoes/estudos/1 -- aqui o b.o é o estudos
+          items.push({title: item.title, category: item.category, slug: item.slug, path: `${Links.SITE_DOMAIN}/conteudos/publicacoes/${item.category}/${item.slug}`})
+          //titles.push(item.title) //conteudos/publicacoes/estudos/1 -- aqui o b.o é o estudos
         })
       }
       if(isPostData(dataAux)){
         dataAux.posts.map((post) => {
-          titles.push(post.title)  //blog/category/slug -- aqui acredito que temos tudo
+          items.push({title: post.title, category: post.category, slug: post.slug, path: `${Links.SITE_DOMAIN}/blog/${post.category}/${post.slug}`})
+          //titles.push(post.title)  //blog/category/slug -- aqui acredito que temos tudo
         })
       }
     })
-    return titles; // retorna um array com todos os titulos a partir do conjunto de dados
+    return items; // retorna um array com todos os itens a partir do conjunto de dados
   }
 
   const getAllData = async (titleQuery:string) => {
@@ -80,7 +90,6 @@ const SearchItems:React.FC = () => {
     queryFn: () => {
       return debounceQueryData(query)
     },
-    /* enabled: !!query, */
   })
 
 
@@ -133,9 +142,9 @@ const SearchItems:React.FC = () => {
             {filteredItems.map((filtered) => (
               <li 
                 className="cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-blue-600 hover:text-white"
-                onMouseDown={()=>setQuery(filtered)}
+                onMouseDown={()=>router.push(filtered.path)}
               >
-                {filtered}
+                {filtered.title}
               </li>
             ))}
 

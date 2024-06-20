@@ -25,7 +25,6 @@ const Municipal_Profiles = () => {
     return await usePublishUseCases.getPaginatedMunicipalProfiles({
       limit: itemsPerPage,
       page: currentPage,
-      category: "Perfil",
     });
   }
 
@@ -72,7 +71,7 @@ const Municipal_Profiles = () => {
                 image={item.imageUrl}
                 description={item.shortDescription}
                 title={item.title}
-                path={`/conteudos/publicacoes/perfis-municipais/${item.id}`}
+                path={`/conteudos/publicacoes/perfil-municipal/${item.slug}`}
               />
             );
           })}

@@ -3,8 +3,8 @@ import { AuthorModel } from "@/lib/interfaces/author";
 import { PublishCategories, PublishSubCategories } from "@/lib/constants/constants";
 
 export interface PublishResponse {
+    id: number,
     attributes: {
-        id: number,
         title: string,
         shortDescription: string,
         longDescription: string,
@@ -17,7 +17,9 @@ export interface PublishResponse {
             }
         },
         subCategory: PublishSubCategories,
-        authors: AuthorModel[],
+        authors: {
+            data: AuthorModel[],
+        },
         publishDate: Date,
         tags: string[],
         documentLink: string,
@@ -28,10 +30,10 @@ export interface PublishResponse {
 
 export function mapperPublish(data:PublishResponse): PublishModel {
     return {
-        authors: data.attributes.authors,
+        id: data.id,
+        authors: data.attributes.authors.data,
         category: data.attributes.category,
         documentLink: data.attributes.documentLink,
-        id: data.attributes.id,
         imageUrl: data.attributes.coverImage.data.attributes.url,
         longDescription: data.attributes.longDescription,
         publishDate: data.attributes.publishDate,

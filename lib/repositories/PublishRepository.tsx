@@ -17,7 +17,7 @@ abstract class PublishRepository {
 
   abstract getPublish (title?: string, category?: PublishCategories): Promise<PublishData>;
 
-  abstract getPublishById (id: string, category:PublishCategories): Promise<PublishModel | null>;
+  abstract getPublishById (slug:string, category:PublishCategories): Promise<PublishModel | null>;
 
   abstract getPaginatedPublish (page: number, limit: number, category?:string, order?:"asc" | "desc"): Promise<PublishData>;
 
