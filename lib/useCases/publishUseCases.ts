@@ -1,6 +1,5 @@
 import { publishRepository } from "@/components/providers/repositoriesProviders/publishProvider";
-import { CategoryModel } from "@/lib/interfaces/publish";
-import {PublishCategories} from "@/lib/constants/constants";
+import { PublishCategories } from "@/lib/constants/constants";
 
 export class PublishUseCases {
   
@@ -8,6 +7,14 @@ export class PublishUseCases {
   publishRepository;
   constructor() {
     this.publishRepository = publishRepository;
+  }
+
+  async getPublish({ title }: { title?: string}) {
+    try {
+      return await this.publishRepository.getPublish(title);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getMunicipalProfiles({title}:{title?:string}) {

@@ -68,9 +68,7 @@ const SearchItems:React.FC = () => {
 
       const functions = [
         usePostUseCases.getPosts({title: titleQuery}),
-        usePublishUseCases.getMunicipalProfiles({title: titleQuery}),
-        usePublishUseCases.getGuides({title: titleQuery}),
-        usePublishUseCases.getStudys({title: titleQuery}),
+        usePublishUseCases.getPublish({title: titleQuery})
       ]
 
       const dataAll = await Promise.all(functions);
@@ -89,7 +87,7 @@ const SearchItems:React.FC = () => {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["queryData", query],
-    queryFn: () => {
+    queryFn: async () => {
       return debounceQueryData(query)
     },
   })
