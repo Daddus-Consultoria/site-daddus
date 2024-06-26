@@ -4,7 +4,7 @@ import { Input } from "@/components/index";
 
 import { PiMagnifyingGlassThin } from "react-icons/pi";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { useQuery } from "@tanstack/react-query";
@@ -68,6 +68,7 @@ const SearchItems:React.FC = () => {
 
       const functions = [
         usePostUseCases.getPosts({title: titleQuery}),
+
         usePublishUseCases.getPublish({title: titleQuery})
       ]
 
@@ -82,15 +83,16 @@ const SearchItems:React.FC = () => {
       console.log(error);
     }
   }
-  
-  const debounceQueryData = debounce({delay: 1000}, getAllData);
 
-  const { data, isLoading, error } = useQuery({
+  const debounceQueryData = debounce({delay: 700}, getAllData);
+
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["queryData", query],
     queryFn: async () => {
-      return debounceQueryData(query)
+      return await debounceQueryData(query) 
     },
-  })
+    enabled: query.length > 0,
+  });
 
 
   const handleInputClick = () => {
@@ -100,10 +102,10 @@ const SearchItems:React.FC = () => {
     }
   };
 
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setQuery(value);
-    console.log("funcao")
   };
 
   const handleInputBlur = () => {
