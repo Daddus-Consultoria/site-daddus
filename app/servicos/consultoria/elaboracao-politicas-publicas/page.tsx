@@ -102,12 +102,12 @@ const PublicPoliciesPage = () => {
       </div>
 
       <div id="bottom-transport-page" className="px-[7%]">
-        <h2 className="px-[2%] font-bold text-[26px] lg:text-[32px] text-primary mb-[2%]">
-          ATUAMOS TAMBÉM
+        <h2 className="px-[2%] font-bold text-[26px] lg:text-[32px] text-primary mb-[2%] ">
+          {constantsTransports.footer.title}
         </h2>
         <div className="w-full bg-[#999999] h-[1.5px]"></div>
         <div className="flex flex-col lg:flex-row gap-10 lg:h-[500px] 2xl:h-[500px] pb-20 md:justify-center md:items-center lg:justify-start lg:items-start">
-          {constantsTransports.cards.map((item, index) => (
+          {constantsTransports.footer.cards.map((item, index) => (
             <div key={`card-transport-page-${index}`} className="flex flex-col lg:flex-row gap-10 h-full md:max-w-[70%] lg:max-w-[33%] mb-4 lg:mb-14 mt-[3%] rounded-3xl shadow-xl">
               <CardInfo
                 title={item.title}
