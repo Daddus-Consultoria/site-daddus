@@ -9,8 +9,8 @@ export const constantsConsultancy: CardInfoProps[] = [
     description:
       "Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.",
     image: "/images/publications/publication1.svg",
-    path: "#",
-    copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/elaboracao-de-politicas-publicas`,
+    path: `${Links.SITE_DOMAIN}/servicos/consultoria/elaboracao-politicas-publicas`,
+    copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/elaboracao-politicas-publicas`,
     titleAlign: 'left',
   },
   {
@@ -18,8 +18,8 @@ export const constantsConsultancy: CardInfoProps[] = [
     description:
       "Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.",
     image: "/images/publications/publications2.svg",
-    path: "#",
-    copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/estudos-de-viabilidade-economico-financeiro`,
+    path: `${Links.SITE_DOMAIN}/servicos/consultoria/estudo-de-viabilidade`,
+    copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/estudo-de-viabilidade`,
     titleAlign: 'left',
   },
   {
@@ -27,8 +27,8 @@ export const constantsConsultancy: CardInfoProps[] = [
     description:
       "Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.",
     image: "/images/publications/publications3.svg",
-    path: "#",
-    copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/modelagem-de-projetos`, 
+    path: `${Links.SITE_DOMAIN}/servicos/consultoria/modelagem-projetos`,
+    copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/modelagem-projetos`, 
     titleAlign: 'left',
   },
 ];
