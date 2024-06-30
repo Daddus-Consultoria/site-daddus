@@ -5,7 +5,7 @@ import {
   CATEGORY_NAMES_BLOG,
 } from "@/app/blog/[category]/_constants";
 import { usePathname } from "next/navigation";
-import { BlogPostCard, CardInfo, ListCards, PaginationGeneric } from "@/components/index";
+import { BlogPostCard, CardInfo, PaginationGeneric } from "@/components/index";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import { CircularProgressIndicator } from "@/components/index";
@@ -23,7 +23,7 @@ const formatCategory = (category?: string) => {
 
 const CategoryPage: React.FC = () => {
   const urlPath = usePathname();
-  const categoryPath = urlPath.split("/").pop();
+  const categoryPath = urlPath?.split("/").pop();
   const usePostUseCases = new PostsUseCases();
 
   const itemsPerPage = 6;
