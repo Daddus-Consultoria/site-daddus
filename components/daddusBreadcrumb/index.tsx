@@ -18,7 +18,7 @@ export const DaddusBreadcrumb: React.FC = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const pathSegments = pathname.split("/").filter((segment) => segment);
+    const pathSegments = pathname?.split("/").filter((segment) => segment) ?? [];
     const breadcrumbItems = pathSegments.map((segment, index) => {
       const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
       return {

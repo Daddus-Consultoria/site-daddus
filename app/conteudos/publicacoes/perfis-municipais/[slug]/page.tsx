@@ -13,7 +13,7 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 
 const MunicipalProfile: React.FC = () => {
   const urlPath = usePathname();
-  const publishId = urlPath.split("/").pop();
+  const publishId = urlPath?.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
   const { data, isLoading } = useQuery({
