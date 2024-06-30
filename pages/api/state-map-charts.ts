@@ -21,13 +21,10 @@ export default async function handler(req: any, res: any) {
   });
 
   const sheets = google.sheets({ version: "v4", auth });
-
   const range = "A1:Z1000";
   const data = await sheets.spreadsheets.values.get({
     spreadsheetId: process.env.NEXT_PUBLIC_GOOGLE_SHEETS_SPREADSHEET_ID,
     range: range,
   });
-  console.log("data", data.data.values);
-
   res.status(200).json(data.data.values);
 }
