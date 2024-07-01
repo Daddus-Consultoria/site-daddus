@@ -1,6 +1,6 @@
 import { CardInfoProps } from "@/lib/interfaces/card"
 
-import {Links} from '@/lib/constants/constants';
+import { Links } from '@/lib/constants/constants';
 
 const cardContents: CardInfoProps[] = [
     {
@@ -55,5 +55,8 @@ export const constantsTransports = {
             text: 'Durante o processo, várias propostas serão discutidas e algumas descartadas. É importante manter a flexibilidade e estar aberto a caminhos alternativos, caso a abordagem inicial se prove inviável. Isso garante que as políticas sejam adaptadas às necessidades reais da população e possam contar com amplo apoio.',
         },
     ],
-    cards: cardContents,
+    footer: {
+        title: 'OUTRAS CONSULTORIAS',
+        cards: cardContents,
+    }
 }

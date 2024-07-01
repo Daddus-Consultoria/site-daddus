@@ -100,7 +100,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
                   <a
                     key={post.slug}
                     href={`blog/${post.category}/${post.slug}`}
-                    className="flex gap-3 items-start"
+                    className="flex flex-col sm:flex-row gap-5 sm:gap-3 items-start "
                   >
                     <Image
                       className="rounded-md"
@@ -114,8 +114,8 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
                         className="uppercase text-white w-fit"
                         title={CategoryMap[post.category]}
                       />
-                      <h2 className="font-bold text-lg">{post.title}</h2>
-                      <p className="text-xs font-light text-[#99999999]">
+                      <h2 className="mt-4 sm:mt-0 font-bold text-lg">{post.title}</h2>
+                      <p className="mt-3 sm:mt-0 text-xs font-light text-[#99999999]">
                         {post.authorComment}
                       </p>
                     </div>
