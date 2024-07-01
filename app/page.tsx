@@ -10,18 +10,13 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import { PublishModel } from "@/lib/interfaces/publish";
 
+
 import Image from "next/image"
 
 import "@/styles/home.css";
-
-interface PublishHomeInterface{
-  publishes: PublishModel,
-  category: string,
-}
+import { transformCategory } from "@/lib/constants/constants";
 
 export default function Home() {
-  
-
   const getPostsHome = async ()=>{
     const usePublishUseCases = new PublishUseCases();
     const postsUseCases = new PostsUseCases();
@@ -55,17 +50,14 @@ export default function Home() {
       getMuncipalProfile()
     ]
 
-    var allPublish: PublishHomeInterface[] = [];
+    var allPublish: PublishModel[] = [];
     await Promise.all(promises).
       then((values) => {
-        return values.map((value,index) => {
-          var category = index == 0 ? "estudo" : index == 1 ? "guia" : "perfil-municipal"
-          value.items.map((item) => { 
-            allPublish.push({category:category, publishes: item})
-          })
+        values.map((value) => {
+          allPublish.push(...value.items)
         })
       });
-    var lastPublishes = allPublish.sort((a, b) => new Date(b.publishes.publishDate!).getDate()- new Date(a.publishes.publishDate!).getDate())
+    var lastPublishes = allPublish.sort((a, b) => new Date(b.publishDate!).getDate()- new Date(a.publishDate!).getDate())
     
     var allPosts = await postsUseCases.getPosts({})
 
@@ -139,14 +131,14 @@ export default function Home() {
           </h2>
           <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[10%] md:mt-10 md:mb-4 md:h-full lg:px-5 gap-4">
             {isLoading ? <CircularProgressIndicator containerHeight="300px"/>: (
-                  lastPublishes && lastPublishes?.map((item:PublishHomeInterface) => (
+                  lastPublishes && lastPublishes?.map((item:PublishModel) => (
                     <CardPublication
-                        id={item.publishes.id}
-                        key={`card-publication-${item.publishes.title}`}
-                        image={item.publishes.imageUrl}
-                        description={item.publishes.shortDescription}
-                        title={item.publishes.title}
-                        path={`/conteudos/publicacoes/${item.category}/${item.publishes.slug}`}
+                        id={item.id}
+                        key={`card-publication-${item.title}`}
+                        image={item.imageUrl}
+                        description={item.shortDescription}
+                        title={item.title}
+                        path={`/conteudos/publicacoes/${transformCategory[item.category]}/${item.slug}`}
                     />
                   ))
               )}

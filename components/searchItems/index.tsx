@@ -11,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { PublishData } from "@/lib/interfaces/publish";
 import { PostData } from "@/lib/interfaces/post";
 import { debounce } from "radash";
-import { Links } from '@/lib/constants/constants';
+import { transformCategory } from '@/lib/constants/constants';
 import { useRouter } from "next/navigation";
 
 type ItemType = PostData | PublishData;
@@ -29,6 +29,8 @@ const SearchItems:React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [filteredItems, setFilteredItems] = useState<ItemsInterface[]>([]);
   const router = useRouter();
+
+
   const isPublishData = (data:ItemType): data is PublishData => {
     return (data as PublishData).items !== undefined;
   }
@@ -46,14 +48,14 @@ const SearchItems:React.FC = () => {
           items.push({
             title: item.title, category: item.category,
             slug: item.slug,
-            path: `conteudos/publicacoes/${item.category}/${item.slug}`
+            path: `/conteudos/publicacoes/${transformCategory[item.category]}/${item.slug}`
           })
           //titles.push(item.title) //conteudos/publicacoes/estudos/1 -- aqui o b.o é o estudos
         })
       }
       if(isPostData(dataAux)){
         dataAux.posts.map((post) => {
-          items.push({title: post.title, category: post.category, slug: post.slug, path: `${Links.SITE_DOMAIN}/blog/${post.category}/${post.slug}`})
+          items.push({title: post.title, category: post.category, slug: post.slug, path: `/blog/${post.category}/${post.slug}`})
           //titles.push(post.title)  //blog/category/slug -- aqui acredito que temos tudo
         })
       }
@@ -78,22 +80,32 @@ const SearchItems:React.FC = () => {
 
       setFilteredItems(titles)
 
+      if(isPopoverOpen==false){
+        setIsPopoverOpen(true)
+      }
+
       return titles;
     }catch(error){
       console.log(error);
     }
   }
 
-  const debounceQueryData = debounce({delay: 700}, getAllData);
-
+  
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["queryData", query],
     queryFn: async () => {
-      return await debounceQueryData(query) 
+      return await getAllData(query) 
     },
-    enabled: query.length > 0,
+    enabled: false,
   });
 
+  useEffect(() => {
+    if(query !== ""){
+      refetch()
+    }else{
+      setIsPopoverOpen(false)
+    }
+  },[query])
 
   const handleInputClick = () => {
     setIsPopoverOpen(true);
@@ -104,11 +116,13 @@ const SearchItems:React.FC = () => {
 
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("handle")
     const value = event.target.value;
     setQuery(value);
   };
 
   const handleInputBlur = () => {
+    setFilteredItems([])
     setTimeout(()=>{
       if(!inputRef.current?.contains(document.activeElement)){
         setIsPopoverOpen(false);
@@ -116,16 +130,24 @@ const SearchItems:React.FC = () => {
     })
   }
 
+  const debounceFunction = debounce({delay: 1000}, handleInputChange)
+  
   return (
     <div className="relative w-64">
       <div className="flex flex-row justify-center items-center rounded-xl border border-input p-1">
         <Input
             type="text"
-            /* className="w-full border bg-primary border-gray-300 text-white rounded-md p-2" */
             className="bg-primary text-white placeholder:text-white"
-            value={query}
+            //value={value}
             onClick={handleInputClick}
-            onChange={handleInputChange}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>)=>{
+              var value = event.target.value;
+              if(value.length>0){
+                debounceFunction(event)
+              }else{
+                setIsPopoverOpen(false)
+              }
+            }}
             ref={inputRef}
             onBlur={handleInputBlur}
             placeholder="Search..."
@@ -138,7 +160,7 @@ const SearchItems:React.FC = () => {
             }
           />
         </div>
-      {isPopoverOpen && (
+      {isPopoverOpen && filteredItems.length>0 && (
         <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           <ul>
             {filteredItems.map((filtered) => (

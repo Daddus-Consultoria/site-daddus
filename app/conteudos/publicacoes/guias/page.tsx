@@ -54,7 +54,7 @@ const Guides = () => {
                 image={item.imageUrl}
                 description={item.shortDescription}
                 title={item.title}
-                path={`/conteudos/publicacoes/guia/${item.slug}`}
+                path={`/conteudos/publicacoes/guias/${item.slug}`}
               />
             );
           })}

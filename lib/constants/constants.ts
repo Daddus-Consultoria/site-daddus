@@ -121,6 +121,12 @@ export enum PublishCategories {
   STUDIES = "estudo",
 }
 
+export const transformCategory = {
+  'guia' : 'guias',
+  'estudo' : 'estudos',
+  'perfil-municipal' : 'perfis-municipais'
+}
+
 export enum PublishSubCategories {
   COUNTIES_SOCIAL_PROFILE = "Perfil Social dos Municípios",
   COUNTIES_ELECTORAL_PROFILE = "Perfil Eleitoral dos Municípios",
