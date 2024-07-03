@@ -32,6 +32,8 @@ import { DaddusCarousel } from "@/components/daddusCarousel";
 import {ListCards} from "@/components/listCards"
 import {CardSelectTypePublish} from "@/components/cardSelectTypePublish"
 
+import { SearchItems } from "@/components/searchItems";
+
 export {
   Dropdown,
   Header,
@@ -61,6 +63,7 @@ export {
   ListCards,
   CardSelectTypePublish,
   BlogHeader,
+  SearchItems
 };
 
 export * from "@/components/ui";

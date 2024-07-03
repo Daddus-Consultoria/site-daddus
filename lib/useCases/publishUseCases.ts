@@ -1,66 +1,102 @@
 import { publishRepository } from "@/components/providers/repositoriesProviders/publishProvider";
+import { PublishCategories } from "@/lib/constants/constants";
 
 export class PublishUseCases {
+  
+
   publishRepository;
   constructor() {
     this.publishRepository = publishRepository;
   }
 
+  async getPublish({ title }: { title?: string}) {
+    try {
+      return await this.publishRepository.getPublish(title);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getMunicipalProfiles({title}:{title?:string}) {
+    try{
+      return await this.publishRepository.getPublish(title, PublishCategories.MUNICIPAL_PROFILE);
+    }catch(error){
+      throw error;
+    }
+  }
+
   async getPaginatedMunicipalProfiles({
     page,
     limit,
-    category,
+    order,
   }: {
     page: number;
     limit: number;
-    category?: string;
+    order? : "asc" | "desc"
   }) {
     try {
-      return await this.publishRepository.getPaginatedMunicipalProfiles(
+      return await this.publishRepository.getPaginatedPublish(
         page,
         limit,
-        category
+        PublishCategories.MUNICIPAL_PROFILE,
+        order,
       );
     } catch (error) {
       throw error;
     }
   }
 
-  async getMunicipalProfileById({ id }: { id: string }) {
+  async getMunicipalProfileBySlug({ slug }: { slug: string}) {
     try {
-      return await this.publishRepository.getMunicipalProfilePublishById(id);
+      return await this.publishRepository.getPublishById(slug, PublishCategories.MUNICIPAL_PROFILE);
     } catch (error) {
       throw error;
     }
   }
 
-  async getPaginatedGuides({ page, limit }: { page: number; limit: number }) {
+  async getGuides({ title }: { title?: string }) {
     try {
-      return await this.publishRepository.getPaginatedGuides(page, limit);
+      return await this.publishRepository.getPublish(title, PublishCategories.GUIDES);
+    }catch(error){
+      throw error;
+    }
+  }
+
+  async getPaginatedGuides({ page, limit, order }: { page: number; limit: number,order? : "asc" | "desc" }) {
+    try {
+      return await this.publishRepository.getPaginatedPublish(page, limit, PublishCategories.GUIDES, order);
     } catch (error) {
       throw error;
     }
   }
 
-  async getGuideById({ id }: { id: string }) {
+  async getGuideBySlug({ slug }: { slug: string}) {
     try {
-      return await this.publishRepository.getGuidePublishById(id);
+      return await this.publishRepository.getPublishById(slug, PublishCategories.GUIDES);
     } catch (error) {
       throw error;
     }
   }
 
-  async getPaginatedStudies({ page, limit }: { page: number; limit: number }) {
+  async getStudys({title}:{title?:string}){
+    try{
+      return await this.publishRepository.getPublish(title, PublishCategories.STUDIES);
+    }catch(error){
+      throw error;
+    }
+  }
+
+  async getPaginatedStudies({ page, limit,order }: { page: number; limit: number,order? : "asc" | "desc" }) {
     try {
-      return await this.publishRepository.getPaginatedStudys(page, limit);
+      return await this.publishRepository.getPaginatedPublish(page, limit, PublishCategories.STUDIES, order);
     } catch (error) {
       throw error;
     }
   }
 
-  async getStudyById({ id }: { id: string }) {
+  async getStudyBySlug({ slug }: { slug: string, }) {
     try {
-      return await this.publishRepository.getStudyPublishById(id);
+      return await this.publishRepository.getPublishById(slug, PublishCategories.STUDIES);
     } catch (error) {
       throw error;
     }

@@ -1,10 +1,6 @@
 "use client";
 import { constantsTermsOfUse } from "./_constants";
-import Image from "next/image";
-import { Contact, RelatedPublications } from "@/components/index";
-import { title } from "process";
 
-import { twMerge } from "tailwind-merge";
 
 const TermsOfUse = () => {
   const relatedPublications = [
