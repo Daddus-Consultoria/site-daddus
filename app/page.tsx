@@ -227,7 +227,6 @@ export default function Home() {
         </section>
         <section className="flex flex-col pt-5">
           <ListCards  title={constantPublishListHome.title} cards={constantPublishListHome.cards}/>
-          <SearchItems/>
         </section>
       </div>
     </>
