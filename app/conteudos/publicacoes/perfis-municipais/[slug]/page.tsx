@@ -5,16 +5,14 @@ import {
   CircularProgressIndicator,
   ContentNotFoundWarning,
 } from "@/components/index";
-import { PublishModel } from "@/lib/interfaces/publish";
-import { PublishCategories, TimeConstants } from "@/lib/constants/constants";
+import { TimeConstants } from "@/lib/constants/constants";
 import { usePathname } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
-import { CategoryModel } from "@/lib/interfaces/publish";
 
 const MunicipalProfile: React.FC = () => {
   const urlPath = usePathname();
-  const publishSlug = urlPath.split("/").pop();
+  const publishSlug = urlPath?.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
   const { data, isLoading } = useQuery({

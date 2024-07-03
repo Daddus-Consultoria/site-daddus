@@ -12,7 +12,7 @@ import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 
 const StudiesPublish: React.FC = () => {
   const urlPath = usePathname();
-  const publishSlug = urlPath.split("/").pop();
+  const publishSlug = urlPath?.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
   console.log(urlPath)
