@@ -137,7 +137,7 @@ const SearchItems: React.FC = () => {
     });
   };
 
-  const debounceFunction = debounce({ delay: 1000 }, handleInputChange);
+  const debounceFunction = debounce({ delay: 1500 }, handleInputChange);
 
   return (
     <div className="relative w-64">
@@ -173,13 +173,14 @@ const SearchItems: React.FC = () => {
         <div className="absolute z-10 mt-1 w-full bg-white border border-gray-300 rounded-md py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
           {isSearching && (
             <div className="flex justify-center items-center p-2">
-              <CircularProgressIndicator size={20} />
+              <CircularProgressIndicator size={25} />
             </div>
           )}
           {filteredItems.length > 0 && !isSearching && (
             <ul>
-              {filteredItems.map((filtered) => (
+              {filteredItems.map((filtered, index) => (
                 <li
+                  key={`searched-item-${index}`}
                   className="cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-primary hover:text-white"
                   onMouseDown={() => router.push(filtered.path)}
                 >
