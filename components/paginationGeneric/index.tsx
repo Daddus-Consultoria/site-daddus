@@ -8,8 +8,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/index";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 interface PaginationGenericProps {
   currentPage: number;

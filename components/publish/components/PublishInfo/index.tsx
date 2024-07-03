@@ -1,9 +1,11 @@
 import React from "react";
 import { DaddusLink } from "@/components/daddusLink";
 import { AuthorModel } from "@/lib/interfaces/author";
+import { CategoryModel } from "@/lib/interfaces/publish";
+import { PublishCategories } from "@/lib/constants/constants";
 
 interface PublishInfoProps {
-  category: string;
+  category: PublishCategories;
   authors: AuthorModel[];
   tags: string[];
   createdAt: string;
@@ -12,7 +14,7 @@ interface PublishInfoProps {
 
 interface TitleDescriptionProps {
   title: string;
-  value: string;
+  value: PublishCategories | string;
 }
 
 const TitleDescription: React.FC<TitleDescriptionProps> = ({
@@ -22,7 +24,7 @@ const TitleDescription: React.FC<TitleDescriptionProps> = ({
   return (
     <div className="w-[50%] lg:w-auto">
       <h3 className="text-label text-base leading-24">{title}</h3>
-      <p className="text-sm text-secondary font-semibold leading-21">{value}</p>
+      <p className="text-sm text-secondary font-semibold leading-21">{value.toString()}</p>
     </div>
   );
 };

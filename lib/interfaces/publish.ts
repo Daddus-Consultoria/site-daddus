@@ -1,27 +1,30 @@
-import { PublishCategories } from "@/lib/constants/constants";
+import { PublishCategories, PublishSubCategories } from "@/lib/constants/constants";
 import { AuthorModel } from "@/lib/interfaces/author";
 
+export interface SubCategoryModel {
+  subCategory: 'Perfil Social dos Municípios' | 'Perfil Eleitoral dos Municípios' | 'Perfil Econômico dos Municípios',
+}
+
+export interface CategoryModel {
+  category: 'estudo' | 'guia' | 'perfil-municipal',
+}
+
 export interface PublishModel {
-  title: string;
-  shortDescription: string;
-  longDescription: string;
-  authors: AuthorModel[];
-  tags: string[];
-  imageUrl: string;
-  documentUrl: string;
-  id: number;
-  createdAt?: string;
+  id: number,
+  title: string,
+  shortDescription: string,
+  longDescription: string,
+  imageUrl: string,
+  subCategory: PublishSubCategories,
+  authors: AuthorModel[],
+  publishDate: Date,
+  tags: string[],
+  documentLink: string,
+  slug: string,
+  category: PublishCategories,
 }
 
 export interface PublishData {
   items: PublishModel[];
   totalItems: number;
 }
-
-export interface MunicipalProfileModel extends PublishModel {
-  category: PublishCategories;
-}
-
-export interface StudyModel extends PublishModel {}
-
-export interface GuideModel extends PublishModel {}

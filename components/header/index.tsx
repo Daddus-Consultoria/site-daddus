@@ -1,5 +1,5 @@
 "use client";
-import { Dropdown, InputGeneric } from "@/components/index";
+import { Dropdown, InputGeneric, SearchItems } from "@/components/index";
 import { headerItems } from "@/lib/constants/constants";
 import { SubMenuItem } from "@/components/header/components/subMenuItem";
 import { MenuDrawer } from "@/components/header/components/menuDrawer";
@@ -43,7 +43,8 @@ export function Header() {
         <MenuDrawer />
       </div>
       <div className="hidden lg:flex flex-row justify-center items-center p-2">
-        <InputGeneric type="red" placeholder="Pesquisar"/>
+        {/* <InputGeneric type="red" placeholder="Pesquisar"/> */}
+        <SearchItems />
       </div>
     </div>
   );

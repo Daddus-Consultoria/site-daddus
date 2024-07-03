@@ -1,12 +1,28 @@
 import {
   PublishModel,
   PublishData,
-  MunicipalProfileModel,
 } from "../interfaces/publish";
 import PublishRepository from "../repositories/PublishRepository";
 
 class MockPublishRepository extends PublishRepository {
-  async getPaginatedMunicipalProfiles(
+  async getPublish(title?: string | undefined): Promise<PublishData> {
+    return {
+      items: [],
+      totalItems: 0,
+    }
+  }
+
+  async getPublishById(id: string): Promise<PublishModel | null> {
+    return null
+  }
+
+  async getPaginatedPublish(page: number, limit: number, category?: string): Promise<PublishData> {
+    return {
+      items: [],
+      totalItems: 0,
+    }
+  }
+  /* async getPaginatedMunicipalProfiles(
     page: number,
     limit: number,
     category?: string
@@ -49,7 +65,7 @@ class MockPublishRepository extends PublishRepository {
   async getStudyPublishById(id: string): Promise<PublishModel | null> {
     // Implement your mock logic here
     return null;
-  }
+  } */
 }
 
 export { MockPublishRepository };

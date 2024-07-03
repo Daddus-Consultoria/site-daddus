@@ -13,7 +13,7 @@ export class PostsUseCases {
     } catch (error) {
       throw error;
     }
-  }
+  } 
   async getSinglePost(args: GetSinglePostArgs) {
     try {
       return await this.postRepository.getSinglePost(args);
