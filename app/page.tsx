@@ -9,14 +9,43 @@ import { QueryKeys } from "@/lib/constants/queryKeys";
 import { PublishUseCases } from "@/lib/useCases/publishUseCases";
 import { PostsUseCases } from "@/lib/useCases/postsUseCases";
 import { PublishModel } from "@/lib/interfaces/publish";
-
+import { useRouter } from "next/router";
 
 import Image from "next/image"
 
 import "@/styles/home.css";
 import { transformCategory } from "@/lib/constants/constants";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Home() {
+  const [topPosts, setTopPosts] = useState([])
+
+  /* const router = useRouter();
+
+  useEffect(() => {
+    axios.get('/api/top-items').then((response) => {
+      setTopPosts(response.data)
+    })
+    .catch((error) => {
+      console.error('Error fetching top items: ', error)
+    })
+  },[])
+
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      window.gtag('config', process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS, {
+        page_path: url,
+      })
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+
+  },[router.events]); */
+
   const getPostsHome = async ()=>{
     const usePublishUseCases = new PublishUseCases();
     const postsUseCases = new PostsUseCases();

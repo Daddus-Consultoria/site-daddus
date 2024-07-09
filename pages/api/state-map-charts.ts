@@ -7,7 +7,7 @@ export default async function handler(req: any, res: any) {
       type: "service_account",
       private_key: process.env.GOOGLE_SHEETS_PRIVATE_KEY,
       client_email: process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
-      client_id: process.env.GOOGLE_SHEETS_CLIENT_ID,
+      client_id: process.env.GOOGLE_SHEETS_zCLIENT_ID,
       token_url: "https://oauth2.googleapis.com/token",
       universe_domain: "googleapis.com",
     },
