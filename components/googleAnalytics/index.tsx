@@ -24,7 +24,7 @@ const GoogleAnalytics = ({ ga_id }: { ga_id: string | undefined }) => (
 )
 export { GoogleAnalytics };
 
-
+// esse é o que tava antes ai eu tentei usar o que ai em cima
 {/* <>
     <Script
       async
