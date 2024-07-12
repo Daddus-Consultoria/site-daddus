@@ -36,6 +36,8 @@ import { SearchItems } from "@/components/searchItems";
 
 import { TabsGeneric } from "@/components/tabsGeneric";
 
+import { IndicatorFilter } from "@/components/indicator-filter";
+
 export {
   Dropdown,
   Header,
@@ -67,6 +69,7 @@ export {
   BlogHeader,
   SearchItems,
   TabsGeneric,
+  IndicatorFilter,
 };
 
 export * from "@/components/ui";

@@ -1,3 +1,5 @@
+import { title } from "process";
+
 export const constantsIndicators = {
   sections: [
     {
@@ -30,3 +32,61 @@ export const constantsIndicators = {
     }
   ]
 };
+
+export const filtersIndicatorPage = {
+  items: [
+    {
+      value : 'maps',
+      content :[
+        {
+          title : 'INDICADOR',
+          placeholder: 'IDH',
+          items: [
+            'indicador 1',
+          ]
+        },
+        {
+          title : 'ANO',
+          placeholder: 'IDH',
+          items: [
+            'ano 1',
+          ]
+        },
+        
+      ]
+    },
+    {
+      value: 'graphics',
+      content: [
+        {
+          title : 'FONTE',
+          placeholder: 'IBGE',
+          items: [
+            'fonte 1',
+          ]
+        },
+        {
+          title : 'INDICADOR',
+          placeholder: 'IPCA-15',
+          items: [
+            'indicador 1',
+          ]
+        },
+        {
+          title : 'UF',
+          placeholder: 'ALAGOAS',
+          items: [
+            'UF 1',
+          ]
+        },
+        {
+          title : 'MUNICÍPIO',
+          placeholder: 'MACEIÓ',
+          items: [
+            'município 1',
+          ]
+        },
+      ] 
+    }
+  ]
+}
