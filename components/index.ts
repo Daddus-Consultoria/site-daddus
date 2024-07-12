@@ -38,6 +38,8 @@ import { TabsGeneric } from "@/components/tabsGeneric";
 
 import { IndicatorFilter } from "@/components/indicator-filter";
 
+import { Graphic } from "@/components/graphic";
+
 export {
   Dropdown,
   Header,
@@ -70,6 +72,7 @@ export {
   SearchItems,
   TabsGeneric,
   IndicatorFilter,
+  Graphic,
 };
 
 export * from "@/components/ui";

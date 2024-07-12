@@ -2976,6 +2976,11 @@ react-dom@^18.3.1:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
+react-google-charts@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-google-charts/-/react-google-charts-4.0.1.tgz#b7713856a48009b77318f8951ddf2c3ba39f991b"
+  integrity sha512-V/hcMcNuBgD5w49BYTUDye+bUKaPmsU5vy/9W/Nj2xEeGn+6/AuH9IvBkbDcNBsY00cV9OeexdmgfI5RFHgsXQ==
+
 react-icons@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npmjs.org/react-icons/-/react-icons-5.0.1.tgz"
@@ -3238,6 +3243,7 @@ streamsearch@^1.1.0:
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==

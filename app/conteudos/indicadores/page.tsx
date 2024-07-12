@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { constantsIndicators, filtersIndicatorPage } from './_constants';
 import Image from 'next/image';
-import { IndicatorFilter } from '@/components/index';
+import { IndicatorFilter, Graphic } from '@/components/index';
 import {Tabs, TabsList, TabsContent, TabsTrigger} from '@/components/ui/index'
+import { useQuery } from '@tanstack/react-query';
+import { ChartUseCases } from '@/lib/useCases/chartUseCases'
 
 const IndicatorsPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'idh' | 'ipca'>('idh');
@@ -12,6 +14,17 @@ const IndicatorsPage: React.FC = () => {
   const toggleSection = () => {
     setActiveSection(prev => prev === 'idh' ? 'ipca' : 'idh');
   };
+
+  const useChartCase = new ChartUseCases();
+
+  const {data, isLoading} = useQuery({
+    queryKey: ['chart'],
+    queryFn: async () => {
+      return await useChartCase.gettAllIndicatorsDaddusGraphData();
+    }
+  })
+
+  var itemsGraphic = data!;
 
   const currentSection = constantsIndicators.sections.find(section => section.id === activeSection);
 
@@ -40,6 +53,7 @@ const IndicatorsPage: React.FC = () => {
               ))}
             </TabsContent>
             <TabsContent value='graphics' className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden">
+              <Graphic data={itemsGraphic}/>
             </TabsContent>
           </div>
         </div>
