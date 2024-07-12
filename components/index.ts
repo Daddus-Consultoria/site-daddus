@@ -34,6 +34,8 @@ import {CardSelectTypePublish} from "@/components/cardSelectTypePublish"
 
 import { SearchItems } from "@/components/searchItems";
 
+import { TabsGeneric } from "@/components/tabsGeneric";
+
 export {
   Dropdown,
   Header,
@@ -63,7 +65,8 @@ export {
   ListCards,
   CardSelectTypePublish,
   BlogHeader,
-  SearchItems
+  SearchItems,
+  TabsGeneric,
 };
 
 export * from "@/components/ui";
