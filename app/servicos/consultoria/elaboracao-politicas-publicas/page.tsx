@@ -6,7 +6,7 @@ import { Contact, RelatedPublications, CardInfo } from "@/components/index";
 const PublicPoliciesPage = () => {
   const relatedPublications = [
     {
-      title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
+      title: "Citologia: um estudo demográfico de  duas ou três linhas ",
       link: "#",
     },
     {

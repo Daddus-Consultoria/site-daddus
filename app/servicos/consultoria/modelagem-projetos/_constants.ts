@@ -1,6 +1,6 @@
 import { CardInfoProps } from "@/lib/interfaces/card"
 
-import {Links} from '@/lib/constants/constants';
+import { Links } from '@/lib/constants/constants';
 
 const cardContents: CardInfoProps[] = [
     {
@@ -22,7 +22,7 @@ const cardContents: CardInfoProps[] = [
 ]
 
 
-export const constantsProjectModeling= {
+export const constantsProjectModeling = {
     image: {
         src: '/images/study/study_image.svg',
         alt: 'study',
@@ -57,7 +57,7 @@ export const constantsProjectModeling= {
             type: 'decimal',
         },
     ],
-    footer:{
+    footer: {
         title: 'OUTRAS CONSULTORIAS',
         cards: cardContents,
     },
