@@ -77,6 +77,9 @@ const footerItens: NavigationType[] = [
   {
     title: "CONTEÚDOS",
     subtypes: [
+      {title: "Indicadores", items: [
+        {title: "IDH", href: "/conteudos/indicadores"},
+      ]},
       {
         title: "Publicações",
         href: "/conteudos/publicacoes",
