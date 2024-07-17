@@ -32,4 +32,22 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
       throw error;
     }
   }
+
+  async gettAllIndicatorsDaddusGraphData(): Promise<any[]> {
+    const res = await fetch("/api/state-graphic-charts");
+    const data = await res.json();
+
+    const resultAll = data.slice(1).map((item: string[]) => {
+      return transformData(item);
+    })
+
+    return [
+      ['Ano', 'Porcentagem'],
+      ...resultAll,
+    ]
+  }
+}
+
+const transformData = (data: string[]) =>{
+  return [parseInt(data[3]), parseFloat(data[4].replace(',','.'))]
 }
