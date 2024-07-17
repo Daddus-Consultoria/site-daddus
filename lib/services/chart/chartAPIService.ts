@@ -9,7 +9,7 @@ export class ChartAPIService implements ChartRepository {
     return data;
   }
 
-  async gettAllIndicatorsDaddusGraphData(): Promise<GraphicChart[]> {
+  async gettAllIndicatorsDaddusGraphData(): Promise<any[]> {
     const res = await fetch("/api/state-graphic-charts");
     const data = await res.json();
 

@@ -33,3 +33,4 @@ const Graphic = ({data}: GraphicProps) => {
 }
 
 export {Graphic}
+

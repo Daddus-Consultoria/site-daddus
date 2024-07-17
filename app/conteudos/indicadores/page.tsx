@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { constantsIndicators, filtersIndicatorPage } from './_constants';
 import Image from 'next/image';
 import { IndicatorFilter, Graphic } from '@/components/index';
@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ChartUseCases } from '@/lib/useCases/chartUseCases'
 
 const IndicatorsPage: React.FC = () => {
+  const [dataGraphic, setDataGraphic] = useState<any[]>([]);
   const [activeSection, setActiveSection] = useState<'idh' | 'ipca'>('idh');
 
   const toggleSection = () => {
@@ -17,14 +18,18 @@ const IndicatorsPage: React.FC = () => {
 
   const useChartCase = new ChartUseCases();
 
-  const {data, isLoading} = useQuery({
-    queryKey: ['chart'],
-    queryFn: async () => {
-      return await useChartCase.gettAllIndicatorsDaddusGraphData();
-    }
-  })
+  const fetchData = async () =>{
+    const data = await useChartCase.gettAllIndicatorsDaddusGraphData()
+    setDataGraphic(data)
+  }
 
-  var itemsGraphic = data!;
+  useEffect(() => {
+    try{
+      fetchData()
+    }catch(e){
+      console.log(e)
+    }
+  }, [])
 
   const currentSection = constantsIndicators.sections.find(section => section.id === activeSection);
 
@@ -35,12 +40,13 @@ const IndicatorsPage: React.FC = () => {
   return (
     <Tabs defaultValue='maps' className="container mx-auto px-8 py-12 max-w-7xl">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div className="md:col-span-3 md:border-r md:border-gray-400 pr-8">
+        {/* MAPS */}
+        <TabsContent value='maps' className="md:col-span-3 md:border-r md:border-gray-400 pr-8">
           <div className="bg-white shadow-md rounded-lg p-8">
-            <h1 className="text-3xl font-bold text-primary">{currentSection.title}</h1>
-            <p className="text-sm font-semibold text-gray-700 mb-4">{currentSection.dataSource}</p>
-            <p className="mb-8">{currentSection.description}</p>
-            <TabsContent value='maps' className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <h1 className="text-3xl font-bold text-primary">{filtersIndicatorPage.items[0].title}</h1>
+            <p className="text-sm font-semibold text-gray-700 mb-4">{filtersIndicatorPage.items[0].subTitle}</p>
+            <p className="mb-8">{filtersIndicatorPage.items[0].text}</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {currentSection.images.map((image, index) => (
                 <div key={index} className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden">
                   <Image 
@@ -51,12 +57,20 @@ const IndicatorsPage: React.FC = () => {
                   />
                 </div>
               ))}
-            </TabsContent>
-            <TabsContent value='graphics' className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden">
-              <Graphic data={itemsGraphic}/>
-            </TabsContent>
+            </div>
           </div>
-        </div>
+        </TabsContent>
+        {/* GRAPHIC */}
+        <TabsContent value='graphics' className="md:col-span-3 md:border-r md:border-gray-400 pr-8">
+          <div className="bg-white shadow-md rounded-lg p-8">
+            <h1 className="text-3xl font-bold text-primary">{filtersIndicatorPage.items[1].title}</h1>
+            <p className="text-sm font-semibold text-gray-700 mb-4">{filtersIndicatorPage.items[1].subTitle}</p>
+            <p className="mb-8">{filtersIndicatorPage.items[1].text}</p>
+            <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden">
+              <Graphic data={dataGraphic}/>
+            </div>
+          </div>
+        </TabsContent>
         
         <div className='flex justify-start flex-1 flex-col gap-9 '>
           <TabsList className='grid w-full grid-cols-2 font-bold'>
