@@ -35,6 +35,7 @@ const IndicatorsPage: React.FC = () => {
             <p className="mb-8">{currentSection.description}</p>
 
             {activeSection === "idh" ? (
+              /*
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden">
                   <BrazilMap />
@@ -44,6 +45,18 @@ const IndicatorsPage: React.FC = () => {
                   <IDHTable />
                 </div>
               </div>
+              */
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+                <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-8">
+                  <BrazilMap />
+                </div>
+
+                <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-4">
+                  <IDHTable />
+                </div>
+              </div>
+
+
             ) : (
               <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden">
                   {/* Placeholder for IPCA content */}
