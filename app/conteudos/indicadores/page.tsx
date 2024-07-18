@@ -7,13 +7,15 @@ import { IndicatorFilter, Graphic } from '@/components/index';
 import {Tabs, TabsList, TabsContent, TabsTrigger} from '@/components/ui/index'
 import { useQuery } from '@tanstack/react-query';
 import { ChartUseCases } from '@/lib/useCases/chartUseCases'
+import BrazilMap from "@/components/BrazilMap";
+import IDHTable from "@/components/IDHTable";
 
 const IndicatorsPage: React.FC = () => {
   const [dataGraphic, setDataGraphic] = useState<any[]>([]);
   const [activeSection, setActiveSection] = useState<'idh' | 'ipca'>('idh');
 
   const toggleSection = () => {
-    setActiveSection(prev => prev === 'idh' ? 'ipca' : 'idh');
+    setActiveSection((prev) => (prev === "idh" ? "ipca" : "idh"));
   };
 
   const useChartCase = new ChartUseCases();
@@ -46,17 +48,15 @@ const IndicatorsPage: React.FC = () => {
             <h1 className="text-3xl font-bold text-primary">{filtersIndicatorPage.items[0].title}</h1>
             <p className="text-sm font-semibold text-gray-700 mb-4">{filtersIndicatorPage.items[0].subTitle}</p>
             <p className="mb-8">{filtersIndicatorPage.items[0].text}</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {currentSection.images.map((image, index) => (
-                <div key={index} className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden">
-                  <Image 
-                    src={image.src}
-                    alt={image.alt}
-                    layout="fill"
-                    objectFit="contain"
-                  />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+                <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-8">
+                  <BrazilMap />
                 </div>
-              ))}
+
+                <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-4">
+                  <IDHTable />
+                </div>
+
             </div>
           </div>
         </TabsContent>

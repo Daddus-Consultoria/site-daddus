@@ -7,16 +7,6 @@ export const constantsIndicators = {
       title: 'Mapa do IDH',
       dataSource: 'Base de dados: Out/2021',
       description: 'O Índice de Desenvolvimento Humano (IDH) compara indicadores de países nos itens riqueza, alfabetização, educação, esperança de vida, natalidade e outros, com o intuito de avaliar o bem-estar de uma população, especialmente das crianças.',
-      images: [
-        {
-          src: '/images/temporary_tests/idh_map.svg',
-          alt: 'Mapa do IDH'
-        },
-        {
-          src: '/images/temporary_tests/idh_table.svg',
-          alt: 'Tabela do IDH'
-        }
-      ]
     },
     {
       id: 'ipca',
