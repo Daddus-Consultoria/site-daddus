@@ -21,8 +21,7 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
   async getAllIndicatorsStateChartData() {
     const res = await fetch("/api/state-map-charts");
     const data = await res.json();
-    console.log(this.formatMapData(data))
-    return data;
+    return this.formatMapData(data);
   }
 
   async gettAllIndicatorsDaddusGraphData(): Promise<any[]> {

@@ -4,11 +4,14 @@ import { filtersIndicatorPage } from './_constants';
 import { IndicatorFilter, Graphic } from '@/components/index';
 import { Tabs, TabsList, TabsContent, TabsTrigger } from '@/components/ui/index'
 import { ChartUseCases } from '@/lib/useCases/chartUseCases'
-import BrazilMap from "@/components/BrazilMap";
-import IDHTable from "@/components/IDHTable";
+import BrazilMap from "@/components/brazilMap";
+import IndicatorsTable from "@/components/indicatorsTable";
 
 const IndicatorsPage: React.FC = () => {
-    const [data, setData] = useState<{ graphic: any[], idh: any[] } | null>(null);
+    const [data, setData] = useState<{
+        graphic: any[],
+        idh: { data: any[], colors: string[] } | null
+    } | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -16,11 +19,14 @@ const IndicatorsPage: React.FC = () => {
 
     const fetchData = useCallback(async () => {
         try {
-            const [graphicData, indicatorsData] = await Promise.all([
+            const [graphicData, mapData] = await Promise.all([
                 useChartCase.gettAllIndicatorsDaddusGraphData(),
                 useChartCase.getAllIndicatorsStateChartData()
             ]);
-            setData({ graphic: graphicData, idh: indicatorsData });
+            setData({
+                graphic: graphicData,
+                idh: { data: mapData[0], colors: mapData[1] }
+            });
         } catch (err) {
             setError('Falha ao buscar dados');
             console.error(err);
@@ -52,10 +58,10 @@ const IndicatorsPage: React.FC = () => {
                         <p className="mb-8">{filtersIndicatorPage.items[0].text}</p>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
                             <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-8">
-                                {renderContent(data && <BrazilMap data={data.idh} />)}
+                                {renderContent(<BrazilMap data={data?.idh?.data ?? []} colors={data?.idh?.colors ?? []} />)}
                             </div>
                             <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-4">
-                                {renderContent(data && <IDHTable data={data.idh} />)}
+                                {renderContent(<IndicatorsTable data={data?.idh?.data ?? []} />)}
                             </div>
                         </div>
                     </div>
