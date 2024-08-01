@@ -4,7 +4,7 @@ import * as SelectPrimitive from "@radix-ui/react-select"
 interface IndicatorFilter {
     title:string;
     placeholder: string;
-    items: Array<string>;
+    items: string[];
 }
 
 

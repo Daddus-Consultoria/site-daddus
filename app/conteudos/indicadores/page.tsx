@@ -9,10 +9,13 @@ import { useQuery } from '@tanstack/react-query';
 import { ChartUseCases } from '@/lib/useCases/chartUseCases'
 import BrazilMap from "@/components/BrazilMap";
 import IDHTable from "@/components/IDHTable";
+import { DataSpreadSheetsGraphic } from "@/lib/interfaces/dataGraphic"
 
 const IndicatorsPage: React.FC = () => {
   const [dataGraphic, setDataGraphic] = useState<any[]>([]);
   const [activeSection, setActiveSection] = useState<'idh' | 'ipca'>('idh');
+
+  const [states, setStates] = useState<string[]>([]);
 
   const toggleSection = () => {
     setActiveSection((prev) => (prev === "idh" ? "ipca" : "idh"));
@@ -20,9 +23,49 @@ const IndicatorsPage: React.FC = () => {
 
   const useChartCase = new ChartUseCases();
 
+  const transformData = (data: DataSpreadSheetsGraphic) =>{
+    return [parseInt(data.dataGraphic[4]), parseFloat(data.dataGraphic[5].replace(',','.'))]
+  }  
+
   const fetchData = async () =>{
     const data = await useChartCase.gettAllIndicatorsDaddusGraphData()
-    setDataGraphic(data)
+    
+    const getUniqueStates = (dataArray: DataSpreadSheetsGraphic[]): string[] => {
+      // Create a set to store unique states
+      const stateSet = new Set<string>();
+    
+      // Iterate through each object in the array
+      dataArray.forEach(obj => {
+        // Check if dataGraphic has at least 6 elements
+        if (obj.dataGraphic.length >= 6) {
+          // Get the state at position 5
+          const state = obj.dataGraphic[6];
+    
+          // Add the state to the set
+          stateSet.add(state);
+        }
+      });
+    
+      // Convert the set to an array
+      return Array.from(stateSet);
+    };
+
+    const uniqueStates = getUniqueStates(data);
+    setStates(uniqueStates);
+
+   /*  const dataUF = data.map((item:DataSpreadSheetsGraphic) => {
+      return item.dataSelectors.uf
+    })} */
+    
+
+    const listData = data.map((item:DataSpreadSheetsGraphic) => {
+        return transformData(item)
+    })
+
+    setDataGraphic([
+      ['Ano', 'Porcentagem'],
+      ...listData,]
+    )
   }
 
   useEffect(() => {
@@ -82,7 +125,7 @@ const IndicatorsPage: React.FC = () => {
               return (
                   <TabsContent key={`tab-indicator-${item.value}-${index}`} value={item.value} className='flex flex-col gap-2'>
                     {item.content.map((contentAux, index)=>{
-                      return <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={contentAux.title} items={contentAux.items} placeholder={contentAux.placeholder}/>
+                      return <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={contentAux.title} items={states} placeholder={contentAux.placeholder}/>
                     })}
                   </TabsContent>
               )

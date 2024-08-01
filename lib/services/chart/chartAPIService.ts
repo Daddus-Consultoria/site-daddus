@@ -1,5 +1,6 @@
 import { ChartUseCases } from "../../useCases/chartUseCases";
 import { ChartRepository } from "@/lib/repositories/ChartRepository";
+import { DataSpreadSheetsGraphic } from "@/lib/interfaces/dataGraphic"
 
 export class ChartAPIService implements ChartUseCases, ChartRepository {
   private static instance: ChartAPIService;
@@ -33,21 +34,32 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
     }
   }
 
-  async gettAllIndicatorsDaddusGraphData(): Promise<any[]> {
+  async gettAllIndicatorsDaddusGraphData(): Promise<DataSpreadSheetsGraphic[]> {
     const res = await fetch("/api/state-graphic-charts");
     const data = await res.json();
 
     const resultAll = data.slice(1).map((item: string[]) => {
-      return transformData(item);
+       return {
+        dataGraphic: [
+          //['Ano', 'Porcentagem'],
+          ...item,
+        ],
+      } 
+      console.log(item[6])
+      //return transformData(item);
     })
 
-    return [
-      ['Ano', 'Porcentagem'],
-      ...resultAll,
-    ]
+    /* {
+      dataGraph: [
+        ['Ano', 'Porcentagem'],
+        ...resultAll,
+      ],
+      dataSelectors:{
+        uf: data[5]
+      }
+    } */
+
+    return resultAll;
   }
 }
 
-const transformData = (data: string[]) =>{
-  return [parseInt(data[3]), parseFloat(data[4].replace(',','.'))]
-}
