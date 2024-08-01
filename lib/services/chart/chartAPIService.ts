@@ -40,10 +40,9 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
 
   formatMapData(data: any[]): [any[], string[]] {
     const transformedData = [
-      ['State', 'IDH'],
       ...data.slice(1).map((row: string[]) => {
         const stateName = row[2];
-        const idh = parseFloat(row[3].replace(',', '.')); // Convert IDH to number
+        const idh = parseFloat(row[3].replace(',', '.'));
         return [stateName, idh];
       })
     ];

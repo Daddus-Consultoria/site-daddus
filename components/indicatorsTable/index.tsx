@@ -16,7 +16,7 @@ const IndicatorsTable: React.FC<IndicatorsTableProps> = ({ data }) => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {data.slice(1).map((row, index) => (
+                    {data.map((row, index) => (
                         <TableRow key={index} className={index % 2 === 0 ? "bg-white" : "bg-gray-100"}>
                             <TableCell className="py-1 px-2">{row[0]}</TableCell>
                             <TableCell className="py-1 px-2">{row[1]}</TableCell>

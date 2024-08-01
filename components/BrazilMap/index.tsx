@@ -5,6 +5,7 @@ interface BrazilMapProps {
     colors: string[];
 }
 
+
 const BrazilMap: React.FC<BrazilMapProps> = ({ data, colors }) => {
     const geoChartOptions = {
         region: 'BR',
@@ -18,13 +19,15 @@ const BrazilMap: React.FC<BrazilMapProps> = ({ data, colors }) => {
         defaultColor: '#ffffff',
     };
 
+    const chartData = [['State', 'IDH'], ...data];
+
     return (
         <div className="relative h-full w-full bg-gray-100 rounded-lg overflow-hidden">
             <Chart
                 chartType="GeoChart"
                 width="100%"
                 height="100%"
-                data={data}
+                data={chartData}
                 options={geoChartOptions}
             />
         </div>
