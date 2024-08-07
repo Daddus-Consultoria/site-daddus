@@ -15,6 +15,9 @@ const IndicatorsPage: React.FC = () => {
   const [dataGraphic, setDataGraphic] = useState<any[]>([]);
   const [activeSection, setActiveSection] = useState<'idh' | 'ipca'>('idh');
 
+  const [filterUF, setFilterUF] = useState<string>("ALAGOAS");
+  const [allData, setAllData] = useState<DataSpreadSheetsGraphic[]>([]);
+
   const [states, setStates] = useState<string[]>([]);
 
   const toggleSection = () => {
@@ -30,6 +33,8 @@ const IndicatorsPage: React.FC = () => {
   const fetchData = async () =>{
     const data = await useChartCase.gettAllIndicatorsDaddusGraphData()
     
+    setAllData(data)
+
     const getUniqueStates = (dataArray: DataSpreadSheetsGraphic[]): string[] => {
       // Create a set to store unique states
       const stateSet = new Set<string>();
@@ -53,11 +58,6 @@ const IndicatorsPage: React.FC = () => {
     const uniqueStates = getUniqueStates(data);
     setStates(uniqueStates);
 
-   /*  const dataUF = data.map((item:DataSpreadSheetsGraphic) => {
-      return item.dataSelectors.uf
-    })} */
-    
-
     const listData = data.map((item:DataSpreadSheetsGraphic) => {
         return transformData(item)
     })
@@ -67,6 +67,20 @@ const IndicatorsPage: React.FC = () => {
       ...listData,]
     )
   }
+
+  useEffect(() => {
+    var listData: any[] = []
+    allData.map((item:DataSpreadSheetsGraphic) => {
+      if(item.dataGraphic[6] === filterUF){
+        listData.push(transformData(item))
+      }
+    })
+    console.log(listData)
+    setDataGraphic([
+      ['Ano', 'Porcentagem'],
+      ...listData,]
+    )
+  },[filterUF])
 
   useEffect(() => {
     try{
@@ -124,9 +138,13 @@ const IndicatorsPage: React.FC = () => {
             {filtersIndicatorPage.items.map((item, index) => {
               return (
                   <TabsContent key={`tab-indicator-${item.value}-${index}`} value={item.value} className='flex flex-col gap-2'>
-                    {item.content.map((contentAux, index)=>{
-                      return <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={contentAux.title} items={states} placeholder={contentAux.placeholder}/>
-                    })}
+                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"FONTE"} items={[]} placeholder={"IBGE"} setFilterUF={()=>{}}/>
+                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"INDICADOR"} items={[]} placeholder={"IPCA-15"} setFilterUF={()=>{}}/>
+                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"UF"} items={states} placeholder={filterUF} setFilterUF={setFilterUF}/>
+                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"MUNICÍPIO"} items={[]} placeholder={"MACEIÓ"} setFilterUF={()=>{}}/>
+                    {/* {item.content.map((contentAux, index)=>{
+                      return <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={contentAux.title} items={states} placeholder={contentAux.placeholder} setFilterUF={setFilterUF}/>
+                    })} */}
                   </TabsContent>
               )
             })}
