@@ -5,11 +5,11 @@ interface IndicatorFilter {
     title:string;
     placeholder: string;
     items: string[];
-    setFilterUF: (value:string)=>void;
+    setFilter: (value:string)=>void;
 }
 
 
-const IndicatorFilter: React.FC<IndicatorFilter> = ({placeholder, items, title, setFilterUF}) => {
+const IndicatorFilter: React.FC<IndicatorFilter> = ({placeholder, items, title, setFilter: setFilterUF}) => {
     return (
         <div className="flex flex-1 flex-col gap-2 ">
           <p className="font-bold text-[14px] text-primary pl-1">

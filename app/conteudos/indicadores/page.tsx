@@ -16,9 +16,11 @@ const IndicatorsPage: React.FC = () => {
   const [activeSection, setActiveSection] = useState<'idh' | 'ipca'>('idh');
 
   const [filterUF, setFilterUF] = useState<string>("ALAGOAS");
+  const [filterMunicipality, setFilterMunicipality] = useState<string>("MACEIÓ");
   const [allData, setAllData] = useState<DataSpreadSheetsGraphic[]>([]);
 
   const [states, setStates] = useState<string[]>([]);
+  const [municipality, setMunicipality] = useState<string[]>([]);
 
   const toggleSection = () => {
     setActiveSection((prev) => (prev === "idh" ? "ipca" : "idh"));
@@ -35,7 +37,7 @@ const IndicatorsPage: React.FC = () => {
     
     setAllData(data)
 
-    const getUniqueStates = (dataArray: DataSpreadSheetsGraphic[]): string[] => {
+    const getUniqueStates = (dataArray: DataSpreadSheetsGraphic[], position: number): string[] => {
       // Create a set to store unique states
       const stateSet = new Set<string>();
     
@@ -44,7 +46,7 @@ const IndicatorsPage: React.FC = () => {
         // Check if dataGraphic has at least 6 elements
         if (obj.dataGraphic.length >= 6) {
           // Get the state at position 5
-          const state = obj.dataGraphic[6];
+          const state = obj.dataGraphic[position];
     
           // Add the state to the set
           stateSet.add(state);
@@ -55,8 +57,11 @@ const IndicatorsPage: React.FC = () => {
       return Array.from(stateSet);
     };
 
-    const uniqueStates = getUniqueStates(data);
+    const uniqueStates = getUniqueStates(data, 6);
+    const uniqueMunicipality = getUniqueStates(data, 7);
+
     setStates(uniqueStates);
+    setMunicipality(uniqueMunicipality);
 
     const listData = data.map((item:DataSpreadSheetsGraphic) => {
         return transformData(item)
@@ -75,12 +80,26 @@ const IndicatorsPage: React.FC = () => {
         listData.push(transformData(item))
       }
     })
-    console.log(listData)
+    
     setDataGraphic([
       ['Ano', 'Porcentagem'],
       ...listData,]
     )
   },[filterUF])
+
+  useEffect(() => {
+    var listData: any[] = []
+    allData.map((item:DataSpreadSheetsGraphic) => {
+      if(item.dataGraphic[7] === filterMunicipality){
+        listData.push(transformData(item))
+      }
+    })
+    
+    setDataGraphic([
+      ['Ano', 'Porcentagem'],
+      ...listData,]
+    )
+  },[filterMunicipality])
 
   useEffect(() => {
     try{
@@ -136,17 +155,39 @@ const IndicatorsPage: React.FC = () => {
           </TabsList>
           <div className='flex flex-1 flex-col'>
             {filtersIndicatorPage.items.map((item, index) => {
-              return (
+              console.log(municipality)
+              return item.value === 'maps' ? (
                   <TabsContent key={`tab-indicator-${item.value}-${index}`} value={item.value} className='flex flex-col gap-2'>
-                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"FONTE"} items={[]} placeholder={"IBGE"} setFilterUF={()=>{}}/>
-                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"INDICADOR"} items={[]} placeholder={"IPCA-15"} setFilterUF={()=>{}}/>
-                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"UF"} items={states} placeholder={filterUF} setFilterUF={setFilterUF}/>
-                    <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"MUNICÍPIO"} items={[]} placeholder={"MACEIÓ"} setFilterUF={()=>{}}/>
-                    {/* {item.content.map((contentAux, index)=>{
-                      return <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={contentAux.title} items={states} placeholder={contentAux.placeholder} setFilterUF={setFilterUF}/>
-                    })} */}
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${0}`} title={item.content[0].title} items={item.content[0].items} placeholder={"IDH"} setFilter={()=>{}}/>
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${1}`} title={item.content[1].title} items={item.content[1].items} placeholder={"IDH"} setFilter={()=>{}}/>
                   </TabsContent>
+              ) : (
+                <TabsContent key={`tab-indicator-${item.value}-${index}`} value={item.value} className='flex flex-col gap-2'>
+                  <IndicatorFilter key={`indicator-filter-${item.value}-${0}`} title={item.content[0].title} items={item.content[0].items} placeholder={"IBGE"} setFilter={()=>{}}/>
+                  <IndicatorFilter key={`indicator-filter-${item.value}-${1}`} title={item.content[1].title} items={item.content[1].items} placeholder={"IPCA-15"} setFilter={()=>{}}/>
+                  {states[0]!=undefined ? <IndicatorFilter key={`indicator-filter-${item.value}-${2}`} title={item.content[2].title} items={states} placeholder={filterUF} setFilter={setFilterUF}/> : null}
+                  {municipality[0]!=undefined ? <IndicatorFilter key={`indicator-filter-${item.value}-${3}`} title={item.content[3].title}  items={municipality} placeholder={filterMunicipality} setFilter={setFilterMunicipality}/> : null}    
+                </TabsContent>
               )
+              
+              
+              /* (
+                  <TabsContent key={`tab-indicator-${item.value}-${index}`} value={item.value} className='flex flex-col gap-2'>
+                    {item.value === 'maps' ? (
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"FONTE"} items={[]} placeholder={"IBGE"} setFilterUF={()=>{}}/>
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"INDICADOR"} items={[]} placeholder={"IPCA-15"} setFilterUF={()=>{}}/>
+                    ) : (
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"FONTE"} items={[]} placeholder={"IBGE"} setFilterUF={()=>{}}/>
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"INDICADOR"} items={[]} placeholder={"IPCA-15"} setFilterUF={()=>{}}/>
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"UF"} items={states} placeholder={filterUF} setFilterUF={setFilterUF}/>
+                      <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={"MUNICÍPIO"} items={[]} placeholder={"MACEIÓ"} setFilterUF={()=>{}}/>
+                    )}
+                    
+                    { {item.content.map((contentAux, index)=>{
+                      return <IndicatorFilter key={`indicator-filter-${item.value}-${index}`} title={contentAux.title} items={states} placeholder={contentAux.placeholder} setFilterUF={setFilterUF}/>
+                    })} }
+                  </TabsContent> 
+              )*/
             })}
           </div>
         </div>
