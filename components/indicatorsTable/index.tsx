@@ -3,16 +3,17 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 
 interface IndicatorsTableProps {
     data: Array<[string, number]>;
+    headers: [string, string];
 }
 
-const IndicatorsTable: React.FC<IndicatorsTableProps> = ({ data }) => {
+const IndicatorsTable: React.FC<IndicatorsTableProps> = ({ data, headers }) => {
     return (
         <div className="w-full h-full overflow-auto">
             <Table className="border-collapse">
                 <TableHeader>
                     <TableRow>
-                        <TableHead className="py-1 px-2 bg-primary text-primary-foreground text-center font-bold">Estado</TableHead>
-                        <TableHead className="py-1 px-2 bg-primary text-primary-foreground text-center font-bold">IDH</TableHead>
+                        <TableHead className="py-1 px-2 bg-primary text-primary-foreground text-center font-bold">{headers[0]}</TableHead>
+                        <TableHead className="py-1 px-2 bg-primary text-primary-foreground text-center font-bold">{headers[1]}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

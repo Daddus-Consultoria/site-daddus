@@ -6,6 +6,7 @@ import { Tabs, TabsList, TabsContent, TabsTrigger } from '@/components/ui/index'
 import { ChartUseCases } from '@/lib/useCases/chartUseCases'
 import BrazilMap from "@/components/brazilMap";
 import IndicatorsTable from "@/components/indicatorsTable";
+import { ButtonTextArrow } from '@/components/buttonTextArrow';
 
 const IndicatorsPage: React.FC = () => {
     const [data, setData] = useState<{
@@ -39,6 +40,8 @@ const IndicatorsPage: React.FC = () => {
         fetchData()
     }, [fetchData]);
 
+    const mapTableHeaders: [string, string] = ["Estado", "IDH"];
+
     const renderContent = (content: React.ReactNode) => (
         isLoading ? (
             <div className="flex items-center justify-center h-full">Carregando dados...</div>
@@ -61,7 +64,7 @@ const IndicatorsPage: React.FC = () => {
                                 {renderContent(<BrazilMap data={data?.idh?.data ?? []} colors={data?.idh?.colors ?? []} />)}
                             </div>
                             <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-4">
-                                {renderContent(<IndicatorsTable data={data?.idh?.data ?? []} />)}
+                                {renderContent(<IndicatorsTable data={data?.idh?.data ?? []} headers={mapTableHeaders} />)}
                             </div>
                         </div>
                     </div>
@@ -94,6 +97,18 @@ const IndicatorsPage: React.FC = () => {
                                         placeholder={contentAux.placeholder}
                                     />
                                 ))}
+                                <div className='flex flex-1 flex-col mt-12 w-[90%]'>
+                                    <strong className='text-primary text-sm mb-2'>Veja todas as nossas publicações:</strong>
+                                    {filtersIndicatorPage.publicationButtons.map((button, index) => (
+                                        <ButtonTextArrow
+                                            key={index}
+                                            text={button.text}
+                                            onClick={() => window.location.href = button.path}
+                                            variant="outline"
+                                            className="bg-primary text-primary-foreground rounded-lg mb-2"
+                                        />
+                                    ))}
+                                </div>
                             </TabsContent>
                         ))}
                     </div>
