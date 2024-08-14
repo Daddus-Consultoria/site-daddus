@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { filtersIndicatorPage } from './_constants';
 import { IndicatorFilter, Graphic } from '@/components/index';
 import { Tabs, TabsList, TabsContent, TabsTrigger } from '@/components/ui/index'
@@ -9,13 +10,15 @@ import IndicatorsTable from "@/components/indicatorsTable";
 import { ButtonTextArrow } from '@/components/buttonTextArrow';
 
 const IndicatorsPage: React.FC = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const [activeTab, setActiveTab] = useState('maps');
     const [data, setData] = useState<{
         graphic: any[],
         idh: { data: any[], colors: string[] } | null
     } | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-
     const useChartCase = useMemo(() => new ChartUseCases(), []);
 
     const fetchData = useCallback(async () => {
@@ -40,6 +43,18 @@ const IndicatorsPage: React.FC = () => {
         fetchData()
     }, [fetchData]);
 
+    useEffect(() => {
+        const slug = searchParams?.get('slug');
+        if (slug === 'maps' || slug === 'graphics') {
+            setActiveTab(slug);
+        }
+    }, [searchParams]);
+
+    const handleTabChange = (value: string) => {
+        setActiveTab(value);
+        router.push(`?slug=${value}`);
+    };
+
     const mapTableHeaders: [string, string] = ["Estado", "IDH"];
 
     const renderContent = (content: React.ReactNode) => (
@@ -51,7 +66,7 @@ const IndicatorsPage: React.FC = () => {
     );
 
     return (
-        <Tabs defaultValue='maps' className="container mx-auto px-8 py-12 max-w-7xl">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="container mx-auto px-8 py-12 max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 {/* MAPS */}
                 <TabsContent value='maps' className="md:col-span-3 md:border-r md:border-gray-400 pr-8">
