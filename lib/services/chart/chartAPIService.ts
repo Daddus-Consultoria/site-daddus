@@ -45,7 +45,6 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
           ...item,
         ],
       } 
-      console.log(item[6])
       //return transformData(item);
     })
 

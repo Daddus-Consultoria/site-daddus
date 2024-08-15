@@ -15,8 +15,6 @@ const StudiesPublish: React.FC = () => {
   const publishSlug = urlPath?.split("/").pop();
   const usePublishUseCases = new PublishUseCases();
 
-  console.log(urlPath)
-
   const { data, isLoading } = useQuery({
     queryKey: [`study-${publishSlug}`],
     staleTime: TimeConstants.ONE_HOUR,
@@ -25,8 +23,6 @@ const StudiesPublish: React.FC = () => {
       return await usePublishUseCases.getStudyBySlug({ slug: publishSlug!});
     },
   });
-
-  console.log(data)
 
   if (isLoading)
     return (
