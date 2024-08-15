@@ -11,7 +11,6 @@ import { ButtonTextArrow } from '@/components/buttonTextArrow';
 
 const IndicatorsPage: React.FC = () => {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const [activeTab, setActiveTab] = useState('maps');
     const [data, setData] = useState<{
         graphic: any[],
@@ -44,11 +43,9 @@ const IndicatorsPage: React.FC = () => {
     }, [fetchData]);
 
     useEffect(() => {
-        const slug = searchParams?.get('slug');
-        if (slug === 'maps' || slug === 'graphics') {
+        const slug = 'maps';
             setActiveTab(slug);
-        }
-    }, [searchParams]);
+    }, []);
 
     const handleTabChange = (value: string) => {
         setActiveTab(value);
