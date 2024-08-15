@@ -37,7 +37,7 @@ export const constantCardBlog ={
     logoBlog: '/images/blog/logo.svg',
     barItens: [
         {
-            title: 'FINANÇAS',
+            title: 'ECONOMIA', // Mudado de Finanças para Economia
             link: '/blog/financas',
         },
         {
@@ -49,7 +49,7 @@ export const constantCardBlog ={
             link: '/blog/governanca',
         },
         {
-            title: 'LOGÍSTICA',
+            title: 'MOBILIDADE', // Mudado de Logística para Mobilidade
             link: '/blog/logistica',
         },
         {

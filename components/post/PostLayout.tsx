@@ -55,7 +55,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
     <div className="mx-auto px-5percent w-full max-w-screen-limit my-10">
       <BadgeBlog
         colorScheme="secondary"
-        title="Finanças"
+        title="Economia" // Mudado de Finanças para Economia
         className="w-fit text-white"
       />
       <div className="flex flex-col lg:flex-row justify-between gap-20 lg:gap-28">
