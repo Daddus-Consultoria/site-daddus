@@ -94,6 +94,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command"
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export {
   Button,
@@ -164,5 +165,9 @@ export {
   CommandList,
   CommandSeparator,
   CommandShortcut,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
 };
 //
