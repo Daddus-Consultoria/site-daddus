@@ -14,10 +14,10 @@ export type PostCategory =
   | "oportunidades";
 
 export const CategoryMap: Record<PostCategory, string> = {
-  financas: "Finanças",
+  financas: "Economia", // Mudado de Finanças para Economia
   politicasPublicas: "Políticas Públicas",
   governanca: "Governança",
-  logistica: "Logística",
+  logistica: "Mobilidade", // Mudado de Logística para Mobilidade
   inovacao: "Inovação",
   sustentabilidade: "Sustentabilidade",
   oportunidades: "Oportunidades",

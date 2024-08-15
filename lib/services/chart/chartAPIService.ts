@@ -19,18 +19,9 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
   }
 
   async getAllIndicatorsStateChartData() {
-    try {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-      const res = await fetch(`${baseUrl}/api/state-map-charts`);
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-      const data = await res.json();
-      return data;
-    } catch (error) {
-      console.error("Error in getAllIndicatorsStateChartData:", error);
-      throw error;
-    }
+    const res = await fetch("/api/state-map-charts");
+    const data = await res.json();
+    return this.formatMapData(data);
   }
 
   async gettAllIndicatorsDaddusGraphData(): Promise<any[]> {
@@ -46,8 +37,33 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
       ...resultAll,
     ]
   }
+
+  formatMapData(data: any[]): [any[], string[]] {
+    const transformedData = [
+      ...data.slice(1).map((row: string[]) => {
+        const stateName = row[2];
+        const idh = parseFloat(row[3].replace(',', '.'));
+        return [stateName, idh];
+      })
+    ];
+
+    const extractedColors = data
+      .slice(1)
+      .map((row: string[]) => row[1])
+      .filter((color: string) => color !== '');
+
+
+    return [transformedData, extractedColors];
+  }
+
+  formatMapTableData(data: any[]): { state: string; idh: string }[] {
+    return data.slice(1).map((row: string[]) => ({
+      state: row[2],
+      idh: row[3],
+    }));
+  }
 }
 
-const transformData = (data: string[]) =>{
-  return [parseInt(data[3]), parseFloat(data[4].replace(',','.'))]
+const transformData = (data: string[]) => {
+  return [parseInt(data[3]), parseFloat(data[4].replace(',', '.'))]
 }

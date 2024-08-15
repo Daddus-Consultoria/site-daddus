@@ -1,5 +1,5 @@
 export abstract class ChartRepository {
-  abstract getAllIndicatorsStateChartData(): Promise<MapChartData[]>;
+  abstract getAllIndicatorsStateChartData(): Promise<[any[], string[]]>;
 
   abstract gettAllIndicatorsDaddusGraphData(): Promise<any[]>;
 }
