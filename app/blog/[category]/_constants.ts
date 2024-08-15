@@ -114,7 +114,7 @@ export const constantsPublicationsBlogFinancas: CardInfoProps[] = [
 ];
 
 export const constantsFinancas = {
-  title: "Finanças",
+  title: "Economia", // Mudado de Finanças para Economia
   cards: cardsPostBlog,
   titlePublications: "PUBLICAÇÕES",
   cardsPublications: constantsPublicationsBlogFinancas,
@@ -125,20 +125,20 @@ interface SpecialCharactersWords {
 }
 
 export const SPECIAL_CHARACTERS_WORDS_BLOG: SpecialCharactersWords = {
-  financas: "FINANÇAS",
+  financas: "ECONOMIA", // Mudado de Finanças para Economia
   "politicas-publicas": "POLÍTICAS PÚBLICAS",
   governanca: "GOVERNANÇA",
-  logistica: "LOGÍSTICA",
+  logistica: "MOBILIDADE", // Mudado de Logística para Mobilidade
   inovacao: "INOVAÇÃO",
   sustentabilidade: "SUSTENTABILIDADE",
   oportunidades: "OPORTUNIDADES",
 };
 
 export const CATEGORY_NAMES_BLOG: SpecialCharactersWords = {
-  financas: "financas",
+  financas: "economia", // Mudado de Finanças para Economia
   "politicas-publicas": "politicasPublicas",
   governanca: "governanca",
-  logistica: "logistica",
+  logistica: "mobilidade", // Mudado de Logística para Mobilidade
   inovacao: "inovacao",
   sustentabilidade: "sustentabilidade",
   oportunidades: "oportunidades",
