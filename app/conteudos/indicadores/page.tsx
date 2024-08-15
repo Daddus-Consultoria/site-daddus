@@ -5,7 +5,7 @@ import { filtersIndicatorPage } from './_constants';
 import { IndicatorFilter, Graphic } from '@/components/index';
 import { Tabs, TabsList, TabsContent, TabsTrigger } from '@/components/ui/index'
 import { ChartUseCases } from '@/lib/useCases/chartUseCases'
-import BrazilMap from "@/components/BrazilMap";
+import BrazilMap from "@/components/brazilMap";
 import IndicatorsTable from "@/components/indicatorsTable";
 import { ButtonTextArrow } from '@/components/buttonTextArrow';
 
