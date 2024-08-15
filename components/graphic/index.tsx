@@ -5,20 +5,27 @@ interface GraphicProps {
 }
 
 const Graphic = ({data}: GraphicProps) => {
-    /* const data = [
-        ['Month', 'Sales'],
-        ['Jan', 1000],
-        ['Feb', 1170],
-        ['Mar', 660],
-        ['Apr', 1030],
-      ]; */
-    
-    console.log(data)
-
     const options = {
         title: 'Variação mensal - Brasil',
-        curveType: 'function',
-        legend: { position: 'bottom' },
+        curveType: 'none',
+        legend: { position: 'none'},
+        pointSize: 5,
+        lineWidth: 2,
+        hAxis: {
+            title: 'Ano',
+            format: '#', 
+            slantedText: true, // Inclina os textos para melhor visualização
+            slantedTextAngle: 45, // Ângulo de inclinação
+        },
+        vAxis: {
+            title: 'Porcentagem',
+            minValue: -1000,
+            maxValue: 3000,
+            format: '#', // Formato decimal sem vírgula
+        },
+        series: {
+            0: { color: 'black' }, // Define a cor da linha para preto
+        },
     };
 
     return (

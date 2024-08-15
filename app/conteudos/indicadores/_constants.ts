@@ -12,17 +12,17 @@ export const filtersIndicatorPage = {
           title: 'INDICADOR',
           placeholder: 'IDH',
           items: [
-            'indicador 1',
-          ],
+            'IDH',
+          ]
         },
         {
           title: 'ANO',
           placeholder: 'IDH',
           items: [
-            'ano 1',
-          ],
+            'IDH',
+          ]
         },
-      ],
+      ]
     },
     {
       value: 'graphics',
@@ -34,15 +34,15 @@ export const filtersIndicatorPage = {
           title: 'FONTE',
           placeholder: 'IBGE',
           items: [
-            'fonte 1',
-          ],
+            'IBGE',
+          ]
         },
         {
           title: 'INDICADOR',
           placeholder: 'IPCA-15',
           items: [
-            'indicador 1',
-          ],
+            'IPCA-15',
+          ]
         },
         {
           title: 'UF',
