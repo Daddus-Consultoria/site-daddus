@@ -12,13 +12,13 @@ const Graphic = ({data}: GraphicProps) => {
         pointSize: 5,
         lineWidth: 2,
         hAxis: {
-            title: 'Porcentagem',
+            title: 'Ano',
             format: '#', 
             slantedText: true, // Inclina os textos para melhor visualização
             slantedTextAngle: 45, // Ângulo de inclinação
         },
         vAxis: {
-            title: 'Ano',
+            title: 'Porcentagem',
             minValue: -1000,
             maxValue: 3000,
             format: '#', // Formato decimal sem vírgula
