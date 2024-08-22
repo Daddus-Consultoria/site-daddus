@@ -1,7 +1,5 @@
 import { CardInfoProps } from "@/lib/interfaces/card"
-
 import {Links} from '@/lib/constants/constants';
-
 
 export const constantsConsultancy: CardInfoProps[] = [
   {

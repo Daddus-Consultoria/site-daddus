@@ -1,4 +1,3 @@
-
 import { NavigationType } from "@/lib/interfaces/navigation";
 const footerItens: NavigationType[] = [
   {
@@ -44,7 +43,7 @@ const footerItens: NavigationType[] = [
             title: "Transportes",
             href: "/setores/mobilidade-urbana/transportes",
           },
-         /*  {
+          /*  {
             title: "Rodovias",
             href: "/setores/mobilidade-urbana/rodovias",
           },
@@ -78,6 +77,10 @@ const footerItens: NavigationType[] = [
     title: "CONTEÚDOS",
     subtypes: [
       {
+        title: "Indicadores",
+        items: [{ title: "IDH", href: "/conteudos/indicadores" }],
+      },
+      {
         title: "Publicações",
         href: "/conteudos/publicacoes",
         items: [
@@ -100,25 +103,25 @@ const footerItens: NavigationType[] = [
 ];
 
 const constantFooter = {
-    copyright: '© 2024 Daddus Consultoria - Todos os direitos reservados.',
-    information : [
-        {
-            title: 'SOBRE NÓS',
-            href: '/institucional/sobre'
-        },
-        {
-            title: 'TERMOS DE USO',
-            href: '/institucional/termos-de-uso'
-        },
-        {
-            title: 'CONTATO',
-            href: '/institucional/contato'
-        },
-        {
-            title: 'BLOG',
-            href: '/blog'
-        },
-    ]
-}
+  copyright: "© 2024 Daddus Consultoria - Todos os direitos reservados.",
+  information: [
+    {
+      title: "SOBRE NÓS",
+      href: "/institucional/sobre",
+    },
+    {
+      title: "TERMOS DE USO",
+      href: "/institucional/termos-de-uso",
+    },
+    {
+      title: "CONTATO",
+      href: "/institucional/contato",
+    },
+    {
+      title: "BLOG",
+      href: "/blog",
+    },
+  ],
+};
 
-export {constantFooter, footerItens}
+export { constantFooter, footerItens };

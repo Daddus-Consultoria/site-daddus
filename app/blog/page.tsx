@@ -145,7 +145,7 @@ const BlogPage: React.FC = () => {
           />
           <BlogPostGrid
             isPostsLoading={isLoading}
-            title={"Finanças"}
+            title={"Economia"} // Mudado de Finanças para Economia
             variant={
               blogPostsByCategory?.financas?.length === 3 ? "three" : "default"
             }
@@ -232,7 +232,7 @@ const BlogPage: React.FC = () => {
         <div className="w-full">
           <BlogPostGrid
             isPostsLoading={isLoading}
-            title={"Logística"}
+            title={"Mobilidade"} // Mudado de Logística para Mobilidade
             variant={
               blogPostsByCategory?.logistica?.length === 3 ? "three" : "default"
             }

@@ -21,7 +21,6 @@ const cardContents: CardInfoProps[] = [
     }
 ]
 
-
 export const constantsTransports = {
     title: 'ELABORAÇÃO DE POLÍTICAS PÚBLICAS',
     image: '/images/elaboration-policy-public/image.svg',
