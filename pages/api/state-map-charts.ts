@@ -1,6 +1,6 @@
 import { google } from "googleapis";
 export default async function handler(req: any, res:any) {
-
+try {
   const auth = await google.auth.getClient({
     projectId: process.env.GOOGLE_SHEETS_PROJECT_ID,
     credentials: {
@@ -23,4 +23,8 @@ export default async function handler(req: any, res:any) {
   });
 
   res.status(200).json(data.data.values);
+} catch (error) {
+  console.log(error);
+  res.status(500).json({ error: error });
+}
 }
