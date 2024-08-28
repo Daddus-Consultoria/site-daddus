@@ -15,9 +15,13 @@ import IndicatorsTable from "@/components/indicatorsTable";
 import { ButtonTextArrow } from "@/components/buttonTextArrow";
 import { DataSpreadSheetsGraphic } from "@/lib/interfaces/dataGraphic";
 
-const IndicatorsPage: React.FC = () => {
+interface IndicatorsPageProps {
+  initialTab: string;
+}
+
+const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "mapas" }) => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("maps");
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [data, setData] = useState<{
     graphic: any[];
     idh: { data: any[]; colors: string[] } | null;
@@ -97,16 +101,16 @@ const IndicatorsPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const slug = "maps";
-    setActiveTab(slug);
+    setActiveTab(initialTab);
     fetchMapData();
     fetchGraphicData();
-  }, []);
+  }, [initialTab]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
-    router.push(`?slug=${value}`);
+    router.push(`/conteudos/indicadores/${value}`);
   };
+
   const transformData = (data: DataSpreadSheetsGraphic) => {
     return [
       parseInt(data.dataGraphic[3]),
@@ -158,9 +162,9 @@ const IndicatorsPage: React.FC = () => {
       className="container mx-auto px-8 py-12 max-w-7xl"
     >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* MAPS */}
+        {/* MAPAS */}
         <TabsContent
-          value="maps"
+          value="mapas"
           className="md:col-span-3 md:border-r md:border-gray-400 pr-8"
         >
           <div className="bg-white shadow-md rounded-lg p-8">
@@ -193,7 +197,7 @@ const IndicatorsPage: React.FC = () => {
         </TabsContent>
         {/* GRAPHIC */}
         <TabsContent
-          value="graphics"
+          value="graficos"
           className="md:col-span-3 md:border-r md:border-gray-400 pr-8"
         >
           <div className="bg-white shadow-md rounded-lg p-8">
@@ -212,12 +216,12 @@ const IndicatorsPage: React.FC = () => {
 
         <div className="flex justify-start flex-1 flex-col gap-9 ">
           <TabsList className="grid w-full grid-cols-2 font-bold">
-            <TabsTrigger value="maps">MAPAS</TabsTrigger>
-            <TabsTrigger value="graphics">GRÁFICOS</TabsTrigger>
+            <TabsTrigger value="mapas">MAPAS</TabsTrigger>
+            <TabsTrigger value="graficos">GRÁFICOS</TabsTrigger>
           </TabsList>
           <div className="flex flex-1 flex-col">
             {filtersIndicatorPage.items.map((item, index) => {
-              return item.value === "maps" ? (
+              return item.value === "mapas" ? (
                 <TabsContent
                   key={`tab-indicator-${item.value}-${index}`}
                   value={item.value}
@@ -228,14 +232,14 @@ const IndicatorsPage: React.FC = () => {
                     title={item.content[0].title}
                     items={item.content[0].items}
                     placeholder={"IDH"}
-                    setFilter={() => {}}
+                    setFilter={() => { }}
                   />
                   <IndicatorFilter
                     key={`indicator-filter-${item.value}-${1}`}
                     title={item.content[1].title}
                     items={item.content[1].items}
                     placeholder={"IDH"}
-                    setFilter={() => {}}
+                    setFilter={() => { }}
                   />
                   <div className="flex flex-1 flex-col mt-12 w-[90%]">
                     <strong className="text-primary text-sm mb-2">
@@ -259,20 +263,20 @@ const IndicatorsPage: React.FC = () => {
                   key={`tab-indicator-${item.value}-${index}`}
                   value={item.value}
                   className="flex flex-col gap-2"
-                >
+                  >
                   <IndicatorFilter
                     key={`indicator-filter-${item.value}-${0}`}
                     title={item.content[0].title}
                     items={item.content[0].items}
                     placeholder={"IBGE"}
-                    setFilter={() => {}}
+                      setFilter={() => { }}
                   />
                   <IndicatorFilter
                     key={`indicator-filter-${item.value}-${1}`}
                     title={item.content[1].title}
                     items={item.content[1].items}
                     placeholder={"IPCA-15"}
-                    setFilter={() => {}}
+                      setFilter={() => { }}
                   />
                   {states[0] != undefined ? (
                     <IndicatorFilter

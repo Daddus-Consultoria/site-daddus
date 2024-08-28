@@ -13,7 +13,6 @@ export class ChartUseCases {
     }
   }
 
-
   async gettAllIndicatorsDaddusGraphData() {
     try {
       return await this.chartRepository.gettAllIndicatorsDaddusGraphData();
@@ -21,4 +20,6 @@ export class ChartUseCases {
       throw error;
     }
   }
+
+  
 }
