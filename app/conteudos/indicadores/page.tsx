@@ -19,7 +19,7 @@ interface IndicatorsPageProps {
   initialTab: string;
 }
 
-const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "mapas" }) => {
+const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "maps" }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(initialTab);
   const [data, setData] = useState<{
@@ -162,9 +162,9 @@ const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "mapas" })
       className="container mx-auto px-8 py-12 max-w-7xl"
     >
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* MAPAS */}
+        {/* MAPS */}
         <TabsContent
-          value="mapas"
+          value="maps"
           className="md:col-span-3 md:border-r md:border-gray-400 pr-8"
         >
           <div className="bg-white shadow-md rounded-lg p-8">
@@ -197,7 +197,7 @@ const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "mapas" })
         </TabsContent>
         {/* GRAPHIC */}
         <TabsContent
-          value="graficos"
+          value="graphics"
           className="md:col-span-3 md:border-r md:border-gray-400 pr-8"
         >
           <div className="bg-white shadow-md rounded-lg p-8">
@@ -216,12 +216,12 @@ const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "mapas" })
 
         <div className="flex justify-start flex-1 flex-col gap-9 ">
           <TabsList className="grid w-full grid-cols-2 font-bold">
-            <TabsTrigger value="mapas">MAPAS</TabsTrigger>
-            <TabsTrigger value="graficos">GRÁFICOS</TabsTrigger>
+            <TabsTrigger value="maps">MAPAS</TabsTrigger>
+            <TabsTrigger value="graphics">GRÁFICOS</TabsTrigger>
           </TabsList>
           <div className="flex flex-1 flex-col">
             {filtersIndicatorPage.items.map((item, index) => {
-              return item.value === "mapas" ? (
+              return item.value === "maps" ? (
                 <TabsContent
                   key={`tab-indicator-${item.value}-${index}`}
                   value={item.value}
