@@ -94,6 +94,7 @@ const IndicatorsPage: React.FC = () => {
     });
 
     setDataGraphic([["Ano", "Porcentagem"], ...listData]);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -204,8 +205,20 @@ const IndicatorsPage: React.FC = () => {
               {filtersIndicatorPage.items[1].subTitle}
             </p>
             <p className="mb-8">{filtersIndicatorPage.items[1].text}</p>
-            <div className="relative h-72 md:h-[25rem] bg-gray-100 rounded-lg overflow-hidden">
-              <Graphic data={dataGraphic} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12">
+              <div className="relative h-72 md:h-96 rounded-lg overflow-hidden col-span-12 lg:col-span-9">
+                {renderContent(
+                  <Graphic data={dataGraphic} />
+                )}
+              </div>
+              <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-3">
+                {renderContent(
+                  <IndicatorsTable
+                    data={dataGraphic.slice(1)}
+                    headers={dataGraphic[0]}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </TabsContent>
