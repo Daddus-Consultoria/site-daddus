@@ -5,7 +5,6 @@ interface BrazilMapProps {
     colors: string[];
 }
 
-
 const BrazilMap: React.FC<BrazilMapProps> = ({ data, colors }) => {
     const geoChartOptions = {
         region: 'BR',
