@@ -7,6 +7,7 @@ import { google } from "googleapis";
 export class ChartAPIService implements ChartUseCases, ChartRepository {
   private static instance: ChartAPIService;
   chartRepository: ChartRepository;
+  private apiURL = process.env.NEXT_PUBLIC_SITE_API_URL;
 
   constructor() {
     // Lazy import to avoid circular dependency
@@ -22,7 +23,7 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
   }
 
   async getAllIndicatorsStateChartData() {
-    const res = await fetch("http://localhost:3000/api/state-map-charts");
+    const res = await fetch(`${this.apiURL}/state-map-charts`);
     const data = await res.json();
 
     /* const auth = await google.auth.getClient({
@@ -52,7 +53,7 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
   }
 
   async gettAllIndicatorsDaddusGraphData(): Promise<DataSpreadSheetsGraphic[]> {
-    const res = await fetch("http://localhost:3000//api/state-graphic-charts"); // colocar a rota https://daddus.....
+    const res = await fetch(`${this.apiURL}/api/state-graphic-charts`); // colocar a rota https://daddus.....
 
     const data = await res.json();
 
