@@ -40,6 +40,8 @@ import { IndicatorFilter } from "@/components/indicator-filter";
 
 import { Graphic } from "@/components/graphic";
 
+import { IndicatorsMenuPage } from "@/components/indicatorMenuPage";
+
 export {
   Dropdown,
   Header,
@@ -73,6 +75,7 @@ export {
   TabsGeneric,
   IndicatorFilter,
   Graphic,
+  IndicatorsMenuPage,
 };
 
 export * from "@/components/ui";
