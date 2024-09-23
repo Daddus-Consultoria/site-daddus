@@ -2,7 +2,7 @@ import { IndicatorsMenuPage } from "@/components/index";
 
 import { ChartUseCases } from "@/lib/useCases/chartUseCases";
 
-export const IndicatorsPage = async () => {
+export default async function IndicatorsPage () {
   const useChartCase = new ChartUseCases();
   const [graphicData, mapData] = await Promise.all([
     useChartCase.gettAllIndicatorsDaddusGraphData(),
@@ -17,4 +17,3 @@ export const IndicatorsPage = async () => {
   )
 };
 
-export default IndicatorsPage;
