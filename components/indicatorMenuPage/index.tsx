@@ -71,7 +71,7 @@ export const IndicatorsMenuPage = ({graphicData, mapData}: IndicatorMenuProps) =
   const setGraphicData = async () => {
     const data = graphicData;
 
-    setallDataFiltered(data);
+    await setallDataFiltered(data);
 
     const getUniqueStates = (
       dataArray: DataSpreadSheetsGraphic[],
