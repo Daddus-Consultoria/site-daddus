@@ -53,7 +53,7 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
   }
 
   async gettAllIndicatorsDaddusGraphData(): Promise<DataSpreadSheetsGraphic[]> {
-    const res = await fetch(`${this.apiURL}/api/state-graphic-charts`); // colocar a rota https://daddus.....
+    const res = await fetch(`${this.apiURL}/state-graphic-charts`); // colocar a rota https://daddus.....
 
     const data = await res.json();
 
