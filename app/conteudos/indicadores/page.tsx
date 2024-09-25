@@ -16,15 +16,16 @@ import { ButtonTextArrow } from "@/components/buttonTextArrow";
 import { DataSpreadSheetsGraphic } from "@/lib/interfaces/dataGraphic";
 
 interface IndicatorsPageProps {
-  initialTab: string;
+  initialTab?: string;
 }
 
 const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "maps" }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(initialTab);
+  const [selectedYear, setSelectedYear] = useState<string>("2021");
   const [data, setData] = useState<{
     graphic: any[];
-    idh: { data: any[]; colors: string[] } | null;
+    idh: { [key: string]: { data: any[]; colors: string[] } } | null;
   } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -36,9 +37,15 @@ const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "maps" }) 
         useChartCase.gettAllIndicatorsDaddusGraphData(),
         useChartCase.getAllIndicatorsStateChartData(),
       ]);
+
+      const idhData = Object.keys(mapData).reduce((acc: { [key: string]: { data: any, colors: any } }, year) => {
+        acc[year] = { data: mapData[year][0], colors: mapData[year][1] };
+        return acc;
+      }, {});
+
       setData({
         graphic: graphicData,
-        idh: { data: mapData[0], colors: mapData[1] },
+        idh: idhData,
       });
     } catch (err) {
       setError("Falha ao buscar dados");
@@ -110,7 +117,11 @@ const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "maps" }) 
     setActiveTab(value);
     router.push(`/conteudos/indicadores/${value}`);
   };
-
+  /*
+    const handleYearChange = (year: string) => {
+      setSelectedYear(year);
+    };
+  */
   const transformData = (data: DataSpreadSheetsGraphic) => {
     return [
       parseInt(data.dataGraphic[3]),
@@ -179,15 +190,15 @@ const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "maps" }) 
               <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-8">
                 {renderContent(
                   <BrazilMap
-                    data={data?.idh?.data ?? []}
-                    colors={data?.idh?.colors ?? []}
+                    data={data?.idh?.[selectedYear]?.data ?? []}
+                    colors={data?.idh?.[selectedYear]?.colors ?? []}
                   />
                 )}
               </div>
               <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-4">
                 {renderContent(
                   <IndicatorsTable
-                    data={data?.idh?.data ?? []}
+                    data={data?.idh?.[selectedYear]?.data ?? []}
                     headers={mapTableHeaders}
                   />
                 )}
@@ -238,8 +249,8 @@ const IndicatorsPage: React.FC<IndicatorsPageProps> = ({ initialTab = "maps" }) 
                     key={`indicator-filter-${item.value}-${1}`}
                     title={item.content[1].title}
                     items={item.content[1].items}
-                    placeholder={"IDH"}
-                    setFilter={() => { }}
+                    placeholder={item.content[1].placeholder}
+                    setFilter={setSelectedYear}
                   />
                   <div className="flex flex-1 flex-col mt-12 w-[90%]">
                     <strong className="text-primary text-sm mb-2">

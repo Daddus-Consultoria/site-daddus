@@ -76,7 +76,7 @@ export const headerItems: NavigationType[] = [
   {
     title: "CONTEÚDOS",
     subtypes: [
-      { title: "Indicadores", items: [{ title: "Mapas", href: "/conteudos/indicadores/mapas" }, { title: "Gráficos", href: "/conteudos/indicadores/graficos" }] },
+      { title: "Indicadores", items: [{ title: "Mapas", href: "/conteudos/indicadores/maps" }, { title: "Gráficos", href: "/conteudos/indicadores/graphics" }] },
       {
         title: "Publicações",
         href: "/conteudos/publicacoes",

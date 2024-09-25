@@ -22,6 +22,9 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
   async getAllIndicatorsStateChartData() {
     const res = await fetch("/api/state-map-charts");
     const data = await res.json();
+    //console.log(this.formatMapData(data)[0][0][0]);
+    console.log(this.formatMapData(data)['2021']);
+    console.log(this.formatMapData(data));
     return this.formatMapData(data);
   }
 
@@ -52,22 +55,23 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
     return resultAll;
   }
 
-  formatMapData(data: any[]): [any[], string[]] {
-    const transformedData = [
-      ...data.slice(1).map((row: string[]) => {
-        const stateName = row[2];
-        const idh = parseFloat(row[3].replace(',', '.'));
+  formatMapData(data: any[]): { [year: string]: [any[], string[]] } {
+    const years = data[0].slice(2);
+    const result: { [year: string]: [any[], string[]] } = {};
+
+    years.forEach((year: string, yearIndex: number) => {
+      const transformedData = data.slice(1).map((row: string[]) => {
+        const stateName = row[1];
+        const idh = parseFloat(row[yearIndex + 2].replace(',', '.'));
         return [stateName, idh];
-      })
-    ];
+      });
 
-    const extractedColors = data
-      .slice(1)
-      .map((row: string[]) => row[1])
-      .filter((color: string) => color !== '');
+      const extractedColors = data.slice(1).map((row: string[]) => row[0]).filter((color: string) => color !== '');
 
+      result[year] = [transformedData, extractedColors];
+    });
 
-    return [transformedData, extractedColors];
+    return result;
   }
 
   formatMapTableData(data: any[]): { state: string; idh: string }[] {
