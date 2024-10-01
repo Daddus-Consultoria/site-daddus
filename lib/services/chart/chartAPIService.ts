@@ -49,7 +49,6 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
     });
   
     res.status(200).json(data.data.values); */
-    console.log(data)
     return this.formatMapData(data);
   }
 
