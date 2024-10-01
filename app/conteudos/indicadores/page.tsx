@@ -9,7 +9,6 @@ export default async function IndicatorsPage() {
     useChartCase.gettAllIndicatorsDaddusGraphData(),
     useChartCase.getAllIndicatorsStateChartData(),
   ]);
-
   return (
     <div>
       <IndicatorsMenuPage graphicData={graphicData} mapData={mapData} />

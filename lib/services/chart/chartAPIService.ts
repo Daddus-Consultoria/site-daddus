@@ -3,6 +3,7 @@ import { ChartRepository } from "@/lib/repositories/ChartRepository";
 import { DataSpreadSheetsGraphic } from "@/lib/interfaces/dataGraphic"
 
 import { google } from "googleapis";
+import { format } from "path";
 
 export class ChartAPIService implements ChartUseCases, ChartRepository {
   private static instance: ChartAPIService;
@@ -48,7 +49,7 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
     });
   
     res.status(200).json(data.data.values); */
-
+    console.log(data)
     return this.formatMapData(data);
   }
 

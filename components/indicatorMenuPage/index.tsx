@@ -48,10 +48,10 @@ export const IndicatorsMenuPage = ({ graphicData, mapData, initialTab = "maps" }
   // mp - gráfico
   const [dataGraphic, setDataGraphic] = useState<any[]>([]);
 
-  const idhData = mapData ? Object.keys(mapData).reduce((acc: { [key: string]: { data: any, colors: any } }, year) => {
+  const idhData = Object.keys(mapData).reduce((acc: { [key: string]: { data: any, colors: any } }, year) => {
     acc[year] = { data: mapData[year][0], colors: mapData[year][1] };
     return acc;
-  }, {}) : {};
+  }, {});
 
   const transformData = (data: DataSpreadSheetsGraphic) => { // bote essa função no topo e funcionou aksdkas
     return [
