@@ -7,6 +7,7 @@ import { GoogleAnalytics } from "@/components/index";
 import { TanstackProvider } from "@/components/providers/TanstackProvider";
 import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
+import { AuthProvider } from "@/lib/auth/auth-context";
 
 const poppins = Poppins({
   weight: "400",
@@ -49,10 +50,12 @@ export default function RootLayout({
 
       <body className={poppins.className}>
         <TanstackProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
-          <Analytics />
-          <Footer />
+          <AuthProvider>
+            <Header />
+            <main className="min-h-screen">{children}</main>
+            <Analytics />
+            <Footer />
+          </AuthProvider>
         </TanstackProvider>
       </body>
     </html>
