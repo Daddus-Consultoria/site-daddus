@@ -5,13 +5,15 @@ export async function strapiAuthenticatedFetch<T>(
   const token = localStorage.getItem("daddus_auth_token");
   if (!token) throw new Error("Sessão não autenticada.");
 
+  const headers = new Headers(options.headers);
+  headers.set("Authorization", `Bearer ${token}`);
+  if (!(options.body instanceof FormData)) {
+    headers.set("Content-Type", "application/json");
+  }
+
   const response = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}${path}`, {
     ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers,
-      Authorization: `Bearer ${token}`,
-    },
+    headers,
   });
 
   if (!response.ok) {
