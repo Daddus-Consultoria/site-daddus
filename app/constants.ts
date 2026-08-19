@@ -14,7 +14,7 @@ export const carouselItems: DaddusCarouselItem[] = [
     },
   },
   {
-    title: "Estudos de Vulnerabilidade Econômico-Financeiro",
+    title: "Estudos de Viabilidade Econômico-Financeiro",
     description:
       "Faça do seu município um modelo em governança e qualidade dos serviços. Nosso time está preparado para contribuir com a sua gestão.",
     image: {
