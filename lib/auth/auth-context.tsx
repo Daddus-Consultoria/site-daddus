@@ -13,19 +13,35 @@ export interface AuthUser {
   email: string;
   firstname?: string;
   lastname?: string;
+  role?: AuthRole;
   avatar?: {
     url?: string;
     data?: { attributes?: { url?: string } };
   };
 }
 
+export interface AuthRole {
+  id: number;
+  name: string;
+  type?: string;
+  description?: string;
+}
+
+interface RolesResponse {
+  roles?: AuthRole[];
+  data?: AuthRole[];
+}
+
 interface AuthContextValue {
   user: AuthUser | null;
   isLoading: boolean;
+  isRoleLoading: boolean;
   login: (identifier: string, password: string) => Promise<void>;
   getToken: () => string | null;
   logout: () => void;
   isAuthenticated: () => boolean;
+  roles: AuthRole[];
+  isPrivileged: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -48,6 +64,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [roles, setRoles] = useState<AuthRole[]>([]);
+  const [isRoleLoading, setIsRoleLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem(TOKEN_KEY);
@@ -59,6 +77,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(parsedUser);
         setIsLoading(false);
         void refreshUser(parsedUser);
+        void loadRoles();
         return;
       }
     } catch {
@@ -71,16 +90,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     setIsLoading(false);
+    setIsRoleLoading(false);
   }, []);
 
   async function refreshUser(currentUser: AuthUser) {
+    setIsRoleLoading(true);
     try {
-      const profile = await strapiAuthenticatedFetch<AuthUser>("/api/users/me?populate=avatar");
+      const profile = await strapiAuthenticatedFetch<AuthUser>("/api/users/me?populate[0]=avatar&populate[1]=role");
       const mergedUser = { ...currentUser, ...profile };
       localStorage.setItem(USER_KEY, JSON.stringify(mergedUser));
       setUser(mergedUser);
     } catch {
       // O avatar é opcional; a sessão continua válida se o perfil expandido não estiver disponível.
+    } finally {
+      setIsRoleLoading(false);
+    }
+  }
+
+  async function loadRoles() {
+    try {
+      const response = await strapiAuthenticatedFetch<RolesResponse>(
+        "/api/users-permissions/roles"
+      );
+      const nestedRoles = response.data && !Array.isArray(response.data)
+        ? (response.data as unknown as { roles?: AuthRole[] }).roles
+        : undefined;
+      setRoles(response.roles ?? (Array.isArray(response.data) ? response.data : nestedRoles) ?? []);
+    } catch {
+      // Em alguns projetos Strapi esta rota fica restrita ao administrador; a role do /users/me continua sendo usada.
     }
   }
 
@@ -103,6 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(USER_KEY, JSON.stringify(data.user));
     setUser(data.user);
     void refreshUser(data.user);
+    void loadRoles();
   }
 
   function getToken() {
@@ -120,9 +158,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return isTokenValid(getToken());
   }
 
+  function isPrivileged() {
+    const roleName = user?.role?.name?.toLowerCase();
+    return roleName === "superadm" || roleName === "adm";
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, login, getToken, logout, isAuthenticated }}
+      value={{ user, isLoading, isRoleLoading, login, getToken, logout, isAuthenticated, roles, isPrivileged }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, CalendarDays, Edit3, LogOut, Plus, Trash2 } from "lucide-react";
+import { AlertCircle, CalendarDays, Edit3, Plus, Trash2, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
@@ -91,7 +91,7 @@ function getPostAuthor(post: StrapiPost) {
 
 export default function PanelPage() {
   const router = useRouter();
-  const { user, isLoading, isAuthenticated, logout } = useAuth();
+  const { user, isLoading, isAuthenticated, isPrivileged, logout } = useAuth();
   const [posts, setPosts] = useState<StrapiPost[]>([]);
   const [publications, setPublications] = useState<StrapiPublication[]>([]);
   const [contentType, setContentType] = useState<"posts" | "publicacoes">("posts");
@@ -173,7 +173,15 @@ export default function PanelPage() {
             <h1 className="mt-2 text-3xl font-bold text-[#0d0d0d]">Olá, {displayName}.</h1>
             <p className="mt-2 text-gray-500">Bem-vindo à sua área exclusiva.</p>
           </div>
-          <UserMenu user={user} onLogout={logout} />
+          <div className="flex items-center gap-3">
+            {isPrivileged() && (
+              <button type="button" onClick={() => router.push("/painel/usuarios/novo")} className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">
+                <Users className="h-4 w-4" />
+                <span className="hidden sm:inline">Gerenciar usuários</span>
+              </button>
+            )}
+            <UserMenu user={user} onLogout={logout} />
+          </div>
         </div>
 
         <div>
