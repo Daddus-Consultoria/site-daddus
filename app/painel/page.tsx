@@ -92,7 +92,7 @@ function getPostAuthor(post: StrapiPost) {
 
 export default function PanelPage() {
   const router = useRouter();
-  const { user, isLoading, isAuthenticated, isPrivileged, canEditContent } = useAuth();
+  const { user, isLoading, isAuthenticated, isPrivileged, canEditContent, canManageContent } = useAuth();
   const [posts, setPosts] = useState<StrapiPost[]>([]);
   const [publications, setPublications] = useState<StrapiPublication[]>([]);
   const [contentType, setContentType] = useState<"posts" | "publicacoes">("posts");
@@ -213,7 +213,7 @@ export default function PanelPage() {
                   {(contentType === "posts" ? posts.length : publications.length)} {((contentType === "posts" ? posts.length : publications.length) === 1) ? "item" : "itens"}
                 </span>
               )}
-              {isPrivileged() && (
+              {canManageContent() && (
                 <button type="button" onClick={() => setIsCreateFormOpen((open) => !open)} className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-90">
                   <Plus className="h-4 w-4" />
                   Nova publicação
@@ -307,7 +307,7 @@ export default function PanelPage() {
                           <Edit3 className="h-4 w-4" /> Editar
                         </button>
                       )}
-                      {isPrivileged() && (
+                      {canManageContent() && (
                         <button type="button" disabled={deletingPostId === post.id} onClick={() => deletePost(post.id)} className="flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50">
                           <Trash2 className="h-4 w-4" />
                           {deletingPostId === post.id ? "Excluindo..." : "Excluir"}
@@ -346,7 +346,7 @@ export default function PanelPage() {
                           <Edit3 className="h-4 w-4" /> Editar
                         </button>
                       )}
-                      {isPrivileged() && (
+                      {canManageContent() && (
                         <button type="button" disabled={deletingPublicationId === publication.id} onClick={() => void deletePublication(publication.id)} className="flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50">
                           <Trash2 className="h-4 w-4" /> {deletingPublicationId === publication.id ? "Excluindo..." : "Excluir"}
                         </button>
