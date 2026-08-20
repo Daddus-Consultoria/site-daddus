@@ -49,7 +49,7 @@ export function PanelNavigation({ contentType, onContentTypeChange, isPrivileged
               <div className="border-b border-gray-100 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-gray-400">
                 Acessos e usuários
               </div>
-              <Link href="/painel/usuarios/novo" onClick={() => setAdminMenuOpen(false)} className="mt-1 flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-gray-700 transition hover:bg-primary/10 hover:text-primary">
+              <Link href="/painel/usuarios" onClick={() => setAdminMenuOpen(false)} className="mt-1 flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-gray-700 transition hover:bg-primary/10 hover:text-primary">
                 <Users className="h-4 w-4" />
                 Gerenciar usuários
               </Link>
