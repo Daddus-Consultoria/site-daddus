@@ -13,7 +13,7 @@ export interface AuthUser {
   email: string;
   firstname?: string;
   lastname?: string;
-  role?: AuthRole;
+  role?: AuthRole | { data?: { id?: number; attributes?: AuthRole } };
   avatar?: {
     url?: string;
     data?: { attributes?: { url?: string } };
@@ -59,6 +59,12 @@ function isTokenValid(token: string | null) {
   } catch {
     return false;
   }
+}
+
+function getRoleName(role: AuthUser["role"]) {
+  if (!role) return "";
+  if ("data" in role) return role.data?.attributes?.name?.trim().toLowerCase() || "";
+  return (role as AuthRole).name?.trim().toLowerCase() || "";
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -160,12 +166,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function isPrivileged() {
-    const roleName = user?.role?.name?.toLowerCase();
+    const roleName = getRoleName(user?.role);
     return roleName === "superadm" || roleName === "adm";
   }
 
   function canEditContent() {
-    const roleName = user?.role?.name?.toLowerCase();
+    const roleName = getRoleName(user?.role);
     return roleName === "superadm" || roleName === "adm" || roleName === "supervisor";
   }
 

@@ -204,7 +204,9 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
     } catch (submitError) {
       setError(
         submitError instanceof Error
-          ? submitError.message
+          ? submitError.message.includes("403")
+            ? "O Strapi não autorizou a edição. Libere a permissão Post > update para a role Supervisor."
+            : submitError.message
           : "Não foi possível criar a publicação."
       );
     } finally {

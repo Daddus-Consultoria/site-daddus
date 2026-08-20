@@ -196,10 +196,12 @@ export default function PanelPage() {
                   {(contentType === "posts" ? posts.length : publications.length)} {((contentType === "posts" ? posts.length : publications.length) === 1) ? "item" : "itens"}
                 </span>
               )}
-              <button type="button" onClick={() => setIsCreateFormOpen((open) => !open)} className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-90">
-                <Plus className="h-4 w-4" />
-                Nova publicação
-              </button>
+              {isPrivileged() && (
+                <button type="button" onClick={() => setIsCreateFormOpen((open) => !open)} className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-90">
+                  <Plus className="h-4 w-4" />
+                  Nova publicação
+                </button>
+              )}
             </div>
           </div>
 
@@ -280,10 +282,12 @@ export default function PanelPage() {
                           <Edit3 className="h-4 w-4" /> Editar
                         </button>
                       )}
-                      <button type="button" disabled={deletingPostId === post.id} onClick={() => deletePost(post.id)} className="flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50">
-                        <Trash2 className="h-4 w-4" />
-                        {deletingPostId === post.id ? "Excluindo..." : "Excluir"}
-                      </button>
+                      {isPrivileged() && (
+                        <button type="button" disabled={deletingPostId === post.id} onClick={() => deletePost(post.id)} className="flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50">
+                          <Trash2 className="h-4 w-4" />
+                          {deletingPostId === post.id ? "Excluindo..." : "Excluir"}
+                        </button>
+                      )}
                     </div>
                   </article>
                 );
