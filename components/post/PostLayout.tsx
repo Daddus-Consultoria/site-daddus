@@ -7,7 +7,7 @@ import { BadgeBlog } from "../badgeBlog";
 import { Heading } from "./parts/Heading";
 import { SocialInfo } from "./parts/SocialInfo";
 import { Content } from "./parts/Content";
-import { GoogleContainer } from "./parts/GoogleContainer";
+import AdInArticle from "@/components/AdInArticle";
 import { Divider } from "./parts/Divider";
 import { Attachment } from "./parts/Attachment";
 import { SkeletonPost } from "./parts/Skeleton";
@@ -66,7 +66,7 @@ function PostLayout({ post, loading, lastPosts }: PostLayoutProps) {
           <Content content={firstContent} />
           <Divider>Continua depois da publicidade</Divider>
 
-          <GoogleContainer />
+          <AdInArticle />
           <Divider />
 
           {lastContent ? (
