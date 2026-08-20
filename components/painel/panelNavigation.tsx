@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, FileText, Settings2, UserRound, Users } from "lucide-react";
+import { ChevronDown, FileText, Settings2, UserRound, Users, PenLine } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -52,6 +52,10 @@ export function PanelNavigation({ contentType, onContentTypeChange, isPrivileged
               <Link href="/painel/usuarios" onClick={() => setAdminMenuOpen(false)} className="mt-1 flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-gray-700 transition hover:bg-primary/10 hover:text-primary">
                 <Users className="h-4 w-4" />
                 Gerenciar usuários
+              </Link>
+              <Link href="/painel/autores" onClick={() => setAdminMenuOpen(false)} className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-semibold text-gray-700 transition hover:bg-primary/10 hover:text-primary">
+                <PenLine className="h-4 w-4" />
+                Gerenciar autores
               </Link>
               <div className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-gray-400" title="O perfil será disponibilizado em uma próxima etapa">
                 <UserRound className="h-4 w-4" />
