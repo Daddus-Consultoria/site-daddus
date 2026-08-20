@@ -54,7 +54,7 @@ export default function AuthorsPage() {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         const payload = await response.json();
-        if (!response.ok) throw new Error(payload?.error || "Não foi possível carregar os autores.");
+        if (!response.ok) throw new Error(response.status === 403 ? "Acesso não permitido ao usuário" : payload?.error || "Não foi possível carregar os autores.");
         setAuthors(Array.isArray(payload) ? payload : payload.data ?? []);
       } catch (loadError) {
         setError(loadError instanceof Error ? loadError.message : "Não foi possível carregar os autores.");
@@ -121,7 +121,7 @@ export default function AuthorsPage() {
         body: JSON.stringify(body),
       });
       const payload = await response.json();
-      if (!response.ok) throw new Error(payload?.error || "Não foi possível salvar o autor.");
+      if (!response.ok) throw new Error(response.status === 403 ? "Acesso não permitido ao usuário" : payload?.error || "Não foi possível salvar o autor.");
 
       const saved = payload.data ?? payload;
       setAuthors((current) => editingAuthor ? current.map((item) => item.id === saved.id ? saved : item) : [...current, saved]);
@@ -141,7 +141,7 @@ export default function AuthorsPage() {
     try {
       const response = await fetch(`/api/admin/authors/${author.id}`, { method: "DELETE", headers: { Authorization: `Bearer ${getToken()}` } });
       const payload = await response.json();
-      if (!response.ok) throw new Error(payload?.error || "Não foi possível excluir o autor.");
+      if (!response.ok) throw new Error(response.status === 403 ? "Acesso não permitido ao usuário" : payload?.error || "Não foi possível excluir o autor.");
       setAuthors((current) => current.filter((item) => item.id !== author.id));
     } catch (deleteError) {
       setError(deleteError instanceof Error ? deleteError.message : "Não foi possível excluir o autor.");

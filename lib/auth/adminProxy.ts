@@ -50,12 +50,13 @@ export async function authorizeAdmin(request: Request) {
   const roleName = getRoleName(user.role);
 
   if (!response.ok || !roleName || !isPrivilegedRole(roleName)) {
-    return { error: NextResponse.json({ error: "Apenas SuperAdm ou Administrador podem gerenciar usuários." }, { status: 403 }) };
+    return { error: NextResponse.json({ error: "Acesso não permitido ao usuário" }, { status: 403 }) };
   }
 
   return { token };
 }
 
 export function apiError(payload: { error?: { message?: string } }, fallback: string, status: number) {
+  if (status === 403) return NextResponse.json({ error: "Acesso não permitido ao usuário" }, { status: 403 });
   return NextResponse.json({ error: payload?.error?.message || fallback }, { status });
 }
