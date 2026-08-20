@@ -46,13 +46,18 @@ export async function authorizeAdmin(request: Request) {
   }
 
   let response = await strapiAdminRequest("/api/users/me?populate=role", token);
-  let user = await readJson(response) as { role?: { name?: string; attributes?: { name?: string }; data?: { attributes?: { name?: string } } } };
-  let roleName = getRoleName(user.role);
+  let user = await readJson(response) as {
+    role?: { name?: string; type?: string; attributes?: { name?: string }; data?: { id?: number; attributes?: { name?: string } } };
+    roles?: Array<{ name?: string; type?: string }>;
+    attributes?: { role?: { name?: string; attributes?: { name?: string }; data?: { attributes?: { name?: string } } } };
+    data?: { role?: { name?: string; attributes?: { name?: string }; data?: { attributes?: { name?: string } } } };
+  };
+  let roleName = getRoleName(user.role) || getRoleName(user.attributes?.role) || getRoleName(user.data?.role) || getRoleName(user.roles?.[0]);
 
   if (response.ok && !roleName) {
     response = await strapiAdminRequest("/api/users/me?populate=*", token);
     user = await readJson(response) as typeof user;
-    roleName = getRoleName(user.role);
+    roleName = getRoleName(user.role) || getRoleName(user.attributes?.role) || getRoleName(user.data?.role) || getRoleName(user.roles?.[0]);
   }
 
   if (!response.ok || !roleName || !isPrivilegedRole(roleName)) {
