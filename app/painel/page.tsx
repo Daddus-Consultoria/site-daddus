@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, CalendarDays, Edit3, Plus, Trash2, Users } from "lucide-react";
+import { AlertCircle, CalendarDays, Edit3, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
 import { EditablePost, PostForm } from "@/components/painel/postForm";
 import { UserMenu } from "@/components/painel/userMenu";
+import { PanelNavigation } from "@/components/painel/panelNavigation";
 
 interface StrapiPost {
   id: number;
@@ -173,16 +174,17 @@ export default function PanelPage() {
             <h1 className="mt-2 text-3xl font-bold text-[#0d0d0d]">Olá, {displayName}.</h1>
             <p className="mt-2 text-gray-500">Bem-vindo à sua área exclusiva.</p>
           </div>
-          <div className="flex items-center gap-3">
-            {isPrivileged() && (
-              <button type="button" onClick={() => router.push("/painel/usuarios/novo")} className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">
-                <Users className="h-4 w-4" />
-                <span className="hidden sm:inline">Gerenciar usuários</span>
-              </button>
-            )}
-            <UserMenu user={user} onLogout={logout} />
-          </div>
+          <UserMenu user={user} onLogout={logout} />
         </div>
+
+        <PanelNavigation
+          contentType={contentType}
+          onContentTypeChange={(nextContentType) => {
+            setContentType(nextContentType);
+            setPostsError("");
+          }}
+          isPrivileged={isPrivileged()}
+        />
 
         <div>
           <div className="mb-4 flex items-center justify-between gap-4">
@@ -201,15 +203,6 @@ export default function PanelPage() {
                 Nova publicação
               </button>
             </div>
-          </div>
-
-          <div className="mb-6 flex gap-2 border-b border-gray-200">
-            <button type="button" onClick={() => { setContentType("posts"); setPostsError(""); }} className={`border-b-2 px-4 py-3 text-sm font-semibold ${contentType === "posts" ? "border-primary text-primary" : "border-transparent text-gray-500"}`}>
-              Posts
-            </button>
-            <button type="button" onClick={() => { setContentType("publicacoes"); setPostsError(""); }} className={`border-b-2 px-4 py-3 text-sm font-semibold ${contentType === "publicacoes" ? "border-primary text-primary" : "border-transparent text-gray-500"}`}>
-              Publicações
-            </button>
           </div>
 
           {isCreateFormOpen && (
