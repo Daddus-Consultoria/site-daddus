@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AlertCircle, CalendarDays, LogOut, Plus } from "lucide-react";
+import { AlertCircle, CalendarDays, Edit3, LogOut, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
-import { PostForm } from "@/components/painel/postForm";
+import { EditablePost, PostForm } from "@/components/painel/postForm";
 
 interface StrapiPost {
   id: number;
@@ -14,8 +14,15 @@ interface StrapiPost {
     category?: string;
     publishDate?: string;
     publishedAt?: string;
+    slug?: string;
+    comment?: string;
+    tags?: string[];
+    firstContent?: string;
+    lastContent?: string;
+    coverImage?: { data?: { id: number } };
     autor?: {
       data?: {
+        id?: number;
         attributes?: {
           name?: string;
           username?: string;
@@ -27,6 +34,11 @@ interface StrapiPost {
   category?: string;
   publishDate?: string;
   publishedAt?: string;
+  slug?: string;
+  comment?: string;
+  tags?: string[];
+  firstContent?: string;
+  lastContent?: string;
 }
 
 interface StrapiPostsResponse {
@@ -61,6 +73,9 @@ export default function PanelPage() {
   const [postsLoading, setPostsLoading] = useState(true);
   const [postsError, setPostsError] = useState("");
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
+  const [editingPost, setEditingPost] = useState<StrapiPost | null>(null);
+  const [actionError, setActionError] = useState("");
+  const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
@@ -76,7 +91,7 @@ export default function PanelPage() {
 
       try {
         const response = await strapiAuthenticatedFetch<StrapiPostsResponse>(
-          "/api/posts?sort=publishDate:desc&pagination[limit]=20&populate[0]=autor"
+          "/api/posts?sort=publishDate:desc&pagination[limit]=20"
         );
         setPosts(response.data ?? []);
       } catch (error) {
@@ -92,6 +107,21 @@ export default function PanelPage() {
 
     loadPosts();
   }, [isAuthenticated, isLoading, refreshKey, user]);
+
+  async function deletePost(postId: number) {
+    if (!window.confirm("Excluir esta publicação? Essa ação não pode ser desfeita.")) return;
+
+    setDeletingPostId(postId);
+    setActionError("");
+    try {
+      await strapiAuthenticatedFetch(`/api/posts/${postId}`, { method: "DELETE" });
+      setRefreshKey((key) => key + 1);
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Não foi possível excluir a publicação.");
+    } finally {
+      setDeletingPostId(null);
+    }
+  }
 
   if (isLoading || !user) {
     return <div className="flex min-h-[calc(100vh-13rem)] items-center justify-center text-gray-500">Carregando painel...</div>;
@@ -138,6 +168,22 @@ export default function PanelPage() {
               onClose={() => setIsCreateFormOpen(false)}
               onCreated={() => setRefreshKey((key) => key + 1)}
             />
+          )}
+
+          {editingPost && (
+            <PostForm
+              key={`edit-post-${editingPost.id}`}
+              post={editingPost as EditablePost}
+              onClose={() => setEditingPost(null)}
+              onCreated={() => setRefreshKey((key) => key + 1)}
+            />
+          )}
+
+          {actionError && (
+            <div role="alert" className="mb-5 flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-5 text-red-700">
+              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
+              <p>{actionError}</p>
+            </div>
           )}
 
           {postsLoading && (
@@ -187,6 +233,15 @@ export default function PanelPage() {
                       </p>
                       <p>{attributes.category || "Categoria não informada"}</p>
                       <p>{getPostAuthor(post)}</p>
+                    </div>
+                    <div className="mt-5 flex gap-2 border-t border-gray-100 pt-4">
+                      <button type="button" onClick={() => { setEditingPost(post); setIsCreateFormOpen(false); }} className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">
+                        <Edit3 className="h-4 w-4" /> Editar
+                      </button>
+                      <button type="button" disabled={deletingPostId === post.id} onClick={() => deletePost(post.id)} className="flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50">
+                        <Trash2 className="h-4 w-4" />
+                        {deletingPostId === post.id ? "Excluindo..." : "Excluir"}
+                      </button>
                     </div>
                   </article>
                 );

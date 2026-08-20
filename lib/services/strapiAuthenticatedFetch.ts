@@ -16,9 +16,22 @@ export async function strapiAuthenticatedFetch<T>(
     headers,
   });
 
-  if (!response.ok) {
-    throw new Error("Não foi possível carregar os dados.");
+  const responseText = await response.text();
+  let responseData: T = {} as T;
+
+  try {
+    responseData = responseText ? JSON.parse(responseText) : {};
+  } catch {
+    responseData = {} as T;
   }
 
-  return response.json();
+  if (!response.ok) {
+    const errorData = responseData as T & { error?: { message?: string } };
+    const apiMessage = errorData.error?.message;
+    throw new Error(
+      apiMessage || `Strapi respondeu com erro ${response.status}.`
+    );
+  }
+
+  return responseData;
 }

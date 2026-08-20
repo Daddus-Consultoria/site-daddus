@@ -14,9 +14,26 @@ interface AuthorsResponse {
   data?: Author[];
 }
 
+export interface EditablePost {
+  id: number;
+  attributes?: {
+    title?: string;
+    slug?: string;
+    category?: string;
+    publishDate?: string;
+    publishedAt?: string;
+    comment?: string;
+    tags?: string[];
+    firstContent?: string;
+    lastContent?: string;
+    autor?: { data?: { id: number } };
+  };
+}
+
 interface PostFormProps {
   onCreated: () => void;
   onClose: () => void;
+  post?: EditablePost;
 }
 
 const categories = [
@@ -39,18 +56,19 @@ function slugify(value: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-export function PostForm({ onCreated, onClose }: PostFormProps) {
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [category, setCategory] = useState(categories[0][0]);
-  const [publishDate, setPublishDate] = useState("");
-  const [status, setStatus] = useState<"draft" | "published">("draft");
+export function PostForm({ onCreated, onClose, post }: PostFormProps) {
+  const attributes = post?.attributes;
+  const [title, setTitle] = useState(attributes?.title ?? "");
+  const [slug, setSlug] = useState(attributes?.slug ?? "");
+  const [category, setCategory] = useState(attributes?.category ?? categories[0][0]);
+  const [publishDate, setPublishDate] = useState(attributes?.publishDate?.slice(0, 10) ?? "");
+  const [status, setStatus] = useState<"draft" | "published">(attributes?.publishedAt ? "published" : "draft");
   const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [comment, setComment] = useState("");
-  const [tags, setTags] = useState("");
-  const [firstContent, setFirstContent] = useState("");
-  const [lastContent, setLastContent] = useState("");
-  const [authorId, setAuthorId] = useState("");
+  const [comment, setComment] = useState(attributes?.comment ?? "");
+  const [tags, setTags] = useState(attributes?.tags?.join(", ") ?? "");
+  const [firstContent, setFirstContent] = useState(attributes?.firstContent ?? "");
+  const [lastContent, setLastContent] = useState(attributes?.lastContent ?? "");
+  const [authorId, setAuthorId] = useState(attributes?.autor?.data?.id?.toString() ?? "");
   const [authors, setAuthors] = useState<Author[]>([]);
   const [authorsError, setAuthorsError] = useState("");
   const [error, setError] = useState("");
@@ -91,8 +109,8 @@ export function PostForm({ onCreated, onClose }: PostFormProps) {
         coverImageId = uploadResponse[0]?.id;
       }
 
-      await strapiAuthenticatedFetch("/api/posts", {
-        method: "POST",
+      await strapiAuthenticatedFetch(post ? `/api/posts/${post.id}` : "/api/posts", {
+        method: post ? "PUT" : "POST",
         body: JSON.stringify({
           data: {
             title,
@@ -137,9 +155,9 @@ export function PostForm({ onCreated, onClose }: PostFormProps) {
     <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">Novo conteúdo</p>
-          <h2 className="mt-1 text-2xl font-bold text-[#0d0d0d]">Criar publicação</h2>
-          <p className="mt-2 text-sm text-gray-500">Preencha os campos para cadastrar um novo post.</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-primary">{post ? "Editar conteúdo" : "Novo conteúdo"}</p>
+          <h2 className="mt-1 text-2xl font-bold text-[#0d0d0d]">{post ? "Editar publicação" : "Criar publicação"}</h2>
+          <p className="mt-2 text-sm text-gray-500">Preencha os campos para {post ? "atualizar" : "cadastrar"} este post.</p>
         </div>
         <button type="button" onClick={onClose} aria-label="Fechar formulário" className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-primary">
           <X className="h-5 w-5" />
@@ -211,7 +229,7 @@ export function PostForm({ onCreated, onClose }: PostFormProps) {
           <button type="button" onClick={onClose} className="h-11 rounded-lg border border-gray-300 px-5 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">Cancelar</button>
           <button type="submit" disabled={isLoading} className="flex h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 text-sm font-semibold text-white transition hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-60">
             {isLoading && <LoaderCircle className="h-4 w-4 animate-spin" />}
-            {isLoading ? "Salvando..." : "Criar publicação"}
+            {isLoading ? "Salvando..." : post ? "Salvar alterações" : "Criar publicação"}
           </button>
         </div>
       </form>
