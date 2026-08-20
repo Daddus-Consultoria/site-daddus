@@ -29,7 +29,7 @@ export async function strapiAuthenticatedFetch<T>(
     const errorData = responseData as T & { error?: { message?: string } };
     const apiMessage = errorData.error?.message;
     throw new Error(
-      apiMessage || `Strapi respondeu com erro ${response.status}.`
+      apiMessage || `Strapi respondeu com erro ${response.status} em ${path}.`
     );
   }
 

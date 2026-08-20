@@ -7,13 +7,15 @@ import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetc
 const TOKEN_KEY = "daddus_auth_token";
 const USER_KEY = "daddus_auth_user";
 
+type UserRole = AuthRole | { id?: number; name?: string; attributes?: AuthRole } | { data?: { id?: number; attributes?: AuthRole } };
+
 export interface AuthUser {
   id: number;
   username?: string;
   email: string;
   firstname?: string;
   lastname?: string;
-  role?: AuthRole | { data?: { id?: number; attributes?: AuthRole } };
+  role?: UserRole;
   avatar?: {
     url?: string;
     data?: { attributes?: { url?: string } };
@@ -64,7 +66,14 @@ function isTokenValid(token: string | null) {
 function getRoleName(role: AuthUser["role"]) {
   if (!role) return "";
   if ("data" in role) return role.data?.attributes?.name?.trim().toLowerCase() || "";
-  return (role as AuthRole).name?.trim().toLowerCase() || "";
+  if ("attributes" in role && role.attributes) return role.attributes.name?.trim().toLowerCase() || "";
+  return (role as { name?: string }).name?.trim().toLowerCase() || "";
+}
+
+function getRoleId(role: AuthUser["role"]) {
+  if (!role) return undefined;
+  if ("data" in role) return role.data?.id;
+  return (role as { id?: number }).id;
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -166,12 +175,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   function isPrivileged() {
-    const roleName = getRoleName(user?.role);
+    const roleName = getRoleName(user?.role) || roles.find((role) => role.id === getRoleId(user?.role))?.name?.trim().toLowerCase() || "";
     return roleName === "superadm" || roleName === "adm";
   }
 
   function canEditContent() {
-    const roleName = getRoleName(user?.role);
+    const roleName = getRoleName(user?.role) || roles.find((role) => role.id === getRoleId(user?.role))?.name?.trim().toLowerCase() || "";
     return roleName === "superadm" || roleName === "adm" || roleName === "supervisor";
   }
 
