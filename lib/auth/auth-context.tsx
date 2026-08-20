@@ -42,6 +42,7 @@ interface AuthContextValue {
   isAuthenticated: () => boolean;
   roles: AuthRole[];
   isPrivileged: () => boolean;
+  canEditContent: () => boolean;
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -163,9 +164,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return roleName === "superadm" || roleName === "adm";
   }
 
+  function canEditContent() {
+    const roleName = user?.role?.name?.toLowerCase();
+    return roleName === "superadm" || roleName === "adm" || roleName === "supervisor";
+  }
+
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, isRoleLoading, login, getToken, logout, isAuthenticated, roles, isPrivileged }}
+      value={{ user, isLoading, isRoleLoading, login, getToken, logout, isAuthenticated, roles, isPrivileged, canEditContent }}
     >
       {children}
     </AuthContext.Provider>

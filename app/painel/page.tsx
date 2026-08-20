@@ -91,7 +91,7 @@ function getPostAuthor(post: StrapiPost) {
 
 export default function PanelPage() {
   const router = useRouter();
-  const { user, isLoading, isAuthenticated, isPrivileged } = useAuth();
+  const { user, isLoading, isAuthenticated, isPrivileged, canEditContent } = useAuth();
   const [posts, setPosts] = useState<StrapiPost[]>([]);
   const [publications, setPublications] = useState<StrapiPublication[]>([]);
   const [contentType, setContentType] = useState<"posts" | "publicacoes">("posts");
@@ -275,9 +275,11 @@ export default function PanelPage() {
                       <p>{getPostAuthor(post)}</p>
                     </div>
                     <div className="mt-5 flex gap-2 border-t border-gray-100 pt-4">
-                      <button type="button" onClick={() => { setEditingPost(post); setIsCreateFormOpen(false); }} className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">
-                        <Edit3 className="h-4 w-4" /> Editar
-                      </button>
+                      {canEditContent() && (
+                        <button type="button" onClick={() => { setEditingPost(post); setIsCreateFormOpen(false); }} className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">
+                          <Edit3 className="h-4 w-4" /> Editar
+                        </button>
+                      )}
                       <button type="button" disabled={deletingPostId === post.id} onClick={() => deletePost(post.id)} className="flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50">
                         <Trash2 className="h-4 w-4" />
                         {deletingPostId === post.id ? "Excluindo..." : "Excluir"}
