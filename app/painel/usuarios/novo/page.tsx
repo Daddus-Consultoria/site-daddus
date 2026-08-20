@@ -5,17 +5,21 @@ import { ArrowLeft, Check, LoaderCircle, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
+import { normalizeRoleName } from "@/lib/auth/roles";
 
-const supportedRoles = new Set(["superadm", "adm", "supervisor", "colaborador"]);
+const supportedRoles = new Set(["superadm", "superadmin", "adm", "admin", "administrador", "supervisor", "colaborador"]);
 
 function roleLabel(roleName: string) {
   const labels: Record<string, string> = {
     superadm: "SuperAdm",
+    superadmin: "SuperAdm",
     adm: "Administrador",
+    admin: "Administrador",
+    administrador: "Administrador",
     supervisor: "Supervisor",
     colaborador: "Colaborador",
   };
-  return labels[roleName.toLowerCase()] || roleName;
+  return labels[normalizeRoleName(roleName)] || roleName;
 }
 
 export default function NewUserPage() {
@@ -79,7 +83,7 @@ export default function NewUserPage() {
 
   if (!isPrivileged()) return null;
 
-  const availableRoles = roles.filter((role) => supportedRoles.has(role.name.toLowerCase()));
+  const availableRoles = roles.filter((role) => supportedRoles.has(normalizeRoleName(role.name)));
 
   return (
     <section className="min-h-[calc(100vh-13rem)] bg-[#f5f7f9] px-5 py-12">

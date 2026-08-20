@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
+import { isPrivilegedRole, normalizeRoleName } from "@/lib/auth/roles";
 
 const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-const PRIVILEGED_ROLES = new Set(["superadm", "adm"]);
 
 interface StrapiRole {
   id: number;
@@ -51,9 +51,9 @@ export async function POST(request: Request) {
 
   const meResponse = await strapiRequest("/api/users/me?populate=role", token);
   const currentUser = (await readJson(meResponse)) as StrapiUser;
-  const currentRole = currentUser.role?.name?.toLowerCase();
+  const currentRole = normalizeRoleName(currentUser.role?.name);
 
-  if (!meResponse.ok || !currentRole || !PRIVILEGED_ROLES.has(currentRole)) {
+  if (!meResponse.ok || !currentRole || !isPrivilegedRole(currentRole)) {
     return NextResponse.json({ error: "Apenas SuperAdm ou Administrador podem criar usuários." }, { status: 403 });
   }
 
@@ -73,7 +73,8 @@ export async function POST(request: Request) {
   const roles = rolesPayload.roles ?? rolesPayload.data ?? [];
   const targetRole = roles.find((role) => role.id === Number(body.roleId));
 
-  if (!rolesResponse.ok || !targetRole || !targetRole.name || !["superadm", "adm", "supervisor", "colaborador"].includes(targetRole.name.toLowerCase())) {
+  const targetRoleName = normalizeRoleName(targetRole?.name);
+  if (!rolesResponse.ok || !targetRole || !targetRoleName || !["superadm", "superadmin", "adm", "admin", "administrador", "supervisor", "colaborador"].includes(targetRoleName)) {
     return NextResponse.json({ error: "Nível de acesso inválido." }, { status: 400 });
   }
 

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
+import { getRoleName, isPrivilegedRole } from "@/lib/auth/roles";
 
 export const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL;
-export const PRIVILEGED_ROLES = new Set(["superadm", "adm"]);
 
 export interface ProxyRole {
   id: number;
@@ -47,9 +47,9 @@ export async function authorizeAdmin(request: Request) {
 
   const response = await strapiAdminRequest("/api/users/me?populate=role", token);
   const user = await readJson(response) as { role?: { name?: string } };
-  const roleName = user.role?.name?.toLowerCase();
+  const roleName = getRoleName(user.role);
 
-  if (!response.ok || !roleName || !PRIVILEGED_ROLES.has(roleName)) {
+  if (!response.ok || !roleName || !isPrivilegedRole(roleName)) {
     return { error: NextResponse.json({ error: "Apenas SuperAdm ou Administrador podem gerenciar usuários." }, { status: 403 }) };
   }
 
