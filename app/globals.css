@@ -74,6 +74,20 @@
     --ring: 212.7 26.8% 83.9%;
   }
 }
+
+.editor-page-break {
+  display: block;
+  width: 100%;
+  border-top: 1px solid #e5e7eb;
+}
+
+.editor-page-break-spaced {
+  margin: 2rem 0;
+}
+
+.editor-page-break-tight {
+  margin: 0.25rem 0;
+}
  
 @layer base {
   * {
