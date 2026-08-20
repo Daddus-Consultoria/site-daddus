@@ -26,7 +26,7 @@ function imageUrl(url?: string) {
 
 export default function AuthorsPage() {
   const router = useRouter();
-  const { user, isLoading, isRoleLoading, canManageContent, getToken } = useAuth();
+  const { user, isLoading, isRoleLoading, canManageAdministration, getToken } = useAuth();
   const [authors, setAuthors] = useState<Author[]>([]);
   const [formOpen, setFormOpen] = useState(false);
   const [editingAuthor, setEditingAuthor] = useState<Author | null>(null);
@@ -42,11 +42,10 @@ export default function AuthorsPage() {
   const [avatar, setAvatar] = useState<File | null>(null);
 
   useEffect(() => {
-    if (!isLoading && !isRoleLoading && (!user || !canManageContent())) router.replace("/painel");
-  }, [canManageContent, isLoading, isRoleLoading, router, user]);
+  }, [isLoading, isRoleLoading, router, user, canManageAdministration]);
 
   useEffect(() => {
-    if (isLoading || isRoleLoading || !user || !canManageContent()) return;
+    if (isLoading || isRoleLoading || !user || !canManageAdministration()) return;
 
     async function loadAuthors() {
       try {
@@ -64,7 +63,7 @@ export default function AuthorsPage() {
     }
 
     void loadAuthors();
-  }, [canManageContent, getToken, isLoading, isRoleLoading, user]);
+  }, [canManageAdministration, getToken, isLoading, isRoleLoading, user]);
 
   function openCreate() {
     setEditingAuthor(null);
@@ -151,7 +150,7 @@ export default function AuthorsPage() {
   }
 
   if (isLoading || isRoleLoading || !user) return <div className="flex min-h-[calc(100vh-13rem)] items-center justify-center text-gray-500">Validando acesso...</div>;
-  if (!canManageContent()) return null;
+  if (!canManageAdministration()) return <AccessDenied />;
 
   const inputClass = "mt-2 h-11 w-full rounded-lg border border-gray-200 px-3 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-primary/20";
 
@@ -168,4 +167,8 @@ export default function AuthorsPage() {
       </div>
     </section>
   );
+}
+
+function AccessDenied() {
+  return <section className="flex min-h-[calc(100vh-13rem)] items-center justify-center bg-[#f5f7f9] px-5"><div className="rounded-xl border border-red-200 bg-red-50 px-6 py-5 text-center text-red-700"><h1 className="font-bold">Acesso não permitido ao usuário</h1><p className="mt-1 text-sm">Seu nível de acesso não permite gerenciar autores.</p></div></section>;
 }

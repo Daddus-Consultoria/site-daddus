@@ -28,7 +28,7 @@ export function getRoleId(role?: RoleLike) {
 
 export function isPrivilegedRole(name?: string) {
   const normalized = normalizeRoleName(name);
-  return normalized === "superadm" || normalized === "superadmin" || normalized.includes("superadm") || normalized.includes("superadmin") || normalized === "adm" || normalized === "admin" || normalized.includes("administrador") || normalized.endsWith("admin");
+  return normalized === "superadm" || normalized === "superadmin" || normalized.includes("superadm") || normalized.includes("superadmin") || normalized === "adm" || normalized === "admin" || normalized === "administrator" || normalized.includes("administrador") || normalized.includes("administrator") || normalized.endsWith("admin");
 }
 
 export function canEditRole(name?: string) {

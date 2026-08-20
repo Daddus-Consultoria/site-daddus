@@ -7,10 +7,10 @@ import { useState } from "react";
 interface PanelNavigationProps {
   contentType: "posts" | "publicacoes";
   onContentTypeChange: (contentType: "posts" | "publicacoes") => void;
-  isPrivileged: boolean;
+  showAdministration: boolean;
 }
 
-export function PanelNavigation({ contentType, onContentTypeChange, isPrivileged }: PanelNavigationProps) {
+export function PanelNavigation({ contentType, onContentTypeChange, showAdministration }: PanelNavigationProps) {
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
 
   return (
@@ -32,7 +32,7 @@ export function PanelNavigation({ contentType, onContentTypeChange, isPrivileged
         Publicações
       </button>
 
-      {isPrivileged && (
+      {showAdministration && (
         <div className="relative ml-auto">
           <button
             type="button"

@@ -52,7 +52,7 @@ function Modal({ title, children, onClose }: { title: string; children: React.Re
 
 export default function UsersPage() {
   const router = useRouter();
-  const { user, isLoading, isRoleLoading, isPrivileged, roles, getToken } = useAuth();
+  const { user, isLoading, isRoleLoading, canManageAdministration, roles, getToken } = useAuth();
   const [users, setUsers] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -61,11 +61,10 @@ export default function UsersPage() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
   useEffect(() => {
-    if (!isLoading && !isRoleLoading && (!user || !isPrivileged())) router.replace("/painel");
-  }, [isLoading, isRoleLoading, isPrivileged, router, user]);
+  }, [isLoading, isRoleLoading, canManageAdministration, router, user]);
 
   useEffect(() => {
-    if (isLoading || isRoleLoading || !user || !isPrivileged()) return;
+    if (isLoading || isRoleLoading || !user || !canManageAdministration()) return;
 
     async function loadUsers() {
       setLoading(true);
@@ -85,7 +84,7 @@ export default function UsersPage() {
     }
 
     void loadUsers();
-  }, [getToken, isLoading, isRoleLoading, isPrivileged, user]);
+  }, [canManageAdministration, getToken, isLoading, isRoleLoading, user]);
 
   async function deleteUser(target: AdminUser) {
     if (!window.confirm(`Tem certeza que deseja remover o usuário ${target.username}?`)) return;
@@ -105,7 +104,7 @@ export default function UsersPage() {
   }
 
   if (isLoading || isRoleLoading || !user) return <div className="flex min-h-[calc(100vh-13rem)] items-center justify-center text-gray-500">Validando acesso...</div>;
-  if (!isPrivileged()) return null;
+  if (!canManageAdministration()) return <AccessDenied />;
 
   return (
     <section className="min-h-[calc(100vh-13rem)] bg-[#f5f7f9] px-5 py-12">
@@ -128,6 +127,10 @@ export default function UsersPage() {
       {passwordUser && <PasswordModal user={passwordUser} token={getToken()} onClose={() => setPasswordUser(null)} />}
     </section>
   );
+}
+
+function AccessDenied() {
+  return <section className="flex min-h-[calc(100vh-13rem)] items-center justify-center bg-[#f5f7f9] px-5"><div className="rounded-xl border border-red-200 bg-red-50 px-6 py-5 text-center text-red-700"><h1 className="font-bold">Acesso não permitido ao usuário</h1><p className="mt-1 text-sm">Seu nível de acesso não permite gerenciar usuários.</p></div></section>;
 }
 
 function EditUserModal({ user, roles, token, onClose, onSaved }: { user: AdminUser; roles: AuthRole[]; token: string | null; onClose: () => void; onSaved: (user: AdminUser) => void }) {

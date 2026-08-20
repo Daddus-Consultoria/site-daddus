@@ -201,7 +201,7 @@ export default function PanelPage() {
             setEditingPost(null);
             setEditingPublication(null);
           }}
-          isPrivileged={canManageContent()}
+          showAdministration={Boolean(user)}
         />
 
         <div>
