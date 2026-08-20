@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
 import { EditablePost, PostForm } from "@/components/painel/postForm";
-import { UserMenu } from "@/components/painel/userMenu";
 import { PanelNavigation } from "@/components/painel/panelNavigation";
 
 interface StrapiPost {
@@ -92,7 +91,7 @@ function getPostAuthor(post: StrapiPost) {
 
 export default function PanelPage() {
   const router = useRouter();
-  const { user, isLoading, isAuthenticated, isPrivileged, logout } = useAuth();
+  const { user, isLoading, isAuthenticated, isPrivileged } = useAuth();
   const [posts, setPosts] = useState<StrapiPost[]>([]);
   const [publications, setPublications] = useState<StrapiPublication[]>([]);
   const [contentType, setContentType] = useState<"posts" | "publicacoes">("posts");
@@ -174,7 +173,6 @@ export default function PanelPage() {
             <h1 className="mt-2 text-3xl font-bold text-[#0d0d0d]">Olá, {displayName}.</h1>
             <p className="mt-2 text-gray-500">Bem-vindo à sua área exclusiva.</p>
           </div>
-          <UserMenu user={user} onLogout={logout} />
         </div>
 
         <PanelNavigation

@@ -3,10 +3,14 @@ import { Dropdown, InputGeneric, SearchItems } from "@/components/index";
 import { headerItems } from "@/lib/constants/constants";
 import { SubMenuItem } from "@/components/header/components/subMenuItem";
 import { MenuDrawer } from "@/components/header/components/menuDrawer";
+import { UserMenu } from "@/components/painel/userMenu";
+import { useAuth } from "@/lib/auth/auth-context";
 
 import Image from "next/image";
 
 export function Header() {
+  const { user, isLoading, logout } = useAuth();
+
   return (
     <div className="flex flex-row justify-between items-center lg:justify-center gap-10 w-full h-20 lg:h-24 text-black bg-[#A90920]">
       <a href="/">
@@ -42,9 +46,10 @@ export function Header() {
       <div className="lg:hidden text-[#A90920] p-3">
         <MenuDrawer />
       </div>
-      <div className="hidden lg:flex flex-row justify-center items-center p-2">
+      <div className="hidden lg:flex flex-row justify-center items-center gap-3 p-2">
         {/* <InputGeneric type="red" placeholder="Pesquisar"/> */}
         <SearchItems />
+        {!isLoading && user && <UserMenu user={user} onLogout={logout} />}
       </div>
     </div>
   );
