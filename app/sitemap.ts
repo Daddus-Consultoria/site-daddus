@@ -78,8 +78,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: "https://www.daddusconsultoria.com/informacoes/termos-de-uso",
-      lastModified: new Date("2024-05-02T01:18:27+00:00"),
+      url: "https://www.daddusconsultoria.com/termos-de-uso",
+      lastModified: new Date(),
+      priority: 0.8,
+    },
+    {
+      url: "https://www.daddusconsultoria.com/politica-de-privacidade",
+      lastModified: new Date(),
       priority: 0.8,
     },
   ];

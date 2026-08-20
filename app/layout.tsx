@@ -9,12 +9,15 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/react";
 import { AuthProvider } from "@/lib/auth/auth-context";
 
+const siteUrl = "https://www.daddusconsultoria.com";
+
 const poppins = Poppins({
   weight: "400",
   subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Daddus - Consultoria em Projetos para o Setor Público e Corporativo",
   description:
     "Somos especialistas na elaboração de Políticas Públicas, no desenvolvimento de Estratégias de Gestão e na realização Estudos de Viabilidade Econômica para empresas públicas e privadas do Brasil. Conheça nossos serviços!",
@@ -22,6 +25,21 @@ export const metadata: Metadata = {
     icon: "/images/favicon.ico",
   },
   keywords:['politicas publicas', 'estrategias de gestao', 'viabilidade economica', 'consultoria empresarial'],
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: siteUrl,
+    siteName: "Daddus Consultoria",
+    title: "Daddus Consultoria | Projetos para o setor público e corporativo",
+    description: "Consultoria em políticas públicas, gestão e viabilidade econômica.",
+    images: [{ url: "/images/logos/daddus.svg", width: 230, height: 50, alt: "Daddus Consultoria" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Daddus Consultoria",
+    description: "Consultoria em políticas públicas, gestão e viabilidade econômica.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

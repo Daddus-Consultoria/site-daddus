@@ -111,7 +111,11 @@ const constantFooter = {
     },
     {
       title: "TERMOS DE USO",
-      href: "/institucional/termos-de-uso",
+      href: "/termos-de-uso",
+    },
+    {
+      title: "POLÍTICA DE PRIVACIDADE",
+      href: "/politica-de-privacidade",
     },
     {
       title: "CONTATO",
