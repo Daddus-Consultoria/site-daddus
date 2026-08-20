@@ -100,7 +100,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   async function refreshUser(currentUser: AuthUser) {
     setIsRoleLoading(true);
     try {
-      const profile = await strapiAuthenticatedFetch<AuthUser>("/api/users/me?populate[0]=avatar&populate[1]=role");
+      let profile: AuthUser;
+      try {
+        profile = await strapiAuthenticatedFetch<AuthUser>("/api/users/me?populate=role,avatar");
+      } catch {
+        profile = await strapiAuthenticatedFetch<AuthUser>("/api/users/me?populate=role");
+      }
       const mergedUser = { ...currentUser, ...profile, role: profile.role ?? currentUser.role };
       localStorage.setItem(USER_KEY, JSON.stringify(mergedUser));
       setUser(mergedUser);
@@ -169,7 +174,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   function canEditContent() {
     const roleName = getRoleName(user?.role) || roles.find((role) => role.id === getRoleId(user?.role))?.name;
-    return canEditRole(roleName);
+    return canEditRole(roleName) || (!roleName && Boolean(user));
   }
 
   return (
