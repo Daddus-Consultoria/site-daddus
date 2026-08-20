@@ -222,8 +222,8 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
     <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-sm sm:p-8">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm font-semibold uppercase tracking-wider text-primary">{post ? "Editar conteúdo" : "Novo conteúdo"}</p>
-          <h2 className="mt-1 text-2xl font-bold text-[#0d0d0d]">{post ? "Editar publicação" : "Criar publicação"}</h2>
+          <p className="text-sm font-semibold uppercase tracking-wider text-primary">{post ? "Editar post" : "Novo post"}</p>
+          <h2 className="mt-1 text-2xl font-bold text-[#0d0d0d]">{post ? "Editar post" : "Criar post"}</h2>
           <p className="mt-2 text-sm text-gray-500">Preencha os campos para {post ? "atualizar" : "cadastrar"} este post.</p>
         </div>
         <button type="button" onClick={onClose} aria-label="Fechar formulário" className="rounded-lg p-2 text-gray-500 transition hover:bg-gray-100 hover:text-primary">

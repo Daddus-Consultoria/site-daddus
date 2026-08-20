@@ -5,7 +5,7 @@ import { Check, LoaderCircle, X } from "lucide-react";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
 
 interface PublicationEditFormProps {
-  publication: {
+  publication?: {
     id: number;
     attributes?: {
       title?: string;
@@ -24,7 +24,7 @@ interface PublicationEditFormProps {
 }
 
 export function PublicationEditForm({ publication, onClose, onSaved }: PublicationEditFormProps) {
-  const attributes = publication.attributes ?? {};
+  const attributes = publication?.attributes ?? {};
   const [title, setTitle] = useState(attributes.title ?? "");
   const [shortDescription, setShortDescription] = useState(attributes.shortDescription ?? "");
   const [longDescription, setLongDescription] = useState(attributes.longDescription ?? "");
@@ -42,8 +42,8 @@ export function PublicationEditForm({ publication, onClose, onSaved }: Publicati
     setSaving(true);
     setError("");
     try {
-      await strapiAuthenticatedFetch(`/api/publicacoes/${publication.id}`, {
-        method: "PUT",
+      await strapiAuthenticatedFetch(publication ? `/api/publicacoes/${publication.id}` : "/api/publicacoes", {
+        method: publication ? "PUT" : "POST",
         body: JSON.stringify({
           data: {
             title,
@@ -73,7 +73,7 @@ export function PublicationEditForm({ publication, onClose, onSaved }: Publicati
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
       <div className="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-xl bg-white p-6 shadow-xl sm:p-8">
-        <div className="mb-6 flex items-start justify-between"><div><p className="text-sm font-semibold uppercase tracking-wider text-primary">Publicação</p><h2 className="mt-1 text-2xl font-bold">Editar publicação</h2></div><button type="button" onClick={onClose} aria-label="Fechar" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"><X className="h-5 w-5" /></button></div>
+        <div className="mb-6 flex items-start justify-between"><div><p className="text-sm font-semibold uppercase tracking-wider text-primary">{publication ? "Editar publicação" : "Nova publicação"}</p><h2 className="mt-1 text-2xl font-bold">{publication ? "Editar publicação" : "Criar publicação"}</h2></div><button type="button" onClick={onClose} aria-label="Fechar" className="rounded-lg p-2 text-gray-500 hover:bg-gray-100"><X className="h-5 w-5" /></button></div>
         <form onSubmit={submit} className="space-y-5">
           <div className="grid gap-5 md:grid-cols-2">
             <label className={labelClass}>Título *<input required value={title} onChange={(event) => setTitle(event.target.value)} className={inputClass} /></label>

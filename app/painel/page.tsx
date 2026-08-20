@@ -197,6 +197,9 @@ export default function PanelPage() {
           onContentTypeChange={(nextContentType) => {
             setContentType(nextContentType);
             setPostsError("");
+            setIsCreateFormOpen(false);
+            setEditingPost(null);
+            setEditingPublication(null);
           }}
           isPrivileged={isPrivileged()}
         />
@@ -216,17 +219,18 @@ export default function PanelPage() {
               {canCreateContent() && (
                 <button type="button" onClick={() => setIsCreateFormOpen((open) => !open)} className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-90">
                   <Plus className="h-4 w-4" />
-                  Nova publicação
+                  {contentType === "posts" ? "Novo post" : "Nova publicação"}
                 </button>
               )}
             </div>
           </div>
 
           {isCreateFormOpen && (
-            <PostForm
-              onClose={() => setIsCreateFormOpen(false)}
-              onCreated={() => setRefreshKey((key) => key + 1)}
-            />
+            contentType === "posts" ? (
+              <PostForm onClose={() => setIsCreateFormOpen(false)} onCreated={() => setRefreshKey((key) => key + 1)} />
+            ) : (
+              <PublicationEditForm onClose={() => setIsCreateFormOpen(false)} onSaved={() => setRefreshKey((key) => key + 1)} />
+            )
           )}
 
           {editingPost && (
