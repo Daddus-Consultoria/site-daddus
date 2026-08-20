@@ -79,7 +79,7 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
     async function loadAuthors() {
       try {
         const response = await strapiAuthenticatedFetch<AuthorsResponse>(
-          "/api/authors?pagination[limit]=100&sort=name:asc"
+          "/api/autors?pagination[limit]=100&sort=name:asc"
         );
         setAuthors(response.data ?? []);
       } catch {

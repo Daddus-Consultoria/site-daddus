@@ -45,6 +45,28 @@ interface StrapiPostsResponse {
   data?: StrapiPost[];
 }
 
+interface StrapiPublication {
+  id: number;
+  attributes?: {
+    title?: string;
+    shortDescription?: string;
+    category?: string;
+    subCategory?: string;
+    publishDate?: string;
+    publishedAt?: string;
+    slug?: string;
+    tags?: string[];
+    documentLink?: string;
+    authors?: {
+      data?: Array<{ id: number; attributes?: { name?: string } }>;
+    };
+  };
+}
+
+interface StrapiPublicationsResponse {
+  data?: StrapiPublication[];
+}
+
 function formatDate(date?: string) {
   if (!date) return "Data não informada";
 
@@ -70,6 +92,8 @@ export default function PanelPage() {
   const router = useRouter();
   const { user, isLoading, isAuthenticated, logout } = useAuth();
   const [posts, setPosts] = useState<StrapiPost[]>([]);
+  const [publications, setPublications] = useState<StrapiPublication[]>([]);
+  const [contentType, setContentType] = useState<"posts" | "publicacoes">("posts");
   const [postsLoading, setPostsLoading] = useState(true);
   const [postsError, setPostsError] = useState("");
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
@@ -85,15 +109,25 @@ export default function PanelPage() {
   useEffect(() => {
     if (isLoading || !user || !isAuthenticated()) return;
 
-    async function loadPosts() {
+    async function loadContents() {
       setPostsLoading(true);
       setPostsError("");
 
       try {
-        const response = await strapiAuthenticatedFetch<StrapiPostsResponse>(
-          "/api/posts?sort=publishDate:desc&pagination[limit]=20"
-        );
-        setPosts(response.data ?? []);
+        const [postsResponse, publicationsResponse] = await Promise.allSettled([
+          strapiAuthenticatedFetch<StrapiPostsResponse>(
+            "/api/posts?sort=publishDate:desc&pagination[limit]=20"
+          ),
+          strapiAuthenticatedFetch<StrapiPublicationsResponse>(
+            "/api/publicacoes?sort=publishDate:desc&pagination[limit]=20"
+          ),
+        ]);
+
+        if (postsResponse.status === "fulfilled") setPosts(postsResponse.value.data ?? []);
+        if (publicationsResponse.status === "fulfilled") setPublications(publicationsResponse.value.data ?? []);
+
+        const failedResponse = contentType === "posts" ? postsResponse : publicationsResponse;
+        if (failedResponse.status === "rejected") throw failedResponse.reason;
       } catch (error) {
         setPostsError(
           error instanceof Error
@@ -105,8 +139,8 @@ export default function PanelPage() {
       }
     }
 
-    loadPosts();
-  }, [isAuthenticated, isLoading, refreshKey, user]);
+    loadContents();
+  }, [contentType, isAuthenticated, isLoading, refreshKey, user]);
 
   async function deletePost(postId: number) {
     if (!window.confirm("Excluir esta publicação? Essa ação não pode ser desfeita.")) return;
@@ -148,12 +182,12 @@ export default function PanelPage() {
           <div className="mb-4 flex items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-bold text-[#0d0d0d]">Seus conteúdos</h2>
-              <p className="mt-1 text-sm text-gray-500">Conteúdos disponíveis na sua área.</p>
+              <p className="mt-1 text-sm text-gray-500">Gerencie posts e publicações do seu site.</p>
             </div>
             <div className="flex items-center gap-4">
               {!postsLoading && !postsError && (
                 <span className="hidden text-sm text-gray-500 sm:inline">
-                  {posts.length} {posts.length === 1 ? "item" : "itens"}
+                  {(contentType === "posts" ? posts.length : publications.length)} {((contentType === "posts" ? posts.length : publications.length) === 1) ? "item" : "itens"}
                 </span>
               )}
               <button type="button" onClick={() => setIsCreateFormOpen((open) => !open)} className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-90">
@@ -161,6 +195,15 @@ export default function PanelPage() {
                 Nova publicação
               </button>
             </div>
+          </div>
+
+          <div className="mb-6 flex gap-2 border-b border-gray-200">
+            <button type="button" onClick={() => { setContentType("posts"); setPostsError(""); }} className={`border-b-2 px-4 py-3 text-sm font-semibold ${contentType === "posts" ? "border-primary text-primary" : "border-transparent text-gray-500"}`}>
+              Posts
+            </button>
+            <button type="button" onClick={() => { setContentType("publicacoes"); setPostsError(""); }} className={`border-b-2 px-4 py-3 text-sm font-semibold ${contentType === "publicacoes" ? "border-primary text-primary" : "border-transparent text-gray-500"}`}>
+              Publicações
+            </button>
           </div>
 
           {isCreateFormOpen && (
@@ -208,14 +251,14 @@ export default function PanelPage() {
             </div>
           )}
 
-          {!postsLoading && !postsError && posts.length === 0 && (
+          {!postsLoading && !postsError && contentType === "posts" && posts.length === 0 && (
             <div className="rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center">
               <h3 className="font-semibold text-[#0d0d0d]">Nenhum conteúdo encontrado</h3>
               <p className="mt-2 text-sm text-gray-500">Novos conteúdos aparecerão aqui quando forem cadastrados.</p>
             </div>
           )}
 
-          {!postsLoading && !postsError && posts.length > 0 && (
+          {!postsLoading && !postsError && contentType === "posts" && posts.length > 0 && (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {posts.map((post) => {
                 const attributes = post.attributes ?? post;
@@ -242,6 +285,32 @@ export default function PanelPage() {
                         <Trash2 className="h-4 w-4" />
                         {deletingPostId === post.id ? "Excluindo..." : "Excluir"}
                       </button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          {!postsLoading && !postsError && contentType === "publicacoes" && publications.length === 0 && (
+            <div className="rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center">
+              <h3 className="font-semibold text-[#0d0d0d]">Nenhuma publicação encontrada</h3>
+              <p className="mt-2 text-sm text-gray-500">Novas publicações aparecerão aqui quando forem cadastradas.</p>
+            </div>
+          )}
+
+          {!postsLoading && !postsError && contentType === "publicacoes" && publications.length > 0 && (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {publications.map((publication) => {
+                const attributes = publication.attributes ?? {};
+                return (
+                  <article key={publication.id} className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+                    <h3 className="line-clamp-2 min-h-12 text-lg font-bold text-[#0d0d0d]">{attributes.title || "Publicação sem título"}</h3>
+                    <p className="mt-3 line-clamp-3 text-sm text-gray-600">{attributes.shortDescription || "Sem descrição curta"}</p>
+                    <div className="mt-5 space-y-2 text-sm text-gray-500">
+                      <p className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-primary" />{formatDate(attributes.publishDate || attributes.publishedAt)}</p>
+                      <p>{attributes.category || "Categoria não informada"}</p>
+                      <p>{attributes.subCategory || "Subcategoria não informada"}</p>
                     </div>
                   </article>
                 );
