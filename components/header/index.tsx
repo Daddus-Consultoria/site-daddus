@@ -7,6 +7,8 @@ import { UserMenu } from "@/components/painel/userMenu";
 import { useAuth } from "@/lib/auth/auth-context";
 
 import Image from "next/image";
+import Link from "next/link";
+import { LogIn } from "lucide-react";
 
 export function Header() {
   const { user, isLoading, logout } = useAuth();
@@ -49,7 +51,13 @@ export function Header() {
       <div className="hidden lg:flex flex-row justify-center items-center gap-3 p-2">
         {/* <InputGeneric type="red" placeholder="Pesquisar"/> */}
         <SearchItems />
-        {!isLoading && user && <UserMenu user={user} onLogout={logout} />}
+        {!isLoading && user ? (
+          <UserMenu user={user} onLogout={logout} />
+        ) : (
+          <Link href="/login" aria-label="Entrar" title="Entrar" className="flex h-10 w-10 items-center justify-center rounded-full border border-white/60 text-white transition hover:bg-white hover:text-primary">
+            <LogIn className="h-5 w-5" />
+          </Link>
+        )}
       </div>
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, LogOut, UserRound } from "lucide-react";
+import Link from "next/link";
 import { AuthUser } from "@/lib/auth/auth-context";
 
 interface UserMenuProps {
@@ -36,6 +37,9 @@ export function UserMenu({ user, onLogout }: UserMenuProps) {
             <p className="truncate text-xs text-gray-500">{user.email}</p>
             {user.role?.name && <p className="mt-1 text-xs font-semibold text-primary">{user.role.name}</p>}
           </div>
+          <Link href="https://www.daddusconsultoria.com/painel" className="mt-1 flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-primary/10 hover:text-primary">
+            <UserRound className="h-4 w-4" /> Meu painel
+          </Link>
           <button type="button" onClick={onLogout} className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm font-semibold text-gray-700 hover:bg-red-50 hover:text-red-700">
             <LogOut className="h-4 w-4" /> Sair
           </button>
