@@ -1,6 +1,7 @@
 export type RoleLike = {
   id?: number;
   name?: string;
+  type?: string;
   attributes?: { name?: string };
   data?: { id?: number; attributes?: { name?: string } };
 };
@@ -18,7 +19,7 @@ export function getRoleName(role?: RoleLike) {
   if (!role) return "";
   if (role.data?.attributes?.name) return normalizeRoleName(role.data.attributes.name);
   if (role.attributes?.name) return normalizeRoleName(role.attributes.name);
-  return normalizeRoleName(role.name);
+  return normalizeRoleName(role.name || role.type);
 }
 
 export function getRoleId(role?: RoleLike) {
@@ -27,10 +28,10 @@ export function getRoleId(role?: RoleLike) {
 
 export function isPrivilegedRole(name?: string) {
   const normalized = normalizeRoleName(name);
-  return normalized === "superadm" || normalized === "superadmin" || normalized === "adm" || normalized === "admin" || normalized === "administrador";
+  return normalized === "superadm" || normalized === "superadmin" || normalized.includes("superadm") || normalized.includes("superadmin") || normalized === "adm" || normalized === "admin" || normalized.includes("administrador") || normalized.endsWith("admin");
 }
 
 export function canEditRole(name?: string) {
   const normalized = normalizeRoleName(name);
-  return isPrivilegedRole(normalized) || normalized === "supervisor";
+  return isPrivilegedRole(normalized) || normalized === "supervisor" || normalized.includes("supervisor");
 }

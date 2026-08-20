@@ -75,7 +75,7 @@ export default function UsersPage() {
         if (!token) throw new Error("Sessão não autenticada.");
         const response = await fetch("/api/admin/users", { headers: { Authorization: `Bearer ${token}` } });
         const payload = await response.json();
-        if (!response.ok) throw new Error(payload?.error || "Não foi possível carregar os usuários.");
+        if (!response.ok) throw new Error(response.status === 403 ? "O Strapi bloqueou a listagem. Na role do usuário, habilite User > find e findOne em Users & Permissions > Roles." : payload?.error || "Não foi possível carregar os usuários.");
         setUsers(Array.isArray(payload) ? payload : payload.data ?? []);
       } catch (loadError) {
         setError(loadError instanceof Error ? loadError.message : "Não foi possível carregar os usuários.");
