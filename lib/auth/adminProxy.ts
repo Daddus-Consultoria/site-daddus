@@ -45,9 +45,15 @@ export async function authorizeAdmin(request: Request) {
     return { error: NextResponse.json({ error: "Sessão não autenticada." }, { status: 401 }) };
   }
 
-  const response = await strapiAdminRequest("/api/users/me?populate=role", token);
-  const user = await readJson(response) as { role?: { name?: string } };
-  const roleName = getRoleName(user.role);
+  let response = await strapiAdminRequest("/api/users/me?populate=role", token);
+  let user = await readJson(response) as { role?: { name?: string; attributes?: { name?: string }; data?: { attributes?: { name?: string } } } };
+  let roleName = getRoleName(user.role);
+
+  if (response.ok && !roleName) {
+    response = await strapiAdminRequest("/api/users/me?populate=*", token);
+    user = await readJson(response) as typeof user;
+    roleName = getRoleName(user.role);
+  }
 
   if (!response.ok || !roleName || !isPrivilegedRole(roleName)) {
     return { error: NextResponse.json({ error: "Acesso não permitido ao usuário" }, { status: 403 }) };
