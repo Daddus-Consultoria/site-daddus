@@ -2,7 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, LockKeyhole, UserRound } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, LockKeyhole, UserRound } from "lucide-react";
 import { useAuth } from "@/lib/auth/auth-context";
 
 export default function LoginPage() {
@@ -10,6 +10,7 @@ export default function LoginPage() {
   const { login, isAuthenticated, isLoading } = useAuth();
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -86,13 +87,16 @@ export default function LoginPage() {
                 <LockKeyhole className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
                 <input
                   required
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
-                  className="h-11 w-full rounded-lg border border-gray-200 pl-11 pr-3 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  className="h-11 w-full rounded-lg border border-gray-200 pl-11 pr-11 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
                   placeholder="Digite sua senha"
                   autoComplete="current-password"
                 />
+                <button type="button" aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"} title={showPassword ? "Ocultar senha" : "Mostrar senha"} onClick={() => setShowPassword((visible) => !visible)} className="absolute right-3 top-2.5 text-gray-400 hover:text-primary">
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
               </span>
             </label>
 

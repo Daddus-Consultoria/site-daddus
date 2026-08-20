@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
 
 const TOKEN_KEY = "daddus_auth_token";
 const USER_KEY = "daddus_auth_user";
@@ -12,6 +13,10 @@ export interface AuthUser {
   email: string;
   firstname?: string;
   lastname?: string;
+  avatar?: {
+    url?: string;
+    data?: { attributes?: { url?: string } };
+  };
 }
 
 interface AuthContextValue {
@@ -50,8 +55,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       if (isTokenValid(token) && storedUser) {
-        setUser(JSON.parse(storedUser));
+        const parsedUser = JSON.parse(storedUser) as AuthUser;
+        setUser(parsedUser);
         setIsLoading(false);
+        void refreshUser(parsedUser);
         return;
       }
     } catch {
@@ -65,6 +72,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setIsLoading(false);
   }, []);
+
+  async function refreshUser(currentUser: AuthUser) {
+    try {
+      const profile = await strapiAuthenticatedFetch<AuthUser>("/api/users/me?populate=avatar");
+      const mergedUser = { ...currentUser, ...profile };
+      localStorage.setItem(USER_KEY, JSON.stringify(mergedUser));
+      setUser(mergedUser);
+    } catch {
+      // O avatar é opcional; a sessão continua válida se o perfil expandido não estiver disponível.
+    }
+  }
 
   async function login(identifier: string, password: string) {
     const response = await fetch(
@@ -84,6 +102,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(TOKEN_KEY, data.jwt);
     localStorage.setItem(USER_KEY, JSON.stringify(data.user));
     setUser(data.user);
+    void refreshUser(data.user);
   }
 
   function getToken() {

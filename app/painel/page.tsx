@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth/auth-context";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
 import { EditablePost, PostForm } from "@/components/painel/postForm";
+import { UserMenu } from "@/components/painel/userMenu";
 
 interface StrapiPost {
   id: number;
@@ -19,7 +20,7 @@ interface StrapiPost {
     tags?: string[];
     firstContent?: string;
     lastContent?: string;
-    coverImage?: { data?: { id: number } };
+    coverImage?: { data?: { id: number; url?: string; name?: string; attributes?: { url?: string; name?: string } } };
     autor?: {
       data?: {
         id?: number;
@@ -116,7 +117,7 @@ export default function PanelPage() {
       try {
         const [postsResponse, publicationsResponse] = await Promise.allSettled([
           strapiAuthenticatedFetch<StrapiPostsResponse>(
-            "/api/posts?sort=publishDate:desc&pagination[limit]=20"
+            "/api/posts?sort=publishDate:desc&pagination[limit]=20&populate[0]=coverImage"
           ),
           strapiAuthenticatedFetch<StrapiPublicationsResponse>(
             "/api/publicacoes?sort=publishDate:desc&pagination[limit]=20"
@@ -172,10 +173,7 @@ export default function PanelPage() {
             <h1 className="mt-2 text-3xl font-bold text-[#0d0d0d]">Olá, {displayName}.</h1>
             <p className="mt-2 text-gray-500">Bem-vindo à sua área exclusiva.</p>
           </div>
-          <button onClick={logout} className="flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">
-            <LogOut className="h-4 w-4" />
-            Sair
-          </button>
+          <UserMenu user={user} onLogout={logout} />
         </div>
 
         <div>

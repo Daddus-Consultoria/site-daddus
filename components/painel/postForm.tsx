@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { Check, LoaderCircle, X } from "lucide-react";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
+import { RichTextEditor } from "@/components/painel/richTextEditor";
 
 interface Author {
   id: number;
@@ -12,6 +13,24 @@ interface Author {
 
 interface AuthorsResponse {
   data?: Author[];
+}
+
+interface MediaFile {
+  id: number;
+  name: string;
+  url: string;
+  alternativeText?: string;
+  caption?: string;
+  attributes?: {
+    url?: string;
+    name?: string;
+    alternativeText?: string;
+    caption?: string;
+  };
+}
+
+interface MediaResponse {
+  data?: MediaFile[];
 }
 
 export interface EditablePost {
@@ -26,6 +45,7 @@ export interface EditablePost {
     tags?: string[];
     firstContent?: string;
     lastContent?: string;
+    coverImage?: { data?: { id: number; url?: string; attributes?: MediaFile["attributes"] } };
     autor?: { data?: { id: number } };
   };
 }
@@ -64,6 +84,11 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
   const [publishDate, setPublishDate] = useState(attributes?.publishDate?.slice(0, 10) ?? "");
   const [status, setStatus] = useState<"draft" | "published">(attributes?.publishedAt ? "published" : "draft");
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [coverImageId, setCoverImageId] = useState<number | null>(attributes?.coverImage?.data?.id ?? null);
+  const existingCoverUrl = attributes?.coverImage?.data?.url || attributes?.coverImage?.data?.attributes?.url || "";
+  const [coverPreview, setCoverPreview] = useState(existingCoverUrl ? mediaUrl(existingCoverUrl) : "");
+  const [mediaFiles, setMediaFiles] = useState<MediaFile[]>([]);
+  const [mediaError, setMediaError] = useState("");
   const [comment, setComment] = useState(attributes?.comment ?? "");
   const [tags, setTags] = useState(attributes?.tags?.join(", ") ?? "");
   const [firstContent, setFirstContent] = useState(attributes?.firstContent ?? "");
@@ -88,16 +113,56 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
     }
 
     loadAuthors();
+
+    async function loadMedia() {
+      try {
+        const response = await strapiAuthenticatedFetch<MediaResponse | MediaFile[]>(
+          "/api/upload/files?sort=createdAt:desc&pagination[limit]=100"
+        );
+        setMediaFiles(Array.isArray(response) ? response : response.data ?? []);
+      } catch {
+        setMediaError("Não foi possível carregar a biblioteca de imagens.");
+      }
+    }
+
+    loadMedia();
   }, []);
+
+  function mediaUrl(url: string) {
+    return url.startsWith("http") ? url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${url}`;
+  }
+
+  function selectCover(media: MediaFile) {
+    setCoverImage(null);
+    setCoverImageId(media.id);
+    setCoverPreview(mediaUrl(media.url));
+  }
+
+  function removeCover() {
+    setCoverImage(null);
+    setCoverImageId(null);
+    setCoverPreview("");
+  }
+
+  function selectNewCover(file: File | undefined) {
+    if (!file) return;
+    setCoverImage(file);
+    setCoverImageId(null);
+    setCoverPreview(URL.createObjectURL(file));
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
     setSuccess(false);
+    if (!firstContent.replace(/<[^>]*>/g, "").trim()) {
+      setError("O conteúdo principal é obrigatório.");
+      return;
+    }
     setIsLoading(true);
 
     try {
-      let coverImageId: number | undefined;
+      let uploadedCoverImageId: number | undefined;
 
       if (coverImage) {
         const uploadData = new FormData();
@@ -106,7 +171,7 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
           "/api/upload",
           { method: "POST", body: uploadData }
         );
-        coverImageId = uploadResponse[0]?.id;
+        uploadedCoverImageId = uploadResponse[0]?.id;
       }
 
       await strapiAuthenticatedFetch(post ? `/api/posts/${post.id}` : "/api/posts", {
@@ -117,7 +182,7 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
             slug: slugify(slug || title),
             category,
             publishDate: publishDate || null,
-            ...(coverImageId ? { coverImage: coverImageId } : {}),
+            coverImage: uploadedCoverImageId ?? coverImageId,
             comment: comment || null,
             tags: tags
               .split(",")
@@ -171,8 +236,9 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
             <input required value={title} onChange={(event) => { setTitle(event.target.value); if (!slug) setSlug(slugify(event.target.value)); }} className={inputClassName} />
           </label>
           <label className={labelClassName}>
-            Slug *
-            <input required value={slug} onChange={(event) => setSlug(slugify(event.target.value))} className={inputClassName} />
+            URL *
+            <input required value={slug} onChange={(event) => setSlug(slugify(event.target.value))} className={inputClassName} placeholder="nome-do-conteudo" />
+            <span className="mt-1 block text-xs font-normal text-gray-500">/{slug || "nome-do-conteudo"}</span>
           </label>
           <label className={labelClassName}>
             Categoria *
@@ -203,24 +269,38 @@ export function PostForm({ onCreated, onClose, post }: PostFormProps) {
             Etiquetas
             <input value={tags} onChange={(event) => setTags(event.target.value)} placeholder="gestão, políticas públicas" className={inputClassName} />
           </label>
-          <label className={labelClassName}>
-            Imagem de capa
-            <input type="file" accept="image/*" onChange={(event) => setCoverImage(event.target.files?.[0] ?? null)} className="mt-2 block w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm file:mr-3 file:rounded-md file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-sm file:font-semibold file:text-white" />
-          </label>
+        </div>
+
+        <div>
+          <label className={labelClassName}>Imagem de capa</label>
+          <div className="mt-2 grid gap-4 lg:grid-cols-[1fr_16rem]">
+            <div className="rounded-lg border border-dashed border-gray-300 bg-gray-50 p-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <label className="cursor-pointer rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:brightness-90">
+                  Enviar nova imagem
+                  <input type="file" accept="image/*" onChange={(event) => selectNewCover(event.target.files?.[0])} className="hidden" />
+                </label>
+                {coverPreview && <button type="button" onClick={removeCover} className="rounded-lg border border-red-200 px-4 py-2 text-sm font-semibold text-red-700 hover:bg-red-50">Remover seleção</button>}
+              </div>
+              <p className="mt-3 text-xs text-gray-500">Selecione uma imagem existente ou envie uma nova.</p>
+              {mediaError && <p className="mt-2 text-xs text-red-600">{mediaError}</p>}
+              <select value={coverImageId ?? ""} onChange={(event) => { const media = mediaFiles.find((item) => item.id === Number(event.target.value)); if (media) selectCover(media); }} className={inputClassName}>
+                <option value="">Selecionar imagem já cadastrada</option>
+                {mediaFiles.map((media) => <option key={media.id} value={media.id}>{media.name}</option>)}
+              </select>
+            </div>
+            <div className="flex min-h-32 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50">
+              {coverPreview ? <img src={coverPreview} alt="Pré-visualização da capa" className="max-h-40 w-full object-contain" /> : <span className="px-4 text-center text-xs text-gray-400">Nenhuma imagem selecionada</span>}
+            </div>
+          </div>
         </div>
 
         <label className={labelClassName}>
           Comentário do autor
           <textarea value={comment} onChange={(event) => setComment(event.target.value)} rows={3} className="mt-2 w-full rounded-lg border border-gray-200 p-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
         </label>
-        <label className={labelClassName}>
-          Conteúdo principal *
-          <textarea required value={firstContent} onChange={(event) => setFirstContent(event.target.value)} rows={8} className="mt-2 w-full rounded-lg border border-gray-200 p-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
-        </label>
-        <label className={labelClassName}>
-          Continuação do conteúdo
-          <textarea value={lastContent} onChange={(event) => setLastContent(event.target.value)} rows={6} className="mt-2 w-full rounded-lg border border-gray-200 p-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
-        </label>
+        <RichTextEditor label="Conteúdo principal" required value={firstContent} onChange={setFirstContent} rows={8} />
+        <RichTextEditor label="Continuação do conteúdo" value={lastContent} onChange={setLastContent} rows={6} />
 
         {error && <p role="alert" className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>}
         {success && <p className="flex items-center gap-2 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700"><Check className="h-4 w-4" /> Publicação criada com sucesso.</p>}
