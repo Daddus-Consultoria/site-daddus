@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/auth/auth-context";
 import { strapiAuthenticatedFetch } from "@/lib/services/strapiAuthenticatedFetch";
 import { EditablePost, PostForm } from "@/components/painel/postForm";
 import { PanelNavigation } from "@/components/painel/panelNavigation";
+import { PublicationEditForm } from "@/components/painel/publicationEditForm";
 
 interface StrapiPost {
   id: number;
@@ -99,8 +100,10 @@ export default function PanelPage() {
   const [postsError, setPostsError] = useState("");
   const [isCreateFormOpen, setIsCreateFormOpen] = useState(false);
   const [editingPost, setEditingPost] = useState<StrapiPost | null>(null);
+  const [editingPublication, setEditingPublication] = useState<StrapiPublication | null>(null);
   const [actionError, setActionError] = useState("");
   const [deletingPostId, setDeletingPostId] = useState<number | null>(null);
+  const [deletingPublicationId, setDeletingPublicationId] = useState<number | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
@@ -155,6 +158,20 @@ export default function PanelPage() {
       setActionError(error instanceof Error ? error.message : "Não foi possível excluir a publicação.");
     } finally {
       setDeletingPostId(null);
+    }
+  }
+
+  async function deletePublication(publicationId: number) {
+    if (!window.confirm("Excluir esta publicação? Essa ação não pode ser desfeita.")) return;
+    setDeletingPublicationId(publicationId);
+    setActionError("");
+    try {
+      await strapiAuthenticatedFetch(`/api/publicacoes/${publicationId}`, { method: "DELETE" });
+      setRefreshKey((key) => key + 1);
+    } catch (error) {
+      setActionError(error instanceof Error ? error.message : "Não foi possível excluir a publicação.");
+    } finally {
+      setDeletingPublicationId(null);
     }
   }
 
@@ -218,6 +235,14 @@ export default function PanelPage() {
               post={editingPost as EditablePost}
               onClose={() => setEditingPost(null)}
               onCreated={() => setRefreshKey((key) => key + 1)}
+            />
+          )}
+
+          {editingPublication && (
+            <PublicationEditForm
+              publication={editingPublication}
+              onClose={() => setEditingPublication(null)}
+              onSaved={() => setRefreshKey((key) => key + 1)}
             />
           )}
 
@@ -314,6 +339,18 @@ export default function PanelPage() {
                       <p className="flex items-center gap-2"><CalendarDays className="h-4 w-4 text-primary" />{formatDate(attributes.publishDate || attributes.publishedAt)}</p>
                       <p>{attributes.category || "Categoria não informada"}</p>
                       <p>{attributes.subCategory || "Subcategoria não informada"}</p>
+                    </div>
+                    <div className="mt-5 flex gap-2 border-t border-gray-100 pt-4">
+                      {canEditContent() && (
+                        <button type="button" onClick={() => setEditingPublication(publication)} className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-semibold text-gray-700 transition hover:border-primary hover:text-primary">
+                          <Edit3 className="h-4 w-4" /> Editar
+                        </button>
+                      )}
+                      {isPrivileged() && (
+                        <button type="button" disabled={deletingPublicationId === publication.id} onClick={() => void deletePublication(publication.id)} className="flex items-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50">
+                          <Trash2 className="h-4 w-4" /> {deletingPublicationId === publication.id ? "Excluindo..." : "Excluir"}
+                        </button>
+                      )}
                     </div>
                   </article>
                 );

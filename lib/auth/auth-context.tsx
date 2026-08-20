@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsRoleLoading(true);
     try {
       const profile = await strapiAuthenticatedFetch<AuthUser>("/api/users/me?populate[0]=avatar&populate[1]=role");
-      const mergedUser = { ...currentUser, ...profile };
+      const mergedUser = { ...currentUser, ...profile, role: profile.role ?? currentUser.role };
       localStorage.setItem(USER_KEY, JSON.stringify(mergedUser));
       setUser(mergedUser);
     } catch {
