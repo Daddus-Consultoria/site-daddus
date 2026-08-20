@@ -92,7 +92,7 @@ function getPostAuthor(post: StrapiPost) {
 
 export default function PanelPage() {
   const router = useRouter();
-  const { user, isLoading, isAuthenticated, isPrivileged, canEditContent, canManageContent } = useAuth();
+  const { user, isLoading, isAuthenticated, isPrivileged, canEditContent, canCreateContent, canManageContent } = useAuth();
   const [posts, setPosts] = useState<StrapiPost[]>([]);
   const [publications, setPublications] = useState<StrapiPublication[]>([]);
   const [contentType, setContentType] = useState<"posts" | "publicacoes">("posts");
@@ -213,7 +213,7 @@ export default function PanelPage() {
                   {(contentType === "posts" ? posts.length : publications.length)} {((contentType === "posts" ? posts.length : publications.length) === 1) ? "item" : "itens"}
                 </span>
               )}
-              {canManageContent() && (
+              {canCreateContent() && (
                 <button type="button" onClick={() => setIsCreateFormOpen((open) => !open)} className="flex items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition hover:brightness-90">
                   <Plus className="h-4 w-4" />
                   Nova publicação
