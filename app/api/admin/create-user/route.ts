@@ -54,7 +54,7 @@ export async function POST(request: Request) {
   const currentRole = currentUser.role?.name?.toLowerCase();
 
   if (!meResponse.ok || !currentRole || !PRIVILEGED_ROLES.has(currentRole)) {
-    return NextResponse.json({ error: "Apenas SuperAdm ou ADM podem criar usuários." }, { status: 403 });
+    return NextResponse.json({ error: "Apenas SuperAdm ou Administrador podem criar usuários." }, { status: 403 });
   }
 
   const body = await request.json().catch(() => null) as {

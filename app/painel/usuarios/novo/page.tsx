@@ -11,7 +11,7 @@ const supportedRoles = new Set(["superadm", "adm", "supervisor", "colaborador"])
 function roleLabel(roleName: string) {
   const labels: Record<string, string> = {
     superadm: "SuperAdm",
-    adm: "ADM",
+    adm: "Administrador",
     supervisor: "Supervisor",
     colaborador: "Colaborador",
   };
