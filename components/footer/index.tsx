@@ -1,7 +1,6 @@
 "use client";
 import { Label } from "../ui/label";
 import Image from "next/image";
-import { headerItems } from "@/lib/constants/constants";
 import { SubFooterItem } from "./subFooterItem";
 
 import { constantFooter, footerItens } from "@/components/footer/_constants";

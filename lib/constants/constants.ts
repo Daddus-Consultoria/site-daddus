@@ -4,16 +4,15 @@ import { NavigationType } from "@/lib/interfaces/navigation";
  * tecnologia — porque e assim que a empresa quer ser lida: nao como uma
  * consultoria que tambem publica, e sim como uma organizacao que produz
  * conhecimento, presta consultoria e desenvolve sistemas proprios.
+ *
+ * A ordem e proposital: as tres frentes primeiro, depois as solucoes por
+ * necessidade, e o institucional por ultimo — quem procura "quem somos" ou o
+ * contato sabe olhar no fim do menu, enquanto o comeco fica para o que a
+ * empresa produz. Quem somos e Fale com a Daddus vivem sob INSTITUCIONAL, e
+ * nao mais em um item DADDUS separado.
  * Ver docs/DIRETRIZES-UX.md.
  */
 export const headerItems: NavigationType[] = [
-  {
-    title: "DADDUS",
-    subtypes: [
-      { title: "Quem somos", href: "/institucional/sobre" },
-      { title: "Fale com a Daddus", href: "/institucional/contato" },
-    ],
-  },
   {
     title: "CONHECIMENTO",
     subtypes: [
@@ -79,8 +78,11 @@ export const headerItems: NavigationType[] = [
     href: "/solucoes",
   },
   {
-    title: "CONTATO",
-    href: "/institucional/contato",
+    title: "INSTITUCIONAL",
+    subtypes: [
+      { title: "Quem somos", href: "/institucional/sobre" },
+      { title: "Fale com a Daddus", href: "/institucional/contato" },
+    ],
   },
 ];
 
