@@ -18,6 +18,7 @@ yarn lint         # next lint (eslint-config-next / core-web-vitals)
 yarn ts-check     # tsc --noEmit — rode antes de considerar uma mudança pronta
 yarn db:migrate   # aplica db/migrations no Postgres da Biblioteca
 yarn harvest ipea # coleta metadados de uma fonte da Biblioteca (ver docs/BIBLIOTECA.md)
+yarn biblioteca:status # diagnostica banco, tabelas, contagem e última coleta
 ```
 
 Não há suíte de testes automatizados no repositório. Verificação = `yarn ts-check` + `yarn lint`

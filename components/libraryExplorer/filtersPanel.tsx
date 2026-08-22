@@ -1,6 +1,7 @@
 "use client";
 
-import { Check } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Check, Search } from "lucide-react";
 
 import type { LibraryFacet, LibraryFacets } from "@/lib/biblioteca/types";
 
@@ -11,6 +12,12 @@ import type { LibraryFacet, LibraryFacets } from "@/lib/biblioteca/types";
  */
 
 const MAX_VISIBLE_OPTIONS = 8;
+
+/** A partir daqui, rolar a lista atras de uma opcao custa mais do que digitar. */
+const SEARCHABLE_FROM = 10;
+
+const deaccent = (value: string) =>
+  value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
 interface FilterGroupProps {
   title: string;
@@ -29,9 +36,26 @@ const FilterGroup: React.FC<FilterGroupProps> = ({
   expanded,
   onExpand,
 }) => {
+  const [term, setTerm] = useState("");
+
+  const matching = useMemo(() => {
+    const needle = deaccent(term.trim());
+
+    if (!needle) return options;
+
+    return options.filter((option) => deaccent(option.label).includes(needle));
+  }, [options, term]);
+
   if (!options.length) return null;
 
-  const visible = expanded ? options : options.slice(0, MAX_VISIBLE_OPTIONS);
+  const searchable = options.length >= SEARCHABLE_FROM;
+  // Buscar dentro do grupo ja e escolher: mostrar so os oito primeiros de um
+  // resultado filtrado esconderia justamente o que o usuario procurou.
+  const visible =
+    expanded || term.trim() ? matching : matching.slice(0, MAX_VISIBLE_OPTIONS);
+  const selectedHidden = options.filter(
+    (option) => selected.includes(option.value) && !visible.includes(option)
+  );
 
   return (
     <fieldset className="border-b border-border py-5 last:border-b-0">
@@ -39,8 +63,28 @@ const FilterGroup: React.FC<FilterGroupProps> = ({
         {title}
       </legend>
 
+      {searchable && (
+        <div className="relative mb-2">
+          <Search
+            size={14}
+            className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-label"
+            aria-hidden
+          />
+          <input
+            type="search"
+            value={term}
+            onChange={(event) => setTerm(event.target.value)}
+            placeholder={`Buscar em ${title.toLowerCase()}`}
+            aria-label={`Buscar em ${title.toLowerCase()}`}
+            className="w-full rounded-sm border border-border py-1.5 pl-7 pr-2 text-sm text-secondary outline-none focus:border-primary"
+          />
+        </div>
+      )}
+
       <ul className="flex flex-col gap-1">
-        {visible.map((option) => {
+        {/* Um filtro ativo nunca some da lista: some-lo tiraria do usuario o
+            jeito de desmarca-lo. */}
+        {[...visible, ...selectedHidden].map((option) => {
           const isSelected = selected.includes(option.value);
 
           return (
@@ -71,14 +115,18 @@ const FilterGroup: React.FC<FilterGroupProps> = ({
         })}
       </ul>
 
-      {options.length > MAX_VISIBLE_OPTIONS && !expanded && (
+      {!term.trim() && matching.length > MAX_VISIBLE_OPTIONS && !expanded && (
         <button
           type="button"
           onClick={onExpand}
           className="mt-2 text-xs font-semibold text-primary underline underline-offset-4"
         >
-          Ver todos os {options.length}
+          Ver todos os {matching.length}
         </button>
+      )}
+
+      {term.trim() && !matching.length && (
+        <p className="mt-2 text-xs text-label">Nenhuma opção com esse termo.</p>
       )}
     </fieldset>
   );
