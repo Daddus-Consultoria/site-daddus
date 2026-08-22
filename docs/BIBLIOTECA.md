@@ -105,6 +105,39 @@ A coleta é incremental por padrão: usa o `from` do OAI-PMH a partir do
 `last_datestamp` da fonte. Uma coleta parcial (`--limit`) não avança esse ponto
 — o resto do repositório ainda não foi lido.
 
+### Fontes indexadas
+
+| Fonte | Registros | Periodicidade |
+|---|---|---|
+| Repositório do Ipea | ~14,3 mil | semanal |
+| Repositório da FGV | ~33,5 mil | semanal |
+| Repositório Institucional da UFMG | ~74 mil | mensal |
+| Repositório Digital da UFPR | ~82 mil | mensal |
+
+### Fontes que não expõem OAI-PMH utilizável
+
+Testadas e descartadas por ora — vale reavaliar, porque depende de decisão de
+quem hospeda, não do nosso código:
+
+| Fonte | O que responde |
+|---|---|
+| BDTD e OASISBR (IBICT) | HTTP 200 com página de verificação anti-bot, não XML |
+| Repositório da UFSC | desafio Cloudflare Turnstile |
+| SciELO Livros | HTTP 403 |
+| Enap, Biblioteca do IBGE | HTTP 403 |
+| UnB, UFPE | HTTP 503 |
+| USP | sem resposta |
+
+BDTD e OASISBR são agregadores: o conteúdo deles vem dos repositórios das
+universidades, que **são** coletáveis diretamente. Indexar as universidades uma
+a uma chega ao mesmo acervo sem depender do agregador — e a consolidação por
+DOI e handle evita o documento repetido quando duas delas publicam o mesmo
+trabalho.
+
+Para incluir BDTD/OASISBR seria preciso acordo de acesso com o IBICT. O
+coletor recusa explicitamente uma resposta que não seja OAI-PMH, em vez de
+terminar "com sucesso" e zero registro.
+
 ### Adicionar uma fonte
 
 1. Confirme o endpoint OAI-PMH (`?verb=Identify`, `?verb=ListMetadataFormats`).
@@ -118,6 +151,29 @@ A coleta é incremental por padrão: usa o `from` do OAI-PMH a partir do
 5. `yarn harvest <slug> --full`.
 
 Preferir sempre protocolo oficial (OAI-PMH, API) a scraping.
+
+## Quando a Biblioteca aparece vazia
+
+```bash
+yarn biblioteca:status                              # o banco do .env.local
+DATABASE_URL='postgres://...' yarn biblioteca:status # o banco de produção
+```
+
+O diagnóstico responde, em ordem: a variável existe? o banco responde? as
+tabelas existem? há documento dentro? quando foi a última coleta de cada fonte?
+
+A causa mais comum é migrar e coletar com o `.env.local` intacto — nesse caso
+tudo foi para o Postgres local, e o banco de produção continua sem tabela. Os
+dois comandos precisam rodar com a `DATABASE_URL` do banco gerenciado:
+
+```bash
+DATABASE_URL='postgres://...' yarn db:migrate
+DATABASE_URL='postgres://...' yarn harvest ipea --full
+```
+
+Ou, sem passar variável na mão, pelo workflow **Biblioteca — coleta** no
+GitHub (aba Actions → Run workflow), que já aplica as migrations com o secret
+do repositório.
 
 ## Direitos
 
