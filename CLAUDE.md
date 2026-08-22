@@ -16,6 +16,8 @@ yarn build        # build de produção
 yarn start        # sobe o build
 yarn lint         # next lint (eslint-config-next / core-web-vitals)
 yarn ts-check     # tsc --noEmit — rode antes de considerar uma mudança pronta
+yarn db:migrate   # aplica db/migrations no Postgres da Biblioteca
+yarn harvest ipea # coleta metadados de uma fonte da Biblioteca (ver docs/BIBLIOTECA.md)
 ```
 
 Não há suíte de testes automatizados no repositório. Verificação = `yarn ts-check` + `yarn lint`
@@ -82,6 +84,28 @@ As páginas por tipo (`estudos/`, `guias/`, `perfis-municipais/`) reutilizam o m
 passando `fixedCategory`. Categorias são o enum `PublishCategories`, com `publishCategoryLabels`
 (rótulo exibido) e `transformCategory` (segmento de rota) em `lib/constants/constants.ts`.
 
+### Biblioteca Daddus
+
+`app/biblioteca/` é a área de descoberta sobre acervos **externos** (Ipea,
+universidades, bases acadêmicas) — não confundir com o acervo de publicações da
+Daddus, que é produção própria e vem do Strapi. A Biblioteca guarda apenas
+metadados e leva o usuário ao documento na origem.
+
+Ela não passa pelo Strapi: vive em um **Postgres dedicado** (`DATABASE_URL`),
+porque precisa de busca por relevância, facetas e deduplicação sobre dezenas de
+milhares de registros. `docs/BIBLIOTECA.md` é o documento da área — leia antes
+de mexer em coleta, schema ou classificação temática.
+
+- Coleta: `scripts/harvest.ts` + `lib/biblioteca/oai.ts` (OAI-PMH) e
+  `normalize.ts` (Dublin Core → registro previsível). Roda por GitHub Actions.
+- Consulta: `lib/biblioteca/queries.ts` (usado pelos server components e pelo
+  route handler `app/api/biblioteca/documentos`).
+- Interface: `components/libraryExplorer`, com o mesmo princípio do acervo — o
+  estado vive na URL e as opções de filtro saem do próprio acervo.
+- **Temas e regras de classificação ficam no banco**, não no código
+  (`library_topics`, `library_topic_rules`): a equipe ajusta sem deploy.
+- `lib/db/pool.ts` só pode ser importado do servidor.
+
 ### Autenticação e painel administrativo
 
 Auth é do Strapi, guardada no `localStorage` (`daddus_auth_token`, `daddus_auth_user`) e exposta
@@ -99,7 +123,7 @@ por `lib/auth/auth-context.tsx` (`AuthProvider` embrulha a app inteira em `app/l
 ### Rotas
 
 App Router em `app/`, agrupado por frente: `conteudos/` (publicações, indicadores),
-`servicos/consultoria/`, `setores/`, `tecnologia/`, `institucional/`, `blog/`,
+`servicos/consultoria/`, `setores/`, `tecnologia/`, `institucional/`, `blog/`, `biblioteca/`,
 `painel/`, `login/`. Cada rota tende a ter um `_constants.ts` (ou `_constants.tsx`) ao lado com
 o conteúdo textual da página — conteúdo fica nesses arquivos, não inline no JSX.
 
@@ -137,6 +161,7 @@ código:
 | `NEXT_PUBLIC_BI_URL` | iframe de BI em `/indicadores` |
 | `NEXT_PUBLIC_GOOGLE_ANALYTICS` | GA (opcional) |
 | `GOOGLE_SHEETS_*` | service account e IDs de planilha dos gráficos/mapas |
+| `DATABASE_URL` | Postgres da Biblioteca Daddus (busca e coleta de metadados) |
 
 Atenção: `NEXT_PUBLIC_STRAPI_URL` e `NEXT_PUBLIC_STRAPI_API_URL` são variáveis distintas e as
 duas precisam estar configuradas — sem a segunda, o `httpClient` fica com baseURL vazia e o

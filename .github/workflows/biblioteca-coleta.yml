@@ -1,0 +1,79 @@
+# Coleta de metadados da Biblioteca Daddus.
+#
+# Roda aqui, e nao na Vercel, porque a coleta de um repositorio inteiro leva
+# minutos e nao cabe no tempo de uma funcao serverless. O cron dispara a coleta
+# incremental por periodicidade; o disparo manual permite recoletar uma fonte
+# ou refazer tudo do zero.
+name: Biblioteca — coleta
+
+on:
+  schedule:
+    # Diaria, 06:10 UTC (03:10 em Brasilia) — fora do horario de uso do site.
+    - cron: "10 6 * * *"
+    # Semanal, segunda-feira.
+    - cron: "40 6 * * 1"
+    # Mensal, dia 1.
+    - cron: "10 7 1 * *"
+  workflow_dispatch:
+    inputs:
+      fonte:
+        description: "Slug da fonte (vazio = todas as ativas)"
+        required: false
+        type: string
+      full:
+        description: "Ignorar o ponto de parada e recoletar tudo"
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  # Duas coletas simultaneas disputariam as mesmas linhas e o mesmo ponto de
+  # parada da fonte.
+  group: biblioteca-coleta
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      - name: Aplicar migrations pendentes
+        run: yarn db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Definir periodicidade a partir do cron
+        id: periodicidade
+        run: |
+          case "${{ github.event.schedule }}" in
+            "10 6 * * *")   echo "frequencia=diaria"  >> "$GITHUB_OUTPUT" ;;
+            "40 6 * * 1")   echo "frequencia=semanal" >> "$GITHUB_OUTPUT" ;;
+            "10 7 1 * *")   echo "frequencia=mensal"  >> "$GITHUB_OUTPUT" ;;
+            *)              echo "frequencia="        >> "$GITHUB_OUTPUT" ;;
+          esac
+
+      - name: Coletar
+        run: |
+          ARGS=""
+          if [ -n "${{ inputs.fonte }}" ]; then
+            ARGS="${{ inputs.fonte }}"
+          elif [ -n "${{ steps.periodicidade.outputs.frequencia }}" ]; then
+            ARGS="--frequency=${{ steps.periodicidade.outputs.frequencia }}"
+          fi
+          if [ "${{ inputs.full }}" = "true" ]; then
+            ARGS="$ARGS --full"
+          fi
+          echo "yarn harvest $ARGS"
+          yarn harvest $ARGS
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}

@@ -26,6 +26,15 @@ export const headerItems: NavigationType[] = [
         ],
       },
       {
+        title: "Biblioteca Daddus",
+        href: "/biblioteca",
+        items: [
+          { title: "Teses e dissertações", href: "/biblioteca/teses" },
+          { title: "Artigos científicos", href: "/biblioteca/artigos" },
+          { title: "Relatórios e estudos", href: "/biblioteca/relatorios" },
+        ],
+      },
+      {
         title: "Indicadores",
         href: "/conteudos/indicadores",
         items: [

@@ -44,6 +44,8 @@ import { IndicatorsMenuPage } from "@/components/indicatorMenuPage";
 
 import { PublicationsLibrary } from "@/components/publicationsLibrary";
 
+import { LibraryExplorer } from "@/components/libraryExplorer";
+
 export {
   Dropdown,
   Header,
@@ -79,6 +81,7 @@ export {
   Graphic,
   IndicatorsMenuPage,
   PublicationsLibrary,
+  LibraryExplorer,
 };
 
 export * from "@/components/ui";
