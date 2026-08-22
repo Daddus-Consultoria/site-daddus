@@ -14,6 +14,30 @@ import { Pool, type QueryResultRow } from "pg";
 
 const globalForPool = globalThis as unknown as { daddusLibraryPool?: Pool };
 
+/**
+ * TLS depende de onde o banco esta hospedado, e errar isso derruba a conexao
+ * inteira com uma mensagem obscura:
+ *
+ * - Neon e Supabase exigem TLS;
+ * - o Postgres do Railway, quando acessado pelo proxy publico, pode nao aceitar
+ *   TLS — nesse caso a string de conexao leva `?sslmode=disable`;
+ * - o container local de desenvolvimento nao tem certificado.
+ *
+ * O `sslmode` da propria URL manda, quando estiver escrito nela. O certificado
+ * nao e validado porque provedores gerenciados usam cadeia propria; o que
+ * protege a conexao aqui e o TLS em si.
+ */
+const sslOptionFor = (connectionString: string) => {
+  const sslMode = connectionString.match(/[?&]sslmode=([^&]+)/)?.[1];
+
+  if (sslMode === "disable") return undefined;
+  if (sslMode) return { rejectUnauthorized: false };
+
+  return /localhost|127\.0\.0\.1|\.railway\.internal/.test(connectionString)
+    ? undefined
+    : { rejectUnauthorized: false };
+};
+
 const createPool = () => {
   const connectionString = process.env.DATABASE_URL;
 
@@ -25,11 +49,7 @@ const createPool = () => {
 
   return new Pool({
     connectionString,
-    // Bancos gerenciados (Neon, Supabase) exigem TLS; o Postgres local do
-    // ambiente de desenvolvimento nao tem certificado.
-    ssl: /localhost|127\.0\.0\.1/.test(connectionString)
-      ? undefined
-      : { rejectUnauthorized: false },
+    ssl: sslOptionFor(connectionString),
     max: 8,
     idleTimeoutMillis: 30_000,
   });

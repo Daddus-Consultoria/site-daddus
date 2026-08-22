@@ -10,7 +10,8 @@
     "ts-check": "tsc --noEmit",
     "db:migrate": "tsx --env-file-if-exists=.env.local scripts/db-migrate.ts",
     "harvest": "tsx --env-file-if-exists=.env.local scripts/harvest.ts",
-    "biblioteca:status": "tsx --env-file-if-exists=.env.local scripts/biblioteca-status.ts"
+    "biblioteca:status": "tsx --env-file-if-exists=.env.local scripts/biblioteca-status.ts",
+    "biblioteca:setup": "yarn db:migrate && yarn harvest"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
