@@ -15,19 +15,20 @@ import IndicatorsTable from "@/components/indicatorsTable";
 import { ButtonTextArrow } from "@/components/buttonTextArrow";
 import { DataSpreadSheetsGraphic } from "@/lib/interfaces/dataGraphic";
 
-
 interface IndicatorMenuProps {
   graphicData: any[];
-  mapData: any[];
+  mapData: { [key: string]: [any[], string[]] };
+  initialTab?: string;
 }
 
-export const IndicatorsMenuPage = ({graphicData, mapData}: IndicatorMenuProps) => {
+export const IndicatorsMenuPage = ({ graphicData, mapData, initialTab = "maps" }: IndicatorMenuProps) => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("maps");
-  //adauto - mapa
+  const [activeTab, setActiveTab] = useState(initialTab);
+  const [selectedYear, setSelectedYear] = useState<string>("2021");
+  // Mapa
   const [data, setData] = useState<{
     graphic: any[];
-    idh: { data: any; colors: any } | null;
+    idh: { [key: string]: { data: any[]; colors: string[] } } | null;
   } | null>();
   
   const [error, setError] = useState<string | null>(null);
@@ -47,6 +48,11 @@ export const IndicatorsMenuPage = ({graphicData, mapData}: IndicatorMenuProps) =
   // mp - gráfico
   const [dataGraphic, setDataGraphic] = useState<any[]>([]);
 
+  const idhData = Object.keys(mapData).reduce((acc: { [key: string]: { data: any, colors: any } }, year) => {
+    acc[year] = { data: mapData[year][0], colors: mapData[year][1] };
+    return acc;
+  }, {});
+
   const transformData = (data: DataSpreadSheetsGraphic) => { // bote essa função no topo e funcionou aksdkas
     return [
       parseInt(data.dataGraphic[3]),
@@ -58,7 +64,7 @@ export const IndicatorsMenuPage = ({graphicData, mapData}: IndicatorMenuProps) =
     try {
       setData({
         graphic: graphicData,
-        idh: { data: mapData[0], colors: mapData[1] },
+        idh: idhData,
       });
     } catch (err) {
       setError("Falha ao buscar dados");
@@ -103,15 +109,14 @@ export const IndicatorsMenuPage = ({graphicData, mapData}: IndicatorMenuProps) =
   };
   
   useEffect(() => {
-    const slug = "maps";
-    setActiveTab(slug);
+    setActiveTab(initialTab);
     setMapData();
     setGraphicData();
-  }, []);
+  }, [initialTab]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);
-    router.push(`?slug=${value}`);
+    router.push(`/conteudos/indicadores/${value}`);
   };
   
 
@@ -177,15 +182,15 @@ export const IndicatorsMenuPage = ({graphicData, mapData}: IndicatorMenuProps) =
               <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-8">
                 {renderContent(
                   <BrazilMap
-                    data={data?.idh?.data ?? []}
-                    colors={data?.idh?.colors ?? []}
+                    data={data?.idh?.[selectedYear]?.data ?? []}
+                    colors={data?.idh?.[selectedYear]?.colors ?? []}
                   />
                 )}
               </div>
               <div className="relative h-72 md:h-96 bg-gray-100 rounded-lg overflow-hidden col-span-12 lg:col-span-4">
                 {renderContent(
                   <IndicatorsTable
-                    data={data?.idh?.data ?? []}
+                    data={data?.idh?.[selectedYear]?.data ?? []}
                     headers={mapTableHeaders}
                   />
                 )}
@@ -248,8 +253,8 @@ export const IndicatorsMenuPage = ({graphicData, mapData}: IndicatorMenuProps) =
                     key={`indicator-filter-${item.value}-${1}`}
                     title={item.content[1].title}
                     items={item.content[1].items}
-                    placeholder={"IDH"}
-                    setFilter={() => {}}
+                    placeholder={item.content[1].placeholder}
+                    setFilter={setSelectedYear}
                   />
                   <div className="flex flex-1 flex-col mt-12 w-[90%]">
                     <strong className="text-primary text-sm mb-2">

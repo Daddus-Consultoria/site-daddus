@@ -17,9 +17,11 @@ export const filtersIndicatorPage = {
         },
         {
           title: 'ANO',
-          placeholder: 'IDH',
+          placeholder: '2021',
           items: [
-            'IDH',
+            '2021',
+            '2022',
+            '2023',
           ]
         },
       ]

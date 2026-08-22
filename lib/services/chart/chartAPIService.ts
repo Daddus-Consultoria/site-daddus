@@ -3,6 +3,7 @@ import { ChartRepository } from "@/lib/repositories/ChartRepository";
 import { DataSpreadSheetsGraphic } from "@/lib/interfaces/dataGraphic"
 
 import { google } from "googleapis";
+import { format } from "path";
 
 export class ChartAPIService implements ChartUseCases, ChartRepository {
   private static instance: ChartAPIService;
@@ -48,7 +49,6 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
     });
   
     res.status(200).json(data.data.values); */
-
     return this.formatMapData(data);
   }
 
@@ -80,22 +80,19 @@ export class ChartAPIService implements ChartUseCases, ChartRepository {
     return resultAll;
   }
 
-  formatMapData(data: any[]): [any[], string[]] {
-    const transformedData = [
-      ...data.slice(1).map((row: string[]) => {
-        const stateName = row[2];
-        const idh = parseFloat(row[3].replace(',', '.'));
+  formatMapData(data: any[]): { [year: string]: [any[], string[]] } {
+    const years = data[0].slice(2);
+    const result: { [year: string]: [any[], string[]] } = {};
+    years.forEach((year: string, yearIndex: number) => {
+      const transformedData = data.slice(1).map((row: string[]) => {
+        const stateName = row[1];
+        const idh = parseFloat(row[yearIndex + 2].replace(',', '.'));
         return [stateName, idh];
-      })
-    ];
-
-    const extractedColors = data
-      .slice(1)
-      .map((row: string[]) => row[1])
-      .filter((color: string) => color !== '');
-
-
-    return [transformedData, extractedColors];
+      });
+      const extractedColors = data.slice(1).map((row: string[]) => row[0]).filter((color: string) => color !== '');
+      result[year] = [transformedData, extractedColors];
+    });
+    return result;
   }
 
   formatMapTableData(data: any[]): { state: string; idh: string }[] {
