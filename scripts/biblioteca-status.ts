@@ -39,11 +39,38 @@ const run = async () => {
 
   const pool = getPool();
 
+  if (connectionString.includes(".railway.internal")) {
+    fail("esta e a URL interna do Railway, que so funciona dentro do Railway.");
+    console.log(
+      "\n  O site roda na Vercel e a coleta roda no GitHub — os dois estao fora.\n" +
+        "  No Railway, abra o Postgres → aba Variables e use a DATABASE_PUBLIC_URL\n" +
+        "  (o endereco termina em .proxy.rlwy.net com uma porta).\n"
+    );
+    process.exit(1);
+  }
+
   try {
     await pool.query("SELECT 1");
     ok("o banco respondeu");
   } catch (error) {
-    fail(`o banco nao respondeu: ${String(error)}`);
+    const message = String(error);
+
+    fail(`o banco nao respondeu: ${message}`);
+
+    // Os dois enganos que mais aparecem trocando de provedor: TLS exigido de um
+    // lado, indisponivel do outro. A mensagem crua do driver nao diz o que fazer.
+    if (/does not support SSL/i.test(message)) {
+      console.log(
+        "\n  Este banco nao aceita conexao TLS. Acrescente ?sslmode=disable ao final\n" +
+          "  da DATABASE_URL (ou &sslmode=disable, se ela ja tiver ? na string).\n"
+      );
+    } else if (/SSL|self.signed|certificate/i.test(message)) {
+      console.log(
+        "\n  Parece exigencia de TLS. Acrescente ?sslmode=require ao final da\n" +
+          "  DATABASE_URL e tente de novo.\n"
+      );
+    }
+
     process.exit(1);
   }
 
