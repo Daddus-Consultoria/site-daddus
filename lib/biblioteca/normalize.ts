@@ -44,50 +44,116 @@ export interface NormalizedDocument {
  * da Biblioteca. O que nao estiver aqui cai em "outro" — melhor um documento
  * sem tipo do que um documento com o tipo errado.
  */
+/**
+ * Vocabulario de tipo dos repositorios para a lista fixa da Biblioteca.
+ *
+ * Cada repositorio fala um dialeto: a UFMG escreve "Dissertação de mestrado",
+ * a FGV escreve "Dissertation" e quase todos publicam junto o vocabulario
+ * DRIVER (info:eu-repo/semantics/...). As chaves ficam sem acento e em caixa
+ * baixa porque e assim que o valor chega aqui.
+ *
+ * O que nao estiver mapeado vira "outro" — melhor um documento sem tipo do que
+ * um documento com o tipo errado.
+ */
 const TYPE_MAP: Record<string, LibraryDocumentType> = {
+  // Vocabulario DRIVER/COAR, publicado pela maioria dos repositorios.
+  "info:eu-repo/semantics/doctoralthesis": "tese",
+  "info:eu-repo/semantics/masterthesis": "dissertacao",
+  "info:eu-repo/semantics/bachelorthesis": "monografia",
+  "info:eu-repo/semantics/article": "artigo",
+  "info:eu-repo/semantics/preprint": "artigo",
+  "info:eu-repo/semantics/conferenceobject": "artigo",
+  "info:eu-repo/semantics/conferencepaper": "artigo",
+  "info:eu-repo/semantics/book": "livro",
+  "info:eu-repo/semantics/bookpart": "livro",
+  "info:eu-repo/semantics/report": "relatorio",
+  "info:eu-repo/semantics/technicalreport": "relatorio",
+  "info:eu-repo/semantics/workingpaper": "estudo",
+  "info:eu-repo/semantics/other": "outro",
+
+  // Ingles (FGV, DOAB, bases internacionais).
   book: "livro",
-  livro: "livro",
   "book part": "livro",
   "book chapter": "livro",
-  "parte de livro": "livro",
+  chapter: "livro",
   ebook: "e-book",
   "e-book": "e-book",
   thesis: "tese",
   "doctoral thesis": "tese",
-  tese: "tese",
+  "phd thesis": "tese",
+  dissertation: "dissertacao",
   "master thesis": "dissertacao",
   "masters thesis": "dissertacao",
-  dissertacao: "dissertacao",
-  "dissertação": "dissertacao",
+  "master's thesis": "dissertacao",
   article: "artigo",
   "journal article": "artigo",
-  artigo: "artigo",
+  "article (journal/review)": "artigo",
   "conference paper": "artigo",
   preprint: "artigo",
   report: "relatorio",
-  relatorio: "relatorio",
-  "relatório": "relatorio",
   "technical report": "relatorio",
   "technical note": "nota-tecnica",
-  "nota tecnica": "nota-tecnica",
-  "nota técnica": "nota-tecnica",
   "working paper": "estudo",
-  "texto para discussao": "estudo",
-  "texto para discussão": "estudo",
   study: "estudo",
-  estudo: "estudo",
   guide: "guia",
-  guia: "guia",
   manual: "manual",
-  "other monograph": "monografia",
-  monografia: "monografia",
-  "learning object": "manual",
   dataset: "dados",
-  "conjunto de dados": "dados",
   software: "dados",
+  "learning object": "manual",
+  "other monograph": "monografia",
   "institutional document": "documento-institucional",
+
+  // Portugues (Ipea, UFMG, UFPR e demais repositorios brasileiros).
+  livro: "livro",
+  "capitulo de livro": "livro",
+  "parte de livro": "livro",
+  tese: "tese",
+  "tese de doutorado": "tese",
+  "tese digital": "tese",
+  dissertacao: "dissertacao",
+  "dissertacao de mestrado": "dissertacao",
+  "dissertacao digital": "dissertacao",
+  artigo: "artigo",
+  "artigo de periodico": "artigo",
+  "artigo cientifico": "artigo",
+  "trabalho apresentado em evento": "artigo",
+  relatorio: "relatorio",
+  "relatorio de pesquisa": "relatorio",
+  "relatorio tecnico": "relatorio",
+  "nota tecnica": "nota-tecnica",
+  "texto para discussao": "estudo",
+  estudo: "estudo",
+  guia: "guia",
+  cartilha: "guia",
+  monografia: "monografia",
+  "monografia de especializacao": "monografia",
+  "trabalho de conclusao de curso": "monografia",
+  "tcc especializacao digital": "monografia",
+  "tcc digital": "monografia",
+  "conjunto de dados": "dados",
   "documento institucional": "documento-institucional",
 };
+
+/**
+ * Variantes que nao vale a pena enumerar uma a uma: a UFPR publica "Dissertação
+ * Digital", "TCC Especialização Digital", "Monografia Graduação Digital" e mais
+ * uma duzia de combinacoes do mesmo punhado de palavras. Estes padroes valem
+ * apenas quando o TYPE_MAP nao reconheceu o valor exato.
+ *
+ * Video, fotografia e apresentacao continuam caindo em "outro" de proposito: a
+ * lista de tipos da Biblioteca e de documentos, e forcar um deles ali seria
+ * mentir sobre o que o usuario vai encontrar na origem.
+ */
+const TYPE_PATTERNS: [RegExp, LibraryDocumentType][] = [
+  [/^tese\b/, "tese"],
+  [/^dissertacao\b/, "dissertacao"],
+  [/^(tcc|monografia|trabalho de conclusao)\b/, "monografia"],
+  [/^artigo\b/, "artigo"],
+  [/^(livro|capitulo)\b/, "livro"],
+  [/^(relatorio|report)\b/, "relatorio"],
+  [/^(nota tecnica|technical note)\b/, "nota-tecnica"],
+  [/^(conference|proceedings)\b/, "artigo"],
+];
 
 const LANGUAGE_MAP: Record<string, LibraryLanguage> = {
   por: "pt",
@@ -301,7 +367,18 @@ export const normalizeOaiRecord = (
   const { access, openAccess, license } = pickAccess(fields.rights ?? []);
   const { country, state, municipality, coverage } = pickCoverage(fields.coverage ?? []);
 
-  const rawType = deaccent(first(fields.type) ?? "").toLowerCase();
+  // Um registro costuma trazer mais de um dc:type — o rotulo do repositorio e o
+  // equivalente DRIVER. Vale o primeiro que a Biblioteca souber traduzir, em
+  // vez do primeiro da lista, que pode ser justamente o desconhecido.
+  const rawTypes = (fields.type ?? []).map((value) =>
+    deaccent(value).toLowerCase().trim()
+  );
+  const documentType =
+    rawTypes.map((value) => TYPE_MAP[value]).find(Boolean) ??
+    rawTypes
+      .map((value) => TYPE_PATTERNS.find(([pattern]) => pattern.test(value))?.[1])
+      .find(Boolean) ??
+    "outro";
   const rawLanguage = deaccent(first(fields.language) ?? "").toLowerCase();
 
   const dedupeKey = buildDedupeKey(doi, sourceUrl, title, year, authors);
@@ -313,7 +390,7 @@ export const normalizeOaiRecord = (
     institution: first(fields.publisher) ?? source.institution,
     publisher: first(fields.publisher),
     year,
-    documentType: TYPE_MAP[rawType] ?? "outro",
+    documentType,
     abstract: pickAbstract(fields.description ?? []),
     keywords: uniqueBy(fields.subject ?? []).slice(0, 40),
     language: LANGUAGE_MAP[rawLanguage] ?? (rawLanguage ? "outro" : "pt"),

@@ -160,6 +160,20 @@ export async function* harvestOai(
 
     const xml = await fetchWithRetry(buildUrl(endpoint, params));
     const parsed = parser.parse(xml);
+
+    // Varios repositorios respondem 200 com uma pagina de verificacao
+    // anti-bot no lugar do XML. Sem esta checagem a coleta terminaria
+    // "com sucesso" e zero registro — o pior resultado possivel, porque
+    // parece que a fonte simplesmente nao tem nada.
+    if (!parsed?.["OAI-PMH"]) {
+      throw new Error(
+        `${endpoint} nao respondeu OAI-PMH (a resposta comeca com "${xml
+          .trim()
+          .slice(0, 60)
+          .replace(/\s+/g, " ")}"). A fonte pode exigir acordo de acesso ou estar atras de verificacao de navegador.`
+      );
+    }
+
     const error = parsed?.["OAI-PMH"]?.error;
 
     if (error) {
