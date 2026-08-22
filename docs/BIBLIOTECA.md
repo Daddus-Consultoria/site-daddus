@@ -183,6 +183,24 @@ Para caber em plano gratuito de 0,5 GB, desative as fontes maiores:
 UPDATE library_sources SET active = false WHERE slug IN ('ufmg', 'ufpr');
 ```
 
+## Primeira instalação
+
+Dois caminhos, mesmo resultado — criar as tabelas e trazer os documentos.
+
+**Pelo GitHub** (não precisa de nada instalado): aba Actions → **Biblioteca —
+coleta** → *Run workflow*, campos em branco. Exige o secret `DATABASE_URL` no
+repositório; sem ele o workflow para no primeiro passo dizendo o que falta.
+
+**Do seu computador** (quando o Actions não estiver disponível):
+
+```bash
+DATABASE_URL='postgres://...' yarn biblioteca:setup
+```
+
+Um comando só: aplica as migrations pendentes e coleta todas as fontes ativas.
+Pode ser repetido à vontade — migration já aplicada é ignorada e documento já
+indexado é atualizado, não duplicado.
+
 ## Quando a Biblioteca aparece vazia
 
 ```bash
