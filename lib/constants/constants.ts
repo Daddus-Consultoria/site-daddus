@@ -34,7 +34,7 @@ export const headerItems: NavigationType[] = [
           { title: "Gráficos", href: "/conteudos/indicadores?slug=graphics" },
         ],
       },
-      { title: "Insights", href: "/blog" },
+      { title: "Blog", href: "/blog" },
     ],
   },
   {
