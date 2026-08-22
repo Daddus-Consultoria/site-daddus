@@ -1,5 +1,6 @@
 import { publishRepository } from "@/components/providers/repositoriesProviders/publishProvider";
 import { PublishCategories } from "@/lib/constants/constants";
+import { PublishQuery } from "@/lib/interfaces/publish";
 
 export class PublishUseCases {
   
@@ -7,6 +8,24 @@ export class PublishUseCases {
   publishRepository;
   constructor() {
     this.publishRepository = publishRepository;
+  }
+
+  /** Busca no acervo: texto livre combinado com os filtros escolhidos. */
+  async searchPublish(query: PublishQuery) {
+    try {
+      return await this.publishRepository.searchPublish(query);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /** Lista enxuta do acervo, usada para montar as opcoes de filtro. */
+  async getPublishIndex({ category }: { category?: PublishCategories } = {}) {
+    try {
+      return await this.publishRepository.getPublishIndex(category);
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getPublish({ title }: { title?: string}) {

@@ -1,6 +1,7 @@
 import {
   PublishModel,
   PublishData,
+  PublishIndexEntry,
 } from "../interfaces/publish";
 import PublishRepository from "../repositories/PublishRepository";
 
@@ -22,50 +23,17 @@ class MockPublishRepository extends PublishRepository {
       totalItems: 0,
     }
   }
-  /* async getPaginatedMunicipalProfiles(
-    page: number,
-    limit: number,
-    category?: string
-  ): Promise<PublishData> {
-    // Implement your mock logic here
+
+  async searchPublish(): Promise<PublishData> {
     return {
       items: [],
       totalItems: 0,
-    };
+    }
   }
 
-  async getMunicipalProfilePublishById(
-    id: string
-  ): Promise<MunicipalProfileModel | null> {
-    // Implement your mock logic here
-    return null;
+  async getPublishIndex(): Promise<PublishIndexEntry[]> {
+    return [];
   }
-
-  async getPaginatedGuides(page: number, limit: number): Promise<PublishData> {
-    // Implement your mock logic here
-    return {
-      items: [],
-      totalItems: 0,
-    };
-  }
-
-  async getGuidePublishById(id: string): Promise<PublishModel | null> {
-    // Implement your mock logic here
-    return null;
-  }
-
-  async getPaginatedStudys(page: number, limit: number): Promise<PublishData> {
-    // Implement your mock logic here
-    return {
-      items: [],
-      totalItems: 0,
-    };
-  }
-
-  async getStudyPublishById(id: string): Promise<PublishModel | null> {
-    // Implement your mock logic here
-    return null;
-  } */
 }
 
 export { MockPublishRepository };

@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CardPublication, CircularProgressIndicator, BlogPostCard, Skeleton } from "@/components/index";
 import { consultoriaHome, contatoHome, frentesHome, heroHome, institucionalHome } from "@/app/constants";
 import { sistemas } from "@/app/tecnologia/_constants";
+import { constantCardBlog } from "@/app/blog/_constants";
 import { QueryKeys } from "@/lib/constants/queryKeys";
 import { transformCategory } from "@/lib/constants/constants";
 import { PublishModel } from "@/lib/interfaces/publish";
@@ -50,7 +51,7 @@ async function carregarHome() {
       { valor: estudos.totalItems, rotulo: "Estudos publicados", href: "/conteudos/publicacoes/estudos" },
       { valor: guias.totalItems, rotulo: "Guias técnicos", href: "/conteudos/publicacoes/guias" },
       { valor: perfis.totalItems, rotulo: "Perfis municipais", href: "/conteudos/publicacoes/perfis-municipais" },
-      { valor: blog.totalItems, rotulo: "Análises no Insights", href: "/blog" },
+      { valor: blog.totalItems, rotulo: "Posts no blog", href: "/blog" },
     ],
   };
 }
@@ -67,6 +68,10 @@ export default function Home() {
   // Se o acervo nao responder, a secao de numeros nao aparece. Numero zerado ou
   // esqueleto eterno diz ao visitante algo que nao e verdade.
   const mostrarNumeros = !isError && (isLoading || Boolean(data?.numeros?.length));
+
+  // Mesmo criterio do bloco de numeros: sem post cadastrado ou com o CMS fora
+  // do ar, a secao inteira sai da home em vez de mostrar moldura vazia.
+  const mostrarBlog = !isError && (isLoading || Boolean(data?.ultimosPosts?.length));
 
   return (
     <main className="w-full">
@@ -218,8 +223,75 @@ export default function Home() {
         )}
       </section>
 
-      {/* 6. Indicadores */}
-      <section className="border-y border-gray-200 bg-mediumGray">
+      {/* 6. Blog — o que a equipe publicou ha pouco */}
+      {mostrarBlog && (
+        <section className="border-y border-gray-200 bg-mediumGray">
+          <div className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div className="max-w-2xl">
+                <h2 className="text-2xl font-bold text-secondary">Blog</h2>
+                <p className="mt-3 text-[17px] leading-relaxed text-[#696984]">
+                  Análises curtas sobre economia, políticas públicas, governança e mobilidade,
+                  escritas pela equipe da Daddus.
+                </p>
+              </div>
+              <Link href="/blog" className="text-sm font-semibold text-primary hover:underline">
+                Ver todos os posts →
+              </Link>
+            </div>
+
+            {isLoading || !data?.ultimosPosts?.length ? (
+              <div className="mt-8 flex flex-col gap-6 lg:h-[420px] lg:flex-row">
+                <Skeleton className="h-56 w-full rounded-lg lg:h-full lg:w-[62%]" />
+                <div className="flex w-full flex-col gap-6 lg:w-[38%]">
+                  <Skeleton className="h-52 w-full rounded-lg lg:h-1/2" />
+                  <Skeleton className="h-52 w-full rounded-lg lg:h-1/2" />
+                </div>
+              </div>
+            ) : (
+              <div className="mt-8 flex flex-col gap-6 lg:h-[420px] lg:flex-row">
+                <div className="h-56 w-full lg:h-full lg:w-[62%]">
+                  <BlogPostCard
+                    title={data.ultimosPosts[0].title}
+                    image={data.ultimosPosts[0].image}
+                    first
+                    href={data.ultimosPosts[0].slug}
+                    badgeTitle={data.ultimosPosts[0].category}
+                  />
+                </div>
+                <div className="flex w-full flex-col gap-6 lg:w-[38%]">
+                  {data.ultimosPosts.slice(1, 3).map((post) => (
+                    <div key={post.slug} className="h-52 w-full lg:h-1/2">
+                      <BlogPostCard
+                        title={post.title}
+                        image={post.image}
+                        href={post.slug}
+                        badgeTitle={post.category}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Os temas do blog, para quem chega procurando um assunto e nao um post */}
+            <nav aria-label="Temas do blog" className="mt-8 flex flex-wrap gap-2">
+              {constantCardBlog.barItens.map((tema) => (
+                <Link
+                  key={tema.link}
+                  href={tema.link}
+                  className="rounded-full border border-gray-300 bg-white px-3 py-1.5 text-xs font-semibold tracking-wide text-[#696984] transition hover:border-primary hover:text-primary"
+                >
+                  {tema.title}
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </section>
+      )}
+
+      {/* 7. Indicadores */}
+      <section>
         <div className="mx-auto grid w-full max-w-screen-limit gap-8 px-5percent py-12 lg:grid-cols-2 lg:items-center lg:py-16">
           <div>
             <h2 className="text-2xl font-bold text-secondary">Indicadores</h2>
@@ -234,7 +306,7 @@ export default function Home() {
               Explorar indicadores
             </Link>
           </div>
-          <div className="relative h-56 w-full overflow-hidden rounded-xl border border-gray-200 bg-white lg:h-64">
+          <div className="relative h-56 w-full overflow-hidden rounded-xl border border-gray-200 bg-mediumGray lg:h-64">
             <Image
               src="/images/publications/bus.svg"
               alt="Ilustração de indicadores de mobilidade urbana"
@@ -245,64 +317,31 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 7. Consultoria */}
-      <section className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
-        <h2 className="text-2xl font-bold text-secondary">{consultoriaHome.titulo}</h2>
-        <p className="mt-3 max-w-3xl text-[17px] leading-relaxed text-[#696984]">{consultoriaHome.texto}</p>
-        <div className="mt-8 grid gap-5 lg:grid-cols-3">
-          {consultoriaHome.areas.map((area) => (
-            <Link
-              key={area.href}
-              href={area.href}
-              className="flex flex-col rounded-xl border border-gray-200 p-6 transition hover:border-primary/40"
-            >
-              <h3 className="text-lg font-bold text-primary">{area.titulo}</h3>
-              <p className="mt-3 flex-1 text-[15px] leading-relaxed text-[#696984]">{area.descricao}</p>
-              <span className="mt-5 text-sm font-semibold text-primary">Conhecer o serviço →</span>
-            </Link>
-          ))}
+      {/* 8. Consultoria */}
+      <section className="border-y border-gray-200 bg-mediumGray">
+        <div className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
+          <h2 className="text-2xl font-bold text-secondary">{consultoriaHome.titulo}</h2>
+          <p className="mt-3 max-w-3xl text-[17px] leading-relaxed text-[#696984]">
+            {consultoriaHome.texto}
+          </p>
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {consultoriaHome.areas.map((area) => (
+              <Link
+                key={area.href}
+                href={area.href}
+                className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 transition hover:border-primary/40"
+              >
+                <h3 className="text-lg font-bold text-primary">{area.titulo}</h3>
+                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-[#696984]">{area.descricao}</p>
+                <span className="mt-5 text-sm font-semibold text-primary">Conhecer o serviço →</span>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* 8. Insights do blog */}
-      {!isLoading && data?.ultimosPosts && data.ultimosPosts.length > 0 && (
-        <section className="border-t border-gray-200">
-          <div className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
-            <div className="flex flex-wrap items-end justify-between gap-4">
-              <h2 className="text-2xl font-bold text-secondary">Insights</h2>
-              <Link href="/blog" className="text-sm font-semibold text-primary hover:underline">
-                Ver todas as análises →
-              </Link>
-            </div>
-            <div className="mt-8 flex flex-col gap-6 lg:h-[420px] lg:flex-row">
-              <div className="h-56 w-full lg:h-full lg:w-[62%]">
-                <BlogPostCard
-                  title={data.ultimosPosts[0].title}
-                  image={data.ultimosPosts[0].image}
-                  first
-                  href={data.ultimosPosts[0].slug}
-                  badgeTitle={data.ultimosPosts[0].category}
-                />
-              </div>
-              <div className="flex w-full flex-col gap-6 lg:w-[38%]">
-                {data.ultimosPosts.slice(1, 3).map((post) => (
-                  <div key={post.slug} className="h-52 w-full lg:h-1/2">
-                    <BlogPostCard
-                      title={post.title}
-                      image={post.image}
-                      href={post.slug}
-                      badgeTitle={post.category}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* 9. Institucional e contato */}
-      <section className="border-t border-gray-200 bg-mediumGray">
+      <section className="border-t border-gray-200">
         <div className="mx-auto grid w-full max-w-screen-limit gap-10 px-5percent py-12 lg:grid-cols-2 lg:py-16">
           <div>
             <h2 className="text-2xl font-bold text-secondary">{institucionalHome.titulo}</h2>

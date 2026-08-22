@@ -34,7 +34,7 @@ export const headerItems: NavigationType[] = [
           { title: "Gráficos", href: "/conteudos/indicadores?slug=graphics" },
         ],
       },
-      { title: "Insights", href: "/blog" },
+      { title: "Blog", href: "/blog" },
     ],
   },
   {
@@ -75,6 +75,10 @@ export const headerItems: NavigationType[] = [
     ],
   },
   {
+    title: "SOLUÇÕES",
+    href: "/solucoes",
+  },
+  {
     title: "CONTATO",
     href: "/institucional/contato",
   },
@@ -85,6 +89,13 @@ export enum PublishCategories {
   GUIDES = "guia",
   STUDIES = "estudo",
 }
+
+/** Rotulo de leitura de cada tipo de publicacao, no singular. */
+export const publishCategoryLabels: Record<PublishCategories, string> = {
+  [PublishCategories.STUDIES]: "Estudo",
+  [PublishCategories.GUIDES]: "Guia",
+  [PublishCategories.MUNICIPAL_PROFILE]: "Perfil municipal",
+};
 
 export const transformCategory = {
   'guia' : 'guias',

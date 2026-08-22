@@ -16,7 +16,16 @@ interface PublishItemProps {
 }
 
 const Publish: React.FC<PublishItemProps> = ({
-  publishData: { title, longDescription, authors, tags, imageUrl, documentLink },
+  publishData: {
+    title,
+    longDescription,
+    authors,
+    tags,
+    imageUrl,
+    documentLink,
+    publishDate,
+    subCategory,
+  },
   category,
 }) => {
   let relatedPublicationsList: RelatedPublicationModel[] = [];
@@ -37,7 +46,8 @@ const Publish: React.FC<PublishItemProps> = ({
             documentUrl={documentLink}
             category={category}
             authors={authors}
-            createdAt={new Date().toLocaleDateString()}
+            publishDate={publishDate}
+            subCategory={subCategory}
             tags={tags}
           />
 
