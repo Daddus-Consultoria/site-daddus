@@ -86,6 +86,13 @@ export enum PublishCategories {
   STUDIES = "estudo",
 }
 
+/** Rotulo de leitura de cada tipo de publicacao, no singular. */
+export const publishCategoryLabels: Record<PublishCategories, string> = {
+  [PublishCategories.STUDIES]: "Estudo",
+  [PublishCategories.GUIDES]: "Guia",
+  [PublishCategories.MUNICIPAL_PROFILE]: "Perfil municipal",
+};
+
 export const transformCategory = {
   'guia' : 'guias',
   'estudo' : 'estudos',

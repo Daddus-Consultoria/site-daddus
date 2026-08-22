@@ -1,46 +1,23 @@
 import {
   PublishData,
   PublishModel,
-  CategoryModel
+  PublishIndexEntry,
+  PublishQuery,
 } from "../interfaces/publish";
 import { PublishCategories } from "@/lib/constants/constants";
 
 abstract class PublishRepository {
-  /* abstract getMunicipalProfiles(title?: string): Promise<PublishData>;
-
-  abstract getPaginatedMunicipalProfiles(
-    page: number,
-    limit: number,
-    category?: string
-  ): Promise<PublishData>; */
-
   abstract getPublish (title?: string, category?: PublishCategories): Promise<PublishData>;
 
   abstract getPublishById (slug:string, category:PublishCategories): Promise<PublishModel | null>;
 
   abstract getPaginatedPublish (page: number, limit: number, category?:string, order?:"asc" | "desc"): Promise<PublishData>;
 
-  /* abstract getMunicipalProfilePublishById(
-    id: string
-  ): Promise<MunicipalProfileModel | null>;
+  /** Busca paginada do acervo, com busca textual e filtros combinaveis. */
+  abstract searchPublish (query: PublishQuery): Promise<PublishData>;
 
-  abstract getGuides(title?: string): Promise<PublishData>;
-
-  abstract getPaginatedGuides(
-    page: number,
-    limit: number
-  ): Promise<PublishData>;
-
-  abstract getGuidePublishById(id: string): Promise<PublishModel | null>;
-
-  abstract getStudys(title?: string): Promise<PublishData>;
-
-  abstract getPaginatedStudys(
-    page: number,
-    limit: number
-  ): Promise<PublishData>;
-
-  abstract getStudyPublishById(id: string): Promise<PublishModel | null>; */
+  /** Lista enxuta do acervo, usada para montar as opcoes de filtro disponiveis. */
+  abstract getPublishIndex (category?: PublishCategories): Promise<PublishIndexEntry[]>;
 }
 
 export default PublishRepository;
