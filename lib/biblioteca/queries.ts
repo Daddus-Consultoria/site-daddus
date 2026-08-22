@@ -253,11 +253,15 @@ const fetchFacets = async (where: WhereClause): Promise<LibraryFacets> => {
       where.params
     ),
     query<{ value: string; label: string; count: string }>(
-      `SELECT s.slug AS value, s.name AS label, count(*)::text
+      // Conta pelas origens, e nao pela fonte canonica: e assim que o filtro
+      // de fonte se comporta, e um documento consolidado de duas fontes
+      // precisa aparecer na contagem das duas.
+      `SELECT s.slug AS value, s.name AS label, count(DISTINCT d.id)::text
          FROM library_documents d
-         JOIN library_sources s ON s.id = d.source_id
+         JOIN library_document_origins o ON o.document_id = d.id
+         JOIN library_sources s ON s.id = o.source_id
          ${where.sql}
-        GROUP BY 1, 2 ORDER BY count(*) DESC`,
+        GROUP BY 1, 2 ORDER BY count(DISTINCT d.id) DESC`,
       where.params
     ),
     query<{ value: string; count: string }>(
