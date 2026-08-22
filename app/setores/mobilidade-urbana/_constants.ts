@@ -5,25 +5,12 @@ import {Links} from '@/lib/constants/constants';
 const cardContents: CardInfoProps[] = [
     {
         title: 'TRANSPORTES',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        description: "Índices e parâmetros do transporte urbano para reajuste de tarifas e planejamento orçamentário.",
         image: '/images/publications/publication1.svg',
         path: '/setores/mobilidade-urbana/transportes',
         copyLink: `${Links.SITE_DOMAIN}/setores/mobilidade-urbana/transportes`,
+        ctaLabel: "Ver transportes",
     },
-    {
-        title: 'RODOVIAS',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
-        image: '/images/publications/publication1.svg',
-        path: '/setores/mobilidade-urbana/rodovias',
-        copyLink: `${Links.SITE_DOMAIN}/setores/mobilidade-urbana/rodovias`,
-    },
-    {
-        title: 'PORTOS',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
-        image: '/images/publications/publication1.svg',
-        path: '/setores/mobilidade-urbana/portos',
-        copyLink: `${Links.SITE_DOMAIN}/setores/mobilidade-urbana/portos`,
-    }
 ]
 
 const constantMobilityUrban = {

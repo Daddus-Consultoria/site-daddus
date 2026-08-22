@@ -3,17 +3,6 @@ import { constantsTermsOfUse } from "./_constants";
 
 
 const TermsOfUse = () => {
-  const relatedPublications = [
-    {
-      title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
-      link: "#",
-    },
-    {
-      title:
-        "Perspectivas de Mercado: Bitcoin e o mercado bovino. Onde vamos parar?",
-      link: "#",
-    },
-  ];
 
   return (
     <div className="flex flex-1 flex-col">

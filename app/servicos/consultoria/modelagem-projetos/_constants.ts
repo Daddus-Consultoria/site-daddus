@@ -5,18 +5,20 @@ import { Links } from '@/lib/constants/constants';
 const cardContents: CardInfoProps[] = [
     {
         title: 'Elaboração de Políticas Públicas',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        description: "Definição de objetivos, programas e metas da política, com escuta dos atores interessados e avaliação de alternativas até a formulação final.",
         image: '/images/publications/publication1.svg',
         path: '/servicos/consultoria/elaboracao-politicas-publicas',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/elaboracao-politicas-publicas`,
+        ctaLabel: "Conhecer o serviço",
         titleAlign: 'left',
     },
     {
         title: 'Estudos de Viabilidade Econômico-Financeiro',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        description: "Avaliação da sustentação financeira do projeto: análise de mercado, projeção de fluxo de caixa e indicadores como TIR, VPL e payback.",
         image: '/images/publications/publication1.svg',
         path: '/servicos/consultoria/estudo-de-viabilidade',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/estudo-de-viabilidade`,
+        ctaLabel: "Conhecer o serviço",
         titleAlign: 'left',
     }
 ]
@@ -29,30 +31,33 @@ export const constantsProjectModeling = {
     },
     content: [
         {
-            title: 'ESTUDOS DE VIABILIDADE ECONÔMICO-FINANCEIRA',
-            text: 'A viabilidade financeira é o processo de avaliação que permite determinar se um projeto, não só trará melhorias, mas que também seja factível do ponto de vista econômico.'
+            title: 'MODELAGEM DE PROJETOS',
+            text: 'Modelar um projeto é definir como ele sai do papel: qual solução técnica atende à necessidade, quanto custa, quem investe, quem opera e sob qual contrato. A modelagem reúne as dimensões técnica, econômica e jurídica em um desenho único, que possa ser levado à contratação.'
         },
         {
-            title: 'Por que é Crucial?',
-            text: 'A viabilidade financeira oferece uma visão clara das oportunidades e desafios que o plano enfrentará. Ela ajuda a minimizar riscos, maximizar retornos e guiar os responsáveis nos possíveis problemas que podem surgir. '
+            title: 'Quando a modelagem é necessária',
+            text: 'Sempre que a administração precisa contratar algo mais complexo do que uma compra direta — uma concessão, uma parceria público-privada, uma obra com operação de longo prazo. Nesses casos, a decisão sobre o formato do contrato define o resultado tanto quanto a escolha da solução técnica.'
         },
         {
-            title: 'Cálculos Fundamentais',
-            text: 'Calcular a viabilidade financeira não é uma tarefa simples, mas é essencial para o sucesso a longo prazo. Envolve uma série de etapas, desde a análise de mercado até a projeção de fluxo de caixa e indicadores financeiros. Aqui estão alguns aspectos-chave:',
+            title: 'O que a modelagem define',
+            text: 'O trabalho percorre as escolhas que estruturam o projeto:',
             listConsultancy: [
-                'Análise de Mercado: Entender o comportamento do mercado, a demanda dos consumidores e as tendências do setor é fundamental para tomar decisões informadas.',
-                'Projeção de Fluxo de Caixa: Antecipar receitas, despesas e investimentos ao longo do tempo é essencial para garantir a saúde financeira do investimento.',
-                'Análise de Indicadores: Utilizar indicadores como TIR, Payback e VPL para avaliar a rentabilidade e a atratividade do investimento.',
+                'Solução técnica: o que será executado, em qual escala e com qual padrão de serviço.',
+                'Estrutura econômico-financeira: investimento necessário, fontes de receita e sustentação ao longo do contrato.',
+                'Arranjo jurídico: o instrumento de contratação e a divisão de responsabilidades entre as partes.',
+                'Matriz de riscos: quais riscos ficam com o poder público, quais ficam com o parceiro privado e como são tratados.',
+                'Indicadores de desempenho: o que será medido para acompanhar a execução do contrato.',
             ],
             type: 'disc',
         },
         {
-            title: 'Dicas para o Sucesso',
-            text: 'Mantenha-se informado sobre as tendências do mercado e as mudanças no comportamento da população.',
+            title: 'Como conduzimos',
+            text: 'A modelagem se apoia nos estudos que a antecedem e se organiza em etapas:',
             listConsultancy: [
-                'Seja realista ao projetar receitas e despesas, considerando diferentes cenários possíveis.',
-                'Busque orientação profissional, seja de contadores, consultores financeiros ou mentores experientes.',
-                'Ao compreender e aplicar esses conceitos de forma eficaz, você estará melhor preparado para transformar suas ideias em negócios lucrativos e sustentáveis.',
+                'Diagnóstico da necessidade e das alternativas possíveis.',
+                'Estudo de viabilidade econômico-financeira das alternativas selecionadas.',
+                'Definição do arranjo de contratação e da matriz de riscos.',
+                'Elaboração dos documentos que instruem o processo, com a metodologia descrita.',
             ],
             type: 'decimal',
         },

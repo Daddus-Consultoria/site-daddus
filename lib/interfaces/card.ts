@@ -7,6 +7,8 @@ export interface CardInfoProps {
     path: string;
     copyLink: string;
     titleAlign?: "center" | "left" | "right";
+    /** Texto do botao. Deve nomear o destino: "Ver estudos", nao "Veja mais". */
+    ctaLabel?: string;
 }
 
 

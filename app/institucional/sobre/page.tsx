@@ -1,21 +1,11 @@
 "use client";
 import { constantsAbout } from "./_constants";
 import Image from "next/image";
-import { Contact, RelatedPublications, CardInfo } from "@/components/index";
+import { Contact, CardInfo } from "@/components/index";
 import { title } from "process";
+import { UltimasPublicacoes } from "@/components/relatedPublications/ultimasPublicacoes";
 
 const TransportPage = () => {
-  const relatedPublications = [
-    {
-      title: "Citolologia: um estudo demográfico de  duas ou três linhas ",
-      link: "#",
-    },
-    {
-      title:
-        "Perspectivas de Mercado: Bitcoin e o mercado bovino. Onde vamos parar?",
-      link: "#",
-    },
-  ];
 
   return (
     <div className="flex flex-1 flex-col">
@@ -74,7 +64,7 @@ const TransportPage = () => {
           <div className="flex flex-row w-full justify-end">
             <div className="flex lg:w-[72%] flex-col gap-10 mb-[35%] md:mb-[15%]">
               <Contact />
-              <RelatedPublications publicationsRelated={relatedPublications} />
+              <UltimasPublicacoes />
             </div>
           </div>
         </div>
@@ -97,6 +87,7 @@ const TransportPage = () => {
                 path={item.path}
                 copyLink={item.copyLink}
                 titleAlign={item.titleAlign}
+                        ctaLabel={item.ctaLabel}
               />
             </div>
           ))}

@@ -16,6 +16,7 @@ const CardInfo: React.FC<CardInfoProps> = ({
   path,
   copyLink,
   titleAlign = "center",
+  ctaLabel = "Ver página",
 }) => {
   return (
     <Card className="flex flex-1 flex-col rounded-3xl bg-[#EEEEEE] lg:m-0 overflow-hidden">
@@ -42,7 +43,7 @@ const CardInfo: React.FC<CardInfoProps> = ({
       </CardContent>
       <CardFooter className="flex flex-row justify-end mb-3 gap-2">
         <DaddusLink href={path} className="h-9 rounded-2xl">
-          VEJA MAIS
+          {ctaLabel}
         </DaddusLink>
         <SearchLink path={copyLink} />
       </CardFooter>

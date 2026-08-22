@@ -116,6 +116,7 @@ const PublicPoliciesPage = () => {
                 path={item.path}
                 copyLink={item.copyLink}
                 titleAlign={item.titleAlign}
+                        ctaLabel={item.ctaLabel}
               />
             </div>
           ))}
