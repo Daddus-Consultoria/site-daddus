@@ -1,100 +1,142 @@
-"use client";
-import { constantsAbout } from "./_constants";
-import Image from "next/image";
-import { Contact, CardInfo } from "@/components/index";
-import { title } from "process";
+import Link from "next/link";
+
+import { frentesHome } from "@/app/constants";
 import { UltimasPublicacoes } from "@/components/relatedPublications/ultimasPublicacoes";
+import {
+  comoTrabalhamos,
+  compromissos,
+  contatoSobre,
+  missao,
+  publicacoesSobre,
+  sobreHeader,
+} from "./_constants";
 
-const TransportPage = () => {
-
+/**
+ * A pagina segue o mesmo padrao institucional de /tecnologia: cabecalho com
+ * chapeu e resumo, secoes separadas por borda e CTA que nomeia o destino.
+ *
+ * O que saiu daqui: os cards de consultoria que apontavam para "#", a caixa
+ * cinza de placeholder e o bloco "Negociacao de Contratos", que era texto de
+ * servico solto no meio da apresentacao institucional.
+ */
+export default function SobrePage() {
   return (
-    <div className="flex flex-1 flex-col">
-      <div
-        id="about-page"
-        className="flex flex-col lg:flex-row w-full h-full py-[2%] px-[9%] mb-[2%] gap-[2%] lg:gap-[10%] "
-      >
-        <div id="left" className="flex lg:w-1/2 flex-col">
-          {constantsAbout.text.map((item, index) => (
-            <div
-              key={`transport-page-${index}`}
-              className="flex flex-col mb-[8%]"
-            >
-              <h2 className="font-bold text-[26px] lg:text-[32px] text-[#A90920] mb-[2%] ">
-                {item.title}
-              </h2>
-              <p className="flex text-justify text-[17px] text-[#696984] leading-loose whitespace-pre-line ">
-                {item.text}
-              </p>
-            </div>
-          ))}
-          {constantsAbout.values.listValues.length > 0 && (
-            <ol className="mb-[8%] list-decimal ">
-              <h2 className="font-bold text-[26px] lg:text-[32px] text-[#A90920] mb-[2%] ">
-                {constantsAbout.values.title}
-              </h2>
-              {constantsAbout.values.listValues.map((item, index) => (
-                <li
-                  key={`values-about-page-${index}`}
-                  className="text-justify text-[17px] text-[#696984] leading-loose whitespace-pre-line ml-[3%]"
-                >
-                  {item}
-                </li>
-              ))}
+    <main className="w-full">
+      <header className="border-b border-gray-200 bg-mediumGray">
+        <div className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
+          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
+            {sobreHeader.chapeu}
+          </p>
+          <h1 className="mt-3 max-w-3xl text-3xl font-bold leading-tight text-secondary lg:text-4xl">
+            {sobreHeader.titulo}
+          </h1>
+          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-[#696984]">{sobreHeader.texto}</p>
+        </div>
+      </header>
 
-              {/* <p className="flex text-justify text-[17px] text-[#696984] leading-loose whitespace-pre-line ">{item.text}</p> */}
-            </ol>
-          )}
-        </div>
-        <div className="lg:hidden w-full px-[10px] bg-[#D6D6D6] py-[0.5px]"></div>
-        <div
-          id="right"
-          className="flex lg:w-1/2 flex-col justify-start items-end gap-[7%] "
-        >
-          <Image
-            src={constantsAbout.image}
-            width={450}
-            height={300}
-            alt="bus"
-          />
-          <div className="flex justify-center items-center bg-[#D9D9D9] h-[300px] w-[300px]">
-            <p className="font-bold text-[26px] lg:text-[32px] text-[#A90920] mb-[2%]">
-              GOOGLE
-            </p>
+      <div className="mx-auto w-full max-w-screen-limit px-5percent">
+        {/* As tres frentes, com o mesmo texto da home para nao divergir */}
+        <section className="border-b border-gray-200 py-12 lg:py-16">
+          <h2 className="text-2xl font-bold text-secondary">O que a Daddus faz</h2>
+          <p className="mt-3 max-w-3xl text-[17px] leading-relaxed text-[#696984]">
+            Três frentes que se sustentam: o conhecimento embasa a consultoria, e a consultoria mostra
+            o que os sistemas precisam resolver.
+          </p>
+          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+            {frentesHome.map((frente) => (
+              <div key={frente.titulo} className="flex flex-col rounded-xl border border-gray-200 bg-white p-6">
+                <h3 className="text-lg font-bold text-primary">{frente.titulo}</h3>
+                <p className="mt-3 flex-1 text-[15px] leading-relaxed text-[#696984]">{frente.descricao}</p>
+                <Link href={frente.href} className="mt-5 text-sm font-semibold text-primary hover:underline">
+                  {frente.rotulo} →
+                </Link>
+              </div>
+            ))}
           </div>
-          <div className="flex flex-row w-full justify-end">
-            <div className="flex lg:w-[72%] flex-col gap-10 mb-[35%] md:mb-[15%]">
-              <Contact />
-              <UltimasPublicacoes />
+        </section>
+
+        {/* Metodologia/abordagem — prioridade 10 das diretrizes */}
+        <section className="border-b border-gray-200 py-12 lg:py-16">
+          <h2 className="text-2xl font-bold text-secondary">Como trabalhamos</h2>
+          <ol className="mt-8 flex flex-col gap-8">
+            {comoTrabalhamos.map((passo, indice) => (
+              <li
+                key={passo.titulo}
+                className="grid gap-x-6 gap-y-3 border-l-2 border-primary/20 pl-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:pl-8"
+              >
+                <div className="flex items-baseline gap-3">
+                  <span aria-hidden className="text-sm font-bold text-primary">
+                    {String(indice + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="text-lg font-bold text-secondary">{passo.titulo}</h3>
+                </div>
+                <div>
+                  <p className="text-[17px] leading-relaxed text-[#696984]">{passo.texto}</p>
+                  <Link
+                    href={passo.href}
+                    className="mt-3 inline-block text-sm font-semibold text-primary hover:underline"
+                  >
+                    {passo.rotulo} →
+                  </Link>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="border-b border-gray-200 py-12 lg:py-16">
+          <h2 className="text-2xl font-bold text-secondary">Compromissos com o que publicamos</h2>
+          <dl className="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-2">
+            {compromissos.map((compromisso) => (
+              <div key={compromisso.titulo}>
+                <dt className="text-base font-bold text-primary">{compromisso.titulo}</dt>
+                <dd className="mt-2 text-[15px] leading-relaxed text-[#696984]">{compromisso.texto}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        <section className="border-b border-gray-200 py-12 lg:py-16">
+          <h2 className="text-2xl font-bold text-secondary">{missao.titulo}</h2>
+          <p className="mt-3 max-w-3xl text-[17px] leading-relaxed text-[#696984]">{missao.texto}</p>
+        </section>
+
+        {/* Producao recente: prova do que a pagina afirma. Sem publicacao
+            cadastrada, o componente nao renderiza nada. */}
+        <section className="py-12 lg:py-16">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div className="max-w-2xl">
+              <h2 className="text-2xl font-bold text-secondary">{publicacoesSobre.titulo}</h2>
+              <p className="mt-3 text-[17px] leading-relaxed text-[#696984]">{publicacoesSobre.texto}</p>
             </div>
+            <Link href={publicacoesSobre.href} className="text-sm font-semibold text-primary hover:underline">
+              {publicacoesSobre.rotulo} →
+            </Link>
           </div>
-        </div>
+          <div className="mt-8 max-w-2xl">
+            <UltimasPublicacoes />
+          </div>
+        </section>
       </div>
-      <div id="bottom-transport-page" className="px-[7%]">
-        <h2 className=" px-[2%] font-bold text-[26px] lg:text-[32px] text-[#A90920] mb-[2%] ">
-          {constantsAbout.footer.title}
-        </h2>
-        <div className="w-full bg-[#999999] h-[1.5px]"></div>
-        <div className="flex flex-col lg:flex-row gap-10 lg:h-[70%] md:justify-center md:items-center lg:justify-start lg:items-start">
-          {constantsAbout.footer.cards.map((item, index) => (
-            <div
-              key={`card-about-page-${index}`}
-              className="flex flex-col lg:flex-row gap-10  md:max-w-[70%] lg:max-w-[33%] mb-4 lg:mb-14 mt-[3%] rounded-3xl shadow-xl"
-            >
-              <CardInfo
-                title={item.title}
-                description={item.description}
-                image={item.image}
-                path={item.path}
-                copyLink={item.copyLink}
-                titleAlign={item.titleAlign}
-                        ctaLabel={item.ctaLabel}
-              />
-            </div>
-          ))}
+
+      <section className="border-t border-gray-200 bg-mediumGray">
+        <div className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-14">
+          <h2 className="text-xl font-bold text-secondary">{contatoSobre.titulo}</h2>
+          <p className="mt-3 max-w-3xl text-[17px] leading-relaxed text-[#696984]">{contatoSobre.texto}</p>
+          <p className="mt-4 text-[15px] text-[#696984]">
+            E-mail:{" "}
+            <a href={`mailto:${contatoSobre.email}`} className="font-semibold text-primary hover:underline">
+              {contatoSobre.email}
+            </a>
+          </p>
+          <Link
+            href={contatoSobre.href}
+            className="mt-6 inline-flex rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:brightness-90"
+          >
+            {contatoSobre.rotulo}
+          </Link>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
-};
-
-export default TransportPage;
+}

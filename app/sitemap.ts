@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
-      url: "https://www.daddusconsultoria.com/informacoes/sobre",
+      url: "https://www.daddusconsultoria.com/institucional/sobre",
       lastModified: new Date("2024-05-02T01:18:27+00:00"),
       priority: 0.8,
     },
@@ -50,6 +50,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: "https://www.daddusconsultoria.com/setores/mobilidade-urbana/portos",
       lastModified: new Date("2024-05-02T01:18:27+00:00"),
+      priority: 0.8,
+    },
+    {
+      url: "https://www.daddusconsultoria.com/solucoes",
+      lastModified: new Date("2026-08-22T00:00:00+00:00"),
       priority: 0.8,
     },
     {

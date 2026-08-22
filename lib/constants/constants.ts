@@ -75,6 +75,10 @@ export const headerItems: NavigationType[] = [
     ],
   },
   {
+    title: "SOLUÇÕES",
+    href: "/solucoes",
+  },
+  {
     title: "CONTATO",
     href: "/institucional/contato",
   },
