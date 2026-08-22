@@ -19,6 +19,7 @@ const PublishPage = () => {
               image={item.image}
               path={item.path}
               copyLink={item.copyLink}
+              ctaLabel={item.ctaLabel}
             />
           );
         })}

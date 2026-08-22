@@ -5,18 +5,20 @@ import { Links } from '@/lib/constants/constants';
 const cardContents: CardInfoProps[] = [
     {
         title: 'Estudos de Viabilidade Econômico-Financeiro',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        description: "Avaliação da sustentação financeira do projeto: análise de mercado, projeção de fluxo de caixa e indicadores como TIR, VPL e payback.",
         image: '/images/publications/publication1.svg',
         path: '/servicos/consultoria/estudo-de-viabilidade',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/estudo-de-viabilidade`,
+        ctaLabel: "Conhecer o serviço",
         titleAlign: 'left',
     },
     {
         title: 'Modelagem de Projetos',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        description: "Estruturação técnica, jurídica e econômica do projeto, do desenho da solução ao formato de contratação.",
         image: '/images/publications/publication1.svg',
         path: '/servicos/consultoria/modelagem-projetos',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/modelagem-projetos`,
+        ctaLabel: "Conhecer o serviço",
         titleAlign: 'left',
     }
 ]

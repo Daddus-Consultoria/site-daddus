@@ -23,6 +23,7 @@ export const ListCards:React.FC<ListCardsProps> = ({title,cards}) => {
                         path={item.path}
                         copyLink={item.copyLink}
                         titleAlign={item.titleAlign}
+                        ctaLabel={item.ctaLabel}
                     />
                 );
                 })}

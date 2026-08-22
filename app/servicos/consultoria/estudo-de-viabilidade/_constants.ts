@@ -5,18 +5,20 @@ import {Links} from '@/lib/constants/constants';
 const cardContents: CardInfoProps[] = [
     {
         title: 'Elaboração de Políticas Públicas',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        description: "Definição de objetivos, programas e metas da política, com escuta dos atores interessados e avaliação de alternativas até a formulação final.",
         image: '/images/publications/publication1.svg',
         path: '/servicos/consultoria/elaboracao-politicas-publicas',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/elaboracao-politicas-publicas`,
+        ctaLabel: "Conhecer o serviço",
         titleAlign: 'left',
     },
     {
         title: 'Modelagem de Projetos',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        description: "Estruturação técnica, jurídica e econômica do projeto, do desenho da solução ao formato de contratação.",
         image: '/images/publications/publication1.svg',
         path: '/servicos/consultoria/modelagem-projetos',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/modelagem-projetos`,
+        ctaLabel: "Conhecer o serviço",
         titleAlign: 'left',
     }
 ]

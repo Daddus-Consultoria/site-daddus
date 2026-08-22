@@ -85,7 +85,7 @@ const BlogPage: React.FC = () => {
               <BlogPostCard
                 title={lastPosts![0].title}
                 image={lastPosts![0].image}
-                first={constantCardBlog.cards[0].first}
+                first
                 href={lastPosts![0].slug}
                 badgeTitle={lastPosts![0].category}
               />
@@ -105,7 +105,7 @@ const BlogPage: React.FC = () => {
                   title={lastPosts![1].title}
                   image={lastPosts![1].image}
                   href={lastPosts![1].slug}
-                  first={constantCardBlog.cards[1].first}
+                  
                   badgeTitle={lastPosts![1].category}
                 />
               )
@@ -123,7 +123,7 @@ const BlogPage: React.FC = () => {
                   title={lastPosts![2].title}
                   href={lastPosts![2].slug}
                   image={lastPosts![2].image}
-                  first={constantCardBlog.cards[2].first}
+                  
                   badgeTitle={lastPosts![2].category}
                 />
               )
@@ -180,6 +180,7 @@ const BlogPage: React.FC = () => {
                 image={item.image}
                 path={item.path}
                 copyLink={item.copyLink}
+              ctaLabel={item.ctaLabel}
               />
             );
           })}

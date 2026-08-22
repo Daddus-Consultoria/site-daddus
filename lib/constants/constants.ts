@@ -1,119 +1,83 @@
 import { NavigationType } from "@/lib/interfaces/navigation";
+/**
+ * O menu separa as tres frentes da Daddus — conhecimento, consultoria e
+ * tecnologia — porque e assim que a empresa quer ser lida: nao como uma
+ * consultoria que tambem publica, e sim como uma organizacao que produz
+ * conhecimento, presta consultoria e desenvolve sistemas proprios.
+ * Ver docs/DIRETRIZES-UX.md.
+ */
 export const headerItems: NavigationType[] = [
   {
-    title: "SERVIÇOS",
+    title: "DADDUS",
     subtypes: [
-      {
-        title: "Consultoria",
-        href: "/servicos/consultoria",
-        items: [
-          {
-            title: "Elaboração de Políticas Públicas",
-            href: "/servicos/consultoria/elaboracao-politicas-publicas",
-          },
-          {
-            title: "Estudos de Viabilidade Econômico-Financeira",
-            href: "/servicos/consultoria/estudo-de-viabilidade",
-          },
-          {
-            title: "Modelagem de Projetos",
-            href: "/servicos/consultoria/modelagem-projetos",
-          },
-        ],
-      },
-      {
-        title: "Desenvolvimento de sistemas",
-        /*  items: [
-          {
-            title: "Compasso",
-            href: "#",
-          },
-        ], */
-      },
+      { title: "Quem somos", href: "/institucional/sobre" },
+      { title: "Fale com a Daddus", href: "/institucional/contato" },
     ],
   },
   {
-    title: "SETORES",
+    title: "CONHECIMENTO",
     subtypes: [
-      {
-        title: "Mobilidade Urbana",
-        href: "/setores/mobilidade-urbana",
-        items: [
-          {
-            title: "Transportes",
-            href: "/setores/mobilidade-urbana/transportes",
-          },
-         /*  {
-            title: "Rodovias",
-            href: "/setores/mobilidade-urbana/rodovias",
-          },
-          {
-            title: "Portos",
-            href: "/setores/mobilidade-urbana/portos",
-          }, */
-        ],
-      },
-      /* {
-        title: "Saúde",
-        items: [
-          {
-            title: "Gestão Hospitalar",
-            href: "#",
-          },
-        ],
-      }, */
-      /* {
-        title: "Mobiliário Urbano",
-        items: [
-          {
-            title: "RED's",
-            href: "#",
-          },
-        ],
-      }, */
-    ],
-  },
-  {
-    title: "CONTEÚDOS",
-    subtypes: [
-      { title: "Indicadores", items: [{ title: "Mapas", href: "/conteudos/indicadores?slug=maps" }, { title: "Gráficos", href: "/conteudos/indicadores?slug=graphics" }] },
       {
         title: "Publicações",
         href: "/conteudos/publicacoes",
         items: [
-          {
-            title: "Estudos",
-            href: "/conteudos/publicacoes/estudos",
-          },
-          {
-            title: "Guias",
-            href: "/conteudos/publicacoes/guias",
-          },
-          {
-            title: "Perfis Municipais",
-            href: "/conteudos/publicacoes/perfis-municipais",
-          },
+          { title: "Estudos", href: "/conteudos/publicacoes/estudos" },
+          { title: "Guias", href: "/conteudos/publicacoes/guias" },
+          { title: "Perfis municipais", href: "/conteudos/publicacoes/perfis-municipais" },
+        ],
+      },
+      {
+        title: "Indicadores",
+        href: "/conteudos/indicadores",
+        items: [
+          { title: "Mapas", href: "/conteudos/indicadores?slug=maps" },
+          { title: "Gráficos", href: "/conteudos/indicadores?slug=graphics" },
+        ],
+      },
+      { title: "Insights", href: "/blog" },
+    ],
+  },
+  {
+    title: "CONSULTORIA",
+    subtypes: [
+      {
+        title: "Áreas de atuação",
+        href: "/servicos/consultoria",
+        items: [
+          { title: "Elaboração de políticas públicas", href: "/servicos/consultoria/elaboracao-politicas-publicas" },
+          { title: "Viabilidade econômico-financeira", href: "/servicos/consultoria/estudo-de-viabilidade" },
+          { title: "Modelagem de projetos", href: "/servicos/consultoria/modelagem-projetos" },
+        ],
+      },
+      {
+        title: "Setores",
+        href: "/setores/mobilidade-urbana",
+        items: [
+          { title: "Mobilidade urbana", href: "/setores/mobilidade-urbana" },
+          { title: "Transportes", href: "/setores/mobilidade-urbana/transportes" },
         ],
       },
     ],
   },
   {
-    title: "BLOG",
-    href: "/blog",
+    title: "TECNOLOGIA",
+    subtypes: [
+      {
+        title: "Ecossistema Daddus",
+        href: "/tecnologia",
+        items: [
+          { title: "Compasso", href: "/tecnologia/compasso" },
+          { title: "Opus", href: "/tecnologia/opus" },
+          { title: "Prisma", href: "/tecnologia/prisma" },
+          { title: "Atlas", href: "/tecnologia/atlas" },
+        ],
+      },
+    ],
   },
   {
-    title: "INSTITUCIONAL",
-    subtypes:[
-      {
-        title: "Sobre nós",
-        href: "/institucional/sobre",
-      },
-      {
-        title: "Contato",
-        href: "/institucional/contato",
-      },
-    ]
-  }
+    title: "CONTATO",
+    href: "/institucional/contato",
+  },
 ];
 
 export enum PublishCategories {

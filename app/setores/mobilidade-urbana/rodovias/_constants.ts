@@ -4,21 +4,13 @@ import {Links} from '@/lib/constants/constants';
 
 const cardContents: CardInfoProps[] = [
     {
-        title: 'RODOVIAS',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
+        title: 'MOBILIDADE URBANA',
+        description: "Panorama do deslocamento urbano no Brasil e os dados que embasam decisões de planejamento.",
         image: '/images/publications/publication1.svg',
-        path: '/setores/mobilidade-urbana/rodovias',
-        copyLink: `${Links.SITE_DOMAIN}/setores/mobilidade-urbana/rodovias`,
-        titleAlign: 'left',
+        path: '/setores/mobilidade-urbana',
+        copyLink: `${Links.SITE_DOMAIN}/setores/mobilidade-urbana`,
+        ctaLabel: "Ver mobilidade urbana",
     },
-    {
-        title: 'PORTOS',
-        description: 'Ao contrário da crença popular, o Lorem Ipsum não é simplesmente texto aleatório. Tem raízes numa peça de literatura clássica em Latim, de 45 AC, tornando-o com mais de 2000 anos.',
-        image: '/images/publications/publication1.svg',
-        path: '/setores/mobilidade-urbana/portos',
-        copyLink: `${Links.SITE_DOMAIN}/setores/mobilidade-urbana/portos`,
-        titleAlign: 'left',
-    }
 ]
 
 
