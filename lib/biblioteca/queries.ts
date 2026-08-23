@@ -13,6 +13,7 @@ import type {
   LibraryQuery,
   LibrarySearchResult,
   LibrarySource,
+  LibrarySummary,
   LibraryTopic,
 } from "./types";
 
@@ -135,6 +136,16 @@ const buildWhere = (filters: LibraryFilters, approximate = false): WhereClause =
 
     return `$${params.length}`;
   };
+
+  // Fonte desativada sai do acervo publico. A equipe desativa uma fonte quando
+  // decide que ela nao pertence a Biblioteca (ver docs/BIBLIOTECA.md, "o
+  // criterio"); continuar servindo o que ja fora coletado faria da decisao
+  // letra morta e deixaria a contagem da area em desacordo com a busca. O
+  // permalink do documento continua de pe: quem chegou por link de fora nao
+  // perde a pagina.
+  conditions.push(
+    "EXISTS (SELECT 1 FROM library_sources src WHERE src.id = d.source_id AND src.active)"
+  );
 
   const search = filters.search?.trim();
 
@@ -400,13 +411,28 @@ export const getLibraryTopics = async (): Promise<LibraryTopic[]> => {
   return rows.map((row) => ({ slug: row.slug, name: row.name, systemSlug: row.system_slug }));
 };
 
-export const getLibrarySources = async (): Promise<LibrarySource[]> => {
+/**
+ * Fontes ativas. Com `onlyWithDocuments`, so as que ja tem documento indexado
+ * — e o que a tela oferece como atalho, porque a Biblioteca nao apresenta
+ * recorte que devolveria lista vazia (ver docs/BIBLIOTECA.md). A resolucao de
+ * /biblioteca/<fonte> continua aceitando qualquer fonte ativa: uma coleta que
+ * ainda nao rodou nao deve transformar um endereco valido em 404.
+ */
+export const getLibrarySources = async (
+  onlyWithDocuments = false
+): Promise<LibrarySource[]> => {
   const rows = await query<{
     slug: string;
     name: string;
     institution: string | null;
     site_url: string | null;
-  }>("SELECT slug, name, institution, site_url FROM library_sources WHERE active ORDER BY name");
+  }>(
+    `SELECT s.slug, s.name, s.institution, s.site_url
+       FROM library_sources s
+      WHERE s.active
+        ${onlyWithDocuments ? "AND EXISTS (SELECT 1 FROM library_documents d WHERE d.source_id = s.id)" : ""}
+      ORDER BY s.name`
+  );
 
   return rows.map((row) => ({
     slug: row.slug,
@@ -416,20 +442,59 @@ export const getLibrarySources = async (): Promise<LibrarySource[]> => {
   }));
 };
 
-export const getLibraryStats = async (): Promise<{
-  documents: number;
-  sources: number;
-  curated: number;
-}> => {
-  const rows = await query<{ documents: string; sources: string; curated: string }>(
-    `SELECT (SELECT count(*) FROM library_documents)::text AS documents,
-            (SELECT count(*) FROM library_sources WHERE active)::text AS sources,
-            (SELECT count(*) FROM library_documents WHERE curated)::text AS curated`
-  );
+/**
+ * Retrato do acervo, para a home e para o topo da Biblioteca: os numeros da
+ * area e os temas com mais documentos.
+ *
+ * Conta so o que a busca mostra — documento de fonte desativada esta no banco
+ * mas fora do acervo publico, e um total que o incluisse nao bateria com o
+ * "N documentos encontrados" da propria tela.
+ *
+ * "Fontes" sao as que tem documento indexado, nao as cadastradas: uma fonte
+ * ativa que ainda nao foi coletada (ou cuja coleta falha) nao acrescentou nada
+ * ao acervo, e conta-la anunciaria alcance que a busca nao entrega.
+ */
+export const getLibrarySummary = async (topicLimit = 8): Promise<LibrarySummary> => {
+  const active = "JOIN library_sources s ON s.id = d.source_id AND s.active";
+
+  const [totals, topics] = await Promise.all([
+    query<{
+      documents: string;
+      sources: string;
+      curated: string;
+      year_from: number | null;
+      year_to: number | null;
+    }>(
+      `SELECT (SELECT count(*)::text FROM library_documents d ${active}) AS documents,
+              (SELECT count(DISTINCT d.source_id)::text FROM library_documents d ${active}) AS sources,
+              (SELECT count(*)::text FROM library_documents d ${active} WHERE d.curated) AS curated,
+              (SELECT min(d.year) FROM library_documents d ${active}) AS year_from,
+              (SELECT max(d.year) FROM library_documents d ${active}) AS year_to`
+    ),
+    query<{ value: string; label: string; count: string }>(
+      `SELECT t.slug AS value, t.name AS label, count(DISTINCT d.id)::text AS count
+         FROM library_topics t
+         JOIN library_document_topics dt ON dt.topic_id = t.id
+         JOIN library_documents d ON d.id = dt.document_id
+         ${active}
+        WHERE t.active
+        GROUP BY 1, 2
+        ORDER BY count(DISTINCT d.id) DESC
+        LIMIT $1`,
+      [topicLimit]
+    ),
+  ]);
 
   return {
-    documents: Number(rows[0]?.documents ?? 0),
-    sources: Number(rows[0]?.sources ?? 0),
-    curated: Number(rows[0]?.curated ?? 0),
+    documents: Number(totals[0]?.documents ?? 0),
+    sources: Number(totals[0]?.sources ?? 0),
+    curated: Number(totals[0]?.curated ?? 0),
+    yearFrom: totals[0]?.year_from ?? null,
+    yearTo: totals[0]?.year_to ?? null,
+    topics: topics.map((row) => ({
+      value: row.value,
+      label: row.label,
+      count: Number(row.count),
+    })),
   };
 };

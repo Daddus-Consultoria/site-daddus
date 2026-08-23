@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { SlidersHorizontal, X } from "lucide-react";
+import { Search, SlidersHorizontal, X } from "lucide-react";
 
 import { CircularProgressIndicator } from "@/components/circularProgressIndicator";
 import { ContentNotFoundWarning } from "@/components/contentNotFoundWarning";
@@ -259,17 +259,22 @@ const LibraryExplorer: React.FC<LibraryExplorerProps> = ({
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-3">
+      <div className="relative">
         <label htmlFor="busca-biblioteca" className="sr-only">
           Pesquisar na Biblioteca Daddus
         </label>
+        <Search
+          size={18}
+          aria-hidden
+          className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-label"
+        />
         <input
           id="busca-biblioteca"
           type="search"
           value={searchDraft}
           onChange={(event) => setSearchDraft(event.target.value)}
-          placeholder="Pesquise por tema, título, autor, instituição ou palavra-chave..."
-          className="w-full rounded-md border border-border px-4 py-3.5 text-base text-secondary outline-none focus:border-primary"
+          placeholder="Pesquise por tema, título, autor, instituição ou palavra-chave"
+          className="w-full rounded-md border border-border py-3.5 pl-11 pr-4 text-base text-secondary outline-none transition focus:border-primary"
         />
       </div>
 
@@ -328,7 +333,7 @@ const LibraryExplorer: React.FC<LibraryExplorerProps> = ({
               key={chip.key}
               type="button"
               onClick={chip.onRemove}
-              className="inline-flex items-center gap-1.5 rounded-full bg-medium-gray px-3 py-1.5 text-xs text-secondary hover:bg-border"
+              className="inline-flex items-center gap-1.5 rounded-full bg-mediumGray px-3 py-1.5 text-xs text-secondary hover:bg-border"
             >
               {chip.label}
               <X size={12} aria-hidden />
@@ -351,7 +356,7 @@ const LibraryExplorer: React.FC<LibraryExplorerProps> = ({
 
         <div className="min-w-0 flex-1">
           {data?.approximate && (
-            <p className="mb-4 rounded-md bg-medium-gray px-4 py-3 text-sm text-secondary">
+            <p className="mb-4 rounded-md bg-mediumGray px-4 py-3 text-sm text-secondary">
               Nenhum resultado exato para <strong>{query.search}</strong>. Mostrando documentos
               com títulos parecidos.
             </p>

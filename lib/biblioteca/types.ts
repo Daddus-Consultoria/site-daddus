@@ -135,3 +135,18 @@ export interface LibrarySearchResult {
    */
   approximate: boolean;
 }
+
+/**
+ * Retrato do acervo para quem ainda nao pesquisou: os numeros da area e os
+ * temas com mais documentos, que sao o caminho de entrada de quem nao sabe o
+ * que digitar. Alimenta a home e o topo da Biblioteca.
+ */
+export interface LibrarySummary {
+  documents: number;
+  sources: number;
+  curated: number;
+  /** Cobertura temporal do acervo — contexto para o total. */
+  yearFrom: number | null;
+  yearTo: number | null;
+  topics: LibraryFacet[];
+}

@@ -15,6 +15,17 @@ export const libraryPageContent = {
     "A Biblioteca reúne metadados de acervos públicos e leva você ao documento no portal de origem.",
   topicsTitle: "Por tema",
   sourcesTitle: "Por fonte",
+  /**
+   * Atalhos de entrada, mostrados so a quem ainda nao pesquisou: acima de uma
+   * lista de resultados eles seriam ruido, e o mesmo recorte continua no painel
+   * de filtros. Ver docs/DIRETRIZES-UX.md, secao 12.
+   */
+  startTitle: "Comece por um tema",
+  startDescription:
+    "Cada tema é um recorte do acervo com endereço próprio, que você pode compartilhar ou refinar depois.",
+  statDocuments: "Documentos indexados",
+  statSources: "Fontes",
+  statYears: "Cobertura",
   curatedTitle: "Seleção Daddus",
   curatedDescription:
     "Documentos que a equipe técnica destacou por relação direta com o trabalho da Daddus.",

@@ -8,9 +8,17 @@ import type { LibraryDocument } from "@/lib/biblioteca/types";
  * Resultado da Biblioteca. A ordem de leitura e a da spec: tipo, titulo,
  * autoria/fonte/ano, trecho do resumo, temas, indicadores e acoes — com o
  * documento original como acao principal, porque e para la que o usuario vai.
+ *
+ * Tipo, ano e acesso abrem o cartao como uma linha so de metadados: sao o que
+ * o olho usa para descartar um resultado, e cabem antes do titulo justamente
+ * por isso. Abaixo do titulo fica a procedencia, que e o que sustenta a
+ * citacao.
  */
 
 const ABSTRACT_PREVIEW_LENGTH = 260;
+
+/** Acima disso a lista de temas compete com o resumo em vez de resumi-lo. */
+const MAX_TOPICS = 4;
 
 const preview = (abstract: string | null): string | null => {
   if (!abstract) return null;
@@ -36,20 +44,25 @@ interface DocumentCardProps {
 const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
   const abstract = preview(document.abstract);
   const authors = authorLine(document.authors);
+  const topics = document.topics.slice(0, MAX_TOPICS);
+  const hiddenTopics = document.topics.length - topics.length;
 
   return (
-    <article className="flex flex-col gap-3 border-b border-border py-6 last:border-b-0">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-sm bg-medium-gray px-2 py-1 text-xs font-semibold uppercase tracking-wide text-secondary">
+    <article className="flex flex-col gap-2.5 border-b border-border py-6 last:border-b-0">
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs">
+        <span className="font-semibold uppercase tracking-wide text-primary">
           {documentTypeLabels[document.documentType]}
         </span>
-        {document.curated && (
-          <span className="rounded-sm border border-primary px-2 py-1 text-xs font-semibold uppercase tracking-wide text-primary">
-            Seleção Daddus
-          </span>
+        {document.year && (
+          <span className="tabular-nums text-label">{document.year}</span>
         )}
         {document.openAccess && (
-          <span className="text-xs font-medium text-label">{accessLabels[document.access]}</span>
+          <span className="text-label">{accessLabels[document.access]}</span>
+        )}
+        {document.curated && (
+          <span className="rounded-sm border border-primary px-2 py-0.5 font-semibold uppercase tracking-wide text-primary">
+            Seleção Daddus
+          </span>
         )}
       </div>
 
@@ -64,33 +77,32 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
       </h3>
 
       <p className="text-sm text-label">
-        {[authors, document.institution ?? document.source.name, document.year]
-          .filter(Boolean)
-          .join(" · ")}
+        {[authors, document.institution ?? document.source.name].filter(Boolean).join(" · ")}
       </p>
 
       {abstract && <p className="text-sm leading-relaxed text-foreground/80">{abstract}</p>}
 
-      {document.topics.length > 0 && (
-        <ul className="flex flex-wrap gap-2">
-          {document.topics.map((topic) => (
-            <li
-              key={topic.slug}
-              className="rounded-sm bg-light-gray px-2 py-1 text-xs text-secondary"
-            >
-              {topic.name}
+      {topics.length > 0 && (
+        // O tema e um recorte com endereco proprio: deixa-lo mudo desperdicava
+        // o caminho mais curto entre um resultado util e outros como ele.
+        <ul className="flex flex-wrap items-center gap-2 pt-0.5">
+          {topics.map((topic) => (
+            <li key={topic.slug}>
+              <Link
+                href={`/biblioteca/${topic.slug}`}
+                className="inline-block rounded-sm bg-lightgray px-2 py-1 text-xs text-secondary transition hover:text-primary"
+              >
+                {topic.name}
+              </Link>
             </li>
           ))}
+          {hiddenTopics > 0 && (
+            <li className="text-xs text-label">e mais {hiddenTopics}</li>
+          )}
         </ul>
       )}
 
-      <div className="flex flex-wrap items-center gap-4 pt-1">
-        <Link
-          href={`/biblioteca/documento/${document.slug}`}
-          className="text-sm font-semibold text-secondary underline underline-offset-4 hover:text-primary"
-        >
-          Ver detalhes
-        </Link>
+      <div className="flex flex-wrap items-center gap-4 pt-1.5">
         <a
           href={document.sourceUrl}
           target="_blank"
@@ -100,6 +112,12 @@ const DocumentCard: React.FC<DocumentCardProps> = ({ document }) => {
           Acessar em {document.source.name}
           <ExternalLink size={14} aria-hidden />
         </a>
+        <Link
+          href={`/biblioteca/documento/${document.slug}`}
+          className="text-sm font-medium text-label underline underline-offset-4 hover:text-secondary"
+        >
+          Ver ficha do documento
+        </Link>
       </div>
     </article>
   );

@@ -94,30 +94,40 @@ const RecortePage = async ({ params }: RecortePageProps) => {
   if (!recorte) notFound();
 
   return (
-    <main className="mx-auto flex w-full max-w-screen-limit flex-col gap-8 px-5percent py-10">
-      <nav aria-label="Trilha de navegação" className="text-sm text-label">
-        <ol className="flex flex-wrap items-center gap-1.5">
-          <li>
-            <Link href="/biblioteca" className="hover:text-primary">
-              Biblioteca Daddus
-            </Link>
-          </li>
-          <li aria-hidden>›</li>
-          <li className="text-secondary">{recorte.title}</li>
-        </ol>
-      </nav>
+    <main className="w-full">
+      {/* Mesmo cabecalho da Biblioteca: as duas telas sao a mesma area, e o
+          recorte se anuncia pela trilha, nao por um estilo proprio. */}
+      <header className="border-b border-border bg-mediumGray">
+        <div className="mx-auto flex w-full max-w-screen-limit flex-col gap-3 px-5percent py-8 lg:py-10">
+          <nav aria-label="Trilha de navegação" className="text-sm text-label">
+            <ol className="flex flex-wrap items-center gap-1.5">
+              <li>
+                <Link href="/biblioteca" className="hover:text-primary">
+                  Biblioteca Daddus
+                </Link>
+              </li>
+              <li aria-hidden>›</li>
+              <li className="text-secondary">{recorte.title}</li>
+            </ol>
+          </nav>
 
-      <header className="flex flex-col gap-2">
-        <h1 className="text-[26px] font-bold text-primary lg:text-[32px]">{recorte.title}</h1>
-        <p className="max-w-[760px] text-base text-foreground/80">{recorte.description}</p>
+          <h1 className="text-[28px] font-bold leading-tight text-secondary lg:text-[36px]">
+            {recorte.title}
+          </h1>
+          <p className="max-w-[760px] text-[17px] leading-relaxed text-foreground/80">
+            {recorte.description}
+          </p>
+        </div>
       </header>
 
-      <Suspense fallback={<CircularProgressIndicator containerHeight="400px" />}>
-        <LibraryExplorer
-          fixedFilters={recorte.filters}
-          hiddenGroups={[recorte.hiddenGroup]}
-        />
-      </Suspense>
+      <div className="mx-auto flex w-full max-w-screen-limit flex-col gap-8 px-5percent py-10">
+        <Suspense fallback={<CircularProgressIndicator containerHeight="400px" />}>
+          <LibraryExplorer
+            fixedFilters={recorte.filters}
+            hiddenGroups={[recorte.hiddenGroup]}
+          />
+        </Suspense>
+      </div>
     </main>
   );
 };

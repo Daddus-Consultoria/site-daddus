@@ -93,7 +93,7 @@ const FilterGroup: React.FC<FilterGroupProps> = ({
                 type="button"
                 onClick={() => onToggle(option.value)}
                 aria-pressed={isSelected}
-                className="flex w-full items-center justify-between gap-2 rounded-sm px-1 py-1.5 text-left text-sm hover:bg-medium-gray"
+                className="flex w-full items-center justify-between gap-2 rounded-sm px-1 py-1.5 text-left text-sm hover:bg-mediumGray"
               >
                 <span className="flex items-center gap-2">
                   <span
@@ -255,7 +255,7 @@ const FiltersPanel: React.FC<FiltersPanelProps> = ({
           type="button"
           onClick={() => onCuratedChange(!curatedOnly)}
           aria-pressed={curatedOnly}
-          className="flex w-full items-center gap-2 rounded-sm px-1 py-1.5 text-left text-sm hover:bg-medium-gray"
+          className="flex w-full items-center gap-2 rounded-sm px-1 py-1.5 text-left text-sm hover:bg-mediumGray"
         >
           <span
             className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-[3px] border ${

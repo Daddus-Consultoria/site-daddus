@@ -114,7 +114,7 @@ const DocumentPage = async ({ params }: DocumentPageProps) => {
 
       <header className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-sm bg-medium-gray px-2 py-1 text-xs font-semibold uppercase tracking-wide text-secondary">
+          <span className="rounded-sm bg-mediumGray px-2 py-1 text-xs font-semibold uppercase tracking-wide text-secondary">
             {documentTypeLabels[document.documentType]}
           </span>
           {document.curated && (
@@ -235,7 +235,7 @@ const DocumentPage = async ({ params }: DocumentPageProps) => {
                   <Link
                     key={topic.slug}
                     href={`/biblioteca/${topic.slug}`}
-                    className="rounded-sm bg-light-gray px-2 py-1 text-xs hover:text-primary"
+                    className="rounded-sm bg-lightgray px-2 py-1 text-xs hover:text-primary"
                   >
                     {topic.name}
                   </Link>
@@ -262,7 +262,7 @@ const DocumentPage = async ({ params }: DocumentPageProps) => {
       </section>
 
       {system && (
-        <aside className="max-w-[760px] rounded-md bg-medium-gray px-5 py-4 text-sm">
+        <aside className="max-w-[760px] rounded-md bg-mediumGray px-5 py-4 text-sm">
           <Link href={system.href} className="font-semibold text-secondary hover:text-primary">
             Conheça o {system.name} — {system.description}
           </Link>
