@@ -13,7 +13,8 @@ import type { PoolClient } from "pg";
 
 import { getPool } from "../lib/db/pool";
 import { harvestOai } from "../lib/biblioteca/oai";
-import { deaccent, normalizeOaiRecord } from "../lib/biblioteca/normalize";
+import { normalizeOaiRecord } from "../lib/biblioteca/normalize";
+import { buildHaystack, classify, loadTopicRules } from "../lib/biblioteca/classify";
 
 interface SourceRow {
   id: number;
@@ -25,12 +26,6 @@ interface SourceRow {
   metadata_prefix: string;
   set_spec: string | null;
   last_datestamp: string | null;
-}
-
-interface TopicRule {
-  topicId: number;
-  term: string;
-  matcher: RegExp;
 }
 
 const COMMIT_EVERY = 200;
@@ -81,40 +76,6 @@ const loadSources = async (
   );
 
   return rows;
-};
-
-/**
- * As regras de tema ficam no banco justamente para a equipe ajustar sem
- * deploy; sao carregadas uma vez por execucao e aplicadas em memoria.
- */
-const loadTopicRules = async (client: PoolClient): Promise<TopicRule[]> => {
-  const { rows } = await client.query<{ topic_id: number; term: string }>(
-    `SELECT r.topic_id, r.term
-       FROM library_topic_rules r
-       JOIN library_topics t ON t.id = r.topic_id
-      WHERE t.active`
-  );
-
-  return rows.map(({ topic_id, term }) => ({
-    topicId: topic_id,
-    term,
-    // Limite de palavra nas pontas: sem isso "ppp" casaria dentro de outra
-    // palavra e "dados" casaria em "cuidados".
-    matcher: new RegExp(`(^|[^a-z0-9])${term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(s)?([^a-z0-9]|$)`, "i"),
-  }));
-};
-
-const classify = (
-  rules: TopicRule[],
-  haystack: string
-): number[] => {
-  const found = new Set<number>();
-
-  rules.forEach((rule) => {
-    if (rule.matcher.test(haystack)) found.add(rule.topicId);
-  });
-
-  return Array.from(found);
 };
 
 const run = async () => {
@@ -264,12 +225,7 @@ const run = async () => {
             [documentId, source.id, record.identifier, doc.sourceUrl]
           );
 
-          const haystack = deaccent(
-            [doc.title, doc.subtitle, doc.keywords.join(" "), doc.abstract]
-              .filter(Boolean)
-              .join(" ")
-          ).toLowerCase();
-          const topicIds = classify(rules, haystack);
+          const topicIds = classify(rules, buildHaystack(doc));
 
           await client.query(
             "DELETE FROM library_document_topics WHERE document_id = $1",

@@ -20,6 +20,7 @@ yarn db:migrate   # aplica db/migrations no Postgres da Biblioteca
 yarn harvest ipea # coleta metadados de uma fonte da Biblioteca (ver docs/BIBLIOTECA.md)
 yarn biblioteca:status # diagnostica banco, tabelas, contagem e última coleta
 yarn biblioteca:setup  # instalação: migrations + coleta de todas as fontes ativas
+yarn biblioteca:reclassificar --simular # reaplica as regras de tema (sem --simular, grava)
 ```
 
 Não há suíte de testes automatizados no repositório. Verificação = `yarn ts-check` + `yarn lint`

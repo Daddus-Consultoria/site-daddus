@@ -118,14 +118,23 @@ const run = async () => {
   }
 
   console.log("\n  Fontes\n");
+
+  // A largura da primeira coluna sai do conteudo: "educapes (inativa)" nao
+  // cabe em 12 e empurrava as outras colunas de cada linha para um lugar
+  // diferente, desmanchando a tabela justo quando ha fonte desativada.
+  const nomes = sources.map(
+    (source) => `  ${source.slug}${source.active ? "" : " (inativa)"}`
+  );
+  const largura = Math.max(12, ...nomes.map((nome) => nome.length + 2));
+
   console.log(
-    ["  fonte".padEnd(12), "documentos".padStart(11), "  periodicidade", "  ultima coleta"].join("")
+    ["  fonte".padEnd(largura), "documentos".padStart(11), "  periodicidade", "  ultima coleta"].join("")
   );
 
-  sources.forEach((source) => {
+  sources.forEach((source, indice) => {
     console.log(
       [
-        `  ${source.slug}${source.active ? "" : " (inativa)"}`.padEnd(12),
+        nomes[indice].padEnd(largura),
         Number(source.documentos).toLocaleString("pt-BR").padStart(11),
         `  ${source.frequency}`.padEnd(15),
         `  ${source.ultima ? source.ultima.toISOString().slice(0, 16).replace("T", " ") : "nunca"}`,

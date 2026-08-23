@@ -84,8 +84,47 @@ SELECT id, unnest(ARRAY['saneamento', 'esgoto', 'agua potavel'])
   FROM library_topics WHERE slug = 'saneamento';
 ```
 
-A reclassificação vale para documentos coletados a partir daí; para aplicar ao
-acervo já indexado, rode `yarn harvest <fonte> --full`.
+Regra nova vale para o que for coletado dali em diante. Para aplicar ao acervo
+já indexado, **não é preciso recoletar** — o classificador trabalha sobre
+título, subtítulo, palavras-chave e resumo, que já estão no banco:
+
+```bash
+yarn biblioteca:reclassificar --simular    # mede o efeito sem gravar
+yarn biblioteca:reclassificar              # grava
+yarn biblioteca:reclassificar --fonte=ipea
+```
+
+A simulação mostra quantos documentos mudariam de tema e o saldo de cada tema,
+antes e depois. É o jeito de conferir uma regra nova antes de deixá-la mexer no
+acervo — um total que melhora pode esconder um tema que passou a capturar o que
+não é dele.
+
+O comando e a coleta usam o mesmo módulo (`lib/biblioteca/classify.ts`); duas
+implementações da mesma regra divergiriam na primeira correção.
+
+### Como escrever uma regra que funciona
+
+Três armadilhas, todas medidas no acervo:
+
+**Plural de expressão composta.** O casamento aceita um `s` opcional no fim do
+termo inteiro, então `servico publico` **não** encontra "serviços públicos" — o
+plural está na primeira palavra também. Cadastre as duas formas, como já é
+feito em `concessao`/`concessoes`.
+
+**Termo genérico.** `municipal`, sozinho, casava com "escola municipal" e
+"rede pública municipal", e assim qualquer trabalho sobre uma escola entrava em
+Gestão Municipal. Prefira a expressão com contexto — `gestao municipal`,
+`tributo municipal`, `secretaria municipal`. O mesmo valeu para `orcamento`,
+que puxava política agrícola e economia solidária, e virou `orcamentario`,
+`plano plurianual`, `despesa publica`.
+
+**Só português.** Periódico publica metadado bilíngue: na RAP, "Urban
+development in Brazil" ficava sem tema nenhum. Os termos centrais têm hoje a
+forma em inglês.
+
+O que nenhuma regra alcança: expressão com palavra no meio ("gestão
+**energética** municipal") e registro antigo sem metadado — a RAP tem acervo
+dos anos 60 com título de duas palavras e sem resumo.
 
 ## Coleta
 
@@ -105,14 +144,114 @@ A coleta é incremental por padrão: usa o `from` do OAI-PMH a partir do
 `last_datestamp` da fonte. Uma coleta parcial (`--limit`) não avança esse ponto
 — o resto do repositório ainda não foi lido.
 
+### O critério: pertinência, não volume
+
+A Biblioteca indexa **instituição de pesquisa e periódico com escopo
+editorial**, não repositório universitário inteiro. A regra saiu de uma medida
+feita no próprio acervo — a fração de documentos que o classificador temático
+reconhece:
+
+| Fonte | Documentos | Com algum tema | Pertinência |
+|---|---|---|---|
+| Ipea | 14.316 | 11.962 | 83,6% |
+| FGV | 32.690 | 26.812 | 82,0% |
+| UFMG | 26.291 | 12.573 | 47,8% |
+
+No núcleo temático da Daddus — gestão municipal, políticas públicas,
+desenvolvimento regional, economia, finanças públicas, infraestrutura — a UFMG
+cai para 12,6%. E esses 12,6% ainda são generosos: entre os documentos que a
+regra marcou como "Gestão Municipal" havia tese sobre aleitamento materno e
+caracterização hidroquímica do Quadrilátero Ferrífero, que entraram por casar
+com "escola municipal" e "rede pública municipal".
+
+Periódico já vem curado pelo escopo editorial, que é justamente o filtro que
+falta num repositório universitário. Os onze periódicos somam ~20 mil
+documentos e ~100 MB, contra 738 mil documentos e ~3,9 GB das nove
+universidades — que ficam cadastradas e desativadas.
+
+Cobertura universitária, se um dia fizer sentido, é por **coleção**: a UFMG
+expõe 360 conjuntos nomeados por programa ("Especialização em Gestão Pública",
+"Direito Administrativo"), e o `set_spec` da fonte permite registrar um
+recorte desses como fonte própria. Isso é trabalho de curadoria, uma
+universidade por vez.
+
 ### Fontes indexadas
 
 | Fonte | Registros | Periodicidade |
 |---|---|---|
 | Repositório do Ipea | ~14,3 mil | semanal |
 | Repositório da FGV | ~33,5 mil | semanal |
-| Repositório Institucional da UFMG | ~74 mil | mensal |
-| Repositório Digital da UFPR | ~82 mil | mensal |
+| Revista do Serviço Público (Enap) | ~6,5 mil | mensal |
+| Revista de Administração Pública (FGV) | ~3,5 mil | mensal |
+| Revista Brasileira de Economia (FGV) | ~1,9 mil | mensal |
+| Cadernos EBAPE.BR (FGV) | ~1,7 mil | mensal |
+| Estudos Econômicos (USP) | ~1,5 mil | mensal |
+| Rev. Bras. de Gestão e Desenvolvimento Regional | ~1,3 mil | mensal |
+| Cadernos Metrópole (PUC-SP) | ~870 | mensal |
+| Economia e Sociedade (Unicamp) | ~860 | mensal |
+| Rev. Bras. de Estudos Urbanos e Regionais (Anpur) | ~850 | mensal |
+| urbe — Rev. Bras. de Gestão Urbana (PUC-PR) | ~700 | mensal |
+| Rev. Bras. de Estudos Regionais e Urbanos (Aber) | a medir | mensal |
+
+UFMG e UFPR foram desativadas pela migration `005`. Num banco que já as tenha
+coletado, os documentos saem com:
+
+```sql
+DELETE FROM library_documents d USING library_sources s
+ WHERE s.id = d.source_id AND s.slug IN ('ufmg', 'ufpr');
+UPDATE library_sources SET last_harvest_at = NULL, last_datestamp = NULL
+ WHERE slug IN ('ufmg', 'ufpr');
+```
+
+### Fontes cadastradas e desativadas
+
+Endpoints confirmados um a um (`verb=Identify` e `verb=ListIdentifiers`) em
+23/08/2026; o número de registros é o `completeListSize` que a própria fonte
+declara. Entram no banco pela migration `004`, mas **desativadas**: somadas
+passam de um milhão de documentos, perto de 5,6 GB, e a coleta agendada varre
+todas as fontes ativas da periodicidade. Ativar é decisão de espaço em disco:
+
+```sql
+UPDATE library_sources SET active = true WHERE slug IN ('ufrgs', 'unesp');
+```
+
+| Fonte | Registros | Observação |
+|---|---|---|
+| Lume — UFRGS | ~304 mil | maior acervo universitário aberto do país |
+| Repositório da Unesp | ~243 mil | normalização limpa na amostra: artigo, tese, dissertação, com resumo |
+| UFLA | ~37 mil | |
+| UFPB | ~36,7 mil | |
+| Locus — UFV | ~34,7 mil | |
+| UFSCar | ~23,4 mil | |
+| UFS | ~22,7 mil | |
+| UFOP | ~20,1 mil | |
+| UFES | ~15,8 mil | |
+| eduCAPES | ~346 mil | desativada por **conteúdo**, não por espaço — ver abaixo |
+| UFMG | ~74 mil | coletada e removida: 12,6% de pertinência no núcleo temático |
+| UFPR | ~82 mil | desativada junto, mesmo critério |
+
+O caminho do MEC é o **eduCAPES**, da Capes, que agrega material de
+universidades e institutos federais e responde OAI-PMH sem restrição. O
+problema é o que ele agrega: a amostra veio dominada por objeto educacional
+solto — áudio de aula de inglês, material de curso —, que não é o que a
+Biblioteca indexa. Ele expõe conjuntos (`ListSets`) por área e por
+instituição, então dá para aproveitar com recorte em `set_spec`, mas isso
+exige uma passada de curadoria antes.
+
+Duas portas do MEC que **não** existem: não há repositório OAI-PMH em
+`repositorio.mec.gov.br` (o host nem resolve) nem em `repositorio.inep.gov.br`.
+O caminho para teses e dissertações em escala continua sendo o Catálogo de
+Teses e Dissertações da Capes, publicado como dado aberto em CSV
+(`dadosabertos.capes.gov.br`) — não é OAI-PMH e precisaria de um coletor novo,
+com `protocol = 'api'`.
+
+#### Onde o DSpace 7 põe o OAI
+
+Metade dos endereços testados devolveu 404 em `/oai/request` e respondeu em
+`/server/oai/request`: o DSpace 7 mudou o caminho. Quando um repositório
+conhecido "não tem OAI", tente os dois antes de descartar — e reconheça a
+página do DSpace 7 pelo HTML com `data-critters-container` ou
+`data-beasties-container`.
 
 ### Fontes que não expõem OAI-PMH utilizável
 
@@ -127,6 +266,14 @@ quem hospeda, não do nosso código:
 | Enap, Biblioteca do IBGE | HTTP 403 |
 | UnB, UFPE | HTTP 503 |
 | USP | sem resposta |
+| UFBA, UFJF, UERJ, SciELO | certificado TLS inválido — volta a funcionar quando a instituição renovar |
+| UFC, UFMS, UFSM | sem resposta dentro do tempo limite |
+| UFRJ (Pantheon) | conexão recusada |
+| Unicamp | HTTP 503 nos dois caminhos de OAI |
+| UFRN, UFPel | HTTP 403 |
+| UFG, UEL, UFF, Fiocruz (Arca), Câmara dos Deputados | 404 nos dois caminhos de OAI |
+| Senado (BDSF) | página de verificação anti-bot, não XML |
+| Embrapa (Alice) | sem resposta |
 
 BDTD e OASISBR são agregadores: o conteúdo deles vem dos repositórios das
 universidades, que **são** coletáveis diretamente. Indexar as universidades uma
