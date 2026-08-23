@@ -66,7 +66,36 @@ jobs:
               exit 1
               ;;
           esac
-          echo "secret presente."
+
+          # Um valor presente mas que nao seja uma string de conexao faz o pg
+          # cair no padrao e tentar localhost, e a execucao morre no passo
+          # seguinte com "ECONNREFUSED 127.0.0.1:5432" — que aponta para o
+          # runner, e nao para o secret. Conferir aqui nomeia a causa.
+          case "$DATABASE_URL" in
+            postgres://*|postgresql://*) ;;
+            *)
+              echo "::error::O secret DATABASE_URL nao e uma string de conexao Postgres."
+              echo "Ela comeca com postgres:// ou postgresql:// — confira se o valor"
+              echo "colado nao e o nome da variavel do provedor em vez do valor dela."
+              exit 1
+              ;;
+          esac
+
+          # host:porta, sem o esquema, sem as credenciais e sem o banco.
+          DESTINO=${DATABASE_URL#*://}
+          DESTINO=${DESTINO##*@}
+          DESTINO=${DESTINO%%/*}
+          DESTINO=${DESTINO%%\?*}
+
+          case "$DESTINO" in
+            ""|localhost*|127.0.0.1*|"[::1]"*)
+              echo "::error::A DATABASE_URL aponta para o proprio runner ($DESTINO)."
+              echo "Aqui nao ha Postgres: use o endereco publico do banco gerenciado."
+              exit 1
+              ;;
+          esac
+
+          echo "secret presente, apontando para $DESTINO."
 
       - name: Aplicar migrations pendentes
         run: yarn db:migrate
