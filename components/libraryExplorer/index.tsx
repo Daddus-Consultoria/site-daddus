@@ -57,6 +57,7 @@ const EMPTY_FACETS: LibraryFacets = {
   languages: [],
   access: [],
   years: [],
+  curated: 0,
 };
 
 interface LibraryExplorerProps {
@@ -274,17 +275,25 @@ const LibraryExplorer: React.FC<LibraryExplorerProps> = ({
           value={searchDraft}
           onChange={(event) => setSearchDraft(event.target.value)}
           placeholder="Pesquise por tema, título, autor, instituição ou palavra-chave"
-          className="w-full rounded-md border border-border py-3.5 pl-11 pr-4 text-base text-secondary outline-none transition focus:border-primary"
+          className="w-full rounded-md border-2 border-border bg-white py-3.5 pl-11 pr-4 text-base text-secondary shadow-sm outline-none transition placeholder:text-label focus:border-primary"
         />
       </div>
 
-      <div className="flex flex-wrap items-center justify-between gap-3">
+      {/* O tamanho do recorte e o resultado da acao do usuario, e o controle de
+          ordenacao e ferramenta: com o mesmo corpo e a mesma cor, os dois
+          disputavam a mesma linha. O numero ganha peso, o rotulo nao. */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3">
         <p className="text-sm text-label" aria-live="polite">
-          {isLoading
-            ? "Consultando o acervo…"
-            : `${totalItems.toLocaleString("pt-BR")} ${
-                totalItems === 1 ? "documento encontrado" : "documentos encontrados"
-              }`}
+          {isLoading ? (
+            "Consultando o acervo…"
+          ) : (
+            <>
+              <strong className="text-base font-semibold tabular-nums text-secondary">
+                {totalItems.toLocaleString("pt-BR")}
+              </strong>{" "}
+              {totalItems === 1 ? "documento encontrado" : "documentos encontrados"}
+            </>
+          )}
         </p>
 
         <div className="flex items-center gap-3">

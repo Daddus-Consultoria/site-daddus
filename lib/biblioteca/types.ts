@@ -52,6 +52,15 @@ export interface LibrarySource {
   siteUrl: string | null;
 }
 
+/**
+ * Fonte com o tamanho da sua contribuicao. A lista de fontes da area so diz
+ * alguma coisa com a contagem ao lado: sem ela, um periodico com 300 registros
+ * e um repositorio com 30 mil parecem pesar o mesmo no acervo.
+ */
+export interface LibrarySourceSummary extends LibrarySource {
+  documents: number;
+}
+
 export interface LibraryDocument {
   id: number;
   slug: string;
@@ -123,6 +132,12 @@ export interface LibraryFacets {
   languages: LibraryFacet[];
   access: LibraryFacet[];
   years: LibraryFacet[];
+  /**
+   * Quantos documentos do recorte atual estao na Selecao Daddus. E uma
+   * contagem, e nao uma lista, porque o filtro e um liga-desliga — mas serve
+   * a mesma regra das facetas: em zero, a opcao nao aparece.
+   */
+  curated: number;
 }
 
 export interface LibrarySearchResult {
@@ -144,7 +159,6 @@ export interface LibrarySearchResult {
 export interface LibrarySummary {
   documents: number;
   sources: number;
-  curated: number;
   /** Cobertura temporal do acervo — contexto para o total. */
   yearFrom: number | null;
   yearTo: number | null;

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { CircularProgressIndicator } from "@/components/circularProgressIndicator";
 import { LibraryExplorer } from "@/components/libraryExplorer";
-import { getLibrarySources, getLibrarySummary } from "@/lib/biblioteca/queries";
+import { getLibrarySourceSummaries, getLibrarySummary } from "@/lib/biblioteca/queries";
 
 import { libraryPageContent } from "./_constants";
 
@@ -28,8 +28,16 @@ export const metadata: Metadata = {
   },
 };
 
-/** Todos os temas cabem no bloco de entrada; o limite existe so por seguranca. */
-const TOPIC_LIMIT = 40;
+/**
+ * Os temas do bloco de entrada. Os primeiros ganham destaque proporcional e o
+ * resto sai em linha: uma lista de vinte e dois temas com o mesmo peso nao
+ * hierarquiza nada — informa que os temas existem, nao onde esta o acervo. A
+ * lista completa continua no painel de filtros, com a contagem do recorte.
+ */
+const FEATURED_TOPICS = 6;
+
+/** Teto de seguranca: o painel de filtros e que serve a lista exaustiva. */
+const TOPIC_LIMIT = 24;
 
 interface LibraryPageProps {
   searchParams: Record<string, string | string[] | undefined>;
@@ -40,11 +48,11 @@ const LibraryPage = async ({ searchParams }: LibraryPageProps) => {
   // busca continua de pe.
   const [summary, sources] = await Promise.all([
     getLibrarySummary(TOPIC_LIMIT).catch(() => null),
-    getLibrarySources(true).catch(() => []),
+    getLibrarySourceSummaries().catch(() => []),
   ]);
 
   // Os atalhos de entrada servem a quem chega sem recorte. Sobre uma lista de
-  // resultados eles empurrariam o que o usuario veio ver para baixo da dobra.
+  // resultados eles empurrariam para baixo da dobra o que o usuario veio ver.
   const showEntryPoints = Object.keys(searchParams).length === 0;
 
   const stats = summary
@@ -63,6 +71,12 @@ const LibraryPage = async ({ searchParams }: LibraryPageProps) => {
       ].filter((stat): stat is { label: string; value: string } => Boolean(stat))
     : [];
 
+  const featured = summary?.topics.slice(0, FEATURED_TOPICS) ?? [];
+  const remaining = summary?.topics.slice(FEATURED_TOPICS) ?? [];
+  // A barra e lida contra o maior tema, nao contra o total: comparada ao
+  // acervo inteiro, nenhuma passaria de um tracinho e a comparacao sumiria.
+  const largestTopic = featured[0]?.count ?? 0;
+
   return (
     <main className="w-full">
       <header className="border-b border-border bg-mediumGray">
@@ -74,7 +88,6 @@ const LibraryPage = async ({ searchParams }: LibraryPageProps) => {
             <p className="max-w-[760px] text-[17px] leading-relaxed text-foreground/80">
               {libraryPageContent.intro}
             </p>
-            <p className="max-w-[760px] text-sm text-label">{libraryPageContent.sourceNote}</p>
           </div>
 
           {/* Os numeros do acervo com nome e unidade, e nao emendados no fim de
@@ -97,36 +110,64 @@ const LibraryPage = async ({ searchParams }: LibraryPageProps) => {
       </header>
 
       <div className="mx-auto flex w-full max-w-screen-limit flex-col gap-10 px-5percent py-10">
-        {showEntryPoints && summary && summary.topics.length > 0 && (
-          <section className="flex flex-col gap-4">
+        {showEntryPoints && featured.length > 0 && (
+          <section className="flex flex-col gap-5">
             <div>
-              <h2 className="text-lg font-bold text-secondary">
-                {libraryPageContent.startTitle}
-              </h2>
+              <h2 className="text-lg font-bold text-secondary">{libraryPageContent.startTitle}</h2>
               <p className="mt-1 max-w-[760px] text-sm text-label">
                 {libraryPageContent.startDescription}
               </p>
             </div>
 
-            {/* A contagem ao lado do tema evita a pilula muda: o usuario escolhe
-                sabendo o tamanho do recorte antes de clicar. */}
-            <ul className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
-              {summary.topics.map((topic) => (
-                <li key={topic.value} className="border-b border-border">
+            {/* A contagem e a barra dizem o tamanho do recorte antes do clique;
+                sem elas, "Economia" e "PPP" pareciam do mesmo tamanho, e um tem
+                vinte vezes o acervo do outro. */}
+            <ul className="grid gap-x-10 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
+              {featured.map((topic) => (
+                <li key={topic.value}>
                   <Link
                     href={`/biblioteca/${topic.value}`}
-                    className="group flex items-baseline justify-between gap-4 py-2.5"
+                    className="group flex flex-col gap-1.5 py-2.5"
                   >
-                    <span className="text-[15px] text-secondary group-hover:text-primary">
-                      {topic.label}
+                    <span className="flex items-baseline justify-between gap-4">
+                      <span className="text-[15px] font-medium text-secondary group-hover:text-primary">
+                        {topic.label}
+                      </span>
+                      <span className="shrink-0 text-sm font-semibold tabular-nums text-label">
+                        {topic.count.toLocaleString("pt-BR")}
+                      </span>
                     </span>
-                    <span className="shrink-0 text-sm tabular-nums text-label">
-                      {topic.count.toLocaleString("pt-BR")}
+                    <span aria-hidden className="h-1 w-full rounded-full bg-border">
+                      <span
+                        className="block h-1 rounded-full bg-primary/50 transition group-hover:bg-primary"
+                        style={{
+                          width: `${Math.max(
+                            4,
+                            Math.round((topic.count / (largestTopic || 1)) * 100)
+                          )}%`,
+                        }}
+                      />
                     </span>
                   </Link>
                 </li>
               ))}
             </ul>
+
+            {remaining.length > 0 && (
+              <p className="flex flex-wrap items-baseline gap-x-2 gap-y-1 text-sm text-label">
+                <span className="font-medium text-secondary">
+                  {libraryPageContent.startMoreLabel}:
+                </span>
+                {remaining.map((topic, index) => (
+                  <span key={topic.value}>
+                    <Link href={`/biblioteca/${topic.value}`} className="hover:text-primary">
+                      {topic.label}
+                    </Link>
+                    {index < remaining.length - 1 && <span aria-hidden> ·</span>}
+                  </span>
+                ))}
+              </p>
+            )}
           </section>
         )}
 
@@ -135,18 +176,39 @@ const LibraryPage = async ({ searchParams }: LibraryPageProps) => {
         </Suspense>
 
         {sources.length > 0 && (
-          <section className="flex flex-col gap-3 border-t border-border pt-8">
-            <h2 className="text-sm font-semibold uppercase tracking-wide text-secondary">
-              {libraryPageContent.sourcesTitle}
-            </h2>
-            <ul className="flex flex-wrap gap-2">
+          <section className="flex flex-col gap-4 border-t border-border pt-8">
+            <div>
+              <h2 className="text-lg font-bold text-secondary">
+                {libraryPageContent.sourcesTitle}
+              </h2>
+              <p className="mt-1 max-w-[760px] text-sm text-label">
+                {libraryPageContent.sourcesDescription} {libraryPageContent.sourceNote}
+              </p>
+            </div>
+
+            {/* Nome, instituicao e volume — nao pilulas iguais. Duas fontes com
+                nome parecido so se distinguem pela instituicao, e o volume diz
+                quanto do que o usuario acabou de ver veio de cada uma. */}
+            <ul className="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
               {sources.map((source) => (
-                <li key={source.slug}>
+                <li key={source.slug} className="border-b border-border">
                   <Link
                     href={`/biblioteca/${source.slug}`}
-                    className="inline-block rounded-full border border-border px-3 py-1.5 text-sm text-secondary transition hover:border-primary hover:text-primary"
+                    className="group flex items-baseline justify-between gap-4 py-3"
                   >
-                    {source.name}
+                    <span className="min-w-0">
+                      <span className="block truncate text-[15px] text-secondary group-hover:text-primary">
+                        {source.name}
+                      </span>
+                      {source.institution && source.institution !== source.name && (
+                        <span className="mt-0.5 block truncate text-xs text-label">
+                          {source.institution}
+                        </span>
+                      )}
+                    </span>
+                    <span className="shrink-0 text-sm tabular-nums text-label">
+                      {source.documents.toLocaleString("pt-BR")}
+                    </span>
                   </Link>
                 </li>
               ))}

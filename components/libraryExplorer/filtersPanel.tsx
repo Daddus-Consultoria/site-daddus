@@ -246,8 +246,13 @@ const FiltersPanel: React.FC<FiltersPanelProps> = ({
         {...groupProps("access")}
       />
 
+      {/* Mesma regra dos grupos acima: sem documento curado no recorte, a
+          opcao nao aparece — marca-la so devolveria lista vazia. Fica de pe
+          quando ja esta marcada, senao o filtro sumiria com o proprio botao
+          de desmarcar. */}
+      {(facets.curated > 0 || curatedOnly) && (
       <fieldset className="py-5">
-        <legend className="mb-3 text-xs font-semibold uppercase tracking-wide text-secondary">
+        <legend className="mb-3 flex items-baseline justify-between gap-2 text-xs font-semibold uppercase tracking-wide text-secondary">
           Curadoria
         </legend>
 
@@ -265,11 +270,17 @@ const FiltersPanel: React.FC<FiltersPanelProps> = ({
           >
             {curatedOnly && <Check size={12} strokeWidth={3} />}
           </span>
-          <span className={curatedOnly ? "font-medium text-secondary" : "text-foreground/80"}>
+          <span
+            className={`flex-1 ${curatedOnly ? "font-medium text-secondary" : "text-foreground/80"}`}
+          >
             Apenas Seleção Daddus
+          </span>
+          <span className="shrink-0 text-xs tabular-nums text-label">
+            {facets.curated.toLocaleString("pt-BR")}
           </span>
         </button>
       </fieldset>
+      )}
     </div>
   );
 };

@@ -5,7 +5,15 @@ import type { LibraryQuery, LibrarySearchResult, LibrarySummary } from "@/lib/bi
 const EMPTY_RESULT: LibrarySearchResult = {
   items: [],
   totalItems: 0,
-  facets: { types: [], topics: [], sources: [], languages: [], access: [], years: [] },
+  facets: {
+    types: [],
+    topics: [],
+    sources: [],
+    languages: [],
+    access: [],
+    years: [],
+    curated: 0,
+  },
   approximate: false,
 };
 
