@@ -114,6 +114,54 @@ A coleta é incremental por padrão: usa o `from` do OAI-PMH a partir do
 | Repositório Institucional da UFMG | ~74 mil | mensal |
 | Repositório Digital da UFPR | ~82 mil | mensal |
 
+### Fontes cadastradas e desativadas
+
+Endpoints confirmados um a um (`verb=Identify` e `verb=ListIdentifiers`) em
+23/08/2026; o número de registros é o `completeListSize` que a própria fonte
+declara. Entram no banco pela migration `004`, mas **desativadas**: somadas
+passam de um milhão de documentos, perto de 5,6 GB, e a coleta agendada varre
+todas as fontes ativas da periodicidade. Ativar é decisão de espaço em disco:
+
+```sql
+UPDATE library_sources SET active = true WHERE slug IN ('ufrgs', 'unesp');
+```
+
+| Fonte | Registros | Observação |
+|---|---|---|
+| Lume — UFRGS | ~304 mil | maior acervo universitário aberto do país |
+| Repositório da Unesp | ~243 mil | normalização limpa na amostra: artigo, tese, dissertação, com resumo |
+| UFLA | ~37 mil | |
+| UFPB | ~36,7 mil | |
+| Locus — UFV | ~34,7 mil | |
+| UFSCar | ~23,4 mil | |
+| UFS | ~22,7 mil | |
+| UFOP | ~20,1 mil | |
+| UFES | ~15,8 mil | |
+| eduCAPES | ~346 mil | desativada por **conteúdo**, não por espaço — ver abaixo |
+
+O caminho do MEC é o **eduCAPES**, da Capes, que agrega material de
+universidades e institutos federais e responde OAI-PMH sem restrição. O
+problema é o que ele agrega: a amostra veio dominada por objeto educacional
+solto — áudio de aula de inglês, material de curso —, que não é o que a
+Biblioteca indexa. Ele expõe conjuntos (`ListSets`) por área e por
+instituição, então dá para aproveitar com recorte em `set_spec`, mas isso
+exige uma passada de curadoria antes.
+
+Duas portas do MEC que **não** existem: não há repositório OAI-PMH em
+`repositorio.mec.gov.br` (o host nem resolve) nem em `repositorio.inep.gov.br`.
+O caminho para teses e dissertações em escala continua sendo o Catálogo de
+Teses e Dissertações da Capes, publicado como dado aberto em CSV
+(`dadosabertos.capes.gov.br`) — não é OAI-PMH e precisaria de um coletor novo,
+com `protocol = 'api'`.
+
+#### Onde o DSpace 7 põe o OAI
+
+Metade dos endereços testados devolveu 404 em `/oai/request` e respondeu em
+`/server/oai/request`: o DSpace 7 mudou o caminho. Quando um repositório
+conhecido "não tem OAI", tente os dois antes de descartar — e reconheça a
+página do DSpace 7 pelo HTML com `data-critters-container` ou
+`data-beasties-container`.
+
 ### Fontes que não expõem OAI-PMH utilizável
 
 Testadas e descartadas por ora — vale reavaliar, porque depende de decisão de
@@ -127,6 +175,14 @@ quem hospeda, não do nosso código:
 | Enap, Biblioteca do IBGE | HTTP 403 |
 | UnB, UFPE | HTTP 503 |
 | USP | sem resposta |
+| UFBA, UFJF, UERJ, SciELO | certificado TLS inválido — volta a funcionar quando a instituição renovar |
+| UFC, UFMS, UFSM | sem resposta dentro do tempo limite |
+| UFRJ (Pantheon) | conexão recusada |
+| Unicamp | HTTP 503 nos dois caminhos de OAI |
+| UFRN, UFPel | HTTP 403 |
+| UFG, UEL, UFF, Fiocruz (Arca), Câmara dos Deputados | 404 nos dois caminhos de OAI |
+| Senado (BDSF) | página de verificação anti-bot, não XML |
+| Embrapa (Alice) | sem resposta |
 
 BDTD e OASISBR são agregadores: o conteúdo deles vem dos repositórios das
 universidades, que **são** coletáveis diretamente. Indexar as universidades uma

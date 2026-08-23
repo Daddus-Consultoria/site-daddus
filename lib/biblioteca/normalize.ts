@@ -117,6 +117,11 @@ const TYPE_MAP: Record<string, LibraryDocumentType> = {
   "artigo de periodico": "artigo",
   "artigo cientifico": "artigo",
   "trabalho apresentado em evento": "artigo",
+  "trabalho completo publicado em evento": "artigo",
+  // O Lume separa o trabalho completo do resumo de evento, e a distincao
+  // importa: o resumo e um paragrafo, nao o estudo. Fica em "outro" de
+  // proposito — chamar de artigo prometeria na busca o que a origem nao tem.
+  "resumo publicado em evento": "outro",
   relatorio: "relatorio",
   "relatorio de pesquisa": "relatorio",
   "relatorio tecnico": "relatorio",
