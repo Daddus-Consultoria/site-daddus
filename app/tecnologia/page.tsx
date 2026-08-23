@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+
 import { sistemas } from "./_constants";
 
 export default function TecnologiaPage() {
@@ -43,6 +45,17 @@ export default function TecnologiaPage() {
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] lg:gap-16">
               <div>
                 <div className="flex flex-wrap items-center gap-3">
+                  {/* Marca provisoria — ver public/images/tecnologia/marcas. */}
+                  <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-mediumGray">
+                    <Image
+                      src={sistema.marca}
+                      alt=""
+                      aria-hidden
+                      width={28}
+                      height={28}
+                      className="h-7 w-7"
+                    />
+                  </span>
                   <h2 className="text-2xl font-bold text-primary lg:text-3xl">{sistema.nome}</h2>
                   {sistema.emOperacao ? (
                     <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">

@@ -1,11 +1,25 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
-import { SearchLink, DaddusLink } from "@/components/index";
+import { SearchLink } from "@/components/index";
 import { Links, PublishCategories, publishCategoryLabels } from "@/lib/constants/constants";
 import { AuthorModel } from "@/lib/interfaces/author";
 import { formatPublishDate } from "@/lib/utils";
+
+/**
+ * Item do acervo de publicacoes da Daddus, usado na home e na listagem.
+ *
+ * Card vertical, com a capa em proporcao fixa e titulo e resumo limitados a um
+ * numero de linhas: em uma grade, um resumo de duas linhas ao lado de um de
+ * seis desalinha os cards e nao deixa comparar um item com o outro. O que nao
+ * cabe no card esta na pagina da publicacao — o card e a porta, nao o resumo
+ * completo.
+ *
+ * A capa vem do CMS e pode faltar; o mapper ja devolve uma imagem neutra, e
+ * por isso ela entra como fundo do bloco, sem moldura propria.
+ */
 
 interface CardPublicationProps {
   title: string;
@@ -18,16 +32,13 @@ interface CardPublicationProps {
   authors?: AuthorModel[];
 }
 
-const getButtonLabel = (path: string): string => {
-  if (path.includes('/perfis-municipais/')) {
-    return 'PERFIL';
-  } else if (path.includes('/guias/')) {
-    return 'GUIA';
-  } else if (path.includes('/estudos/')) {
-    return 'ESTUDO';
-  } else {
-    return 'CONTEÚDO';
-  }
+/** CTA nomeia o destino (docs/DIRETRIZES-UX.md, secao 13). */
+const getActionLabel = (path: string): string => {
+  if (path.includes("/perfis-municipais/")) return "Ver perfil";
+  if (path.includes("/guias/")) return "Ver guia";
+  if (path.includes("/estudos/")) return "Ver estudo";
+
+  return "Ver publicação";
 };
 
 const getAuthorNames = (authors?: AuthorModel[]): string =>
@@ -41,7 +52,6 @@ const CardPublication: React.FC<CardPublicationProps> = ({
   description,
   image,
   path,
-  id,
   category,
   publishDate,
   authors,
@@ -53,48 +63,61 @@ const CardPublication: React.FC<CardPublicationProps> = ({
   const typeLabel = category ? publishCategoryLabels[category] : "";
   const dateLabel = formatPublishDate(publishDate);
   const authorNames = getAuthorNames(authors);
-  const metadata = [typeLabel, dateLabel].filter(Boolean);
 
   return (
-    <div className="flex items-start justify-start mb-[4%] min-h-[250px] rounded-2xl bg-[#EEEEEE] px-[5%] py-[4%] text-black relative">
-      <div className="flex h-full w-full items-start justify-between">
-        <div className="hidden md:flex w-full max-w-[230px] none ">
-          <Image
-            alt="Capa da publicação"
-            layout="fill"
-            objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
-            src={image}
-            className="xl:ml-[3%]  3-xl:ml-[1%] w-full md:max-w-[180px] !top-[-10%] !left-[30px]"
-          />
-        </div>
+    <article className="group relative flex h-full flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition hover:border-primary/40">
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-mediumGray">
+        <Image
+          alt=""
+          aria-hidden
+          src={image}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover"
+        />
+      </div>
 
-        <div className="flex flex-col h-[100%] gap-3 justify-between w-full">
-          <div className="flex flex-col gap-3 w-full">
-            {metadata.length > 0 && (
-              <p className="text-[10px] uppercase tracking-wide text-[#555555]">
-                {metadata.join(" · ")}
-              </p>
+      <div className="flex flex-1 flex-col gap-2.5 p-5">
+        {(typeLabel || dateLabel) && (
+          <p className="flex flex-wrap items-center gap-x-2 text-xs text-[#8b8b9a]">
+            {typeLabel && (
+              <span className="font-semibold uppercase tracking-wide text-primary">
+                {typeLabel}
+              </span>
             )}
-            <h2 className="font-bold text-[#A90920] text-[13px] lg:text-[16px] text-justify ">
-              {title}
-            </h2>
-            <p className="text-[11px] text-justify">{description}</p>
-            {authorNames && (
-              <p className="text-[10px] text-[#555555]">{authorNames}</p>
-            )}
-            <div className="flex flex-row justify-end items-center gap-[2%] mb-[3%] h-[14%] lg:h-[18%]k">
-              <DaddusLink href={path} className="rounded-2xl">
-                <p className="text-[10px] sm:text-sm text-wrap">
-                  ACESSAR {getButtonLabel(path)}
-                </p>
-              </DaddusLink>
-              <SearchLink path={copyPath} />
-            </div>
-          </div>
-          
+            {typeLabel && dateLabel && <span aria-hidden>·</span>}
+            {dateLabel && <span>{dateLabel}</span>}
+          </p>
+        )}
+
+        {/* A secao ja e um h2; o card entra abaixo dela. O link cobre o card
+            inteiro pelo ::after, e o botao de compartilhar sobe acima dele. */}
+        <h3 className="text-base font-bold leading-snug text-secondary">
+          <Link
+            href={path}
+            className="line-clamp-2 transition after:absolute after:inset-0 group-hover:text-primary"
+          >
+            {title}
+          </Link>
+        </h3>
+
+        <p className="line-clamp-3 text-sm leading-relaxed text-[#696984]">{description}</p>
+
+        {authorNames && (
+          <p className="line-clamp-1 text-xs text-[#8b8b9a]">{authorNames}</p>
+        )}
+
+        <div className="mt-auto flex items-center justify-between gap-3 pt-3">
+          <span className="text-sm font-semibold text-primary">{getActionLabel(path)} →</span>
+          <span className="relative z-10">
+            <SearchLink
+              path={copyPath}
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent p-0 text-[#8b8b9a] transition hover:bg-mediumGray hover:text-secondary"
+            />
+          </span>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

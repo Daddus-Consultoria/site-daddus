@@ -38,6 +38,17 @@ export default function SistemaPage({ params }: { params: { sistema: string } })
           </nav>
 
           <div className="mt-4 flex flex-wrap items-center gap-3">
+            {/* Marca provisoria — ver public/images/tecnologia/marcas. */}
+            <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-white">
+              <Image
+                src={sistema.marca}
+                alt=""
+                aria-hidden
+                width={32}
+                height={32}
+                className="h-8 w-8"
+              />
+            </span>
             <h1 className="text-3xl font-bold text-secondary lg:text-4xl">{sistema.nome}</h1>
             {sistema.emOperacao ? (
               <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
