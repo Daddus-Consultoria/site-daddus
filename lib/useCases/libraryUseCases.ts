@@ -16,4 +16,13 @@ export class LibraryUseCases {
       throw error;
     }
   }
+
+  /** Numeros e temas do acervo, para as telas que apresentam a Biblioteca. */
+  async getLibrarySummary() {
+    try {
+      return await this.libraryRepository.getLibrarySummary();
+    } catch (error) {
+      throw error;
+    }
+  }
 }

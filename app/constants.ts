@@ -84,3 +84,22 @@ export const contatoHome = {
   rotulo: "Falar com a Daddus",
   site: Links.SITE_DOMAIN,
 };
+
+/**
+ * Biblioteca Daddus na home. Acervo de terceiros — nao confundir com as
+ * publicacoes da Daddus, que sao producao propria: o texto precisa deixar essa
+ * diferenca clara antes de qualquer numero. Ver docs/BIBLIOTECA.md.
+ *
+ * Os numeros e os temas vem do banco da Biblioteca, nunca escritos aqui.
+ */
+export const bibliotecaHome = {
+  titulo: "Biblioteca Daddus",
+  texto:
+    "Pesquise de uma vez em acervos de instituições de pesquisa e periódicos científicos brasileiros. A Biblioteca reúne os metadados, organiza por tema e leva você ao documento no portal de origem.",
+  placeholder: "Pesquise por tema, título, autor ou instituição",
+  rotuloBusca: "Pesquisar na Biblioteca",
+  rotuloAcervo: "Ver o acervo completo",
+  rotuloTemas: "Temas com mais documentos",
+  /** Explica de onde sai o total, porque numero sem procedencia nao serve. */
+  notaFonte: "Contagem do acervo indexado, atualizada a cada coleta.",
+};

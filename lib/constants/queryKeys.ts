@@ -3,6 +3,7 @@ export enum QueryKeys {
   publishLibrary = "publishLibrary",
   publishIndex = "publishIndex",
   librarySearch = "librarySearch",
+  librarySummary = "librarySummary",
   publish = "publish",
   guides = "guides",
   studies = "studies",

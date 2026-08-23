@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
 import { CardPublication, CircularProgressIndicator, BlogPostCard, Skeleton } from "@/components/index";
+import { HomeLibrarySection } from "@/components/homeLibrarySection";
 import { consultoriaHome, contatoHome, frentesHome, heroHome, institucionalHome } from "@/app/constants";
 import { sistemas } from "@/app/tecnologia/_constants";
 import { constantCardBlog } from "@/app/blog/_constants";
@@ -19,7 +20,8 @@ import "@/styles/home.css";
 /**
  * A home apresenta a Daddus e o que ela produz, na ordem da secao 5 das
  * diretrizes: quem somos, o que produzimos, as tres frentes, os sistemas, a
- * producao recente e o contato.
+ * producao recente, as duas ferramentas de consulta (Biblioteca e
+ * indicadores) e o contato.
  *
  * Os numeros vem do acervo publicado no CMS — nao ha valor institucional
  * escrito a mao aqui, justamente para nao envelhecer nem afirmar o que nao se
@@ -290,7 +292,10 @@ export default function Home() {
         </section>
       )}
 
-      {/* 7. Indicadores */}
+      {/* 7. Biblioteca — acervo de terceiros, com busca ja na home */}
+      <HomeLibrarySection />
+
+      {/* 8. Indicadores */}
       <section>
         <div className="mx-auto grid w-full max-w-screen-limit gap-8 px-5percent py-12 lg:grid-cols-2 lg:items-center lg:py-16">
           <div>
@@ -317,7 +322,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 8. Consultoria */}
+      {/* 9. Consultoria */}
       <section className="border-y border-gray-200 bg-mediumGray">
         <div className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
           <h2 className="text-2xl font-bold text-secondary">{consultoriaHome.titulo}</h2>
@@ -340,7 +345,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9. Institucional e contato */}
+      {/* 10. Institucional e contato */}
       <section className="border-t border-gray-200">
         <div className="mx-auto grid w-full max-w-screen-limit gap-10 px-5percent py-12 lg:grid-cols-2 lg:py-16">
           <div>
