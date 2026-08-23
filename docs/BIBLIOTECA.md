@@ -152,6 +152,55 @@ terminar "com sucesso" e zero registro.
 
 Preferir sempre protocolo oficial (OAI-PMH, API) a scraping.
 
+## Onde hospedar o banco
+
+Qualquer Postgres gerenciado serve. O que muda entre provedores é a string de
+conexão:
+
+| Provedor | String de conexão |
+|---|---|
+| Railway | use a **`DATABASE_PUBLIC_URL`** (termina em `.proxy.rlwy.net:porta`). A `DATABASE_URL` que ele mostra é interna e só funciona dentro do Railway — o site roda na Vercel e a coleta no GitHub, ambos de fora. Se o banco recusar TLS, acrescente `?sslmode=disable` |
+| Neon / Supabase | a string padrão, com TLS. Atenção ao limite de 0,5 GB dos planos gratuitos |
+| Postgres local | `postgres://postgres:...@localhost:5433/daddus_biblioteca` |
+
+O `sslmode` escrito na URL manda sobre o comportamento do pool
+(`lib/db/pool.ts`); sem ele, TLS é ligado para qualquer host remoto.
+
+### Espaço em disco
+
+Medido no acervo real: **~5,2 KB por documento**, incluindo índices e o vetor
+de busca. Serve para dimensionar antes de ativar uma fonte:
+
+| Acervo | Espaço |
+|---|---|
+| Ipea (~14 mil) | ~75 MB |
+| Ipea + FGV (~48 mil) | ~250 MB |
+| As quatro fontes (~210 mil) | ~1 GB |
+
+Para caber em plano gratuito de 0,5 GB, desative as fontes maiores:
+
+```sql
+UPDATE library_sources SET active = false WHERE slug IN ('ufmg', 'ufpr');
+```
+
+## Primeira instalação
+
+Dois caminhos, mesmo resultado — criar as tabelas e trazer os documentos.
+
+**Pelo GitHub** (não precisa de nada instalado): aba Actions → **Biblioteca —
+coleta** → *Run workflow*, campos em branco. Exige o secret `DATABASE_URL` no
+repositório; sem ele o workflow para no primeiro passo dizendo o que falta.
+
+**Do seu computador** (quando o Actions não estiver disponível):
+
+```bash
+DATABASE_URL='postgres://...' yarn biblioteca:setup
+```
+
+Um comando só: aplica as migrations pendentes e coleta todas as fontes ativas.
+Pode ser repetido à vontade — migration já aplicada é ignorada e documento já
+indexado é atualizado, não duplicado.
+
 ## Quando a Biblioteca aparece vazia
 
 ```bash

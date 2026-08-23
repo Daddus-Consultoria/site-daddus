@@ -47,6 +47,27 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
+      # Sem o secret, os passos seguintes falhariam com erro de conexao — que
+      # nao aponta para a causa. Melhor parar aqui dizendo o que falta.
+      - name: Conferir o secret DATABASE_URL
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::O secret DATABASE_URL nao esta configurado neste repositorio."
+            echo "Settings -> Secrets and variables -> Actions -> New repository secret."
+            echo "No Railway, use a DATABASE_PUBLIC_URL (termina em .proxy.rlwy.net com porta)."
+            exit 1
+          fi
+          case "$DATABASE_URL" in
+            *railway.internal*)
+              echo "::error::Esta e a URL interna do Railway e nao funciona fora dele."
+              echo "Use a DATABASE_PUBLIC_URL, que termina em .proxy.rlwy.net com uma porta."
+              exit 1
+              ;;
+          esac
+          echo "secret presente."
+
       - name: Aplicar migrations pendentes
         run: yarn db:migrate
         env:
@@ -63,17 +84,34 @@ jobs:
           esac
 
       - name: Coletar
-        run: |
-          ARGS=""
-          if [ -n "${{ inputs.fonte }}" ]; then
-            ARGS="${{ inputs.fonte }}"
-          elif [ -n "${{ steps.periodicidade.outputs.frequencia }}" ]; then
-            ARGS="--frequency=${{ steps.periodicidade.outputs.frequencia }}"
-          fi
-          if [ "${{ inputs.full }}" = "true" ]; then
-            ARGS="$ARGS --full"
-          fi
-          echo "yarn harvest $ARGS"
-          yarn harvest $ARGS
+        # As entradas do disparo manual chegam por variavel de ambiente, e nao
+        # interpoladas no script: texto vindo de fora do repositorio nunca deve
+        # virar comando de shell.
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          FONTE: ${{ inputs.fonte }}
+          FULL: ${{ inputs.full }}
+          FREQUENCIA: ${{ steps.periodicidade.outputs.frequencia }}
+        run: |
+          set -euo pipefail
+
+          ARGS=()
+          if [ -n "${FONTE:-}" ]; then
+            # So aceita slug: letras minusculas, numeros e hifen.
+            case "$FONTE" in
+              *[!a-z0-9-]*)
+                echo "::error::Fonte invalida: use o slug da fonte (ex.: ipea, fgv, ufmg, ufpr)."
+                exit 1
+                ;;
+            esac
+            ARGS+=("$FONTE")
+          elif [ -n "${FREQUENCIA:-}" ]; then
+            ARGS+=("--frequency=${FREQUENCIA}")
+          fi
+
+          if [ "${FULL:-false}" = "true" ]; then
+            ARGS+=("--full")
+          fi
+
+          echo "yarn harvest ${ARGS[*]-}"
+          yarn harvest "${ARGS[@]}"
