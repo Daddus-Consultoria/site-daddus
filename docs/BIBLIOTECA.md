@@ -84,8 +84,47 @@ SELECT id, unnest(ARRAY['saneamento', 'esgoto', 'agua potavel'])
   FROM library_topics WHERE slug = 'saneamento';
 ```
 
-A reclassificação vale para documentos coletados a partir daí; para aplicar ao
-acervo já indexado, rode `yarn harvest <fonte> --full`.
+Regra nova vale para o que for coletado dali em diante. Para aplicar ao acervo
+já indexado, **não é preciso recoletar** — o classificador trabalha sobre
+título, subtítulo, palavras-chave e resumo, que já estão no banco:
+
+```bash
+yarn biblioteca:reclassificar --simular    # mede o efeito sem gravar
+yarn biblioteca:reclassificar              # grava
+yarn biblioteca:reclassificar --fonte=ipea
+```
+
+A simulação mostra quantos documentos mudariam de tema e o saldo de cada tema,
+antes e depois. É o jeito de conferir uma regra nova antes de deixá-la mexer no
+acervo — um total que melhora pode esconder um tema que passou a capturar o que
+não é dele.
+
+O comando e a coleta usam o mesmo módulo (`lib/biblioteca/classify.ts`); duas
+implementações da mesma regra divergiriam na primeira correção.
+
+### Como escrever uma regra que funciona
+
+Três armadilhas, todas medidas no acervo:
+
+**Plural de expressão composta.** O casamento aceita um `s` opcional no fim do
+termo inteiro, então `servico publico` **não** encontra "serviços públicos" — o
+plural está na primeira palavra também. Cadastre as duas formas, como já é
+feito em `concessao`/`concessoes`.
+
+**Termo genérico.** `municipal`, sozinho, casava com "escola municipal" e
+"rede pública municipal", e assim qualquer trabalho sobre uma escola entrava em
+Gestão Municipal. Prefira a expressão com contexto — `gestao municipal`,
+`tributo municipal`, `secretaria municipal`. O mesmo valeu para `orcamento`,
+que puxava política agrícola e economia solidária, e virou `orcamentario`,
+`plano plurianual`, `despesa publica`.
+
+**Só português.** Periódico publica metadado bilíngue: na RAP, "Urban
+development in Brazil" ficava sem tema nenhum. Os termos centrais têm hoje a
+forma em inglês.
+
+O que nenhuma regra alcança: expressão com palavra no meio ("gestão
+**energética** municipal") e registro antigo sem metadado — a RAP tem acervo
+dos anos 60 com título de duas palavras e sem resumo.
 
 ## Coleta
 
