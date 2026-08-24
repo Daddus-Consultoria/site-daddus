@@ -332,12 +332,16 @@ export default function Home() {
               Explorar indicadores
             </Link>
           </div>
-          <div className="relative h-56 w-full overflow-hidden rounded-xl border border-gray-200 bg-mediumGray lg:h-64">
+          {/* Cena urbana real no lugar da ilustracao de banco: e do territorio
+              destas ruas que os indicadores falam. Autoria em
+              public/images/home/CREDITOS.md. */}
+          <div className="relative h-64 w-full overflow-hidden rounded-xl bg-mediumGray lg:h-80">
             <Image
-              src="/images/publications/bus.svg"
-              alt="Ilustração de indicadores de mobilidade urbana"
+              src="/images/home/indicadores-avenida-paulista.jpg"
+              alt="Trabalhador de uniforme laranja atravessa a Avenida Paulista, em São Paulo, entre cones de obra, ciclistas e um ponto de táxi."
               fill
-              className="object-contain p-8"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
             />
           </div>
         </div>
