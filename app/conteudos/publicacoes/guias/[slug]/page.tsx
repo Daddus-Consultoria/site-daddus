@@ -1,49 +1,26 @@
-"use client";
-import React from "react";
+import type { Metadata } from "next";
+
 import {
-  Publish,
-  CircularProgressIndicator,
-  ContentNotFoundWarning,
-} from "@/components/index";
-import { PublishCategories, TimeConstants } from "@/lib/constants/constants";
-import { usePathname } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { PublishUseCases } from "@/lib/useCases/publishUseCases";
+  PUBLISH_REVALIDATE,
+  publishMetadata,
+  renderPublishPage,
+} from "@/app/conteudos/publicacoes/_publishPage";
+import { PublishCategories } from "@/lib/constants/constants";
 
-const GuidesPublish: React.FC = () => {
-  const urlPath = usePathname();
-  const publishSlug = urlPath?.split("/").pop();
-  const usePublishUseCases = new PublishUseCases();
+/**
+ * Guia do acervo da Daddus. A montagem e os metadados vivem em
+ * `_publishPage.tsx`, compartilhado pelos tres tipos de publicacao.
+ */
+export const revalidate = PUBLISH_REVALIDATE;
 
-  const { data, isLoading } = useQuery({
-    queryKey: [`guide-${publishSlug}`],
-    staleTime: TimeConstants.ONE_HOUR,
+interface PageProps {
+  params: { slug: string };
+}
 
-    queryFn: async () => {
-      return await usePublishUseCases.getGuideBySlug({ slug: publishSlug ?? "" });
-    },
-  });
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  return publishMetadata(PublishCategories.GUIDES, params.slug);
+}
 
-  if (isLoading)
-    return (
-      <div className="h-screen">
-        <CircularProgressIndicator
-          size={55}
-          color="secondary"
-          containerHeight="100%"
-        />
-      </div>
-    );
-
-  return data ? (
-    <div>
-      <Publish publishData={data} category={PublishCategories.GUIDES} />
-    </div>
-  ) : (
-    <div className="h-screen">
-      <ContentNotFoundWarning message="Publicação não encontrada" />
-    </div>
-  );
-};
-
-export default GuidesPublish;
+export default async function Page({ params }: PageProps) {
+  return renderPublishPage(PublishCategories.GUIDES, params.slug);
+}

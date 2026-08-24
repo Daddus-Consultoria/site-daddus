@@ -1,10 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title : 'Guias: Elabore Documentos e Cálculos Econômicos - Daddus Consultoria',
-    description: 'Confira nossos manuais de como elaborar documentos e cálculos econômicos úteis no formato de guias completos.',
-    keywords:['manual', 'como fazer'],
-}
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Guias",
+  description:
+    "Materiais de orientação prática para equipes municipais aplicarem na rotina da gestão.",
+  path: "/conteudos/publicacoes/guias",
+});
 
 export default function GuidesPublicationsLayout({
     children,

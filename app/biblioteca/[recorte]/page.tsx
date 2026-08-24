@@ -5,87 +5,46 @@ import { notFound } from "next/navigation";
 
 import { CircularProgressIndicator } from "@/components/circularProgressIndicator";
 import { LibraryExplorer } from "@/components/libraryExplorer";
-import { documentTypeByRoute, documentTypeLabels } from "@/lib/biblioteca/constants";
-import { getLibrarySources, getLibraryTopics } from "@/lib/biblioteca/queries";
-import type { LibraryQuery } from "@/lib/biblioteca/types";
+import { JsonLd, breadcrumbJsonLd, collectionPageJsonLd } from "@/lib/seo/jsonLd";
+import { pageMetadata } from "@/lib/seo/metadata";
+
+import { resolveRecorte } from "../_recorte";
 
 /**
  * Recortes com URL propria: /biblioteca/teses, /biblioteca/ppp,
  * /biblioteca/ipea. Sao os mesmos filtros da busca, mas com endereco estavel e
  * indexavel — quem procura "teses sobre PPP" chega direto ao recorte.
+ *
+ * Cacheada por uma hora em vez de renderizada a cada requisicao: o cabecalho
+ * so muda quando a equipe mexe nos temas do banco, e o painel de resultados e
+ * client component, que continua lendo o recorte da URL a cada visita.
  */
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 interface RecortePageProps {
   params: { recorte: string };
 }
 
-interface Recorte {
-  title: string;
-  description: string;
-  filters: Partial<LibraryQuery>;
-  /** Grupo de filtro que a pagina ja fixa e some do painel. */
-  hiddenGroup: string;
-}
-
-/**
- * A ordem importa: tipo primeiro (lista fechada no codigo), depois tema e
- * fonte, que vem do banco e podem mudar sem deploy.
- */
-const resolveRecorte = async (slug: string): Promise<Recorte | null> => {
-  const type = documentTypeByRoute[slug];
-
-  if (type) {
-    return {
-      title: documentTypeLabels[type],
-      description: `Documentos do tipo ${documentTypeLabels[type].toLowerCase()} indexados na Biblioteca Daddus.`,
-      filters: { types: [type] },
-      hiddenGroup: "types",
-    };
-  }
-
-  const [topics, sources] = await Promise.all([getLibraryTopics(), getLibrarySources()]);
-  const topic = topics.find((item) => item.slug === slug);
-
-  if (topic) {
-    return {
-      title: topic.name,
-      description: `Publicações sobre ${topic.name.toLowerCase()} em acervos acadêmicos e institucionais.`,
-      filters: { topics: [topic.slug] },
-      hiddenGroup: "topics",
-    };
-  }
-
-  const source = sources.find((item) => item.slug === slug);
-
-  if (source) {
-    return {
-      title: source.name,
-      description: `Documentos indexados a partir do acervo ${source.name}.`,
-      filters: { sources: [source.slug] },
-      hiddenGroup: "sources",
-    };
-  }
-
-  return null;
-};
-
 export async function generateMetadata({ params }: RecortePageProps): Promise<Metadata> {
   const recorte = await resolveRecorte(params.recorte).catch(() => null);
+  const path = `/biblioteca/${params.recorte}`;
 
-  if (!recorte) return { title: "Recorte não encontrado — Biblioteca Daddus" };
+  if (!recorte) {
+    return pageMetadata({
+      title: "Recorte não encontrado — Biblioteca Daddus",
+      description: "O recorte buscado não existe na Biblioteca Daddus.",
+      path,
+      fullTitle: true,
+      index: false,
+    });
+  }
 
-  return {
+  return pageMetadata({
     title: `${recorte.title} — Biblioteca Daddus`,
     description: recorte.description,
-    alternates: { canonical: `/biblioteca/${params.recorte}` },
-    openGraph: {
-      title: `${recorte.title} — Biblioteca Daddus`,
-      description: recorte.description,
-      url: `/biblioteca/${params.recorte}`,
-      type: "website",
-    },
-  };
+    path,
+    fullTitle: true,
+  });
 }
 
 const RecortePage = async ({ params }: RecortePageProps) => {
@@ -93,8 +52,26 @@ const RecortePage = async ({ params }: RecortePageProps) => {
 
   if (!recorte) notFound();
 
+  const path = `/biblioteca/${params.recorte}`;
+
   return (
     <main className="w-full">
+      {/* Uma colecao, e nao um artigo: e o que diz ao buscador que a pagina
+          reune documentos de terceiros em vez de publicar um texto proprio. */}
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: `${recorte.title} — Biblioteca Daddus`,
+          description: recorte.description,
+          path,
+        })}
+      />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Biblioteca Daddus", path: "/biblioteca" },
+          { name: recorte.title, path },
+        ])}
+      />
+
       {/* Mesmo cabecalho da Biblioteca: as duas telas sao a mesma area, e o
           recorte se anuncia pela trilha, nao por um estilo proprio. */}
       <header className="border-b border-border bg-mediumGray">

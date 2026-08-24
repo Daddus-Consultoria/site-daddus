@@ -1,9 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title : 'Entre em contato',
-    keywords:['contato'],
-}
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Contato",
+  description:
+    "Canais para falar com a Daddus sobre um projeto de consultoria ou a apresentação de um dos sistemas.",
+  path: "/institucional/contato",
+});
 
 export default function ContactLayout({
     children,

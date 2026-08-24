@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { contratacao, encontrarSistema, sistemas } from "../_constants";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 export function generateStaticParams() {
   return sistemas.map((sistema) => ({ sistema: sistema.slug }));
@@ -10,11 +11,21 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: { params: { sistema: string } }): Metadata {
   const sistema = encontrarSistema(params.sistema);
-  if (!sistema) return {};
-  return {
-    title: `${sistema.nome} | ${sistema.chamada} | Daddus`,
+
+  if (!sistema) {
+    return pageMetadata({
+      title: "Sistema não encontrado",
+      description: "O sistema buscado não faz parte do ecossistema Daddus.",
+      path: `/tecnologia/${params.sistema}`,
+      index: false,
+    });
+  }
+
+  return pageMetadata({
+    title: `${sistema.nome} — ${sistema.chamada}`,
     description: sistema.descricao,
-  };
+    path: `/tecnologia/${sistema.slug}`,
+  });
 }
 
 export default function SistemaPage({ params }: { params: { sistema: string } }) {

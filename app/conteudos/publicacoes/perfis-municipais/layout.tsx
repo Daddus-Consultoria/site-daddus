@@ -1,10 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title : 'Perfis Municipais: Economia, Sociedade e Política - Daddus Consultoria',
-    description: 'Tem curiosidade de saber sobre os dados econômicos, sociais e políticos da sua cidade? Confira nossa lista.',
-    keywords:['dados dos municipios', 'minha cidade', 'economia local'],
-}
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Perfis municipais",
+  description:
+    "Retratos social, econômico e eleitoral de municípios, organizados a partir de bases públicas.",
+  path: "/conteudos/publicacoes/perfis-municipais",
+});
 
 export default function MunicipalProfileLayout({
     children,

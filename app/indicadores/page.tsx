@@ -1,4 +1,20 @@
 import React from 'react';
+import type { Metadata } from "next";
+
+import { pageMetadata } from "@/lib/seo/metadata";
+
+/**
+ * Rota legada: nada no site aponta para ela, e o conteudo e um iframe de BI sem
+ * texto proprio. Fica fora do indice — indexada, competiria com
+ * `/conteudos/indicadores`, que e a pagina de indicadores atual e a que o menu
+ * e o rodape linkam, oferecendo ao buscador uma tela em branco.
+ */
+export const metadata: Metadata = pageMetadata({
+  title: "Indicadores",
+  description: "Painel de indicadores da Daddus.",
+  path: "/indicadores",
+  index: false,
+});
 
 const IndicatorsPage: React.FC = () => {
     return (

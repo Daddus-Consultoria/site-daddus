@@ -3,42 +3,68 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ExternalLink } from "lucide-react";
 
-import { accessLabels, documentTypeLabels, languageLabels } from "@/lib/biblioteca/constants";
+import {
+  accessLabels,
+  documentTypeLabels,
+  documentTypeRoutes,
+  languageLabels,
+} from "@/lib/biblioteca/constants";
 import { getDocumentBySlug, getRelatedDocuments } from "@/lib/biblioteca/queries";
 import type { LibraryDocument } from "@/lib/biblioteca/types";
+import { absoluteUrl } from "@/lib/seo/constants";
+import { JsonLd, breadcrumbJsonLd } from "@/lib/seo/jsonLd";
+import { metaDescription, pageMetadata } from "@/lib/seo/metadata";
 
 import { documentPageContent, systemRecommendations } from "../../_constants";
 
 /**
  * Ficha do documento. O conteudo aqui e metadado — o documento integral fica na
  * origem, e o botao principal leva para la.
+ *
+ * A pagina e cacheada por um dia, e nao renderizada a cada requisicao. Sao
+ * dezenas de milhares de fichas: em `force-dynamic`, cada passada do robo de
+ * busca virava uma consulta ao Postgres, e o orcamento de rastreamento se
+ * esgotava antes de cobrir o acervo. O registro so muda quando a coleta roda,
+ * entao servir a versao cacheada nao atrasa nada.
  */
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 interface DocumentPageProps {
   params: { slug: string };
 }
 
 export async function generateMetadata({ params }: DocumentPageProps): Promise<Metadata> {
-  const document = await getDocumentBySlug(params.slug).catch(() => null);
+  const document = await getDocumentBySlug(params.slug);
 
-  if (!document) return { title: "Documento não encontrado — Biblioteca Daddus" };
+  const path = `/biblioteca/documento/${params.slug}`;
 
-  const description =
-    document.abstract?.slice(0, 200) ??
-    `${documentTypeLabels[document.documentType]} de ${document.source.name}.`;
+  if (!document) {
+    return pageMetadata({
+      title: "Documento não encontrado — Biblioteca Daddus",
+      description: "O documento buscado não está indexado na Biblioteca Daddus.",
+      path,
+      fullTitle: true,
+      index: false,
+    });
+  }
 
-  return {
+  const label = documentTypeLabels[document.documentType];
+
+  return pageMetadata({
+    // Titulo completo: o sufixo da area diz ao leitor do resultado de busca que
+    // ali ha uma ficha com a procedencia, e nao o PDF em si.
     title: `${document.title} — Biblioteca Daddus`,
-    description,
-    alternates: { canonical: `/biblioteca/documento/${document.slug}` },
-    openGraph: {
-      title: document.title,
-      description,
-      url: `/biblioteca/documento/${document.slug}`,
-      type: "article",
-    },
-  };
+    description: metaDescription(
+      document.abstract,
+      [label, document.institution ?? document.source.name, document.year]
+        .filter(Boolean)
+        .join(" · ")
+    ),
+    path,
+    fullTitle: true,
+    type: "article",
+    authors: document.authors,
+  });
 }
 
 const MetadataRow: React.FC<{ label: string; children: React.ReactNode }> = ({
@@ -54,6 +80,10 @@ const MetadataRow: React.FC<{ label: string; children: React.ReactNode }> = ({
 /**
  * Dados estruturados para o documento. Descreve o registro de metadados e
  * aponta a origem como o local do conteudo integral.
+ *
+ * A distincao entre `url` e `mainEntityOfPage` e o ponto: `url` e onde o
+ * documento esta (o portal da fonte), `mainEntityOfPage` e a ficha aqui. Sem
+ * ela o buscador leria a Daddus como quem publicou a obra.
  */
 const buildJsonLd = (document: LibraryDocument) => ({
   "@context": "https://schema.org",
@@ -73,22 +103,39 @@ const buildJsonLd = (document: LibraryDocument) => ({
   isAccessibleForFree: document.openAccess,
   url: document.sourceUrl,
   sameAs: document.sourceUrl,
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": absoluteUrl(`/biblioteca/documento/${document.slug}`),
+  },
 });
 
 const DocumentPage = async ({ params }: DocumentPageProps) => {
-  const document = await getDocumentBySlug(params.slug).catch(() => null);
+  // Sem `catch`: a consulta devolve `null` quando o slug nao existe, e so
+  // nesse caso a ficha e um 404. Um banco fora do ar precisa virar erro de
+  // servidor — engolido, viraria um 404 cacheado por um dia dizendo ao
+  // buscador que o documento saiu do acervo.
+  const document = await getDocumentBySlug(params.slug);
 
   if (!document) notFound();
 
   const related = await getRelatedDocuments(document, 4).catch(() => []);
   const systemSlug = document.topics.find((topic) => topic.systemSlug)?.systemSlug;
   const system = systemSlug ? systemRecommendations[systemSlug] : undefined;
+  const typeLabel = documentTypeLabels[document.documentType];
+  const typePath = `/biblioteca/${documentTypeRoutes[document.documentType]}`;
 
   return (
     <main className="mx-auto flex w-full max-w-screen-limit flex-col gap-8 px-5percent py-10">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(buildJsonLd(document)) }}
+      <JsonLd data={buildJsonLd(document)} />
+      {/* A mesma trilha que aparece na tela, em dados estruturados: o resultado
+          de busca passa a exibir "Biblioteca › Teses › documento" no lugar da
+          URL crua. */}
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Biblioteca Daddus", path: "/biblioteca" },
+          { name: typeLabel, path: typePath },
+          { name: document.title, path: `/biblioteca/documento/${document.slug}` },
+        ])}
       />
 
       <nav aria-label="Trilha de navegação" className="text-sm text-label">
@@ -100,11 +147,11 @@ const DocumentPage = async ({ params }: DocumentPageProps) => {
           </li>
           <li aria-hidden>›</li>
           <li>
-            <Link
-              href={`/biblioteca?tipo=${document.documentType}`}
-              className="hover:text-primary"
-            >
-              {documentTypeLabels[document.documentType]}
+            {/* Aponta para o recorte com endereco proprio, e nao para a busca
+                com `?tipo=`: e a versao que o buscador indexa e que o usuario
+                pode compartilhar. */}
+            <Link href={typePath} className="hover:text-primary">
+              {typeLabel}
             </Link>
           </li>
           <li aria-hidden>›</li>

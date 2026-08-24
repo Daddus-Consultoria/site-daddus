@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Política de Privacidade | Daddus Consultoria",
-  description: "Conheça como a Daddus Consultoria trata dados pessoais, cookies e publicidade no site.",
-};
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Política de Privacidade",
+  description:
+    "Como a Daddus trata dados pessoais, cookies e publicidade no site.",
+  path: "/politica-de-privacidade",
+});
 
 export default function PrivacyPolicyPage() {
   return (

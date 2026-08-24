@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  title: "Termos de Uso | Daddus Consultoria",
-  description: "Consulte os termos e condições de uso do site da Daddus Consultoria.",
-};
+import { pageMetadata } from "@/lib/seo/metadata";
+
+/**
+ * Rota legada: o rodape aponta para `/institucional/termos-de-uso`, que traz um
+ * texto mais completo. Nao ha canonica cruzada entre as duas porque o conteudo
+ * nao e o mesmo — esta versao fala de cookies e AdSense, a outra de cadastro e
+ * privacidade. Enquanto a equipe nao decidir qual e a valida, esta fica fora do
+ * indice para nao competir com a outra na busca.
+ */
+export const metadata: Metadata = pageMetadata({
+  title: "Termos de uso",
+  description: "Termos e condições de uso do site da Daddus.",
+  path: "/termos-de-uso",
+  index: false,
+});
 
 export default function TermsPage() {
   return (
