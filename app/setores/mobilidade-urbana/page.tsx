@@ -1,6 +1,5 @@
 'use client'
 
-import Image from "next/image";
 
 import { VideoComponent, CardInfo } from '@/components/index';
 import { constantMobilityUrban } from "./_constants";

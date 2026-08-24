@@ -6,7 +6,7 @@ const cardContents: CardInfoProps[] = [
     {
         title: 'Elaboração de Políticas Públicas',
         description: "Definição de objetivos, programas e metas da política, com escuta dos atores interessados e avaliação de alternativas até a formulação final.",
-        image: '/images/publications/publication1.svg',
+        image: "/images/consultoria/politicas-publicas.jpg",
         path: '/servicos/consultoria/elaboracao-politicas-publicas',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/elaboracao-politicas-publicas`,
         ctaLabel: "Conhecer o serviço",
@@ -15,7 +15,7 @@ const cardContents: CardInfoProps[] = [
     {
         title: 'Modelagem de Projetos',
         description: "Estruturação técnica, jurídica e econômica do projeto, do desenho da solução ao formato de contratação.",
-        image: '/images/publications/publication1.svg',
+        image: "/images/consultoria/modelagem-projetos.jpg",
         path: '/servicos/consultoria/modelagem-projetos',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/modelagem-projetos`,
         ctaLabel: "Conhecer o serviço",

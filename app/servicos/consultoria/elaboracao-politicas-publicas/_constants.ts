@@ -6,7 +6,7 @@ const cardContents: CardInfoProps[] = [
     {
         title: 'Estudos de Viabilidade Econômico-Financeiro',
         description: "Avaliação da sustentação financeira do projeto: análise de mercado, projeção de fluxo de caixa e indicadores como TIR, VPL e payback.",
-        image: '/images/publications/publication1.svg',
+        image: "/images/consultoria/estudo-de-viabilidade.jpg",
         path: '/servicos/consultoria/estudo-de-viabilidade',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/estudo-de-viabilidade`,
         ctaLabel: "Conhecer o serviço",
@@ -15,7 +15,7 @@ const cardContents: CardInfoProps[] = [
     {
         title: 'Modelagem de Projetos',
         description: "Estruturação técnica, jurídica e econômica do projeto, do desenho da solução ao formato de contratação.",
-        image: '/images/publications/publication1.svg',
+        image: "/images/consultoria/modelagem-projetos.jpg",
         path: '/servicos/consultoria/modelagem-projetos',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/modelagem-projetos`,
         ctaLabel: "Conhecer o serviço",
