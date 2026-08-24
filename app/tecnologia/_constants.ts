@@ -19,6 +19,12 @@ export interface SistemaDaddus {
   beneficios: string[];
   publico: string;
   emOperacao: boolean;
+  /**
+   * Marca do sistema. Os arquivos em public/images/tecnologia/marcas sao
+   * provisorios — desenho geometrico de ocupacao, nao identidade definida.
+   * Ver o LEIA-ME da pasta antes de trocar.
+   */
+  marca: string;
   imagem?: { src: string; alt: string; legenda: string };
 }
 
@@ -46,6 +52,7 @@ export const sistemas: SistemaDaddus[] = [
     ],
     publico: "Prefeituras e secretarias que hoje acompanham demandas por planilha, e-mail ou papel.",
     emOperacao: true,
+    marca: "/images/tecnologia/marcas/compasso.svg",
   },
   {
     slug: "opus",
@@ -68,6 +75,7 @@ export const sistemas: SistemaDaddus[] = [
     ],
     publico: "Municípios e órgãos que estruturam ou acompanham projetos de PPP.",
     emOperacao: true,
+    marca: "/images/tecnologia/marcas/opus.svg",
   },
   {
     slug: "prisma",
@@ -92,6 +100,7 @@ export const sistemas: SistemaDaddus[] = [
     ],
     publico: "Setores de compras, comissões de licitação e secretarias de prefeituras.",
     emOperacao: true,
+    marca: "/images/tecnologia/marcas/prisma.svg",
     imagem: {
       src: "/images/tecnologia/prisma-processo.png",
       alt: "Tela do Prisma mostrando a trilha de fases de um processo de compra",
@@ -119,6 +128,7 @@ export const sistemas: SistemaDaddus[] = [
     ],
     publico: "Prefeitos, secretários e equipes de planejamento e finanças.",
     emOperacao: false,
+    marca: "/images/tecnologia/marcas/atlas.svg",
   },
 ];
 

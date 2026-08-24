@@ -368,7 +368,7 @@ const PublicationsLibrary: React.FC<PublicationsLibraryProps> = ({
       {isLoading ? (
         <CircularProgressIndicator containerHeight="400px" />
       ) : items.length > 0 ? (
-        <div className="grid md:grid-cols-1 lg:grid-cols-2 w-full my-[6%] lg:mt-[40px] md:h-full lg:px-5 gap-[4%]">
+        <div className="mt-10 grid w-full gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item, index) => (
             <CardPublication
               id={item.id}

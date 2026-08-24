@@ -13,9 +13,15 @@ import { AiOutlineShareAlt } from "react-icons/ai";
 
 interface SearchLinkProps {
   path: string;
+  /**
+   * Estilo do botao. O padrao e o circulo cinza herdado das telas antigas; em
+   * um card compacto ele pesa mais que o proprio titulo, e por isso quem
+   * chama pode pedir uma versao discreta.
+   */
+  className?: string;
 }
 
-const SearchLink: React.FC<SearchLinkProps> = ({ path }) => {
+const SearchLink: React.FC<SearchLinkProps> = ({ path, className }) => {
   const [openTooltip, setOpenTooltip] = useState(false);
 
   const copyToClipboard = () => {
@@ -36,10 +42,13 @@ const SearchLink: React.FC<SearchLinkProps> = ({ path }) => {
         <TooltipTrigger>
           <Button
             aria-label="Compartilhar link"
-            className="flex flex-row justify-center items-center rounded-full w-[40px] h-[40px] p-2 bg-[#999999]"
+            className={
+              className ??
+              "flex flex-row justify-center items-center rounded-full w-[40px] h-[40px] p-2 bg-[#999999]"
+            }
             onClick={copyToClipboard}
           >
-            <AiOutlineShareAlt size={30} />
+            <AiOutlineShareAlt size={className ? 18 : 30} />
           </Button>
         </TooltipTrigger>
         <TooltipContent>

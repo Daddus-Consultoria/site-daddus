@@ -8,14 +8,16 @@
     width: 100%;    
     background-size: 100%;
     background-repeat: no-repeat;
-    padding: 90px 5% 96px;
+    /* O recuo horizontal vem do container padrao da pagina, e nao daqui: com
+       5% do viewport mais 60px de margem, o texto do hero comecava dezenas de
+       pixels antes da coluna em que todas as outras secoes comecam. */
+    padding: 90px 0 96px;
 }
 
 .first-section .title-container {
     width: 100%;
     gap: 10px;
     max-width: 470px;
-    margin-left: 60px;
 }
 
 @media (max-width: 1023px) {
@@ -24,7 +26,7 @@
        background-position-x: 77%;
        background-position-y: -6rem;
 
-       padding: 64px 5% 64px;
+       padding: 64px 0 64px;
     }
 }
 
@@ -41,8 +43,5 @@
         height: 100%;
         background: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,0.5));
         opacity: 0.8;
-    }
-    .first-section .title-container {
-        margin-left: 0;
     }
 }

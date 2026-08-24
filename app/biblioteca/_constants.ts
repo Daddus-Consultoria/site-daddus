@@ -14,7 +14,26 @@ export const libraryPageContent = {
   sourceNote:
     "A Biblioteca reúne metadados de acervos públicos e leva você ao documento no portal de origem.",
   topicsTitle: "Por tema",
-  sourcesTitle: "Por fonte",
+  /**
+   * Atalhos de entrada, mostrados so a quem ainda nao pesquisou: acima de uma
+   * lista de resultados eles seriam ruido, e o mesmo recorte continua no painel
+   * de filtros. Ver docs/DIRETRIZES-UX.md, secao 12.
+   */
+  startTitle: "Comece por um tema",
+  startDescription:
+    "Cada tema é um recorte do acervo com endereço próprio, que você pode compartilhar ou refinar depois.",
+  startMoreLabel: "Outros temas",
+  statDocuments: "Documentos indexados",
+  statSources: "Fontes",
+  statYears: "Cobertura",
+  /**
+   * A lista de fontes nao e atalho — o filtro lateral ja faz isso. Ela responde
+   * de onde vem o acervo, que e o que sustenta a citacao de um documento
+   * encontrado aqui. Por isso traz instituicao e volume, e nao so o nome.
+   */
+  sourcesTitle: "De onde vêm os documentos",
+  sourcesDescription:
+    "Cada fonte mantém a versão integral no próprio portal. A contagem é do que já foi indexado aqui.",
   curatedTitle: "Seleção Daddus",
   curatedDescription:
     "Documentos que a equipe técnica destacou por relação direta com o trabalho da Daddus.",

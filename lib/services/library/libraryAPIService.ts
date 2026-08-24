@@ -1,11 +1,19 @@
 import LibraryRepository from "@/lib/repositories/LibraryRepository";
 import { buildLibrarySearchParams } from "@/lib/biblioteca/searchParams";
-import type { LibraryQuery, LibrarySearchResult } from "@/lib/biblioteca/types";
+import type { LibraryQuery, LibrarySearchResult, LibrarySummary } from "@/lib/biblioteca/types";
 
 const EMPTY_RESULT: LibrarySearchResult = {
   items: [],
   totalItems: 0,
-  facets: { types: [], topics: [], sources: [], languages: [], access: [], years: [] },
+  facets: {
+    types: [],
+    topics: [],
+    sources: [],
+    languages: [],
+    access: [],
+    years: [],
+    curated: 0,
+  },
   approximate: false,
 };
 
@@ -26,5 +34,15 @@ export class LibraryAPIService implements LibraryRepository {
     }
 
     return { ...EMPTY_RESULT, ...((await response.json()) as LibrarySearchResult) };
+  }
+
+  async getLibrarySummary(): Promise<LibrarySummary> {
+    const response = await fetch("/api/biblioteca/resumo");
+
+    if (!response.ok) {
+      throw new Error(`A Biblioteca respondeu ${response.status}`);
+    }
+
+    return (await response.json()) as LibrarySummary;
   }
 }

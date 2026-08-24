@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 
 import { CardPublication, CircularProgressIndicator, BlogPostCard, Skeleton } from "@/components/index";
+import { HomeLibrarySection } from "@/components/homeLibrarySection";
 import { consultoriaHome, contatoHome, frentesHome, heroHome, institucionalHome } from "@/app/constants";
 import { sistemas } from "@/app/tecnologia/_constants";
 import { constantCardBlog } from "@/app/blog/_constants";
@@ -19,7 +20,8 @@ import "@/styles/home.css";
 /**
  * A home apresenta a Daddus e o que ela produz, na ordem da secao 5 das
  * diretrizes: quem somos, o que produzimos, as tres frentes, os sistemas, a
- * producao recente e o contato.
+ * producao recente, as duas ferramentas de consulta (Biblioteca e
+ * indicadores) e o contato.
  *
  * Os numeros vem do acervo publicado no CMS — nao ha valor institucional
  * escrito a mao aqui, justamente para nao envelhecer nem afirmar o que nao se
@@ -77,7 +79,8 @@ export default function Home() {
     <main className="w-full">
       {/* 1. Hero institucional */}
       <section className="first-section relative">
-        <div className="title-container relative z-2 flex flex-col justify-center text-white">
+        <div className="relative z-2 mx-auto w-full max-w-screen-limit px-5percent">
+        <div className="title-container flex flex-col justify-center text-white">
           <p className="text-xs font-semibold uppercase tracking-[0.14em]">{heroHome.chapeu}</p>
           <h1 className="mt-3 text-2xl font-extrabold leading-tight lg:text-4xl">{heroHome.titulo}</h1>
           <p className="mt-4 text-base leading-relaxed lg:text-lg">{heroHome.texto}</p>
@@ -97,33 +100,36 @@ export default function Home() {
             ))}
           </div>
         </div>
+        </div>
       </section>
 
-      {/* 2. O acervo em numeros, direto do CMS */}
+      {/* 2. O acervo em numeros, direto do CMS.
+          Faixa de leitura rapida: e um resumo entre o hero e o conteudo, nao
+          uma secao — com a altura de uma, empurrava as tres frentes para fora
+          da primeira tela. */}
       {mostrarNumeros && (
       <section className="border-b border-gray-200 bg-mediumGray">
-        <div className="mx-auto w-full max-w-screen-limit px-5percent py-10 lg:py-12">
+        <div className="mx-auto w-full max-w-screen-limit px-5percent py-6 lg:py-8">
           <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[#8b8b9a]">
             O acervo da Daddus
           </h2>
-          <dl className="mt-6 grid grid-cols-2 gap-6 lg:grid-cols-4">
+          <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-4 lg:grid-cols-4">
             {(data?.numeros ?? [1, 2, 3, 4].map(() => null)).map((numero, indice) =>
               numero ? (
                 <Link key={numero.rotulo} href={numero.href} className="group">
                   <dt className="text-sm text-[#696984] group-hover:text-primary">{numero.rotulo}</dt>
-                  <dd className="mt-1 text-3xl font-bold text-secondary lg:text-4xl">{numero.valor}</dd>
+                  <dd className="mt-0.5 text-2xl font-bold tabular-nums text-secondary lg:text-3xl">
+                    {numero.valor}
+                  </dd>
                 </Link>
               ) : (
                 <div key={`numero-vazio-${indice}`}>
                   <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
-                  <div className="mt-3 h-8 w-12 animate-pulse rounded bg-gray-200" />
+                  <div className="mt-2 h-7 w-12 animate-pulse rounded bg-gray-200" />
                 </div>
               )
             )}
           </dl>
-          <p className="mt-6 text-xs text-[#8b8b9a]">
-            Contagem do que está publicado no site, atualizada a cada acesso.
-          </p>
         </div>
       </section>
       )}
@@ -137,7 +143,10 @@ export default function Home() {
         </p>
         <div className="mt-8 grid gap-5 lg:grid-cols-3">
           {frentesHome.map((frente) => (
-            <div key={frente.titulo} className="flex flex-col rounded-xl border border-gray-200 bg-white p-6">
+            <div
+              key={frente.titulo}
+              className="flex flex-col rounded-xl border border-gray-200 bg-white p-6 transition hover:border-primary/40"
+            >
               <h3 className="text-lg font-bold text-primary">{frente.titulo}</h3>
               <p className="mt-3 flex-1 text-[15px] leading-relaxed text-[#696984]">{frente.descricao}</p>
               <Link href={frente.href} className="mt-5 text-sm font-semibold text-primary hover:underline">
@@ -170,7 +179,21 @@ export default function Home() {
                 href={`/tecnologia/${sistema.slug}`}
                 className="flex flex-col rounded-xl border border-gray-200 bg-white p-5 transition hover:border-primary/40"
               >
-                <div className="flex items-center gap-2">
+                {/* Marca provisoria — ver public/images/tecnologia/marcas. Ate
+                    a Daddus definir a identidade dos sistemas, o cartao abre
+                    com um sinal proprio em vez do nome solto. */}
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-mediumGray">
+                  <Image
+                    src={sistema.marca}
+                    alt=""
+                    aria-hidden
+                    width={26}
+                    height={26}
+                    className="h-[26px] w-[26px]"
+                  />
+                </span>
+
+                <div className="mt-4 flex flex-wrap items-center gap-2">
                   <span className="text-lg font-bold text-primary">{sistema.nome}</span>
                   {!sistema.emOperacao && (
                     <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-[#696984]">
@@ -190,7 +213,7 @@ export default function Home() {
       {/* 5. Producao recente */}
       <section className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
+          <div className="max-w-2xl">
             <h2 className="text-2xl font-bold text-secondary">Publicado recentemente</h2>
             <p className="mt-3 text-[17px] leading-relaxed text-[#696984]">
               Estudos, guias e perfis municipais com metodologia e fontes descritas.
@@ -204,7 +227,7 @@ export default function Home() {
         {isLoading ? (
           <CircularProgressIndicator containerHeight="300px" />
         ) : data?.ultimasPublicacoes.length ? (
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {data.ultimasPublicacoes.map((item: PublishModel) => (
               <CardPublication
                 id={item.id}
@@ -290,7 +313,10 @@ export default function Home() {
         </section>
       )}
 
-      {/* 7. Indicadores */}
+      {/* 7. Biblioteca — acervo de terceiros, com busca ja na home */}
+      <HomeLibrarySection />
+
+      {/* 8. Indicadores */}
       <section>
         <div className="mx-auto grid w-full max-w-screen-limit gap-8 px-5percent py-12 lg:grid-cols-2 lg:items-center lg:py-16">
           <div>
@@ -306,18 +332,22 @@ export default function Home() {
               Explorar indicadores
             </Link>
           </div>
-          <div className="relative h-56 w-full overflow-hidden rounded-xl border border-gray-200 bg-mediumGray lg:h-64">
+          {/* Cena urbana real no lugar da ilustracao de banco: e do territorio
+              destas ruas que os indicadores falam. Autoria em
+              public/images/home/CREDITOS.md. */}
+          <div className="relative h-64 w-full overflow-hidden rounded-xl bg-mediumGray lg:h-80">
             <Image
-              src="/images/publications/bus.svg"
-              alt="Ilustração de indicadores de mobilidade urbana"
+              src="/images/home/indicadores-avenida-paulista.jpg"
+              alt="Trabalhador de uniforme laranja atravessa a Avenida Paulista, em São Paulo, entre cones de obra, ciclistas e um ponto de táxi."
               fill
-              className="object-contain p-8"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
             />
           </div>
         </div>
       </section>
 
-      {/* 8. Consultoria */}
+      {/* 9. Consultoria */}
       <section className="border-y border-gray-200 bg-mediumGray">
         <div className="mx-auto w-full max-w-screen-limit px-5percent py-12 lg:py-16">
           <h2 className="text-2xl font-bold text-secondary">{consultoriaHome.titulo}</h2>
@@ -340,7 +370,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 9. Institucional e contato */}
+      {/* 10. Institucional e contato */}
       <section className="border-t border-gray-200">
         <div className="mx-auto grid w-full max-w-screen-limit gap-10 px-5percent py-12 lg:grid-cols-2 lg:py-16">
           <div>
