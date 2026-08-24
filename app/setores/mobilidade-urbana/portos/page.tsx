@@ -33,10 +33,12 @@ const PortsPage = () => {
           className="flex lg:w-1/2 flex-col justify-start items-end gap-[7%] "
         >
           <Image
-            src="/images/publications/bus.svg"
+            src="/images/setores/portos.jpg"
             width={450}
             height={300}
-            alt="bus"
+            sizes="(max-width: 1024px) 100vw, 450px"
+            className="h-auto w-full rounded-2xl object-cover"
+            alt="Navio porta-contêineres passando em frente ao Pão de Açúcar, na baía de Guanabara, no Rio de Janeiro."
           />
           <div className="flex justify-center items-center bg-[#D9D9D9] h-[400px] w-[300px]">
             <p className="font-bold text-[26px] lg:text-[32px] text-[#A90920] mb-[2%]">

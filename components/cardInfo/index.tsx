@@ -21,12 +21,15 @@ const CardInfo: React.FC<CardInfoProps> = ({
   return (
     <Card className="flex flex-1 flex-col rounded-3xl bg-[#EEEEEE] lg:m-0 overflow-hidden">
       <CardHeader className="w-full h-64 lg:h-64 xl:h-80 2xl:h-80  relative ">
+        {/* A capa acompanha o titulo logo abaixo e nao acrescenta informacao
+            propria: descrita, o leitor de tela repetiria o card duas vezes. */}
         <Image
           src={image}
-          alt="Capa ilustrativa"
-          layout="fill"
-          objectFit="cover" // Mantém as proporções e faz a imagem se ajustar dentro do contêiner
-          objectPosition="center"
+          alt=""
+          aria-hidden
+          fill
+          sizes="(max-width: 1024px) 100vw, 33vw"
+          className="object-cover object-center"
         />
       </CardHeader>
       <CardContent className="flex flex-col flex-1 items-center mt-6 ">

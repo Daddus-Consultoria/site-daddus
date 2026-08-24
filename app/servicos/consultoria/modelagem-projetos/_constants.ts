@@ -6,7 +6,7 @@ const cardContents: CardInfoProps[] = [
     {
         title: 'Elaboração de Políticas Públicas',
         description: "Definição de objetivos, programas e metas da política, com escuta dos atores interessados e avaliação de alternativas até a formulação final.",
-        image: '/images/publications/publication1.svg',
+        image: "/images/consultoria/politicas-publicas.jpg",
         path: '/servicos/consultoria/elaboracao-politicas-publicas',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/elaboracao-politicas-publicas`,
         ctaLabel: "Conhecer o serviço",
@@ -15,7 +15,7 @@ const cardContents: CardInfoProps[] = [
     {
         title: 'Estudos de Viabilidade Econômico-Financeiro',
         description: "Avaliação da sustentação financeira do projeto: análise de mercado, projeção de fluxo de caixa e indicadores como TIR, VPL e payback.",
-        image: '/images/publications/publication1.svg',
+        image: "/images/consultoria/estudo-de-viabilidade.jpg",
         path: '/servicos/consultoria/estudo-de-viabilidade',
         copyLink: `${Links.SITE_DOMAIN}/servicos/consultoria/estudo-de-viabilidade`,
         ctaLabel: "Conhecer o serviço",

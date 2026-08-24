@@ -6,7 +6,7 @@ const cardContents: CardInfoProps[] = [
     {
         title: 'MOBILIDADE URBANA',
         description: "Panorama do deslocamento urbano no Brasil e os dados que embasam decisões de planejamento.",
-        image: '/images/publications/publication1.svg',
+        image: '/images/setores/mobilidade-urbana.jpg',
         path: '/setores/mobilidade-urbana',
         copyLink: `${Links.SITE_DOMAIN}/setores/mobilidade-urbana`,
         ctaLabel: "Ver mobilidade urbana",
