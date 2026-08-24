@@ -61,3 +61,22 @@ export const CATEGORY_NAMES_BLOG: SpecialCharactersWords = {
   sustentabilidade: "sustentabilidade",
   oportunidades: "oportunidades",
 };
+
+/**
+ * Rotulo de leitura de cada categoria, usado no titulo da pagina e na descricao
+ * de busca. As outras duas tabelas nao servem: `SPECIAL_CHARACTERS_WORDS_BLOG`
+ * esta em caixa alta e `CATEGORY_NAMES_BLOG` guarda a chave do CMS.
+ *
+ * Uma URL de categoria fora desta lista existe (o endereco do post usa a chave
+ * crua do CMS, como `politicasPublicas`) mas nao rende listagem — por isso a
+ * pagina a mantem fora do indice em vez de publicar uma tela vazia.
+ */
+export const CATEGORY_LABELS_BLOG: Record<string, string> = {
+  financas: "Economia",
+  "politicas-publicas": "Políticas Públicas",
+  governanca: "Governança",
+  logistica: "Mobilidade",
+  inovacao: "Inovação",
+  sustentabilidade: "Sustentabilidade",
+  oportunidades: "Oportunidades",
+};

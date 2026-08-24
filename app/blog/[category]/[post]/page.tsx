@@ -1,48 +1,20 @@
-"use client";
-import { PostLayout } from "@/components/post";
-import { postItems } from "./_constants";
-import { PostsUseCases } from "@/lib/useCases/postsUseCases";
-import { useQuery } from "@tanstack/react-query";
-import { QueryKeys } from "@/lib/constants/queryKeys";
-interface PostPageProps {
-  category?: string;
-  post?: string;
+import type { Metadata } from "next";
+
+import { POST_REVALIDATE, postMetadata, renderPostPage } from "@/app/blog/_postPage";
+
+/**
+ * Post do blog. A montagem e os metadados vivem em `_postPage.tsx`.
+ */
+export const revalidate = POST_REVALIDATE;
+
+interface PageProps {
+  params: { category: string; post: string };
 }
 
-const PostPage = ({ params }: { params: PostPageProps }) => {
-  const { post, category } = params;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  return postMetadata(params.category, params.post);
+}
 
-  const usePostUseCases = new PostsUseCases();
-
-  const { data: postData, isLoading: isLoadingPost } = useQuery({
-    queryKey: ["posts"],
-    queryFn: async () => {
-      return await usePostUseCases.getSinglePost({
-        slug: post!,
-        category: category!,
-      });
-    },
-  });
-
-  const { data: lastPosts, isLoading: isLoadingLastPost } = useQuery({
-    queryKey: [QueryKeys.lastPosts],
-    queryFn: async () => {
-      return await usePostUseCases.getPosts({
-        limit: 4,
-        order: "desc",
-      });
-    },
-  });
-
-  const isLoading = isLoadingPost || isLoadingLastPost;
-
-  return (
-    <PostLayout
-      loading={isLoading}
-      post={postData}
-      lastPosts={lastPosts?.posts}
-    />
-  );
-};
-
-export default PostPage;
+export default async function Page({ params }: PageProps) {
+  return renderPostPage(params.category, params.post);
+}

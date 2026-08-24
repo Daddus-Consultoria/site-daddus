@@ -1,10 +1,13 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-    title : 'Estudos: Análises Econômicas Profundas  - Daddus Consultoria',
-    description: 'A Daddus é responsável por elaborar, promover e difundir estudos, pesquisas e informações relevantes para a população brasileira.',
-    keywords:['estudo economico', 'estudo de vantajosidade', 'estudo de viabilidade'],
-}
+import { pageMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = pageMetadata({
+  title: "Estudos",
+  description:
+    "Análises técnicas sobre políticas públicas, economia e gestão, com metodologia e fontes descritas.",
+  path: "/conteudos/publicacoes/estudos",
+});
 
 export default function StudyPublicationsLayout({
     children,

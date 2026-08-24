@@ -5,6 +5,8 @@ import Link from "next/link";
 import { CircularProgressIndicator } from "@/components/circularProgressIndicator";
 import { LibraryExplorer } from "@/components/libraryExplorer";
 import { getLibrarySourceSummaries, getLibrarySummary } from "@/lib/biblioteca/queries";
+import { JsonLd, collectionPageJsonLd } from "@/lib/seo/jsonLd";
+import { pageMetadata } from "@/lib/seo/metadata";
 
 import { libraryPageContent } from "./_constants";
 
@@ -16,17 +18,17 @@ import { libraryPageContent } from "./_constants";
  */
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+/**
+ * A canonica e sempre `/biblioteca`, sem query string: a mesma tela com
+ * `?q=`, `?tema=` ou `?pagina=3` e um recorte da busca, nao uma pagina nova, e
+ * indexar cada combinacao encheria o indice de variacoes do mesmo conteudo.
+ */
+export const metadata: Metadata = pageMetadata({
   title: "Biblioteca Daddus — pesquisa em acervos acadêmicos e institucionais",
   description: libraryPageContent.intro,
-  alternates: { canonical: "/biblioteca" },
-  openGraph: {
-    title: "Biblioteca Daddus",
-    description: libraryPageContent.intro,
-    url: "/biblioteca",
-    type: "website",
-  },
-};
+  path: "/biblioteca",
+  fullTitle: true,
+});
 
 /**
  * Os temas do bloco de entrada. Os primeiros ganham destaque proporcional e o
@@ -79,6 +81,17 @@ const LibraryPage = async ({ searchParams }: LibraryPageProps) => {
 
   return (
     <main className="w-full">
+      {/* O tamanho do acervo sai da mesma consulta que alimenta os numeros da
+          tela — nunca de um literal, que envelheceria a cada coleta. */}
+      <JsonLd
+        data={collectionPageJsonLd({
+          name: "Biblioteca Daddus",
+          description: libraryPageContent.intro,
+          path: "/biblioteca",
+          itemCount: summary?.documents,
+        })}
+      />
+
       <header className="border-b border-border bg-mediumGray">
         <div className="mx-auto flex w-full max-w-screen-limit flex-col gap-6 px-5percent py-10 lg:py-14">
           <div className="flex flex-col gap-3">
