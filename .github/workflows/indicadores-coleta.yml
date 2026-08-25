@@ -1,0 +1,122 @@
+# Coleta das series de indicadores.
+#
+# Separado do workflow da Biblioteca de proposito: sao ritmos diferentes (serie
+# diaria contra varredura de repositorio), tempos de execucao de ordem
+# diferente e falhas independentes — uma fonte da Biblioteca fora do ar nao
+# pode impedir a leitura do dolar.
+name: Indicadores — coleta
+
+on:
+  schedule:
+    # Diaria, 09:20 UTC (06:20 em Brasilia). Depois da abertura do dia util:
+    # o SGS publica o fechamento do cambio do dia anterior de manha.
+    - cron: "20 9 * * *"
+    # Mensal, dia 10 — indice de preco do mes anterior ja saiu. A coleta mensal
+    # tambem reescreve a serie inteira, o que traz revisao retroativa.
+    - cron: "40 9 10 * *"
+  workflow_dispatch:
+    inputs:
+      indicador:
+        description: "Slug do indicador (vazio = todos os ativos)"
+        required: false
+        type: string
+      full:
+        description: "Reler a serie inteira, ignorando o ponto de parada"
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  # Duas coletas simultaneas disputariam as mesmas linhas de indicator_values.
+  group: indicadores-coleta
+  cancel-in-progress: false
+
+jobs:
+  coletar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+
+      - run: yarn install --frozen-lockfile
+
+      # Sem o secret, o `pg` cai no padrao e tenta localhost, e a execucao morre
+      # com "ECONNREFUSED 127.0.0.1:5432" — que aponta para o runner, e nao para
+      # o secret que falta. Conferir aqui nomeia a causa.
+      - name: Conferir o secret DATABASE_URL
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "::error::O secret DATABASE_URL nao esta configurado neste repositorio."
+            echo "Settings -> Secrets and variables -> Actions -> New repository secret."
+            exit 1
+          fi
+          case "$DATABASE_URL" in
+            postgres://*|postgresql://*) ;;
+            *)
+              echo "::error::O secret DATABASE_URL nao e uma string de conexao Postgres."
+              echo "Ela comeca com postgres:// ou postgresql://."
+              exit 1
+              ;;
+          esac
+          case "$DATABASE_URL" in
+            *railway.internal*)
+              echo "::error::Esta e a URL interna do Railway e nao funciona fora dele."
+              echo "Use a DATABASE_PUBLIC_URL, que termina em .proxy.rlwy.net com uma porta."
+              exit 1
+              ;;
+          esac
+
+      - name: Aplicar migrations pendentes
+        run: yarn db:migrate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Definir o modo a partir do cron
+        id: modo
+        run: |
+          # A rotina mensal releva o ponto de parada para capturar revisao
+          # retroativa dos indices de preco, comum ate dois meses depois.
+          if [ "${{ github.event.schedule }}" = "40 9 10 * *" ]; then
+            echo "full=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "full=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Coletar
+        # As entradas do disparo manual chegam por variavel de ambiente, e nao
+        # interpoladas no script: texto vindo de fora do repositorio nunca deve
+        # virar comando de shell.
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          INDICADOR: ${{ inputs.indicador }}
+          FULL_INPUT: ${{ inputs.full }}
+          FULL_CRON: ${{ steps.modo.outputs.full }}
+        run: |
+          set -euo pipefail
+
+          ARGS=()
+          if [ -n "${INDICADOR:-}" ]; then
+            # So aceita slug: letras minusculas, numeros e hifen.
+            case "$INDICADOR" in
+              *[!a-z0-9-]*)
+                echo "::error::Indicador invalido: use o slug (ex.: ipca, igp-m, selic-meta)."
+                exit 1
+                ;;
+            esac
+            ARGS+=("$INDICADOR")
+          fi
+
+          if [ "${FULL_INPUT:-false}" = "true" ] || [ "${FULL_CRON:-false}" = "true" ]; then
+            ARGS+=("--full")
+          fi
+
+          echo "yarn indicadores:coletar ${ARGS[*]-}"
+          yarn indicadores:coletar "${ARGS[@]}"

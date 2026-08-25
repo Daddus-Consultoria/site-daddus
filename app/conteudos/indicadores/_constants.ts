@@ -1,82 +1,47 @@
-import { Links } from '@/lib/constants/constants';
+/**
+ * Texto da pagina de Indicadores.
+ *
+ * Numero nenhum mora aqui: tudo o que a tela exibe sai do banco, coletado das
+ * origens. O que fica neste arquivo e so o que explica e enquadra os dados —
+ * ver docs/DIRETRIZES-UX.md secoes 6 e 8, e a regra de nao inventar numeros em
+ * CLAUDE.md.
+ */
 
-export const filtersIndicatorPage = {
-  items: [
-    {
-      value: 'maps',
-      title: 'Mapa do IDH',
-      subTitle: 'Base de dados: Out/2021',
-      text: 'O Índice de Desenvolvimento Humano (IDH) compara indicadores de países nos itens riqueza, alfabetização, educação, esperança de vida, natalidade e outros, com o intuito de avaliar o bem-estar de uma população, especialmente das crianças.',
-      content: [
-        {
-          title: 'INDICADOR',
-          placeholder: 'IDH',
-          items: [
-            'IDH',
-          ]
-        },
-        {
-          title: 'ANO',
-          placeholder: 'IDH',
-          items: [
-            'IDH',
-          ]
-        },
-      ]
-    },
-    {
-      value: 'graphics',
-      title: 'IPCA-15',
-      subTitle: 'Base de dados: Mar/2022',
-      text: 'O Instituto Brasileiro de Geografia e Estatística é um instituto público da administração federal brasileira criado em 1934 e instalado em 1936 com o nome de Instituto Nacional de Estatística; seu fundador e grande incentivador foi o estatístico Mário Augusto Teixeira de Freitas. O nome atual data de 1938.',
-      content: [
-        {
-          title: 'FONTE',
-          placeholder: 'IBGE',
-          items: [
-            'IBGE',
-          ]
-        },
-        {
-          title: 'INDICADOR',
-          placeholder: 'IPCA-15',
-          items: [
-            'IPCA-15',
-          ]
-        },
-        {
-          title: 'UF',
-          placeholder: 'ALAGOAS',
-          items: [
-            'UF 1',
-          ],
-        },
-        {
-          title: 'MUNICÍPIO',
-          placeholder: 'MACEIÓ',
-          items: [
-            'município 1',
-          ],
-        },
-      ],
-    },
-  ],
-  publicationButtons: [
-    {
-      text: 'ESTUDOS',
-      path: `${Links.SITE_DOMAIN}/conteudos/publicacoes/estudos`,
-    },
-    {
-      text: 'GUIAS',
-      path: `${Links.SITE_DOMAIN}/conteudos/publicacoes/guias`,
-    },
-    {
-      text: 'PERFIS MUNICIPAIS',
-      path: `${Links.SITE_DOMAIN}/conteudos/publicacoes/perfis-municipais`,
-    },
-    {
-      text: 'BLOG',
-      path: `${Links.SITE_DOMAIN}/blog`,
-    },
-  ],
-};
+export const indicadoresPageContent = {
+  eyebrow: "Conhecimento",
+  title: "Indicadores",
+  lead:
+    "Séries econômicas que entram em contrato, reajuste e estudo de viabilidade — " +
+    "atualizadas direto na fonte, com o período de referência e quem apura cada uma.",
+
+  /**
+   * A pagina precisa dizer o que ela nao e. Quem chega buscando indicador
+   * municipal precisa saber que ele ainda nao esta aqui, em vez de concluir que
+   * o site nao tem.
+   */
+  escopo:
+    "Por ora o painel cobre índices de preços, juros, câmbio, atividade e dívida " +
+    "pública em âmbito nacional. Recortes municipais e estaduais entram na etapa seguinte.",
+
+  metodologia: {
+    title: "Como estes números chegam aqui",
+    paragraphs: [
+      "A Daddus não apura indicador: coleta a série na instituição que a produz e a " +
+        "republica com a procedência preservada. Cada card mostra quem apura, qual o " +
+        "período de referência do valor e quando a série foi lida pela última vez.",
+      "Os índices de preços vêm do Ipeadata, que declara o produtor e a metodologia de " +
+        "cada série. As séries do Banco Central vêm do SGS, o sistema de séries " +
+        "temporais da própria instituição. Nenhum valor é recalculado no caminho.",
+    ],
+  },
+
+  /** CTA nomeia o destino, nunca "veja mais" — DIRETRIZES-UX secao 11. */
+  cta: {
+    title: "Precisa desses dados dentro de um estudo?",
+    text:
+      "A leitura de indicador vira insumo de modelagem econômico-financeira, " +
+      "projeção de arrecadação e reajuste contratual nos trabalhos da Daddus.",
+    label: "Falar com a equipe",
+    href: "/institucional/contato",
+  },
+} as const;

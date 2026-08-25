@@ -21,6 +21,8 @@ yarn harvest ipea # coleta metadados de uma fonte da Biblioteca (ver docs/BIBLIO
 yarn biblioteca:status # diagnostica banco, tabelas, contagem e última coleta
 yarn biblioteca:setup  # instalação: migrations + coleta de todas as fontes ativas
 yarn biblioteca:reclassificar --simular # reaplica as regras de tema (sem --simular, grava)
+yarn indicadores:coletar # coleta as series de indicadores (ver docs/INDICADORES.md)
+yarn indicadores:setup   # instalacao: migrations + coleta completa das series
 ```
 
 Não há suíte de testes automatizados no repositório. Verificação = `yarn ts-check` + `yarn lint`
@@ -109,6 +111,27 @@ de mexer em coleta, schema ou classificação temática.
   (`library_topics`, `library_topic_rules`): a equipe ajusta sem deploy.
 - `lib/db/pool.ts` só pode ser importado do servidor.
 
+### Indicadores
+
+`app/conteudos/indicadores/` publica séries econômicas (índices de preços,
+juros, câmbio, atividade, dívida) coletadas nas instituições que as apuram.
+Divide o Postgres com a Biblioteca — mesma `DATABASE_URL`, tabelas próprias
+(`indicators`, `indicator_values`), sem relação entre as duas áreas.
+`docs/INDICADORES.md` é o documento da área.
+
+- **A Daddus não apura indicador**, republica com procedência. Distribuidor não
+  é produtor: o IGP-M é da FGV e chega pelo Ipeadata; o IPCA é do IBGE. Por isso
+  `producer` fica no indicador e a tela mostra o produtor, nunca quem distribui.
+- Duas origens, por motivo: **Ipeadata** para os índices de preços, porque a API
+  declara nome, produtor e metodologia da série; **BCB/SGS** para o que o
+  próprio Banco Central apura, porque o SGS entrega só data e valor.
+- **Nenhum código de série entra por suposição** — os do BCB foram conferidos no
+  catálogo de dados abertos dele, os do Ipeadata cruzados valor a valor com o
+  SGS. Rótulo errado publica um número certo com o nome de outro indicador.
+- O banco guarda o valor **como a origem publicou**; não há conversão na cadeia.
+  `unit` e `decimals` governam só a exibição.
+- Coleta por GitHub Actions (`indicadores-coleta.yml`), separada da Biblioteca.
+
 ### Autenticação e painel administrativo
 
 Auth é do Strapi, guardada no `localStorage` (`daddus_auth_token`, `daddus_auth_user`) e exposta
@@ -164,7 +187,7 @@ código:
 | `NEXT_PUBLIC_BI_URL` | iframe de BI em `/indicadores` |
 | `NEXT_PUBLIC_GOOGLE_ANALYTICS` | GA (opcional) |
 | `GOOGLE_SHEETS_*` | service account e IDs de planilha dos gráficos/mapas |
-| `DATABASE_URL` | Postgres da Biblioteca Daddus (busca e coleta de metadados) |
+| `DATABASE_URL` | Postgres da Biblioteca Daddus e dos Indicadores (busca, séries e coleta) |
 
 Atenção: `NEXT_PUBLIC_STRAPI_URL` e `NEXT_PUBLIC_STRAPI_API_URL` são variáveis distintas e as
 duas precisam estar configuradas — sem a segunda, o `httpClient` fica com baseURL vazia e o
