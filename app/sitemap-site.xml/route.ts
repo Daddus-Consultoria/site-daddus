@@ -1,5 +1,6 @@
 import { CATEGORY_LABELS_BLOG } from "@/app/blog/[category]/_constants";
 import { sistemas } from "@/app/tecnologia/_constants";
+import { getIndicatorSlugs } from "@/lib/indicadores/queries";
 import { type SitemapEntry, urlsetXml, xmlResponse } from "@/lib/seo/sitemap";
 
 /**
@@ -60,6 +61,28 @@ const entries = (): SitemapEntry[] => [
   { path: "/politica-de-privacidade", priority: 0.3, changeFrequency: "yearly" },
 ];
 
+/**
+ * As paginas dos indicadores saem do banco, e nao de uma lista fixa: ativar uma
+ * serie nova ja a anuncia ao buscador, sem passar por aqui.
+ *
+ * Falha do banco nao pode derrubar o sitemap inteiro — as dezenas de paginas
+ * fixas acima valem mais do que as dezesseis que faltariam, e um sitemap com
+ * erro 500 tira todas de circulacao.
+ */
+const indicatorEntries = async (): Promise<SitemapEntry[]> => {
+  try {
+    return (await getIndicatorSlugs()).map((slug) => ({
+      path: `/conteudos/indicadores/${slug}`,
+      priority: 0.6,
+      changeFrequency: "daily" as const,
+    }));
+  } catch (error) {
+    console.error("Sitemap: falha ao listar os indicadores", error);
+
+    return [];
+  }
+};
+
 export async function GET() {
-  return xmlResponse(urlsetXml(entries()));
+  return xmlResponse(urlsetXml([...entries(), ...(await indicatorEntries())]));
 }
