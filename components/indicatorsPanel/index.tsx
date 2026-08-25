@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import type { IndicatorSummary } from "@/lib/indicadores/queries";
 import {
   formatIndicatorValue,
@@ -29,6 +31,7 @@ const FREQUENCIA_LABEL: Record<string, string> = {
 
 const IndicatorCard = ({ indicator }: { indicator: IndicatorSummary }) => {
   const {
+    slug,
     acronym,
     name,
     description,
@@ -47,7 +50,17 @@ const IndicatorCard = ({ indicator }: { indicator: IndicatorSummary }) => {
   return (
     <li className="flex h-full flex-col rounded-lg border border-gray-200 p-6">
       <div className="flex items-baseline justify-between gap-3">
-        <h3 className="text-lg font-bold text-secondary">{acronym ?? name}</h3>
+        <h3 className="text-lg font-bold text-secondary">
+          {/* O card inteiro nao vira link: ele ja contem o link da metodologia,
+              na origem, e aninhar ancora dentro de ancora e invalido. O titulo
+              leva a serie; a fonte, ao produtor. */}
+          <Link
+            href={`/conteudos/indicadores/${slug}`}
+            className="hover:text-primary hover:underline underline-offset-2"
+          >
+            {acronym ?? name}
+          </Link>
+        </h3>
         <span className="shrink-0 text-xs uppercase tracking-wide text-gray-500">
           {FREQUENCIA_LABEL[frequency]}
         </span>
@@ -95,6 +108,16 @@ const IndicatorCard = ({ indicator }: { indicator: IndicatorSummary }) => {
       )}
 
       <p className="mt-4 text-sm leading-6 text-gray-600">{description}</p>
+
+      {/* CTA nomeia o destino, nunca "veja mais" — DIRETRIZES-UX secao 11. */}
+      <p className="mt-4">
+        <Link
+          href={`/conteudos/indicadores/${slug}`}
+          className="text-sm font-semibold text-primary underline underline-offset-2"
+        >
+          Ver série histórica
+        </Link>
+      </p>
 
       <p className="mt-auto pt-4 text-xs text-gray-500">
         Fonte:{" "}

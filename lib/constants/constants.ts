@@ -35,11 +35,23 @@ export const headerItems: NavigationType[] = [
         ],
       },
       {
+        /**
+         * Os submenus sao os grupos que a propria pagina renderiza, ancorados
+         * pelo `id` que o `IndicatorsPanel` emite (`grupo-<categoria>`). Antes
+         * havia "Mapas" e "Graficos" apontando para `?slug=maps` e
+         * `?slug=graphics`: parametros do painel de planilhas, que a pagina
+         * atual nao le — os dois itens caiam na mesma tela, identica.
+         * CTA nomeia o destino (DIRETRIZES-UX secao 11), e um menu que promete
+         * duas telas e entrega uma so quebra essa regra.
+         */
         title: "Indicadores",
         href: "/conteudos/indicadores",
         items: [
-          { title: "Mapas", href: "/conteudos/indicadores?slug=maps" },
-          { title: "Gráficos", href: "/conteudos/indicadores?slug=graphics" },
+          { title: "Índices de preços", href: "/conteudos/indicadores#grupo-precos" },
+          { title: "Juros", href: "/conteudos/indicadores#grupo-juros" },
+          { title: "Câmbio", href: "/conteudos/indicadores#grupo-cambio" },
+          { title: "Atividade econômica", href: "/conteudos/indicadores#grupo-atividade" },
+          { title: "Dívida pública", href: "/conteudos/indicadores#grupo-fiscal" },
         ],
       },
       { title: "Blog", href: "/blog" },
