@@ -54,10 +54,10 @@ O acesso a dados segue uma cadeia fixa; siga-a ao adicionar um novo tipo de cont
 
 ```
 componente/página
-  → lib/useCases/*.ts            (PublishUseCases, PostsUseCases, ChartUseCases)
+  → lib/useCases/*.ts            (PublishUseCases, PostsUseCases)
     → components/providers/repositoriesProviders/*.ts   (instancia o repositório concreto)
       → lib/repositories/*.tsx   (classe abstrata = contrato)
-        → lib/services/*.ts      (implementação: Strapi via httpClient, Google Sheets)
+        → lib/services/*.ts      (implementação: Strapi via httpClient)
           → lib/services/index.ts / lib/services/author  (mappers Strapi → model)
 ```
 
@@ -130,6 +130,16 @@ Divide o Postgres com a Biblioteca — mesma `DATABASE_URL`, tabelas próprias
   SGS. Rótulo errado publica um número certo com o nome de outro indicador.
 - O banco guarda o valor **como a origem publicou**; não há conversão na cadeia.
   `unit` e `decimals` governam só a exibição.
+- **Cada indicador tem página própria** (`app/conteudos/indicadores/[slug]`), com série
+  histórica, marcos, tabela dos períodos recentes e download em CSV
+  (`[slug]/serie.csv`). O gráfico é `components/indicatorSeriesChart` — SVG próprio,
+  client component só por causa do cursor de leitura.
+- **`indicators.comparable_from`** diz a partir de quando os valores da série são
+  comparáveis entre si. Existe por causa do dólar: o SGS entrega a cotação desde 1984
+  numa série contínua, mas os valores anteriores a 01/07/1994 estão em cruzeiros. O
+  banco continua guardando tudo e o CSV entrega tudo — a coluna governa só até onde o
+  gráfico desenha uma linha com um rótulo de unidade só. NULL (o caso da maioria)
+  significa série inteira comparável.
 - Coleta por GitHub Actions (`indicadores-coleta.yml`), separada da Biblioteca.
 
 ### Autenticação e painel administrativo
@@ -156,13 +166,15 @@ o conteúdo textual da página — conteúdo fica nesses arquivos, não inline n
 `app/tecnologia/[sistema]/page.tsx` gera as quatro páginas do ecossistema (Compasso, Opus,
 Prisma, Atlas) a partir de `app/tecnologia/_constants.ts` via `generateStaticParams`.
 
-Ainda existe `pages/` (Pages Router) apenas para dois endpoints de Google Sheets:
-`pages/api/state-graphic-charts.ts` e `pages/api/state-map-charts.ts`. Rotas de API novas vão em
-`app/api/`.
+Só existe App Router. O `pages/` (Pages Router) foi removido junto com os dois endpoints de
+Google Sheets que o justificavam — as planilhas por trás deles estavam paradas e os indicadores
+passaram a ser lidos na origem. Toda rota de API vive em `app/api/`.
 
 Rotas legadas de topo (`app/indicadores`, `app/termos-de-uso`, `app/politica-de-privacidade`)
-convivem com as versões atuais sob `conteudos/` e `institucional/`; `app/sitemap.ts` ainda lista
-URLs antigas — confira antes de assumir que uma URL é canônica.
+convivem com as versões atuais sob `conteudos/` e `institucional/`, mas estão fora do índice
+(`index: false`) para não competirem com a canônica. O sitemap não é mais um `app/sitemap.ts`
+único: são rotas segmentadas (`app/sitemap.xml`, `sitemap-site.xml`, `sitemap-publicacoes.xml`,
+`sitemap-blog.xml`, `sitemap-biblioteca.xml`), montadas pelos helpers de `lib/seo/`.
 
 ### Componentes
 
@@ -183,10 +195,8 @@ código:
 |---|---|
 | `NEXT_PUBLIC_STRAPI_URL` | base do Strapi para auth, painel e proxy admin (paths incluem `/api`) |
 | `NEXT_PUBLIC_STRAPI_API_URL` | baseURL do `httpClient` (axios) — publicações e posts |
-| `NEXT_PUBLIC_SITE_API_URL` | base usada pelo `ChartAPIService` para chamar `/state-*-charts` |
-| `NEXT_PUBLIC_BI_URL` | iframe de BI em `/indicadores` |
+| `NEXT_PUBLIC_BI_URL` | iframe de BI na rota legada `/indicadores` (fora do índice) |
 | `NEXT_PUBLIC_GOOGLE_ANALYTICS` | GA (opcional) |
-| `GOOGLE_SHEETS_*` | service account e IDs de planilha dos gráficos/mapas |
 | `DATABASE_URL` | Postgres da Biblioteca Daddus e dos Indicadores (busca, séries e coleta) |
 
 Atenção: `NEXT_PUBLIC_STRAPI_URL` e `NEXT_PUBLIC_STRAPI_API_URL` são variáveis distintas e as

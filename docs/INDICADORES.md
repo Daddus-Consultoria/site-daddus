@@ -19,13 +19,25 @@ origem (BCB/SGS · Ipeadata)
     → lib/indicadores/ipeadata.ts    cliente OData, com metadados da série
       → Postgres                     indicators + indicator_values
         → lib/indicadores/queries.ts leitura em uma consulta só
-          → app/conteudos/indicadores  (server component)
+          → app/conteudos/indicadores          painel (server component)
             → components/indicatorsPanel
+          → app/conteudos/indicadores/[slug]   série de um indicador
+            → components/indicatorSeriesChart  (client — só pelo cursor)
+          → app/conteudos/indicadores/[slug]/serie.csv   download
 ```
 
-`lib/indicadores/format.ts` fica fora dessa cadeia porque roda também no
-cliente — `queries.ts` importa o pool do Postgres e não pode cruzar essa
-fronteira.
+`lib/indicadores/format.ts` e `lib/indicadores/axis.ts` ficam fora dessa cadeia
+porque rodam também no cliente — `queries.ts` importa o pool do Postgres e não
+pode cruzar essa fronteira. Os dois separam propósitos diferentes: `format.ts`
+escreve o número como a origem o publica (`R$ 5,1512`), que é o que o card e o
+cursor mostram; `axis.ts` encurta para caber numa marca de eixo, e decide as
+casas decimais **do eixo inteiro** a partir do passo entre as marcas — decidir
+por marca produziria `0,00` ao lado de `20,0` na mesma coluna.
+
+A página do indicador é server component; só o gráfico é cliente, porque uma
+série de trinta anos reduzida a 900px não permite ler um período específico sem
+um cursor. O tooltip nunca é o único caminho para um valor: a tabela abaixo
+traz os períodos recentes em texto e o CSV leva a série inteira.
 
 ## Banco
 
@@ -131,16 +143,44 @@ porque a unidade sozinha não basta: percentual sai com duas casas por padrão,
 mas a rentabilidade da poupança é divulgada com quatro (`0,6446%`), e arredondar
 para `0,64%` publicaria um número que a origem não publicou.
 
+## A troca de moeda, e o que ela quebra
+
+A série do dólar no SGS é contínua desde 1984, mas o Brasil trocou de moeda
+cinco vezes nesse intervalo. O valor de `04/01/1993` é 12.531,50 — **cruzeiros**.
+O de hoje é 5,15 — **reais**. Os dois estão corretos como a origem os publicou, e
+são números de unidades diferentes.
+
+Desenhar os dois no mesmo eixo rotulado `R$` publica "R$ 71.153" como preço do
+dólar, que é falso. É o mesmo erro do rótulo trocado descrito acima, só que na
+unidade em vez do nome.
+
+A coluna `indicators.comparable_from` (migration `009`) resolve declarando a
+partir de quando os valores da série são comparáveis entre si — `1994-07-01`
+para o dólar, `NULL` para todo o resto. O que ela governa:
+
+| Onde | Respeita a janela? |
+|---|---|
+| Gráfico da página do indicador | sim — começa em `comparable_from` |
+| Maior e menor valor da série | sim — senão o "maior valor" seria cruzeiro |
+| Períodos guardados, primeira e última data | **não** — descrevem o que está no banco |
+| CSV (`/conteudos/indicadores/<slug>/serie.csv`) | **não** — entrega a série inteira |
+
+Nada é apagado nem convertido: a regra do banco continua sendo guardar o valor
+como a origem publicou. `comparable_from` é uma decisão de **exibição**, e a
+página diz na tela por que o gráfico começa depois do início da série.
+
+Taxa de juros e índice de preço não precisam disso: são adimensionais e
+atravessam a troca de moeda sem problema — a Selic de 1986 em % ao ano é
+comparável à de hoje.
+
 ## O que ainda não está aqui
 
 - **Recortes municipais e estaduais** (IBGE/SIDRA). É a etapa seguinte. A API
   v3 de agregados é pública e sem chave, mas precisa ser testada de dentro da
   Vercel: de IP de datacenter o WAF do IBGE rejeita a requisição.
-- **Página por indicador**, com série histórica completa, tabela e download —
-  `DIRETRIZES-UX.md` seção 6 pede isso e hoje o painel mostra só os 24 períodos
-  recentes.
-- **Calculadoras** (juros compostos, correção por índice, comparador). O cálculo
-  é código nosso; os dados de entrada saem daqui.
+- **Calculadora de correção por índice** encadeando períodos. O cálculo é código
+  nosso; hoje a página entrega a série e o CSV, e a conta fica com quem lê.
+- **Calculadoras** de juros compostos e comparador de séries.
 
 ## Ambiente local
 
@@ -150,6 +190,13 @@ yarn db:migrate
 yarn indicadores:coletar --full
 yarn dev
 ```
+
+Se o `docker start` falhar ou o container morrer logo depois, confira se há outro
+Postgres ocupando a 5433 — `docker ps -a --filter publish=5433`. O container
+`pg-compras`, do projeto `compras-daddus`, usa a mesma porta, e os dois não sobem
+juntos. O sintoma na tela não é erro: a página de indicadores carrega vazia, porque
+ela tolera falha do banco de propósito (ver o comentário em
+`app/conteudos/indicadores/page.tsx`).
 
 A coleta completa leva de 30 s a 6 min, conforme a resposta do SGS. As séries
 diárias (dólar desde 1984, Selic desde 1986) são as demoradas: ~10 mil pontos
