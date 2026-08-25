@@ -55,7 +55,7 @@ export default async function IndicatorsPage() {
   const [indicators, lastCollection] = await carregarSeries();
 
   const atualizadoEm = formatUpdatedAt(lastCollection);
-  const { eyebrow, title, lead, escopo, metodologia, cta } =
+  const { eyebrow, title, lead, escopo, calculadoras, metodologia, cta } =
     indicadoresPageContent;
 
   return (
@@ -93,7 +93,22 @@ export default async function IndicatorsPage() {
         )}
       </div>
 
-      <section className="mt-20 border-t border-gray-200 pt-10">
+      <section className="mt-20 rounded-lg border border-gray-200 p-8 lg:p-10">
+        <h2 className="text-xl font-bold text-secondary">
+          {calculadoras.title}
+        </h2>
+        <p className="mt-3 max-w-2xl leading-7 text-gray-600">
+          {calculadoras.text}
+        </p>
+        <Link
+          href={calculadoras.href}
+          className="mt-6 inline-block text-sm font-semibold text-primary underline underline-offset-2"
+        >
+          {calculadoras.label}
+        </Link>
+      </section>
+
+      <section className="mt-16 border-t border-gray-200 pt-10">
         <h2 className="text-xl font-bold text-secondary">
           {metodologia.title}
         </h2>

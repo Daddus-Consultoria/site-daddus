@@ -1,4 +1,5 @@
 import { CATEGORY_LABELS_BLOG } from "@/app/blog/[category]/_constants";
+import { calculadoras } from "@/app/conteudos/indicadores/calculadoras/_constants";
 import { sistemas } from "@/app/tecnologia/_constants";
 import { getIndicatorSlugs } from "@/lib/indicadores/queries";
 import { type SitemapEntry, urlsetXml, xmlResponse } from "@/lib/seo/sitemap";
@@ -27,6 +28,12 @@ const entries = (): SitemapEntry[] => [
   { path: "/conteudos/publicacoes/guias", priority: 0.8, changeFrequency: "weekly" },
   { path: "/conteudos/publicacoes/perfis-municipais", priority: 0.8, changeFrequency: "weekly" },
   { path: "/conteudos/indicadores", priority: 0.7, changeFrequency: "weekly" },
+  { path: "/conteudos/indicadores/calculadoras", priority: 0.7, changeFrequency: "monthly" },
+  ...calculadoras.map((item) => ({
+    path: `/conteudos/indicadores/calculadoras/${item.slug}`,
+    priority: 0.7,
+    changeFrequency: "monthly" as const,
+  })),
 
   { path: "/blog", priority: 0.8, changeFrequency: "daily" },
   ...Object.keys(CATEGORY_LABELS_BLOG).map((category) => ({

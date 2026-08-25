@@ -202,14 +202,20 @@ export interface IndicatorDetail {
   previousDate: string | null;
   /**
    * Maior e menor valor da serie, com a data. Sao leituras, nao calculo: o
-   * numero exibido e um que a origem publicou. Variacao acumulada ficaria de
-   * fora de proposito — somar indice de preco exige a metodologia do produtor,
-   * e a Daddus nao apura indicador (docs/INDICADORES.md).
+   * numero exibido e um que a origem publicou. Variacao acumulada continua de
+   * fora daqui de proposito — quem a calcula e a calculadora de correcao, que
+   * declara a conta e mostra a memoria (docs/INDICADORES.md).
    */
   maxValue: number | null;
   maxDate: string | null;
   minValue: number | null;
   minDate: string | null;
+  /**
+   * Quantas outras series ativas estao na mesma unidade — e o que decide se
+   * vale oferecer o comparador. Com zero, o atalho levaria a uma tela em que
+   * nao ha segunda serie para marcar.
+   */
+  comparableCount: number;
 }
 
 interface DetailRow {
@@ -239,6 +245,7 @@ interface DetailRow {
   max_date: string | null;
   min_value: string | null;
   min_date: string | null;
+  comparable_count: string;
 }
 
 const numeroOuNulo = (valor: string | null): number | null =>
@@ -282,7 +289,12 @@ export const getIndicatorDetail = async (
        to_char(ultimo.reference_date, 'YYYY-MM-DD')   AS latest_date,
        ultimo.value::text                              AS latest_value,
        to_char(anterior.reference_date, 'YYYY-MM-DD') AS previous_date,
-       anterior.value::text                            AS previous_value
+       anterior.value::text                            AS previous_value,
+       (SELECT COUNT(*)::text
+          FROM indicators o
+          JOIN indicator_sources os ON os.id = o.source_id
+         WHERE o.active AND os.active AND o.unit = i.unit AND o.id <> i.id
+       ) AS comparable_count
      FROM indicators i
      JOIN indicator_sources s ON s.id = i.source_id
      LEFT JOIN LATERAL (
@@ -355,6 +367,7 @@ export const getIndicatorDetail = async (
     maxDate: row.max_date,
     minValue: numeroOuNulo(row.min_value),
     minDate: row.min_date,
+    comparableCount: Number(row.comparable_count ?? 0),
   };
 };
 
@@ -455,4 +468,154 @@ export const getIndicatorTotals = async (): Promise<number> => {
   );
 
   return Number(rows[0]?.total ?? 0);
+};
+
+/* -------------------------------------------------------------------------
+ * Calculadoras
+ * ---------------------------------------------------------------------- */
+
+/** Identificacao minima de um indicador, para popular um seletor. */
+export interface IndicatorOption {
+  slug: string;
+  name: string;
+  acronym: string | null;
+  producer: string;
+  category: IndicatorCategory;
+  unit: IndicatorUnit;
+  frequency: IndicatorFrequency;
+  decimals: number | null;
+  firstDate: string | null;
+  lastDate: string | null;
+}
+
+interface OptionRow {
+  slug: string;
+  name: string;
+  acronym: string | null;
+  producer: string;
+  category: IndicatorCategory;
+  unit: IndicatorUnit;
+  frequency: IndicatorFrequency;
+  decimals: number | null;
+  first_date: string | null;
+  last_date: string | null;
+}
+
+const mapOption = (row: OptionRow): IndicatorOption => ({
+  slug: row.slug,
+  name: row.name,
+  acronym: row.acronym,
+  producer: row.producer,
+  category: row.category,
+  unit: row.unit,
+  frequency: row.frequency,
+  decimals: row.decimals,
+  firstDate: row.first_date,
+  lastDate: row.last_date,
+});
+
+const SELECT_OPCOES = `
+  SELECT i.slug, i.name, i.acronym, i.producer, i.category, i.unit,
+         i.frequency, i.decimals,
+         to_char(extensao.primeira, 'YYYY-MM-DD') AS first_date,
+         to_char(extensao.ultima,   'YYYY-MM-DD') AS last_date
+    FROM indicators i
+    JOIN indicator_sources s ON s.id = i.source_id
+    LEFT JOIN LATERAL (
+      SELECT MIN(v.reference_date) AS primeira, MAX(v.reference_date) AS ultima
+        FROM indicator_values v
+       WHERE v.indicator_id = i.id
+    ) extensao ON TRUE
+   WHERE i.active AND s.active`;
+
+/**
+ * Indices que a calculadora de correcao aceita.
+ *
+ * O recorte e estreito de proposito — variacao **mensal** de um indice de
+ * **preco** —, porque so nesse formato o encadeamento tem sentido:
+ *
+ * - o IPCA acumulado em 12 meses ja e um acumulado; encadea-lo contaria doze
+ *   vezes cada mes;
+ * - a Selic e a poupanca sao rendimento, nao correcao de preco: encadea-las
+ *   responde "quanto teria rendido", que e outra pergunta e traz consigo regra
+ *   de aniversario e de imposto que a tela nao modela;
+ * - dolar e divida nem sao variacao.
+ *
+ * Um seletor que aceitasse tudo produziria numeros validos e sem significado.
+ */
+export const getCorrectionIndices = async (): Promise<IndicatorOption[]> => {
+  const rows = await query<OptionRow>(
+    `${SELECT_OPCOES}
+       AND i.category = 'precos'
+       AND i.unit = 'percentual'
+       AND i.frequency = 'mensal'
+     ORDER BY i.display_order`
+  );
+
+  return rows.map(mapOption);
+};
+
+/** Todos os indicadores ativos, para o comparador montar os grupos. */
+export const getIndicatorOptions = async (): Promise<IndicatorOption[]> => {
+  const rows = await query<OptionRow>(
+    `${SELECT_OPCOES} ORDER BY i.category, i.display_order`
+  );
+
+  return rows.map(mapOption);
+};
+
+/**
+ * Serie mensal inteira de um indice, sem reducao — e o insumo do encadeamento.
+ *
+ * Nao passa pela reducao de `getIndicatorChartSeries`: la faltar um ponto so
+ * muda o desenho, aqui faltar um mes muda o resultado. Sao series mensais de
+ * algumas centenas de linhas, entao ler tudo custa pouco.
+ */
+export const getIndicatorMonthlySeries = async (
+  slug: string
+): Promise<{ date: string; value: number }[]> => {
+  const rows = await query<{ date: string; value: string }>(
+    `SELECT to_char(v.reference_date, 'YYYY-MM-DD') AS date,
+            v.value::text                            AS value
+       FROM indicator_values v
+       JOIN indicators i ON i.id = v.indicator_id
+      WHERE i.slug = $1 AND i.active
+      ORDER BY v.reference_date`,
+    [slug]
+  );
+
+  return rows.map((row) => ({ date: row.date, value: Number(row.value) }));
+};
+
+/**
+ * Ultimo valor de alguns indicadores, pelo slug.
+ *
+ * Serve as taxas de referencia da calculadora de juros: a sugestao precisa ser
+ * um numero lido na origem, e nao um literal no codigo — a regra de nao
+ * inventar numero vale tambem para um valor inicial de formulario.
+ */
+export const getLatestValues = async (
+  slugs: string[]
+): Promise<Record<string, { value: number; date: string } | undefined>> => {
+  if (slugs.length === 0) return {};
+
+  const rows = await query<{ slug: string; value: string; date: string }>(
+    `SELECT i.slug,
+            ultimo.value::text                           AS value,
+            to_char(ultimo.reference_date, 'YYYY-MM-DD') AS date
+       FROM indicators i
+       JOIN LATERAL (
+         SELECT v.value, v.reference_date
+           FROM indicator_values v
+          WHERE v.indicator_id = i.id
+          ORDER BY v.reference_date DESC
+          LIMIT 1
+       ) ultimo ON TRUE
+      WHERE i.slug = ANY($1) AND i.active`,
+    [slugs]
+  );
+
+  return Object.fromEntries(
+    rows.map((row) => [row.slug, { value: Number(row.value), date: row.date }])
+  );
 };

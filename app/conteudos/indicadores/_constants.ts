@@ -23,6 +23,21 @@ export const indicadoresPageContent = {
     "Por ora o painel cobre índices de preços, juros, câmbio, atividade e dívida " +
     "pública em âmbito nacional. Recortes municipais e estaduais entram na etapa seguinte.",
 
+  /**
+   * As calculadoras sao a excecao a frase acima: ali a Daddus calcula. O convite
+   * precisa dizer isso, para o visitante nao levar um numero calculado como se
+   * fosse leitura de origem.
+   */
+  calculadoras: {
+    title: "Calculadoras",
+    text:
+      "Correção de valores por índice, juros compostos com aporte mensal e comparação " +
+      "entre séries. São contas da Daddus sobre estas mesmas séries, e cada uma mostra " +
+      "a memória do que aplicou.",
+    label: "Ver as calculadoras",
+    href: "/conteudos/indicadores/calculadoras",
+  },
+
   metodologia: {
     title: "Como estes números chegam aqui",
     paragraphs: [
