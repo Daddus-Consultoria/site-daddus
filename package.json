@@ -12,7 +12,9 @@
     "harvest": "tsx --env-file-if-exists=.env.local scripts/harvest.ts",
     "biblioteca:status": "tsx --env-file-if-exists=.env.local scripts/biblioteca-status.ts",
     "biblioteca:reclassificar": "tsx --env-file-if-exists=.env.local scripts/biblioteca-reclassificar.ts",
-    "biblioteca:setup": "yarn db:migrate && yarn harvest"
+    "biblioteca:setup": "yarn db:migrate && yarn harvest",
+    "indicadores:coletar": "tsx --env-file-if-exists=.env.local scripts/harvest-indicadores.ts",
+    "indicadores:setup": "yarn db:migrate && yarn indicadores:coletar --full"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.1.2",
