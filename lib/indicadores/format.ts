@@ -92,6 +92,26 @@ export const formatUpdatedAt = (iso: string | null): string | null => {
   return `${dia}/${mes}/${ano}`;
 };
 
+/**
+ * Ordem editorial das categorias na tela.
+ *
+ * A consulta ordena por `category, display_order`, e `category` e texto: em
+ * ordem alfabetica a pagina abria por "Atividade economica" — um card sozinho
+ * numa grade de tres colunas — e terminava nos indices de precos, que sao
+ * metade do painel e o motivo pelo qual a maioria chega aqui. A ordem util nao
+ * e a do alfabeto, e esta; ela tambem e a do submenu de Indicadores em
+ * `lib/constants/constants.ts`, para o menu e a pagina nao discordarem.
+ *
+ * Fica aqui, e nao no banco, porque e decisao de tela: nenhuma consulta muda.
+ */
+export const indicatorCategoryOrder = [
+  "precos",
+  "juros",
+  "cambio",
+  "atividade",
+  "fiscal",
+] as const;
+
 export const indicatorCategoryLabels: Record<string, string> = {
   precos: "Índices de preços",
   juros: "Juros",
@@ -104,14 +124,17 @@ export const indicatorCategoryLabels: Record<string, string> = {
  * O que cada grupo serve para decidir. A `docs/DIRETRIZES-UX.md` secao 6 pede
  * contexto, nunca numero isolado — e o contexto do grupo evita repetir a mesma
  * explicacao em cada card.
+ *
+ * Uma linha por grupo. E legenda de secao, nao paragrafo: cinco delas separam o
+ * visitante dos numeros, e a que passar de duas linhas vira texto a pular.
  */
 export const indicatorCategoryContext: Record<string, string> = {
   precos:
-    "Indexadores de contrato, reajuste e correção de valores. IGP-M e INCC aparecem em concessão e obra; IPCA e INPC, em tarifa e folha.",
+    "Indexadores de contrato e reajuste. IGP-M e INCC em concessão e obra; IPCA e INPC em tarifa e folha.",
   juros:
-    "Custo do dinheiro no tempo — a referência para taxa de desconto em estudo de viabilidade e modelagem econômico-financeira.",
+    "Custo do dinheiro no tempo — a referência para taxa de desconto em viabilidade e modelagem.",
   cambio: "Referência para contrato com componente importado ou dívida externa.",
   atividade:
-    "Ritmo da economia antes do resultado trimestral do IBGE, útil para projeção de arrecadação.",
+    "Ritmo da economia antes do resultado trimestral do IBGE — útil para projeção de arrecadação.",
   fiscal: "Espaço fiscal do setor público consolidado.",
 };

@@ -6,6 +6,7 @@ import {
   formatReferencePeriod,
   indicatorCategoryContext,
   indicatorCategoryLabels,
+  indicatorCategoryOrder,
 } from "@/lib/indicadores/format";
 
 import { Sparkline } from "./sparkline";
@@ -18,7 +19,9 @@ import { Sparkline } from "./sparkline";
  *
  * Cada card carrega valor, periodo de referencia e quem apura, porque a
  * `docs/DIRETRIZES-UX.md` secao 6 e explicita: "nunca numero isolado: sempre
- * contexto e fonte".
+ * contexto e fonte". O que o card *nao* carrega e a descricao da serie e a
+ * autodeclaracao da origem: dezesseis paragrafos numa grade so viram parede de
+ * texto, e os dois textos ja estao na pagina da serie, a um clique do titulo.
  */
 interface IndicatorsPanelProps {
   indicators: IndicatorSummary[];
@@ -34,7 +37,6 @@ const IndicatorCard = ({ indicator }: { indicator: IndicatorSummary }) => {
     slug,
     acronym,
     name,
-    description,
     unit,
     decimals,
     frequency,
@@ -43,44 +45,48 @@ const IndicatorCard = ({ indicator }: { indicator: IndicatorSummary }) => {
     previousValue,
     recent,
     producer,
-    producerDetail,
     methodologyUrl,
   } = indicator;
 
   return (
-    <li className="flex h-full flex-col rounded-lg border border-gray-200 p-6">
-      <div className="flex items-baseline justify-between gap-3">
-        <h3 className="text-lg font-bold text-secondary">
-          {/* O card inteiro nao vira link: ele ja contem o link da metodologia,
-              na origem, e aninhar ancora dentro de ancora e invalido. O titulo
-              leva a serie; a fonte, ao produtor. */}
+    <li className="group relative flex h-full flex-col rounded-lg border border-gray-200 p-5 transition-colors hover:border-primary focus-within:border-primary">
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="text-[17px] font-bold leading-tight text-secondary">
+          {/* Link esticado: o card inteiro leva a serie, sem aninhar ancora
+              dentro de ancora — o que seria HTML invalido. O link da fonte
+              escapa da area esticada com `relative z-[1]`. Antes o card tinha
+              dois links para o mesmo destino, o titulo e um "Ver serie
+              historica" no rodape; um alvo grande substitui os dois. */}
           <Link
             href={`/conteudos/indicadores/${slug}`}
-            className="hover:text-primary hover:underline underline-offset-2"
+            className="after:absolute after:inset-0 after:rounded-lg group-hover:text-primary"
           >
             {acronym ?? name}
           </Link>
         </h3>
-        <span className="shrink-0 text-xs uppercase tracking-wide text-gray-500">
+
+        <span className="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-gray-500">
           {FREQUENCIA_LABEL[frequency]}
         </span>
       </div>
 
-      <p className="mt-1 text-sm text-gray-500">{name}</p>
+      {/* Altura minima de duas linhas para os valores da grade caírem na mesma
+          altura, com nome de uma linha ("Dólar") ou de duas. */}
+      <p className="mt-1 min-h-[2.5rem] text-xs leading-5 text-gray-500">
+        {name}
+      </p>
 
       {latestValue === null || latestDate === null ? (
         // Serie cadastrada e ainda nao coletada. Melhor dizer isso do que
         // esconder o card: some da tela sem explicacao pareceria erro.
-        <p className="mt-6 text-sm text-gray-500">
-          Série ainda não coletada.
-        </p>
+        <p className="mt-4 text-sm text-gray-500">Série ainda não coletada.</p>
       ) : (
         <>
-          <p className="mt-6 text-3xl font-bold text-secondary">
+          <p className="mt-3 text-[28px] font-bold leading-none tabular-nums text-secondary">
             {formatIndicatorValue(latestValue, unit, decimals)}
           </p>
 
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-2 text-xs leading-5 text-gray-600">
             Referência: {formatReferencePeriod(latestDate, frequency)}
             {previousValue !== null ? (
               <>
@@ -90,34 +96,26 @@ const IndicatorCard = ({ indicator }: { indicator: IndicatorSummary }) => {
             ) : null}
           </p>
 
-          <div className="mt-4">
+          <div className="mt-3">
             <Sparkline points={recent} unit={unit} />
+
+            {/* As duas pontas da janela, uma em cada extremidade do traco, no
+                lugar da frase que descrevia o mesmo intervalo em texto corrido.
+                Dizem a mesma coisa e funcionam como eixo do grafico. */}
             {recent.length > 1 ? (
-              <p className="mt-1 text-xs text-gray-500">
-                {`Últimos ${recent.length} períodos, de ${formatReferencePeriod(
-                  recent[0].date,
-                  frequency
-                )} a ${formatReferencePeriod(
-                  recent[recent.length - 1].date,
-                  frequency
-                )}.`}
+              <p className="mt-1 flex justify-between text-[11px] tabular-nums text-gray-400">
+                <span>{formatReferencePeriod(recent[0].date, frequency)}</span>
+                <span>
+                  {formatReferencePeriod(
+                    recent[recent.length - 1].date,
+                    frequency
+                  )}
+                </span>
               </p>
             ) : null}
           </div>
         </>
       )}
-
-      <p className="mt-4 text-sm leading-6 text-gray-600">{description}</p>
-
-      {/* CTA nomeia o destino, nunca "veja mais" — DIRETRIZES-UX secao 11. */}
-      <p className="mt-4">
-        <Link
-          href={`/conteudos/indicadores/${slug}`}
-          className="text-sm font-semibold text-primary underline underline-offset-2"
-        >
-          Ver série histórica
-        </Link>
-      </p>
 
       <p className="mt-auto pt-4 text-xs text-gray-500">
         Fonte:{" "}
@@ -126,26 +124,21 @@ const IndicatorCard = ({ indicator }: { indicator: IndicatorSummary }) => {
             href={methodologyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold text-primary underline underline-offset-2"
+            className="relative z-[1] font-semibold text-primary underline underline-offset-2"
           >
             {producer}
           </a>
         ) : (
           <span className="font-semibold text-secondary">{producer}</span>
         )}
-        {/* O texto tal como a origem se declara, quando difere do nome curto:
-            e a procedencia exata, que o card resume para caber. */}
-        {producerDetail && producerDetail !== producer ? (
-          <span className="text-gray-400"> · {producerDetail}</span>
-        ) : null}
       </p>
     </li>
   );
 };
 
 export const IndicatorsPanel = ({ indicators }: IndicatorsPanelProps) => {
-  // A ordem das categorias ja vem da consulta (category, display_order); aqui
-  // so agrupamos preservando essa ordem, sem reordenar nada.
+  // A consulta ja entrega cada categoria com seus indicadores em `display_order`;
+  // o agrupamento preserva essa ordem interna.
   const grupos = indicators.reduce<Record<string, IndicatorSummary[]>>(
     (acumulado, indicador) => {
       (acumulado[indicador.category] ||= []).push(indicador);
@@ -154,28 +147,75 @@ export const IndicatorsPanel = ({ indicators }: IndicatorsPanelProps) => {
     {}
   );
 
+  // Dentro do grupo a ordem e a da consulta (`display_order`); entre grupos, a
+  // editorial. Categoria que ainda nao esteja na lista vai para o fim, em vez
+  // de sumir da tela.
+  const entradas = Object.entries(grupos).sort(([a], [b]) => {
+    const posicao = (categoria: string) => {
+      const indice = indicatorCategoryOrder.indexOf(
+        categoria as (typeof indicatorCategoryOrder)[number]
+      );
+
+      return indice === -1 ? indicatorCategoryOrder.length : indice;
+    };
+
+    return posicao(a) - posicao(b);
+  });
+
   return (
-    <div className="space-y-16">
-      {Object.entries(grupos).map(([categoria, doGrupo]) => (
-        <section key={categoria} aria-labelledby={`grupo-${categoria}`}>
-          <h2
-            id={`grupo-${categoria}`}
-            className="text-2xl font-bold text-secondary"
+    <div>
+      {/* Indice dos grupos. A pagina tem dezesseis cards em cinco secoes: sem
+          isto, chegar em "Dívida pública" e rolagem cega. As ancoras sao as
+          mesmas que o submenu do topo ja usa (`#grupo-<categoria>`), e a
+          contagem diz o tamanho de cada grupo antes do clique. */}
+      <nav
+        aria-label="Grupos de indicadores"
+        className="flex flex-wrap gap-2 border-y border-gray-200 py-4"
+      >
+        {entradas.map(([categoria, doGrupo]) => (
+          <a
+            key={categoria}
+            href={`#grupo-${categoria}`}
+            className="flex items-baseline gap-1.5 rounded-full border border-gray-200 px-3 py-1.5 text-sm text-secondary transition-colors hover:border-primary hover:text-primary"
           >
             {indicatorCategoryLabels[categoria] ?? categoria}
-          </h2>
+            <span className="text-xs tabular-nums text-gray-500">
+              {doGrupo.length}
+            </span>
+          </a>
+        ))}
+      </nav>
 
-          <p className="mt-2 max-w-3xl leading-7 text-gray-600">
-            {indicatorCategoryContext[categoria]}
-          </p>
+      <div className="mt-12 space-y-12">
+        {entradas.map(([categoria, doGrupo]) => (
+          <section key={categoria} aria-labelledby={`grupo-${categoria}`}>
+            <div className="flex items-baseline gap-3 border-b border-gray-200 pb-2">
+              <h2
+                id={`grupo-${categoria}`}
+                className="scroll-mt-8 text-xl font-bold text-secondary"
+              >
+                {indicatorCategoryLabels[categoria] ?? categoria}
+              </h2>
 
-          <ul className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {doGrupo.map((indicador) => (
-              <IndicatorCard key={indicador.slug} indicator={indicador} />
-            ))}
-          </ul>
-        </section>
-      ))}
+              <span className="text-xs tabular-nums text-gray-500">
+                {doGrupo.length === 1
+                  ? "1 série"
+                  : `${doGrupo.length} séries`}
+              </span>
+            </div>
+
+            <p className="mt-3 max-w-[760px] text-sm leading-relaxed text-gray-600">
+              {indicatorCategoryContext[categoria]}
+            </p>
+
+            <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {doGrupo.map((indicador) => (
+                <IndicatorCard key={indicador.slug} indicator={indicador} />
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
     </div>
   );
 };
