@@ -36,11 +36,8 @@ import { SearchItems } from "@/components/searchItems";
 
 import { TabsGeneric } from "@/components/tabsGeneric";
 
-import { IndicatorFilter } from "@/components/indicator-filter";
 
-import { Graphic } from "@/components/graphic";
 
-import { IndicatorsMenuPage } from "@/components/indicatorMenuPage";
 
 import { PublicationsLibrary } from "@/components/publicationsLibrary";
 
@@ -77,9 +74,6 @@ export {
   BlogHeader,
   SearchItems,
   TabsGeneric,
-  IndicatorFilter,
-  Graphic,
-  IndicatorsMenuPage,
   PublicationsLibrary,
   LibraryExplorer,
 };
