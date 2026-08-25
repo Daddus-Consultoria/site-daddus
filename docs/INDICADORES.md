@@ -24,10 +24,14 @@ origem (BCB/SGS · Ipeadata)
           → app/conteudos/indicadores/[slug]   série de um indicador
             → components/indicatorSeriesChart  (client — só pelo cursor)
           → app/conteudos/indicadores/[slug]/serie.csv   download
+          → app/conteudos/indicadores/calculadoras    contas sobre as séries
+            → lib/indicadores/calculo.ts              a matemática
+            → lib/indicadores/formulario.ts           leitura e escrita dos campos
+            → components/indicatorsComparisonChart    (client — só pelo cursor)
 ```
 
-`lib/indicadores/format.ts` e `lib/indicadores/axis.ts` ficam fora dessa cadeia
-porque rodam também no cliente — `queries.ts` importa o pool do Postgres e não
+`lib/indicadores/format.ts`, `axis.ts`, `calculo.ts` e `formulario.ts` ficam fora
+dessa cadeia porque rodam também no cliente — `queries.ts` importa o pool do Postgres e não
 pode cruzar essa fronteira. Os dois separam propósitos diferentes: `format.ts`
 escreve o número como a origem o publica (`R$ 5,1512`), que é o que o card e o
 cursor mostram; `axis.ts` encurta para caber numa marca de eixo, e decide as
@@ -173,14 +177,68 @@ Taxa de juros e índice de preço não precisam disso: são adimensionais e
 atravessam a troca de moeda sem problema — a Selic de 1986 em % ao ano é
 comparável à de hoje.
 
+## Calculadoras
+
+`/conteudos/indicadores/calculadoras` é a única parte da área em que o número da
+tela **não** foi publicado por ninguém: é conta da Daddus. Três telas, uma rota
+cada, todas server components — `lib/indicadores/calculo.ts` faz a matemática e
+`lib/indicadores/formulario.ts` lê e escreve os campos.
+
+| Calculadora | O que faz | Insumo |
+|---|---|---|
+| `correcao-monetaria` | corrige um valor entre dois meses | série mensal de um índice de preço |
+| `juros-compostos` | valor futuro com aporte mensal | só os campos; Selic e IPCA entram como referência |
+| `comparador` | duas ou três séries no mesmo eixo | séries do painel, sem conversão |
+
+### A regra que muda aqui
+
+O resto da área republica; estas telas calculam. A compensação é a **memória de
+cálculo**: a correção lista mês a mês qual variação entrou e com que fator
+acumulado, e a de juros mostra o saldo ano a ano. Resultado que não dá para
+conferir não entra em parecer, e sem a memória a tela publicaria um número sem
+procedência — exatamente o que a área evita.
+
+### Sem JavaScript
+
+As três são `<form method="get">` nativos: o estado vive na URL, a conta roda no
+servidor e o resultado se recarrega, se compartilha e se cita. Só o gráfico do
+comparador é client component, pelo mesmo motivo do gráfico da página do
+indicador — o cursor de leitura.
+
+O par mês/ano usa dois `<select>` em vez de `<input type="month">`, que o Firefox
+não implementa e degrada para uma caixa de texto esperando `AAAA-MM` sem dizer.
+
+### Correção: quais meses entram
+
+Os **posteriores** ao mês-base, até o mês final inclusive. Corrigir de jan para
+fev aplica a variação de fevereiro, porque o valor de janeiro já está na moeda de
+janeiro — e corrigir de um mês para ele mesmo devolve o próprio valor.
+
+A conferência foi cruzada contra a própria origem: encadear doze meses do IPCA
+reproduz a série `ipca-12-meses` que o IBGE publica, com divergência máxima de
+**0,0052 pp** nos últimos cinco anos — o arredondamento das duas casas com que a
+variação mensal é divulgada. Se a convenção estivesse deslocada em um mês, a
+divergência seria de pontos percentuais inteiros.
+
+O seletor só aceita **variação mensal de índice de preço** (`category = 'precos'`,
+`unit = 'percentual'`, `frequency = 'mensal'`). Fora disso o encadeamento produz
+número válido e sem significado: o IPCA em 12 meses já é acumulado e contaria
+cada mês doze vezes; Selic e poupança são rendimento, não correção de preço.
+
+### Comparador: unidade em vez de rebase
+
+A saída usual para comparar séries diferentes é reescalar tudo com base 100 na
+data inicial. Aqui não: o eixo passaria a mostrar número que nenhuma origem
+publicou. A restrição de **mesma unidade** resolve o mesmo problema sem inventar
+valor — e por isso o formulário agrupa as séries por unidade e esconde grupo com
+uma série só, que não formaria par.
+
 ## O que ainda não está aqui
 
 - **Recortes municipais e estaduais** (IBGE/SIDRA). É a etapa seguinte. A API
   v3 de agregados é pública e sem chave, mas precisa ser testada de dentro da
   Vercel: de IP de datacenter o WAF do IBGE rejeita a requisição.
-- **Calculadora de correção por índice** encadeando períodos. O cálculo é código
-  nosso; hoje a página entrega a série e o CSV, e a conta fica com quem lê.
-- **Calculadoras** de juros compostos e comparador de séries.
+- **Recortes por indicador municipal** e séries setoriais.
 
 ## Ambiente local
 

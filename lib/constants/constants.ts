@@ -52,6 +52,12 @@ export const headerItems: NavigationType[] = [
           { title: "Câmbio", href: "/conteudos/indicadores#grupo-cambio" },
           { title: "Atividade econômica", href: "/conteudos/indicadores#grupo-atividade" },
           { title: "Dívida pública", href: "/conteudos/indicadores#grupo-fiscal" },
+          /**
+           * A unica entrada que nao e ancora: as calculadoras sao telas
+           * proprias, e a distincao importa — o painel publica o que a origem
+           * divulgou, elas calculam em cima disso.
+           */
+          { title: "Calculadoras", href: "/conteudos/indicadores/calculadoras" },
         ],
       },
       { title: "Blog", href: "/blog" },

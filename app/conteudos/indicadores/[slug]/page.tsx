@@ -20,7 +20,18 @@ import {
   type IndicatorDetail,
 } from "@/lib/indicadores/queries";
 
+import { BASE_CALCULADORAS } from "../calculadoras/_constants";
 import { FREQUENCIA_LABEL, indicadorPageContent } from "./_constants";
+
+/**
+ * Encadear variacao mensal so faz sentido em indice de preco divulgado assim —
+ * o mesmo recorte que `getCorrectionIndices` aplica no banco, aqui aplicado a
+ * um indicador ja carregado, para decidir se o atalho aparece.
+ */
+const aceitaCorrecao = (indicador: IndicatorDetail) =>
+  indicador.category === "precos" &&
+  indicador.unit === "percentual" &&
+  indicador.frequency === "mensal";
 
 /** Uma hora, como o painel: a serie mais rapida daqui e diaria. */
 export const revalidate = 3600;
@@ -127,8 +138,16 @@ export default async function IndicatorDetailPage({
     getIndicatorTableRows(params.slug),
   ]);
 
-  const { voltar, serie: serieTexto, tabela: tabelaTexto, download, procedencia, marcos, cta } =
-    indicadorPageContent;
+  const {
+    voltar,
+    serie: serieTexto,
+    tabela: tabelaTexto,
+    download,
+    procedencia,
+    marcos,
+    calculadoras: calculadorasTexto,
+    cta,
+  } = indicadorPageContent;
 
   const path = `/conteudos/indicadores/${indicador.slug}`;
   const formatar = (valor: number) =>
@@ -339,6 +358,47 @@ export default async function IndicatorDetailPage({
           >
             {download.label}
           </a>
+        </section>
+      ) : null}
+
+      {aceitaCorrecao(indicador) || indicador.comparableCount > 0 ? (
+        <section className="mt-16" aria-labelledby="usar-esta-serie">
+          <h2 id="usar-esta-serie" className="text-2xl font-bold text-secondary">
+            {calculadorasTexto.title}
+          </h2>
+
+          <div className="mt-6 grid gap-6 sm:grid-cols-2">
+            {aceitaCorrecao(indicador) ? (
+              <Link
+                href={`${BASE_CALCULADORAS}/correcao-monetaria?indice=${indicador.slug}`}
+                className="block h-full rounded-lg border border-gray-200 p-6 transition-colors hover:border-primary"
+              >
+                <p className="font-semibold text-secondary">
+                  {calculadorasTexto.correcao.label.replace(
+                    "{indice}",
+                    indicador.acronym ?? indicador.name
+                  )}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-gray-600">
+                  {calculadorasTexto.correcao.texto}
+                </p>
+              </Link>
+            ) : null}
+
+            {indicador.comparableCount > 0 ? (
+              <Link
+                href={`${BASE_CALCULADORAS}/comparador?series=${indicador.slug}`}
+                className="block h-full rounded-lg border border-gray-200 p-6 transition-colors hover:border-primary"
+              >
+                <p className="font-semibold text-secondary">
+                  {calculadorasTexto.comparar.label}
+                </p>
+                <p className="mt-2 text-sm leading-6 text-gray-600">
+                  {calculadorasTexto.comparar.texto}
+                </p>
+              </Link>
+            ) : null}
+          </div>
         </section>
       ) : null}
 

@@ -140,6 +140,11 @@ Divide o Postgres com a Biblioteca — mesma `DATABASE_URL`, tabelas próprias
   banco continua guardando tudo e o CSV entrega tudo — a coluna governa só até onde o
   gráfico desenha uma linha com um rótulo de unidade só. NULL (o caso da maioria)
   significa série inteira comparável.
+- **`/conteudos/indicadores/calculadoras`** é a exceção à regra da área: ali a Daddus
+  calcula (correção por índice, juros compostos, comparador). A contrapartida é a
+  memória de cálculo na tela — mês a mês, com o fator acumulado. `lib/indicadores/calculo.ts`
+  tem a matemática; `formulario.ts`, a leitura dos campos. São `<form method="get">`
+  nativos, sem JavaScript próprio: o estado vive na URL e a conta roda no servidor.
 - Coleta por GitHub Actions (`indicadores-coleta.yml`), separada da Biblioteca.
 
 ### Autenticação e painel administrativo

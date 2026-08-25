@@ -76,12 +76,35 @@ export const indicadorPageContent = {
     menor: "Menor valor",
     /**
      * Explica por que a pagina nao traz variacao acumulada. Sem isso, a
-     * ausencia parece esquecimento.
+     * ausencia parece esquecimento — e agora ela tem para onde apontar: o
+     * acumulado existe, mas na calculadora, onde vem com a memoria de calculo.
      */
     nota:
-      "São valores publicados pela origem, escolhidos da própria série. A Daddus " +
-      "não divulga variação acumulada: somar índice exige a metodologia de quem " +
-      "apura.",
+      "São valores publicados pela origem, escolhidos da própria série. Variação " +
+      "acumulada não entra aqui porque não é um número que a origem divulgou — a " +
+      "calculadora de correção faz essa conta quando pedida, mostrando mês a mês " +
+      "o que aplicou.",
+  },
+
+  /**
+   * Atalhos para as calculadoras. Aparecem conforme a serie: encadear so faz
+   * sentido em indice de preco mensal, e comparar exige que exista outra serie
+   * na mesma unidade — as duas condicoes sao decididas na pagina.
+   */
+  calculadoras: {
+    title: "Usar esta série",
+    correcao: {
+      texto:
+        "A calculadora de correção encadeia as variações mensais deste índice para " +
+        "atualizar um valor entre dois meses, com a memória de cálculo à vista.",
+      label: "Corrigir um valor pelo {indice}",
+    },
+    comparar: {
+      texto:
+        "O comparador põe esta série ao lado de outra de mesma unidade, no mesmo " +
+        "eixo e sem reescala.",
+      label: "Comparar com outra série",
+    },
   },
 
   cta: {
