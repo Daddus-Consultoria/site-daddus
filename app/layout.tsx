@@ -69,16 +69,15 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <head>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8438265169368287"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        ></Script>
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
           <GoogleAnalytics ga_id={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         )}
-        <link rel="preload" href="/images/home/first_section_background.webp" as="image" type="image/webp"/>
+        <link
+          rel="preload"
+          href="/images/home/first_section_background.webp"
+          as="image"
+          type="image/webp"
+        />
 
         {/* Quem publica o site e qual e a busca que cobre um acervo. Ficam no
             layout porque valem para toda pagina, e os blocos das rotas
@@ -88,6 +87,14 @@ export default function RootLayout({
       </head>
 
       <body className={poppins.className}>
+        {/* Script do Google AdSense posicionado dentro do <body> para injeção correta de tag <script> */}
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8438265169368287"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+
         <TanstackProvider>
           <AuthProvider>
             <Header />
